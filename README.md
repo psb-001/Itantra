@@ -47,7 +47,7 @@ Nothing leaves the device. No network, no cloud.
 |---|---|
 | Model runs on Android | Loaded on device, **428 MB PSS / 535 MB RSS** with the 348 MiB model resident |
 | App builds, installs, runs | 521 MB APK built and launched on Android 34; screenshots in `app/evidence/` |
-| ASR accuracy | Mean CER **0.0934** on v2 across 200 clips × 10 languages (`results/SUMMARY_full_v2.json`) |
+| ASR accuracy | Mean CER **0.0934** on v2 across 200 clips × 10 languages (`results/SUMMARY_full_v2.json`). **Measured with v2 — but the shipped APK bundles v1. See Known risk.** |
 | On-device latency | ASR RTF 0.120–0.127, TTS RTF 0.055–0.058 → **~0.9–1.0 s mouth-to-ear** |
 | VAD | 0 segments on silence, RTF 0.004 |
 | Language filter | 21/21 cases — accepts the ten scripts, rejects everything else |
@@ -63,6 +63,13 @@ Nothing leaves the device. No network, no cloud.
 | **Hindi under noise** | Script retention drops to ~50% at 15 dB SNR — pick a demo language |
 
 ### Known risk
+
+**The shipped APK runs v1, but the deck reports v2 accuracy.** `SpeechEngine.kt` pins
+`MODEL_TYPE_OMNILINGUAL = 44`, which resolves to `...-ctc-int8-2025-11-12` — the v1 directory.
+Verified inside `releases/iTantra-release.apk`: `assets/...-ctc-int8-2025-11-12/model.int8.onnx`,
+365,352,120 bytes. The v2 model is in `models/asr-v2/` but is not referenced under `app/`.
+Deck headline CER 0.0934 is v2; the APK would measure 0.0992. Fix and options in
+`docs/HANDOVER.md` § "OPEN DISCREPANCY".
 
 The model flips script under noise — Hindi at 30 dB SNR (inaudible noise) drops from 94% to 64%
 script retention, writing the same sounds in Arabic/Urdu or Gujarati. English and Bengali hold

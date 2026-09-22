@@ -7,8 +7,10 @@
 
 ## Read this first — the three things that changed
 
-**1. There is a v2 of the model, and it is better.** Same 279 MiB, mean CER 0.0992 → **0.0934**.
-Better on 6 of 10 languages. Already downloaded and measured. The deck now uses v2 numbers.
+**1. There is a v2 of the model, and it is better.** Same size — **348.9 MiB on disk** vs 348.4 MiB
+for v1 (365,841,453 vs 365,352,120 bytes) — mean CER 0.0992 → **0.0934**.
+Better on 6 of 10 languages. Downloaded and measured. The deck uses v2 numbers.
+**But the app still bundles v1 — see the discrepancy section below before the demo.**
 
 **2. Your TTS only covers 7 of 10 languages, and that was never written down anywhere.**
 Piper gives you Hindi, Marathi, Malayalam, Telugu, Bengali, English. Gujarati comes from Mimic3.
@@ -20,6 +22,54 @@ Wi-Fi Direct transports, TTS playback, the language filter. Toolchain at `~/andr
 A **521 MB APK** was built, installed on an Android 34 emulator, launched, and **the 348 MB model
 loaded**. **428 MB PSS / 535 MB RSS** with the model resident. Screenshots in `android/evidence/`.
 **Phone-class CPU latency is still unmeasured.**
+
+---
+
+## ⚠ OPEN DISCREPANCY — the app bundles v1, the deck reports v2
+
+Found 22 Sep 2026 while preparing the GitHub release. **Not fixed.**
+
+`SpeechEngine.kt` pins the model by index:
+
+```kotlin
+/** Matches the reference app: model type 44 selects omnilingual. */
+const val MODEL_TYPE_OMNILINGUAL = 44
+```
+
+and `getOfflineModelConfig(44)` in `app/app/src/main/java/com/k2fsa/sherpa/onnx/OfflineRecognizer.kt:799`
+resolves that to:
+
+```kotlin
+val modelDir = "sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12"
+```
+
+That is the **v1** directory. Verified inside the shipped APK rather than inferred:
+
+```
+$ unzip -l releases/iTantra-release.apk | grep omnilingual
+365352120  assets/sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/model.int8.onnx
+    86423  assets/sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/tokens.txt
+```
+
+365,352,120 bytes = the v1 file, byte-identical to `models/asr-v1/model.int8.onnx`.
+The v2 model (`models/asr-v2/...-ctc-v2-int8-2026-02-05/`, 365,841,453 bytes) is **not referenced
+anywhere under `app/`**.
+
+**Why it matters.** `ACCURACY_RESULTS.md` and the deck headline **CER 0.0934**, which is v2's
+number. The APK that would run on stage contains v1, whose measured CER is **0.0992**. Nobody
+built a wrong model — the v2 switch was made in the docs and the eval harness, but never in
+`SpeechEngine.kt` or the bundled assets.
+
+**Two ways to close it:**
+
+1. **Re-bundle v2** (the honest fix, and what the deck already claims). Vendor
+   `models/asr-v2/...-ctc-v2-int8-2026-02-05/` into `app/app/src/main/assets/` under the directory
+   name the Kotlin expects, or add a v2 index and point `MODEL_TYPE_OMNILINGUAL` at it, then
+   `./build.sh`. The eval numbers were all produced with v2, so the deck needs no edit.
+2. **Report v1's numbers instead** (0.0992), and drop the v2 claims from the deck. Cheaper, but
+   throws away a real 5.9% relative accuracy improvement.
+
+Option 1 is the right one. It is a copy plus a rebuild, not new work.
 
 ---
 
@@ -226,6 +276,8 @@ Found and fixed while you were away:
 | Model version | v1 only | **v2 exists and is better** |
 | TTS coverage | implied 10 languages | **7 of 10** have a neural voice |
 | Tamil / Odia CER | 0.149 / 0.143 | **0.129 / 0.134** on v2 |
+| ASR model size | "279 MiB" (6 places, 5 docs) | **Unverified.** Nothing in-repo or upstream supports it, and the upstream HF repo (`csukuangfj2/…-ctc-int8-v2-2026-02-05`) now contains only `.gitattributes`. What *is* verifiable is the shipped file: **348.9 MiB** (365,841,453 bytes) for v2, **348.4 MiB** for v1. State 348 MiB, or state nothing. |
+| Doc paths | `output/option_a_stt/android/iTantraApp/`, `android/evidence/`, `option_a_stt/tts/` | **24 references across 6 docs still point at the pre-21-Sep layout.** Live now: app is `app/`, evidence is `app/evidence/`, TTS wavs are `tts/intelligibility/`, deck is `deck/`. Not yet rewritten — some may be deliberate historical narrative in `DECISION_SIH26173.md`. |
 
 The Odia and Marathi corrections from 19 Sep still stand (Odia was optimistic at 6 clips; Marathi
 was wrongly written off).
