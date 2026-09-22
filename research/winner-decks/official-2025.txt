@@ -1,0 +1,4264 @@
+Smart India Hackathon
+MIC Alumni
+SIH Login
+Home
+(current)
+About SIH
+SIH Process Flow
+SIH Themes
+Implementation Team
+SIH Past Editions
+SIH 2017
+SIH 2018 Software
+SIH 2018 Hardware
+SIH 2019 Software
+SIH 2019 Hardware
+SIH 2020 Software
+SIH 2020 Hardware
+SIH 2022
+SIH 2023
+SIH 2024
+SIH 2025
+Guidelines
+For Institutes/Universities
+Idea PPT
+Problem Statements
+Know Your SPOC
+Project Implementation
+FAQs
+Contact us
+SIH Login
+menu
+About SIH
+SIH Process Flow
+SIH Themes
+Know your SPOC
+Past Editions
+SIH 2017
+SIH 2018 Software
+SIH 2018 Hardware
+SIH 2019 Software
+SIH 2019 Hardware
+SIH 2020 Software
+SIH 2020 Hardware
+SIH 2022
+SIH 2023
+SIH 2024
+Guidelines
+How to apply as Institute SPOC
+Guidelines for Institutes/Universities
+Idea Presentation template PPT
+Problem Statements
+Know your SPOC
+Project Implementation
+FAQs
+Contact us
+Login/Register
+Please note that there are no winners against the PS IDs - SIH25056, SIH25199, SIH25214
+Sno.
+PS ID
+PS CATEGORY
+PS ORGANIZATION
+PS DEPARTMENT
+TEAM ID
+IDEA ID
+TEAM NAME
+TEAM LEADER NAME
+WINNING STATUS
+PRIZE MONEY
+INSTITUTE
+NODAL CENTER
+1
+SIH25001
+Software
+Ministry of Development of North Eastern Region (MoDoNER)
+Ministry of Health & Family Welfare/Ministry of Jal Shakti (in collaboration with State Health Departments and PHEDs)
+52360
+59902
+CORE_401
+Shubh Sharma
+Winner
+₹  1,50,000
+Acropolis Institute of Technology & Research, Village Raukhedi, Khasra No. 1443, Indore Bypass Road, Indore-453771, Madhya Pradesh
+North-Eastern Hill University, Meghalaya
+2
+SIH25002
+Software
+Ministry of Development of North Eastern Region (MoDoNER)
+Ministry of Tourism/ Ministry of Home Affairs (in collaboration with State Police Departments and NIC)
+69738
+62995
+ITerativebytes
+Saniyaa B Shetty
+Winner
+₹  1,50,000
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West) Mumbai 400 056, Maharashtra
+North-Eastern Hill University, Meghalaya
+3
+SIH25003
+Hardware
+Ministry of Development of North Eastern Region (MoDoNER)
+Ministry of Rural Development/ Ministry of Environment, Forest and Climate Change / Ministry of Road Transport and Highways
+90940
+89004
+TheSixthSense
+Vatsal Saini
+Winner
+₹  1,50,000
+National Institute of Technology, Warangal, Telangana
+MANIPAL UNIVERSITY JAIPUR
+4
+SIH25004
+Software
+Ministry of Fisheries, Animal Husbandry & Dairying
+Department of Animal Husbandry & Dairying (DoAH&D)
+99556
+95429
+A-6
+Bhagirath Auti
+Winner
+₹  1,50,000
+MIT Art, Design and Technology University, Pune, Maharashtra
+LAKSHMI NARAIN COLLEGE OF TECHNOLOGY
+5
+SIH25005
+Software
+Ministry of Fisheries, Animal Husbandry & Dairying
+Department of Animal Husbandry & Dairying (DoAH&D)
+99919
+95480
+SkyNRG
+Nancy Srivastava
+Winner
+₹  1,50,000
+Indian Institute of Technology, Jharkhand
+LAKSHMI NARAIN COLLEGE OF TECHNOLOGY
+6
+SIH25006
+Software
+Ministry of Fisheries, Animal Husbandry & Dairying
+Department of Animal Husbandry & Dairying (DoAH&D)
+73204
+116838
+Linear_Depression
+Vedica Mrudul
+Winner
+₹  1,50,000
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West) Mumbai 400 056, Maharashtra
+LAKSHMI NARAIN COLLEGE OF TECHNOLOGY
+7
+SIH25007
+Software
+Ministry of Fisheries, Animal Husbandry & Dairying
+Department of Animal Husbandry & Dairying (DoAH&D)
+93240
+112150
+Cattle-Coders
+Bhavya Kumar Singh
+Winner
+₹  1,50,000
+Devi Ahilya Vishwavidyalaya, Indore, Madhya Pradesh
+LAKSHMI NARAIN COLLEGE OF TECHNOLOGY
+8
+SIH25008
+Software
+Government of Punjab
+Department of Higher Education
+82313
+78539
+VisionHackers
+Madhura Mangesh Navele
+Winner
+₹  1,50,000
+Vidyalankar School of Information Technology, Vidyalankar Educational Campus, Vidyalankar College Marg, Wadala East), Mumbai - 400037, Maharashtra
+Chandigarh Engineering College-CGC Landran
+9
+SIH25009
+Software
+Government of Punjab
+Department of Higher Education
+73186
+71040
+TechPravaha
+Rushi Borkar
+Winner
+₹  1,50,000
+BAJAJ INSTITUTE OF TECHNOLOGY, Maharashtra
+Chandigarh Engineering College-CGC Landran
+10
+SIH25010
+Software
+Government of Punjab
+Department of Higher Education
+68843
+74435
+NEXAURA2.3
+Udaya M R
+Winner
+₹  1,50,000
+Sri Sairam Engineering College, Tamil Nadu
+Chandigarh Engineering College-CGC Landran
+11
+SIH25011
+Software
+Government of Punjab
+Department of Higher Education
+73046
+66415
+Phantom Techies
+Krishna Mohan Kumar
+Winner
+₹  1,50,000
+Lakshmi Narain College of Technology & Science, Kalchuri Nagar, Raisen Road, Bhopal-462021, Madhya Pradesh
+Chandigarh Engineering College-CGC Landran
+12
+SIH25012
+Software
+Government of Punjab
+Department of Higher Education
+78224
+80985
+COGNISPHERE
+PASUPUREDDY VAMSI KRISHNA
+Winner
+₹  1,50,000
+Koneru Lakshmaiah Education Foundation,Guntur, Andhra Pradesh
+Chandigarh Engineering College-CGC Landran
+13
+SIH25013
+Software
+Government of Punjab
+Department of Higher Education
+52552
+58687
+NextStop
+Tanish Garg
+Winner
+₹  1,50,000
+RISHIHOOD UNIVERSITY, Haryana
+Baba Farid College of Engineering & Technology
+14
+SIH25014
+Hardware
+Government of Punjab
+Department of Higher Education
+86656
+70258
+BIT IGNITERS
+Soumyajeet Pal
+Joint Winner
+₹  75,000
+Bengal Institute of Technology 121, West Bengal
+Lovely Professional University
+15
+SIH25014
+Hardware
+Government of Punjab
+Department of Higher Education
+97988
+87986
+SWACH
+Ayushya Rajkumar Maurya
+Joint Winner
+₹  75,000
+Sardar Patel College of Engineering Andheri West) Mumbai 400 058, Maharashtra
+Lovely Professional University
+16
+SIH25015
+Hardware
+Government of Punjab
+Department of Higher Education
+74950
+88832
+Iconic Forcee
+Dinesh R
+Winner
+₹  1,50,000
+Sona College of Technology, Tamil Nadu
+Lovely Professional University
+17
+SIH25016
+Software
+Government of Punjab
+Department of Higher Education
+56123
+75328
+ToinCoss
+Aryan Sood
+Winner
+₹  1,50,000
+Delhi Technological University, Delhi
+Baba Farid College of Engineering & Technology
+18
+SIH25017
+Software
+Government of Punjab
+Department of Higher Education
+69110
+74120
+Trinetra_
+Lokhande Nisarga Santosh
+Winner
+₹  1,50,000
+Sandip Foundation's Sandip Institute of Engineering and Management, Mahiravani, Trimbak Road, Nashik 422213, Maharashtra
+Baba Farid College of Engineering & Technology
+19
+SIH25018
+Software
+Government of Punjab
+Department of Higher Education
+52789
+64404
+MedXCoders
+Tharun Kumar Jothilingam
+Joint Winner
+₹  75,000
+SRM INSTITUTE OF SCIENCE AND TECHNOLOGY RAMAPURAM, TAMIL NADU
+Baba Farid College of Engineering & Technology
+20
+SIH25018
+Software
+Government of Punjab
+Department of Higher Education
+50525
+70675
+Git-ignite
+Om Rana Pratap Singh
+Joint Winner
+₹  75,000
+Aldel Education Trusts St John College of Engineering and Management Vevoor Palghar Tal Palghar, Maharashtra
+Baba Farid College of Engineering & Technology
+21
+SIH25019
+Software
+Government of Punjab
+Department of Higher Education
+58851
+59898
+De-buggers
+Rishi
+Winner
+₹  1,50,000
+REVA UNIVERSITY, BANGALORE, Karnataka
+Baba Farid College of Engineering & Technology
+22
+SIH25020
+Hardware
+Ministry of Railways
+Ministry of Railways
+68737
+102104
+Team Shers
+Atharva Kolhe
+Winner
+₹  1,50,000
+Manjara Charitable Trust Rajiv Gandhi Institute of Technology, Juhu Versova Link Road, Versova, Andheri West, Mumbai-400053, Maharashtra
+Amal Jyothi College of Engineering, Kanjirappally, Kottayam
+23
+SIH25021
+Hardware
+Ministry of Railways
+Ministry of Railways
+84057
+113801
+Code on Track1
+Daksh Rathore
+Winner
+₹  1,50,000
+Bennett University, Greater Noida, Uttar Pradesh
+Amal Jyothi College of Engineering, Kanjirappally, Kottayam
+24
+SIH25022
+Software
+Ministry of Railways
+Ministry of Railways
+66575
+61652
+nyx
+Mihir Mahesh Phalke
+Winner
+₹  1,50,000
+SOMAIYA VIDYAVIHAR UNIVERSITY, Maharashtra
+Prin. L.N. Weingkar Institute of Management Development and Research (PGDM), Mumbai
+25
+SIH25023
+Software
+Ministry of Ayush
+All India Institute of Ayurveda (AIIA)
+53111
+58835
+PanchPlus
+Abhishek Sachin Mandage
+Winner
+₹  1,50,000
+TSSM's Bhivarabai Sawant College of Engineering & Research, Narhe, Taluka Haveli, District Pune 411041., Maharashtra
+Graphic Era Deemed to be University
+26
+SIH25024
+Software
+Ministry of Ayush
+All India Institute of Ayurveda (AIIA)
+55589
+73044
+LexCorps
+Satyam Singh
+Winner
+₹  1,50,000
+ABES INSTITUTE OF TECHNOLOGY, GHAZIABAD, Uttar Pradesh
+Graphic Era Deemed to be University
+27
+SIH25025
+Hardware
+Ministry of Ayush
+All India Institute of Ayurveda (AIIA)
+60129
+93249
+Hyper Grey
+Pulkit Kapur
+Joint Winner
+₹  75,000
+Maharaja Surajmal Institute of Technology, Delhi
+Galgotias Univeristy
+28
+SIH25025
+Hardware
+Ministry of Ayush
+All India Institute of Ayurveda (AIIA)
+91965
+111529
+KRENOVIANTZ
+Lalith Raj N
+Joint Winner
+₹  75,000
+Sri Krishna College of Engineering and Technology, Tamil Nadu
+Galgotias Univeristy
+29
+SIH25026
+Software
+Ministry of Ayush
+All India Institute of Ayurveda (AIIA)
+101029
+118704
+Passsengers
+Mohammad Azeem Wani
+Joint Winner
+₹  75,000
+Islamic University of Science & Technology, Pulwama, Jammu and Kashmir
+Graphic Era Deemed to be University
+30
+SIH25026
+Software
+Ministry of Ayush
+All India Institute of Ayurveda (AIIA)
+102718
+120175
+CodeVaidyas_VIT
+PAUL AYUSH BARUN
+Joint Winner
+₹  75,000
+Vellore Institute of Technology, Vellore, Tamil Nadu
+Graphic Era Deemed to be University
+31
+SIH25027
+Software
+Ministry of Ayush
+All India Institute of Ayurveda (AIIA)
+72423
+104597
+Knights
+Kunal Kr Dubey
+Winner
+₹  1,50,000
+NOIDA INSTITUTE OF ENGG. AND TECHNOLOGY, GREATER NOIDA, Uttar Pradesh
+Graphic Era Deemed to be University
+32
+SIH25028
+Software
+Government of Jharkhand
+Department of Higher and Technical Education
+88322
+78114
+CAFFEIN OVERFLOW
+Sanjeevan Kumar
+Winner
+₹  1,50,000
+J.C. BOSE UNIVERSITY OF SCIENCE AND TECHNOLOGY, YMCA, FARIDABAD, Haryana
+IIT(ISM) Dhanbad
+33
+SIH25029
+Software
+Government of Jharkhand
+Department of Higher and Technical Education
+85508
+78194
+Navomesh
+Amartya Pandey
+Winner
+₹  1,50,000
+MADAN MOHAN MALAVIYA UNIVERSITY OF TECHNOLOGY,, Uttar Pradesh
+IIT(ISM) Dhanbad
+34
+SIH25030
+Software
+Government of Jharkhand
+Department of Higher and Technical Education
+57801
+63829
+AGRO NOVA.
+Keshav Garg
+Winner
+₹  1,50,000
+Panipat Institute of Engg. & Technology, Haryana
+IIT(ISM) Dhanbad
+35
+SIH25031
+Software
+Government of Jharkhand
+Department of Higher and Technical Education
+64560
+62573
+Visioneers_25
+Jayaraghav V
+Winner
+₹  1,50,000
+Sri Venkateswara College of Engineering, Tamil Nadu
+IIT(ISM) Dhanbad
+36
+SIH25032
+Software
+Government of Jharkhand
+Department of Higher and Technical Education
+76239
+73353
+Bit-Storm
+Niket Thakur
+Winner
+₹  1,50,000
+LNCT UNIVERSITY, Madhya Pradesh
+IIT(ISM) Dhanbad
+37
+SIH25033
+Software
+Ministry of Corporate Affairs
+Ministry of Corporate Affairs (MoCA)
+79844
+95329
+INNOV_01
+Yash Buddhadev
+Winner
+₹  1,50,000
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West) Mumbai 400 056, Maharashtra
+SWAMINARAYAN UNIVERSITY
+38
+SIH25034
+Software
+Ministry of Corporate Affairs
+Ministry of Corporate Affairs (MoCA)
+57770
+88269
+Matrix_GTBIT
+Manvi Jain
+Winner
+₹  1,50,000
+Guru Teg Bahadur Institute of Technology, Delhi
+SWAMINARAYAN UNIVERSITY
+39
+SIH25035
+Software
+Ministry of Corporate Affairs
+Ministry of Corporate Affairs (MoCA)
+65901
+119759
+NLPNINJAS
+KRISHNAPRIYA KOPPOLU
+Winner
+₹  1,50,000
+GITAM : Gandhi Institute of Technology and Management, Off Campus - Hyderabad, Telangana
+SWAMINARAYAN UNIVERSITY
+40
+SIH25036
+Hardware
+Ministry of Earth Sciences (MoES)
+Ministry of Earth Sciences (MoES)
+50699
+94506
+TESSERACT
+A.LEO LAZAARUS
+Winner
+₹  1,50,000
+Vel Tech Rangarajan Dr. Sagunthala R & D Institute of Science & Technology, Chennai, Tamil Nadu
+SRI SAI RAM ENGINEERING COLLEGE
+41
+SIH25037
+Hardware
+Ministry of Earth Sciences (MoES)
+National Centre for Coastal Research (NCCR)
+84310
+130015
+The_Caffeine_Clause
+Yash Shah
+Winner
+₹  1,50,000
+FACULTY OF ENGINEERING AND TECHNOLOGY, Gujarat
+SRI SAI RAM ENGINEERING COLLEGE
+42
+SIH25038
+Software
+Ministry of Earth Sciences (MoES)
+National Centre for Coastal Research (NCCR)
+67614
+85372
+Pixel-Minds
+Ansari Faraaz Ahmed Bilal Ahemed
+Winner
+₹  1,50,000
+Anjuman-I-Islams M.H. Saboo Siddik College of Engineering 8-Shephard Road Mumbai 400 008, Maharashtra
+SRI VENKATESHWARAA COLLEGE OF ENGINEERING & TECHNOLOGY
+43
+SIH25039
+Software
+Ministry of Earth Sciences (MoES)
+Indian National Centre for Ocean Information Services (INCOIS)
+55607
+92123
+7MOD3
+Suryansh Pratap Singh
+Winner
+₹  1,50,000
+MANIPAL UNIVERSITY, JAIPUR, Rajasthan
+Nalla Malla Reddy Engineering College
+44
+SIH25040
+Software
+Ministry of Earth Sciences (MoES)
+Indian National Centre for Ocean Information Services (INCOIS)
+85265
+69443
+Paarth
+Simran Nayak
+Winner
+₹  1,50,000
+KASHI INSTITUTE OF TECHNOLOGY, VARANASI, Uttar Pradesh
+Nalla Malla Reddy Engineering College
+45
+SIH25041
+Software
+Ministry of Earth Sciences (MoES)
+Centre for Marine Living Resources and Ecology (CMLRE)
+62053
+88844
+TechnicalMavde
+Prasanna Pal
+Winner
+₹  1,50,000
+Vellore Institute of Technology - Andhra Pradesh, Andhra Pradesh
+Nalla Malla Reddy Engineering College
+46
+SIH25042
+Software
+Ministry of Earth Sciences (MoES)
+Centre for Marine Living Resources and Ecology (CMLRE)
+77056
+71441
+Storm Surge
+Anish Singh
+Winner
+₹  1,50,000
+AJAY KUMAR GARG ENGINEERING COLLEGE, GHAZIABAD, Uttar Pradesh
+Nalla Malla Reddy Engineering College
+47
+SIH25043
+Hardware
+Ministry of Earth Sciences (MoES)
+Centre for Marine Living Resources and Ecology (CMLRE)
+84553
+130378
+Visionary Vanguards
+Chris Rodrigues
+Joint Winner
+₹  75,000
+Dr. Vishwanath Karad MIT World Peace University, Maharashtra
+Banaras Hindu University
+48
+SIH25043
+Hardware
+Ministry of Earth Sciences (MoES)
+Centre for Marine Living Resources and Ecology (CMLRE)
+87961
+117243
+RoboRebels
+Diksha Shingne
+Joint Winner
+₹  75,000
+Bansilal Ramnath Agarwal Charitable Trusts Vishwakarama Institute of Technology, Apper Indiranagar, Pune 411037, Maharashtra
+Banaras Hindu University
+49
+SIH25044
+Software
+Government of Odisha
+Electronics & IT Department
+74376
+88165
+HtwoO
+Ghautham M
+Winner
+₹  1,50,000
+Kongu Engineering College, Tamil Nadu
+Sri Sri University
+50
+SIH25045
+Software
+Government of Odisha
+Electronics & IT Department
+97135
+102150
+HackLords
+Lakshya Dubey
+Winner
+₹  1,50,000
+JSS ACADEMY OF TECHNICAL EDUCATION, NOIDA, Uttar Pradesh
+Sri Sri University
+51
+SIH25046
+Hardware
+Government of Odisha
+Electronics & IT Department
+102994
+100157
+ONLY BRAINS
+JEEVANANDAM S
+Winner
+₹  1,50,000
+Vel Tech High Tech Dr.Rangarajan Dr.Sakunthala Engineering College, Tamil Nadu
+GANDHI INSTITUTE OF ENGINEERING AND TECHNOLOGY UNIVERSITY
+52
+SIH25047
+Hardware
+Government of Odisha
+Electronics & IT Department
+70161
+84266
+Astra 2.0
+Avi Mittal
+Joint Winner
+₹  75,000
+AJAY KUMAR GARG ENGINEERING COLLEGE, GHAZIABAD, Uttar Pradesh
+GANDHI INSTITUTE OF ENGINEERING AND TECHNOLOGY UNIVERSITY
+53
+SIH25047
+Hardware
+Government of Odisha
+Electronics & IT Department
+74910
+102045
+Aero Rescue
+Naresh Godara
+Joint Winner
+₹  75,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, NAGPUR, Maharashtra
+GANDHI INSTITUTE OF ENGINEERING AND TECHNOLOGY UNIVERSITY
+54
+SIH25048
+Software
+Government of Odisha
+Electronics & IT Department
+53919
+67164
+INNOSPHERES
+V. AKSHAYA REDDY
+Winner
+₹  1,50,000
+BVRIT Hyderabad College of Engineering for women., Telangana
+Sri Sri University
+55
+SIH25049
+Software
+Government of Odisha
+Electronics & IT Department
+57640
+60125
+Swasthya Sahayak
+Vikrant Kumar
+Winner
+₹  1,50,000
+Government Engineering College West Champaran, Bihar
+Sri Sri University
+56
+SIH25050
+Software
+Government of Odisha
+Electronics & IT Department
+76637
+74622
+Dynamo1
+Jashanpreet Kaur
+Winner
+₹  1,50,000
+Bennett University, Greater Noida, Uttar Pradesh
+VEER SURENDRA SAI UNIVERSITY OF TECHNOLOGY
+57
+SIH25051
+Hardware
+Government of Odisha
+Electronics & IT Department
+78438
+86485
+Status200_DIEMS_CSE
+ATHARVA PRASHANT CHAVAN
+Joint Winner
+₹  75,000
+Deogiri Institute of Engineering and Management Studies, Aurangabad, Maharashtra
+GANDHI INSTITUTE OF ENGINEERING AND TECHNOLOGY UNIVERSITY
+58
+SIH25051
+Hardware
+Government of Odisha
+Electronics & IT Department
+57123
+111256
+Ctrl@Freaks
+Dhanvin.P.R
+Joint Winner
+₹  75,000
+Rajalakshmi Engineering College, Tamil Nadu
+GANDHI INSTITUTE OF ENGINEERING AND TECHNOLOGY UNIVERSITY
+59
+SIH25052
+Software
+Government of Odisha
+Electronics & IT Department
+64261
+65346
+CulturaX
+Ishwari Ganpatrao Shinde
+Joint Winner
+₹  75,000
+Maratha Vidya Prasarak Samaj's Karmaveer Adv. Baburao Ganpatrao Thakare College of Engineering, Udoji Maratha Boarding Campus,Gangapur Road, Nashik 422013, Maharashtra
+VEER SURENDRA SAI UNIVERSITY OF TECHNOLOGY
+60
+SIH25052
+Software
+Government of Odisha
+Electronics & IT Department
+79554
+85886
+Augmentors Creators
+Suryakanta Mahanta
+Joint Winner
+₹  75,000
+National Institute of Science and Technology NIST), Berhampur, Odisha
+VEER SURENDRA SAI UNIVERSITY OF TECHNOLOGY
+61
+SIH25053
+Hardware
+Ministry of Consumer Affairs, Food & Public Distribution (MoCA,F&PD)
+Department of Consumer Affairs (DoCA)
+114391
+116556
+TeamGroundZero
+Prajwal Pramod Joshi
+Winner
+₹  1,50,000
+Veermata Jijabai Technological Institute Matunga Mumbai 400 019, Maharashtra
+Indian Institute of Technology Kharagpur
+62
+SIH25054
+Hardware
+Ministry of Consumer Affairs, Food & Public Distribution (MoCA,F&PD)
+National Test House,Department of Consumer Affairs
+64075
+61897
+Watt the Hack
+Sadgi Singh
+Winner
+₹  1,50,000
+Lakshmi Narain College of Technology, Kalchuri Nagar, Raisen Road, Post Klua, Bhopal-462021, Madhya Pradesh
+Indian Institute of Technology Kharagpur
+63
+SIH25055
+Hardware
+Ministry of Consumer Affairs, Food & Public Distribution (MoCA,F&PD)
+National Test House,Department of Consumer Affairs
+55636
+118191
+Team Velocis
+Deven Kishor Mane
+Winner
+₹  1,50,000
+Ajeenkya D Y Patil University, Maharashtra
+Indian Institute of Technology Kharagpur
+64
+SIH25057
+Hardware
+Ministry of Consumer Affairs, Food & Public Distribution (MoCA,F&PD)
+Department of Consumer Affairs (DoCA)
+68499
+105738
+KRISHINETRA
+Kriten Singhal
+Joint Winner
+₹  75,000
+AJAY KUMAR GARG ENGINEERING COLLEGE, GHAZIABAD, Uttar Pradesh
+Indian Institute of Technology Kharagpur
+65
+SIH25057
+Hardware
+Ministry of Consumer Affairs, Food & Public Distribution (MoCA,F&PD)
+Department of Consumer Affairs (DoCA)
+64229
+118301
+Code Nirvana
+Srinjoy Roy
+Joint Winner
+₹  75,000
+Heritage Institute of Technology 126, West Bengal
+Indian Institute of Technology Kharagpur
+66
+SIH25058
+Hardware
+Ministry of Consumer Affairs, Food & Public Distribution (MoCA,F&PD)
+Department of Consumer Affairs (DoCA)
+56711
+70092
+The Qubits
+Mihir Jadhav
+Winner
+₹  1,50,000
+Atharva Educational Trusts College of Engineering Plot No.8 12 Sarve No 263 Malad Marve Road Charkope Naka Malad West) Mumbai-400 095, Maharashtra
+Amal Jyothi College of Engineering, Kanjirappally, Kottayam
+67
+SIH25059
+Software
+Ministry of Social Justice & Empowerment (MoSJE)
+Department of Social Justice & Empowerment (DoSJE)
+72483
+91080
+Data_CodeBlitz
+Suyash Gupta
+Winner
+₹  1,50,000
+Guru Ghasidas Vishwavidyalaya, Bilaspur, Chhattisgarh
+KIET Group of Institutions
+68
+SIH25060
+Software
+Ministry of Social Justice & Empowerment (MoSJE)
+Department of Social Justice & Empowerment (DoSJE)
+64650
+64629
+Si Extractors
+Sabarish T S
+Winner
+₹  1,50,000
+Sethu Institute of Technology, Tamil Nadu
+KIET Group of Institutions
+69
+SIH25061
+Software
+Government of Sikkim
+Department of Higher & Technical Education
+50617
+104334
+Promatrs
+Meheer J
+Winner
+₹  1,50,000
+SAVEETHA INSTITUTE OF MEDICAL AND TECHNICAL SCIENCES, Tamil Nadu
+North-Eastern Hill University, Meghalaya
+70
+SIH25062
+Hardware
+Government of Sikkim
+Department of Higher & Technical Education
+74074
+105595
+The Thinktronics
+Abhishek Singh Chauhan
+Winner
+₹  1,50,000
+Dr. Akhilesh Das Gupta Institute of Technology & Management, Delhi
+MANIPAL UNIVERSITY JAIPUR
+71
+SIH25063
+Hardware
+Government of Kerala
+Kerala State Electricity Board Limited (KSEBL)
+71222
+75501
+Circuit Sentinels-
+Tharun Babu V
+Joint Winner
+₹  75,000
+Chennai Institute of Technology, Tamil Nadu
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+72
+SIH25063
+Hardware
+Government of Kerala
+Kerala State Electricity Board Limited (KSEBL)
+62585
+90794
+818_DHRUVA
+Ridha Khan
+Joint Winner
+₹  75,000
+Indore Institute of Science & Technology, Village Dehri, Opp IIM, Pithampur Road, Indore 453 331, Madhya Pradesh
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+73
+SIH25064
+Hardware
+Government of Kerala
+Kerala State Electricity Board Limited (KSEBL)
+74672
+110034
+ECO GRID INNOVATORS
+PUNNA HARI KRISHNA
+Joint Winner
+₹  75,000
+SRKR Engineering College, Andhra Pradesh
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+74
+SIH25064
+Hardware
+Government of Kerala
+Kerala State Electricity Board Limited (KSEBL)
+70380
+119584
+TEAM_INNOVENTORS
+Utkarsh Jindal
+Joint Winner
+₹  75,000
+Swami Keshvanand Institute of Technology, Management & Gramothan, Rajasthan
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+75
+SIH25065
+Software
+Ministry of Jal Shakti (MoJS)
+Central Ground Water Board (CGWB)
+94336
+88438
+#Team KIS
+Ansh Varma
+Winner
+₹  1,50,000
+Lokmanya Tilak Jankalayn Shikshan Sansthas Lokmanya Tilak College of Engineering Sector No 4 Vikas Nagar Kopar Khairane Navi Mumbai, Maharashtra
+SRI KRISHNA COLLEGE OF ENGINEERING AND TECHNOLOGY
+76
+SIH25066
+Software
+Ministry of Jal Shakti (MoJS)
+Central Ground Water Board (CGWB)
+102633
+118742
+_Mercury_
+Harsh Kumar
+Winner
+₹  1,50,000
+NETAJI SUBHAS UNIVERSITY OF TECHNOLOGY, Delhi
+SRI KRISHNA COLLEGE OF ENGINEERING AND TECHNOLOGY
+77
+SIH25067
+Software
+Ministry of Jal Shakti (MoJS)
+Central Ground Water Board (CGWB)
+91362
+117260
+GritForce
+Kandhuri Sai Rasagna
+Winner
+₹  1,50,000
+Chaitanya Bharathi Institute of Technology, Telangana
+SRI KRISHNA COLLEGE OF ENGINEERING AND TECHNOLOGY
+78
+SIH25068
+Software
+Ministry of Jal Shakti (MoJS)
+Central Ground Water Board (CGWB)
+64893
+106377
+NovaSix_25
+HANSIKAA S
+Winner
+₹  1,50,000
+Sri Venkateswara College of Engineering, Tamil Nadu
+SRI KRISHNA COLLEGE OF ENGINEERING AND TECHNOLOGY
+79
+SIH25069
+Software
+Ministry of Mines
+Jawaharlal Nehru Aluminium Research Development and Design Centre (JNARDDC)
+61657
+66055
+AXEFORTUNE
+MUKESHKUMAR M
+Winner
+₹  1,50,000
+St. Joseph's College of Engineering, Tamil Nadu
+P.S.N.A. College of Engineering and Technology, Dindigul
+80
+SIH25070
+Software
+Ministry of Mines
+Jawaharlal Nehru Aluminium Research Development and Design Centre (JNARDDC)
+63081
+66429
+GLITCH CODERS(TGC)
+Mohanapriya K
+Winner
+₹  1,50,000
+St. Joseph's College of Engineering, Tamil Nadu
+P.S.N.A. College of Engineering and Technology, Dindigul
+81
+SIH25071
+Software
+Ministry of Mines
+National Institute of Rock Mechanics (NIRM)
+61779
+118079
+Hackmonks06
+Abhishek Dadasaheb Shelar
+Winner
+₹  1,50,000
+Datta Meghe College of Engineering CIDCO Sector III Airoli Navi Mumbai 400 708, Maharashtra
+P.S.N.A. College of Engineering and Technology, Dindigul
+82
+SIH25072
+Hardware
+Ministry of Mines
+Hindustan Copper Limited (HCL)
+87480
+88157
+Solar Surfers
+Tumuluri Shashank
+Joint Winner
+₹  75,000
+Chaitanya Bharathi Institute of Technology, Telangana
+GANDHI INSTITUTE OF ENGINEERING AND TECHNOLOGY UNIVERSITY
+83
+SIH25072
+Hardware
+Ministry of Mines
+Hindustan Copper Limited (HCL)
+83769
+116312
+MECH-MINDS
+Mathiyazhagan S
+Joint Winner
+₹  75,000
+Panimalar Engineering College, Tamil Nadu
+GANDHI INSTITUTE OF ENGINEERING AND TECHNOLOGY UNIVERSITY
+84
+SIH25073
+Software
+Ministry of Youth Affairs and Sports
+Sports Authority of India (SAI)
+100027
+96388
+Antardrishti
+Asmit Banik
+Winner
+₹  1,50,000
+Birla Institute of Technology & Sciences, Pilani, Rajasthan
+PRANVEER SINGH INSTITUTE OF TECHNOLOGY, KANPUR
+85
+SIH25074
+Software
+Government of Kerala
+Department of Agriculture
+76145
+81525
+Team Blessed
+Nilesh Kumar
+Winner
+₹  1,50,000
+BUNDELKHAND INSTITUTE OF ENGINEERING AND TECHNOLOGY, JHANSI, Uttar Pradesh
+G H Raisoni College of Engineering
+86
+SIH25075
+Software
+Government of Kerala
+Department of Agriculture
+77877
+68919
+InnoVeda_75
+Himanshu Ghanshyam Kejdiwal
+Winner
+₹  1,50,000
+Dr. D.Y.Patil Institute of Engineering, Management and Research, Sector no 29, PCNTDA Ravet), Akurdi, Pune 411044, Maharashtra
+G H Raisoni College of Engineering
+87
+SIH25076
+Software
+Government of Kerala
+Department of Agriculture
+90506
+90224
+PLAN B_
+Himanshu Mishra
+Winner
+₹  1,50,000
+Kalinga Institute of Industrial Technology, Bhubaneswar, Odisha
+G H Raisoni College of Engineering
+88
+SIH25077
+Hardware
+Government of Kerala
+Kerala State Electricity Board Limited (KSEBL)
+73960
+67701
+MACGYVER
+ABHIRANJAN KUMAR
+Joint Winner
+₹  75,000
+KCG College of Technology, Tamil Nadu
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+89
+SIH25077
+Hardware
+Government of Kerala
+Kerala State Electricity Board Limited (KSEBL)
+73736
+93482
+Team Jayastra
+YENNI JYOTHSNA
+Joint Winner
+₹  75,000
+SRKR Engineering College, Andhra Pradesh
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+90
+SIH25079
+Software
+Government of Kerala
+Kerala State Electricity Board Limited (KSEBL)
+75015
+95240
+INNOHACK
+Bysani Sai Amrutha
+Winner
+₹  1,50,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, PUNE, Maharashtra
+P.S.N.A. College of Engineering and Technology, Dindigul
+91
+SIH25080
+Software
+Government of Kerala
+Kochi Metro Rail Limited (KMRL)
+107500
+110484
+Team_Rocket_
+Ipshita Tandon
+Winner
+₹  1,50,000
+INDIRA GANDHI DELHI TECHNICAL UNIVERSITY FOR WOMEN, Delhi
+National Institute of Technology, Durgapur
+92
+SIH25081
+Software
+Government of Kerala
+Kochi Metro Rail Limited (KMRL)
+95486
+92088
+Stellar
+Suhaani Agarwal
+Winner
+₹  1,50,000
+INDIRA GANDHI DELHI TECHNICAL UNIVERSITY FOR WOMEN, Delhi
+National Institute of Technology, Durgapur
+93
+SIH25082
+Software
+Government of Kerala
+KSCSTE-NATIONAL TRANSPORTATION PLANNING AND RESEARCH CENTRE (NATPAC)
+68616
+74290
+YUKTEK
+Tanvee Saxena
+Winner
+₹  1,50,000
+AJAY KUMAR GARG ENGINEERING COLLEGE, GHAZIABAD, Uttar Pradesh
+National Institute of Technology, Durgapur
+94
+SIH25083
+Software
+Government of Kerala
+HEALTH SERVICE DEPARTMENT
+59096
+83668
+Uday
+Nishanth S
+Winner
+₹  1,50,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, Madhya Pradesh
+National Institute of Technology, Durgapur
+95
+SIH25084
+Hardware
+Government of Kerala
+HEALTH SERVICE DEPARTMENT
+81439
+118934
+Team Nephron
+Aaryan Samrat Singh Bais
+Joint Winner
+₹  75,000
+BAJAJ INSTITUTE OF TECHNOLOGY, Maharashtra
+MIT Art, Design and Technology University, Pune
+96
+SIH25084
+Hardware
+Government of Kerala
+HEALTH SERVICE DEPARTMENT
+107380
+116228
+ArogyaShield
+Vishwajit Krishndatt Sutar
+Joint Winner
+₹  75,000
+MIT Art, Design and Technology University, Pune, Maharashtra
+MIT Art, Design and Technology University, Pune
+97
+SIH25085
+Hardware
+Government of Kerala
+KERALA RURAL WATER SUPPLY AND SANITATION AGENCY, WATER RESOURCES DEPARTMENT, GOVERNMENT OF KERALA
+78248
+94043
+CAD CRAFTS
+RAVINDIRAN M
+Winner
+₹  1,50,000
+K.Ramakrishnan College of Engineering, Tamil Nadu
+Banaras Hindu University
+98
+SIH25090
+Hardware
+Government of Kerala
+KERALA RURAL WATER SUPPLY AND SANITATION AGENCY, WATER RESOURCES DEPARTMENT, GOVERNMENT OF KERALA
+90327
+113846
+FAB 3
+Rathnadeepa V M
+Winner
+₹  1,50,000
+RATHINAM TECHNICAL CAMPUS, COIMBATORE, Tamil Nadu
+Banaras Hindu University
+99
+SIH25091
+Software
+Government of Jammu and Kashmir
+Higher Education Department
+62526
+82521
+Eklavya_01
+Jayesh Jadhav
+Winner
+₹  1,50,000
+MAEER's MIT Academy of Engineering, Alandi Devachi), Dehu Phata, Taluka - Khed, District - Pune 412105, Maharashtra
+VARDHAMAN COLLEGE OF ENGINEERING
+100
+SIH25092
+Software
+Government of Jammu and Kashmir
+Higher Education Department
+74237
+68942
+TeenTitans
+Aditya Patil
+Winner
+₹  1,50,000
+Bhartiya Vidya Bhavans Sardar Patel Institute of Technology Munshi Nagar Andheri Mumbai, Maharashtra
+VARDHAMAN COLLEGE OF ENGINEERING
+101
+SIH25093
+Software
+Government of Jammu and Kashmir
+Higher Education Department
+53143
+76925
+HackHounds
+Hari Prasath P
+Winner
+₹  1,50,000
+Dr.Mahalingam College of Engineering and Technology, Tamil Nadu
+VARDHAMAN COLLEGE OF ENGINEERING
+102
+SIH25094
+Software
+Government of Jammu and Kashmir
+Higher Education Department
+59952
+63930
+Tech Pioneers
+C. Rajeswar
+Winner
+₹  1,50,000
+Kalasalingam Academy of Research and Education, Tamil Nadu
+VARDHAMAN COLLEGE OF ENGINEERING
+103
+SIH25095
+Hardware
+Autodesk
+Autodesk
+74693
+70072
+KINETIQ
+SHEIK SHAJID BASHA A
+Winner
+₹  1,50,000
+KCG College of Technology, Tamil Nadu
+SRI SAI RAM ENGINEERING COLLEGE
+104
+SIH25096
+Hardware
+Autodesk
+Autodesk
+115896
+131708
+The Ineterceptors
+Mehul Agarwal
+Joint Winner
+₹  75,000
+Pandhi Dwarka Prasad Mishra Indian Institute of Information Technology & Manufacturing , Jabalpur, Madhya Pradesh
+SRI SAI RAM ENGINEERING COLLEGE
+105
+SIH25096
+Hardware
+Autodesk
+Autodesk
+84942
+132316
+VIKRANTA
+Y.PAVAN KIREETI
+Joint Winner
+₹  75,000
+Anil Neerukonda Institute Of Technology & Sciences, Andhra Pradesh
+SRI SAI RAM ENGINEERING COLLEGE
+106
+SIH25097
+Software
+Autodesk
+Autodesk
+74578
+66957
+TEAM KINGPIN
+SHAM S V
+Winner
+₹  1,50,000
+KCG College of Technology, Tamil Nadu
+St.Joseph's College of Engineering
+107
+SIH25098
+Software
+Autodesk
+Autodesk
+111679
+121136
+Kanyaraasi01
+Manushri Akkipalli
+Joint Winner
+₹  75,000
+Lovely Professional University, Punjab
+St.Joseph's College of Engineering
+108
+SIH25098
+Software
+Autodesk
+Autodesk
+74369
+70921
+BUILDNEXUS
+MANOJ KUMAR SURESH
+Joint Winner
+₹  75,000
+Chennai Institute of Technology, Tamil Nadu
+St.Joseph's College of Engineering
+109
+SIH25099
+Software
+MathWorks India Pvt. Ltd.
+MathWorks India Pvt. Ltd.
+86238
+79371
+WhatTheHack
+Aniket Mandal
+Winner
+₹  1,50,000
+Indian Institute of Technology, Guwahati, Assam
+ACE ENGINEERING COLLEGE
+110
+SIH25100
+Software
+MathWorks India Pvt. Ltd.
+MathWorks India Pvt. Ltd.
+116396
+118685
+TwinX
+Aakanksha Arun Sutrave
+Winner
+₹  1,50,000
+K.K.Wagh Education Society's K.K.Wagh Institute of Engineering Education & Research, Hirabai Haribai Vidyanagari, Panchavati, Nashik 422003, Maharashtra
+M.S. RAMAIAH UNIVERSITY OF APPLIED SCIENCES
+111
+SIH25101
+Software
+Government of Rajasthan
+Directorate of Technical Education (DTE)
+91136
+110434
+VignanaSarathi
+SARIPILLY RAKESH
+Winner
+₹  1,50,000
+Chaitanya Bharathi Institute of Technology, Telangana
+Poornima Institute of Engineering Technology, jaipur, Rajsthan
+112
+SIH25102
+Software
+Government of Rajasthan
+Directorate of Technical Education (DTE)
+98596
+97894
+Robust Solutions
+AKASH VERMA
+Winner
+₹  1,50,000
+B I T SINDRI, Jharkhand
+Poornima Institute of Engineering Technology, jaipur, Rajsthan
+113
+SIH25103
+Software
+Government of Rajasthan
+Directorate of Technical Education (DTE)
+105168
+113582
+StackNova_abesec
+Anjali Chauhan
+Joint Winner
+₹  75,000
+ABES ENGINEERING COLLEGE, GHAZIABAD, Uttar Pradesh
+Poornima Institute of Engineering Technology, jaipur, Rajsthan
+114
+SIH25103
+Software
+Government of Rajasthan
+Directorate of Technical Education (DTE)
+51073
+87198
+TLE_Smashers
+CH SHAKISH
+Joint Winner
+₹  75,000
+Government Engineering College Koni, Bialspur., Chhattisgarh
+Poornima Institute of Engineering Technology, jaipur, Rajsthan
+115
+SIH25104
+Software
+Government of Rajasthan
+Directorate of Technical Education (DTE)
+87116
+81886
+Team 100x
+Mohammed Shahid Patel
+Winner
+₹  1,50,000
+Bansilal Ramnath Agarwal Charitable Trusts Vishwakarama Institute of Technology, Apper Indiranagar, Pune 411037, Maharashtra
+Poornima Institute of Engineering Technology, jaipur, Rajsthan
+116
+SIH25105
+Software
+Government of Rajasthan
+Directorate of Technical Education (DTE)
+83353
+103863
+Garuda.
+Priyanshu Jha
+Joint Winner
+₹  75,000
+Delhi Technological University, Delhi
+Poornima Institute of Engineering Technology, jaipur, Rajsthan
+117
+SIH25105
+Software
+Government of Rajasthan
+Directorate of Technical Education (DTE)
+71589
+117415
+Return 0_af98a
+Harshita Yadav
+Joint Winner
+₹  75,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, KOTA, Rajasthan
+Poornima Institute of Engineering Technology, jaipur, Rajsthan
+118
+SIH25106
+Software
+Government of Rajasthan
+Directorate of Technical Education (DTE)
+79515
+105615
+Abhiyantas
+Anup Thakre
+Joint Winner
+₹  75,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, NAGPUR, Maharashtra
+Poornima Institute of Engineering Technology, jaipur, Rajsthan
+119
+SIH25106
+Software
+Government of Rajasthan
+Directorate of Technical Education (DTE)
+88606
+107564
+Strotas
+Nirmal Chandrakant Pawar
+Joint Winner
+₹  75,000
+Progressive Educational Societys Modern College of Engineering,Shivajinagar, Pune 5, Maharashtra
+Poornima Institute of Engineering Technology, jaipur, Rajsthan
+120
+SIH25107
+Software
+AICTE
+Indian Knowledge Systems (IKS)
+50780
+112025
+Nexus Navigators
+Soumyadip Chatterjee
+Joint Winner
+₹  75,000
+Govt. College of Engineering and Leather Technology 112, West Bengal
+KKR & KSR Institute of Technology and Sciences
+121
+SIH25107
+Software
+AICTE
+Indian Knowledge Systems (IKS)
+63404
+65705
+VIBE CODERZ
+NARESH KUMAR M
+Joint Winner
+₹  75,000
+St. Joseph's College of Engineering, Tamil Nadu
+KKR & KSR Institute of Technology and Sciences
+122
+SIH25108
+Software
+Ministry of Tribal Affairs(MoTA)
+Ministry of Tribal Affairs(MoTA)
+62553
+123736
+DevDotCom
+Omkar Biradar
+Winner
+₹  1,50,000
+DR D Y PATIL EDUCATIONAL ENTERPRISES CHARITABLE TRUSTS DR D Y PATIL GROUP OF INSTITUTIONS DR D Y PATIL SCHOOL OF ENGINEERING AND TECHNOLOGY, PUNE, Maharashtra
+VEER SURENDRA SAI UNIVERSITY OF TECHNOLOGY
+123
+SIH25109
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+106997
+106443
+HerbaBac
+Esha Sharma
+Winner
+₹  1,50,000
+MIT Art, Design and Technology University, Pune, Maharashtra
+Lovely Professional University
+124
+SIH25110
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+63670
+76204
+Bluenova
+Aditi Gaonkar
+Winner
+₹  1,50,000
+Vidyavardhinis College of Engineering and Technology Vidyavardhinis College Campus Vasai Road Western Railway) Dist Thane 401 202, Maharashtra
+Amal Jyothi College of Engineering, Kanjirappally, Kottayam
+125
+SIH25111
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+79356
+71394
+RecycleYaar
+Shweta Rajesh Maurya
+Winner
+₹  1,50,000
+JSPMs Jayawantrao Sawant College of Engineering, Handewadi Road, Hadapsar, Pune 28., Maharashtra
+PARUL UNIVERSITY
+126
+SIH25112
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+87097
+74986
+Biomech Titans
+Khushal Grover
+Winner
+₹  1,50,000
+Thapar Institute of Engineering and Technology, Patiala, Punjab
+Lovely Professional University
+127
+SIH25113
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+102322
+120931
+RVCE-26
+Vineeth Rao
+Winner
+₹  1,50,000
+R V College of Engineering, BANGALORE, Karnataka
+O P Jindal University, Raigarh
+128
+SIH25114
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+64848
+71606
+HEALWAVE
+Muskan Khare
+Winner
+₹  1,50,000
+Lakshmi Narain College of Technology, Kalchuri Nagar, Raisen Road, Post Klua, Bhopal-462021, Madhya Pradesh
+PARUL UNIVERSITY
+129
+SIH25115
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+111061
+108675
+Sentinel Vision
+Gagan Rai P
+Winner
+₹  1,50,000
+ST JOSEPH ENGINEERING COLLEGE, Karnataka
+Coimbatore Innovation and Business Incubator (Forge)
+130
+SIH25116
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+84576
+71730
+Solo Levelling 2.0
+Karthikesh Haridoss
+Joint Winner
+₹  75,000
+Sathyabama Institute of Science & Technology, Chennai, Tamil Nadu
+BANNARI AMMAN INSTITUTE OF TECHNOLOGY
+131
+SIH25116
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+99886
+85951
+Tech Tunkers
+Michael Justus W
+Joint Winner
+₹  75,000
+Saveetha Engineering College, Tamil Nadu
+BANNARI AMMAN INSTITUTE OF TECHNOLOGY
+132
+SIH25117
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+106185
+110817
+Ourobonics
+Naveen kumar
+Joint Winner
+₹  75,000
+GALGOTIAS UNIVERSITY, Uttar Pradesh
+Galgotias Univeristy
+133
+SIH25117
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+78313
+74094
+Vimaan
+Jena. R
+Joint Winner
+₹  75,000
+Sathyabama Institute of Science & Technology, Chennai, Tamil Nadu
+Galgotias Univeristy
+134
+SIH25118
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+52880
+60888
+FALCON
+Mhasawade Pratik Uttam
+Winner
+₹  1,50,000
+Vidya Pratishthan's Kamalnayan Bajaj Institute of Engineering & Technology, Baramati, M.I.D.C.road, District - Pune, Maharashtra
+O P Jindal University, Raigarh
+135
+SIH25119
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+64947
+103970
+Sahara
+Aditya Singh Patel
+Joint Winner
+₹  75,000
+Lakshmi Narain College of Technology, Kalchuri Nagar, Raisen Road, Post Klua, Bhopal-462021, Madhya Pradesh
+Coimbatore Innovation and Business Incubator (Forge)
+136
+SIH25119
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+88256
+116311
+Trombipulor
+Dhava Prasath M
+Joint Winner
+₹  75,000
+RATHINAM TECHNICAL CAMPUS, COIMBATORE, Tamil Nadu
+Coimbatore Innovation and Business Incubator (Forge)
+137
+SIH25120
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+67976
+109627
+Oblivion Overwatch
+Pragati Varshney
+Winner
+₹  1,50,000
+G.L.A University, Mathura, Uttar Pradesh
+MANIPAL UNIVERSITY JAIPUR
+138
+SIH25121
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+75843
+65450
+LOADSHIELD
+KONDA AKHILA
+Winner
+₹  1,50,000
+Malla Reddy Engineering College for women, Telangana
+BANNARI AMMAN INSTITUTE OF TECHNOLOGY
+139
+SIH25122
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+81438
+94462
+DeepSight
+Rehan Raza
+Winner
+₹  1,50,000
+Geetanjali Institute of Technical Studies,Udaipur, Rajasthan
+BANNARI AMMAN INSTITUTE OF TECHNOLOGY
+140
+SIH25123
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+51218
+94919
+ClassLens
+N.Chandini
+Winner
+₹  1,50,000
+Kuppam Engineering College. Chittoor, Andhra Pradesh
+BANNARI AMMAN INSTITUTE OF TECHNOLOGY
+141
+SIH25124
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+106498
+128664
+AOT
+Surendar K
+Winner
+₹  1,50,000
+Sri Manakula Vinayagar Engineering College, Puducherry
+O P Jindal University, Raigarh
+142
+SIH25125
+Hardware
+AICTE
+AICTE, MIC-Student Innovation
+55852
+67343
+FLARES
+K.SPHOORTI
+Winner
+₹  1,50,000
+BVRIT Hyderabad College of Engineering for women., Telangana
+Coimbatore Innovation and Business Incubator (Forge)
+143
+SIH25126
+Software
+AICTE
+AICTE, MIC-Student Innovation
+58228
+63404
+Team Qubits
+Shivakumar R Bhandari
+Joint Winner
+₹  75,000
+G M Institute of Technology, DAVANGERE, Karnataka
+St.Joseph's College of Engineering
+144
+SIH25126
+Software
+AICTE
+AICTE, MIC-Student Innovation
+68188
+61657
+Udbhav3
+Prabhu Teja Pasupuleti
+Joint Winner
+₹  75,000
+SESHADRI RAO GUDLAVALLERU ENGINEERING COLLEGE, Andhra Pradesh
+St.Joseph's College of Engineering
+145
+SIH25127
+Software
+AICTE
+AICTE, MIC-Student Innovation
+58042
+61860
+Cyber Sorcerers
+Vivek Kumar
+Winner
+₹  1,50,000
+Panipat Institute of Engg. & Technology, Haryana
+Visvesvaraya Technological University
+146
+SIH25128
+Software
+AICTE
+AICTE, MIC-Student Innovation
+96696
+103626
+Hack4Hygiene
+Shreya Sandesh Patil
+Winner
+₹  1,50,000
+Excelsior Education Societys K C College of Engineering Mith Bunder Road Kopri Thane E) 400 603, Maharashtra
+Visvesvaraya Technological University
+147
+SIH25129
+Software
+AICTE
+AICTE, MIC-Student Innovation
+53038
+85147
+CODEFLEX
+SURYA K
+Joint Winner
+₹  75,000
+SRM INSTITUTE OF SCIENCE AND TECHNOLOGY RAMAPURAM, TAMIL NADU
+St.Joseph's College of Engineering
+148
+SIH25129
+Software
+AICTE
+AICTE, MIC-Student Innovation
+103771
+98315
+Navjivan_abesec
+Vansh Gupta
+Joint Winner
+₹  75,000
+ABES ENGINEERING COLLEGE, GHAZIABAD, Uttar Pradesh
+St.Joseph's College of Engineering
+149
+SIH25130
+Software
+AICTE
+AICTE, MIC-Student Innovation
+100406
+96736
+_Netaji Ninjas_
+Aryan
+Joint Winner
+₹  75,000
+NETAJI SUBHAS UNIVERSITY OF TECHNOLOGY, Delhi
+QIS COLLEGE OF ENGINEERING AND TECHNOLOGY
+150
+SIH25130
+Software
+AICTE
+AICTE, MIC-Student Innovation
+91458
+104244
+TATTVAVERSE_18
+Shenbagaraja M
+Joint Winner
+₹  75,000
+Sri Krishna College of Engineering and Technology, Tamil Nadu
+QIS COLLEGE OF ENGINEERING AND TECHNOLOGY
+151
+SIH25131
+Software
+AICTE
+AICTE, MIC-Student Innovation
+64139
+66054
+Team Optiverse
+ANIKET KUMAR SINGH
+Winner
+₹  1,50,000
+Lakshmi Narain College of Technology, Kalchuri Nagar, Raisen Road, Post Klua, Bhopal-462021, Madhya Pradesh
+QIS COLLEGE OF ENGINEERING AND TECHNOLOGY
+152
+SIH25132
+Software
+AICTE
+AICTE, MIC-Student Innovation
+79385
+89254
+INNOVIT1856
+Jeevika Saravanan
+Winner
+₹  1,50,000
+Sri Sai Ram Institute of Technology, Tamil Nadu
+QIS COLLEGE OF ENGINEERING AND TECHNOLOGY
+153
+SIH25133
+Software
+AICTE
+AICTE, MIC-Student Innovation
+80434
+107357
+SOLAR MASTERS
+RAJAT VISHNOI
+Winner
+₹  1,50,000
+Teerthanker Mahaveer University, Moradabad, Uttar Pradesh
+QIS COLLEGE OF ENGINEERING AND TECHNOLOGY
+154
+SIH25134
+Software
+AICTE
+AICTE, MIC-Student Innovation
+97266
+120421
+Maha Vaayu Innovations
+Mansi Prashant Ghodekar
+Joint Winner
+₹  75,000
+Dr. D. Y. Patil Pratishthan's, D.Y. Patil College of Engineering, Akurdi, Pune, Maharashtra
+Indian Institute of Information Technology (IIIT) Dharwad
+155
+SIH25134
+Software
+AICTE
+AICTE, MIC-Student Innovation
+70646
+121044
+Team Innovex
+Vedanti Patil
+Joint Winner
+₹  75,000
+Mahatma Education Societys Pillai HOC College of Engineering and Technology, Rasayani, Maharashtra
+Indian Institute of Information Technology (IIIT) Dharwad
+156
+SIH25135
+Software
+AICTE
+AICTE, MIC-Student Innovation
+52397
+58195
+CODING_NEXUS
+Bijitesh Vishal Singh
+Winner
+₹  1,50,000
+Sinhgad Technical Education Societys Sinhgad Academy of Engineering,Kondhawa bk., Dist.Pune 48, Maharashtra
+Indian Institute of Information Technology (IIIT) Dharwad
+157
+SIH25136
+Software
+AICTE
+AICTE, MIC-Student Innovation
+83074
+110855
+Volt Masters
+Jeysha Gracelin E
+Winner
+₹  1,50,000
+C. Abdul Hakeem College of Engineering and Technology, Tamil Nadu
+Indian Institute of Information Technology (IIIT) Dharwad
+158
+SIH25137
+Software
+AICTE
+AICTE, MIC-Student Innovation
+92203
+89374
+Sinister Six_1
+Rahul H Jadvani
+Winner
+₹  1,50,000
+DAYANANDA SAGAR UNIVERSITY, Karnataka
+Indian Institute of Information Technology (IIIT) Dharwad
+159
+SIH25138
+Software
+AICTE
+AICTE, MIC-Student Innovation
+66280
+71616
+Metro_Minds_1
+Shashi Kumar Penjarla
+Winner
+₹  1,50,000
+Goka Raju Ranga Raju Institute of Engineering & Technology, Telangana
+Visvesvaraya Technological University
+160
+SIH25139
+Software
+AICTE
+AICTE, MIC-Student Innovation
+51106
+57699
+ArcNet
+GOKUL K
+Winner
+₹  1,50,000
+VIDYA ACADEMY OF SCIENCE & TECHNOLOGY, PUNNUKARA, Kerala
+Vidyavardhaka College of Engineering
+161
+SIH25140
+Software
+AICTE
+AICTE, MIC-Student Innovation
+66594
+81136
+Team Gradus
+Nikhil Jumbad
+Winner
+₹  1,50,000
+BRACT Vishwakarma Institute of Information Technology, Pune 411048., Maharashtra
+Vidyavardhaka College of Engineering
+162
+SIH25141
+Software
+AICTE
+AICTE, MIC-Student Innovation
+69235
+103914
+WaterGate
+Sukhjeet Singh Kaunsal
+Winner
+₹  1,50,000
+Padmashree Dr. D. Y. Patil Vidyapeeth, , Mumbai, Maharashtra
+Vidyavardhaka College of Engineering
+163
+SIH25142
+Software
+AICTE
+AICTE, MIC-Student Innovation
+71686
+63325
+Lunar Gaurdians
+Ahash Lingam
+Joint Winner
+₹  75,000
+SRI SHANMUGHA COLLEGE OF ENGINEERING AND TECHNOLOGY, SALEM, Tamil Nadu
+Vidyavardhaka College of Engineering
+164
+SIH25142
+Software
+AICTE
+AICTE, MIC-Student Innovation
+56108
+69333
+DIGISHAKTI
+GARIMA AVASTHI
+Joint Winner
+₹  75,000
+Modern Institute of Technology & Research Centre,Alwar, Rajasthan
+Vidyavardhaka College of Engineering
+165
+SIH25143
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Pandit Deendayal Upadhyaya National Institute for Persons with Physical Disabilities(Divyangjan)(PDUNIPPD), An Autonomous body under Department of Empowerment of Persons with Disabilities (DoEPwd)
+116082
+128054
+Newtrons
+AROKIA ANANDU PRASANTHU A
+Winner
+₹  1,50,000
+Sri Manakula Vinayagar Engineering College, Puducherry
+G. L. Bajaj Institute of Technology and Management
+166
+SIH25144
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Pandit Deendayal Upadhyaya National Institute for Persons with Physical Disabilities(Divyangjan)(PDUNIPPD), An Autonomous body under Department of Empowerment of Persons with Disabilities (DoEPwd)
+52115
+124244
+Team Zanthos
+Yatharth Agarwal
+Winner
+₹  1,50,000
+Vidya Vardhaka College of Engineering, MYSORE, Karnataka
+G. L. Bajaj Institute of Technology and Management
+168
+SIH25145
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Pandit Deendayal Upadhyaya National Institute for Persons with Physical Disabilities(Divyangjan)(PDUNIPPD), An Autonomous body under Department of Empowerment of Persons with Disabilities (DoEPwd)
+89393
+105543
+Aura +999
+Nazif Gangawali
+Joint Winner
+₹  75,000
+B G S Inst., of Technology, Mandya Dist, Karnataka
+G. L. Bajaj Institute of Technology and Management
+169
+SIH25145
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Pandit Deendayal Upadhyaya National Institute for Persons with Physical Disabilities(Divyangjan)(PDUNIPPD), An Autonomous body under Department of Empowerment of Persons with Disabilities (DoEPwd)
+73772
+71905
+BlindSpot
+Gugana shri G
+Joint Winner
+₹  75,000
+Vivekanandha College of Engineering for Women, Tamil Nadu
+G. L. Bajaj Institute of Technology and Management
+170
+SIH25146
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Pandit Deendayal Upadhyaya National Institute for Persons with Physical Disabilities(Divyangjan)(PDUNIPPD), An Autonomous body under Department of Empowerment of Persons with Disabilities (DoEPwd)
+72715
+127014
+Team Black
+Abishek M
+Winner
+₹  1,50,000
+SNS College of Technology, Tamil Nadu
+G. L. Bajaj Institute of Technology and Management
+171
+SIH25147
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Pandit Deendayal Upadhyaya National Institute for Persons with Physical Disabilities(Divyangjan)(PDUNIPPD), An Autonomous body under Department of Empowerment of Persons with Disabilities (DoEPwd)
+111115
+123171
+Pulsecare
+Ananya R
+Joint Winner
+₹  75,000
+P E S College of Engineering, MANDYA, Karnataka
+Galgotias Univeristy
+172
+SIH25147
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Pandit Deendayal Upadhyaya National Institute for Persons with Physical Disabilities(Divyangjan)(PDUNIPPD), An Autonomous body under Department of Empowerment of Persons with Disabilities (DoEPwd)
+94797
+127982
+SOVA_VIT
+OMKAR DATTATRAY PAWAR
+Joint Winner
+₹  75,000
+VELLORE INSTITUTE OF TECHNOLOGY, CHENNAI, Tamil Nadu
+Galgotias Univeristy
+173
+SIH25148
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Pandit Deendayal Upadhyaya National Institute for Persons with Physical Disabilities(Divyangjan)(PDUNIPPD), An Autonomous body under Department of Empowerment of Persons with Disabilities (DoEPwd)
+72095
+125444
+Sentinel Aura
+INDHUJA B
+Joint Winner
+₹  75,000
+Chennai Institute of Technology, Tamil Nadu
+Galgotias Univeristy
+174
+SIH25148
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Pandit Deendayal Upadhyaya National Institute for Persons with Physical Disabilities(Divyangjan)(PDUNIPPD), An Autonomous body under Department of Empowerment of Persons with Disabilities (DoEPwd)
+53053
+126930
+BRAINI-X
+Dhanush S
+Joint Winner
+₹  75,000
+Vidya Vardhaka College of Engineering, MYSORE, Karnataka
+Galgotias Univeristy
+175
+SIH25149
+Software
+Ministry of Social Justice & Empowerment(MoSJE)
+Samajik Nyay Aur Shashaktikaran Vibhag
+72262
+114862
+TECHNICAL TERMINATORS
+M Yuvadarshan
+Winner
+₹  1,50,000
+Chennai Institute of Technology, Tamil Nadu
+KIET Group of Institutions
+176
+SIH25150
+Software
+Ministry of Social Justice & Empowerment(MoSJE)
+Samajik Nyay Aur Shashaktikaran Vibhag
+57318
+127345
+Innovators_44
+Sakshi Shankar Said
+Winner
+₹  1,50,000
+Thadomal Shahani Engineering College 32nd Road TPS III Bandra Mumbai 400 050, Maharashtra
+KIET Group of Institutions
+177
+SIH25151
+Software
+Ministry of Social Justice & Empowerment(MoSJE)
+Samajik Nyay Aur Shashaktikaran Vibhag
+94062
+121978
+Coding Gurus VESIT
+Darshan Vishnu Khapekar
+Winner
+₹  1,50,000
+Vivekanand Education Societys Institute of Technology, Maharashtra
+SRM Institute of Management and Technology
+178
+SIH25152
+Software
+Ministry of Social Justice & Empowerment(MoSJE)
+Samajik Nyay Aur Shashaktikaran Vibhag
+93710
+127823
+Winter is ours
+Krrish Rastogi
+Joint Winner
+₹  75,000
+Birla Institute of Technology, Ranchi, Jharkhand
+SRM Institute of Management and Technology
+179
+SIH25152
+Software
+Ministry of Social Justice & Empowerment(MoSJE)
+Samajik Nyay Aur Shashaktikaran Vibhag
+55954
+128212
+LogicX
+Priyanshu Barik
+Joint Winner
+₹  75,000
+Delhi Technological University, Delhi
+SRM Institute of Management and Technology
+180
+SIH25153
+Software
+Ministry of Social Justice & Empowerment(MoSJE)
+Samajik Nyay Aur Shashaktikaran Vibhag
+62457
+122904
+Samadhan Bandhu
+Anubhab Mishra
+Winner
+₹  1,50,000
+C.V. RAMAN GLOBAL UNIVERSITY, ODISHA, Odisha
+SRM Institute of Management and Technology
+181
+SIH25154
+Software
+Ministry of Social Justice & Empowerment(MoSJE)
+Samajik Nyay Aur Shashaktikaran Vibhag
+69295
+132353
+Byteforge
+Riyans Kumar Singh
+Winner
+₹  1,50,000
+SHRI SHANKARACHARYA PROFESSIONAL UNIVERSITY, Chhattisgarh
+SRM Institute of Management and Technology
+182
+SIH25155
+Software
+AICTE
+Indian Knowledge Systems (IKS)
+74753
+108003
+DevDoots@SBU
+Harsh Kumar
+Winner
+₹  1,50,000
+SARALA BIRLA UNIVERSITY, Jharkhand
+KKR & KSR Institute of Technology and Sciences
+183
+SIH25156
+Software
+AICTE
+Indian Knowledge Systems (IKS)
+71816
+129263
+HEXABYTE-
+Arun Pranav A T
+Winner
+₹  1,50,000
+Chennai Institute of Technology, Tamil Nadu
+KKR & KSR Institute of Technology and Sciences
+184
+SIH25157
+Software
+AICTE
+Indian Knowledge Systems (IKS)
+100184
+96153
+CSE_RIT26
+Om Prashant Sawant
+Joint Winner
+₹  75,000
+Rajarambapu Institute of Technology, Rajaramnagar, SAKHARALE, Maharashtra
+KKR & KSR Institute of Technology and Sciences
+185
+SIH25157
+Software
+AICTE
+Indian Knowledge Systems (IKS)
+77675
+123244
+Ganador
+Guggilam Shanmukha SambaSiva Rao
+Joint Winner
+₹  75,000
+Narasaraopeta Engineering College, Kotappa Konda Road, Yellamanda Post, Narasaraopet, PIN-522601CC-47), Andhra Pradesh
+KKR & KSR Institute of Technology and Sciences
+186
+SIH25158
+Software
+AICTE
+Indian Knowledge Systems (IKS)
+99048
+123659
+Srujamya
+Harshita Gandhi
+Winner
+₹  1,50,000
+K.K.Wagh Education Society's K.K.Wagh Institute of Engineering Education & Research, Hirabai Haribai Vidyanagari, Panchavati, Nashik 422003, Maharashtra
+KKR & KSR Institute of Technology and Sciences
+187
+SIH25159
+Software
+AICTE
+Cyber Security Cell
+72234
+114175
+Visioncraft.
+Manas Mahendra Bhole
+Winner
+₹  1,50,000
+SOMAIYA VIDYAVIHAR UNIVERSITY, Maharashtra
+PRANVEER SINGH INSTITUTE OF TECHNOLOGY, KANPUR
+188
+SIH25160
+Software
+AICTE
+Cyber Security Cell
+106089
+129853
+Cache me if you cann
+Prajapati Nikhil Dahyabhai
+Joint Winner
+₹  75,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, PUNE, Maharashtra
+PRANVEER SINGH INSTITUTE OF TECHNOLOGY, KANPUR
+189
+SIH25160
+Software
+AICTE
+Cyber Security Cell
+87082
+130777
+Sudarshana007
+Shree Mishra
+Joint Winner
+₹  75,000
+Thapar Institute of Engineering and Technology, Patiala, Punjab
+PRANVEER SINGH INSTITUTE OF TECHNOLOGY, KANPUR
+190
+SIH25161
+Software
+AICTE
+Cyber Security Cell
+82949
+126747
+ASHTOJ
+Shaik Mohammed Omar
+Joint Winner
+₹  75,000
+Keshav Memorial Institute of Technology, Telangana
+PRANVEER SINGH INSTITUTE OF TECHNOLOGY, KANPUR
+191
+SIH25161
+Software
+AICTE
+Cyber Security Cell
+108671
+129561
+TechnoForge912561
+Raj Rakshit Shukla
+Joint Winner
+₹  75,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, LUCKNOW, Uttar Pradesh
+PRANVEER SINGH INSTITUTE OF TECHNOLOGY, KANPUR
+192
+SIH25162
+Software
+Bharat Electronics Limited(BEL)
+Product Development & Innovation Centre (PDIC)
+97283
+126502
+Win Diesel
+Alfiya Fatima
+Winner
+₹  1,50,000
+Dayananda Sagar College of Engineering, BANGALORE, Karnataka
+M.S. RAMAIAH UNIVERSITY OF APPLIED SCIENCES
+193
+SIH25163
+Software
+Bharat Electronics Limited(BEL)
+Product Development & Innovation Centre (PDIC)
+64864
+127131
+Team 4i
+Yash rakesh punmiya
+Joint Winner
+₹  75,000
+Fr Conceicao Rodrigues College of Engineering Band Stand Bandra West) Mumbai 400 050, Maharashtra
+M.S. RAMAIAH UNIVERSITY OF APPLIED SCIENCES
+194
+SIH25163
+Software
+Bharat Electronics Limited(BEL)
+Product Development & Innovation Centre (PDIC)
+90131
+123142
+BlueMinds2025
+Kiruthik M R
+Joint Winner
+₹  75,000
+RATHINAM TECHNICAL CAMPUS, COIMBATORE, Tamil Nadu
+M.S. RAMAIAH UNIVERSITY OF APPLIED SCIENCES
+195
+SIH25164
+Software
+Bharat Electronics Limited(BEL)
+Central Research Laboratory
+98402
+123236
+Palantier
+Tanish Saroj
+Winner
+₹  1,50,000
+Haji Jamaluddin Thim TrustTheem College of Engineering At Village Betegaon Boisar Chikhar Road N.H.No.8) Near Union Park BoisarE) Tal Palghar Dist. Thane 401 501, Maharashtra
+M.S. RAMAIAH UNIVERSITY OF APPLIED SCIENCES
+196
+SIH25165
+Software
+Government of Gujarat
+Gujarat Council on Science & Technology (GUJCOST),Dept of Science & Technology
+107510
+114048
+Skip The Queue
+Bhumi Bansal
+Winner
+₹  1,50,000
+Indian Institute of Technology, Jharkhand
+SWAMINARAYAN UNIVERSITY
+197
+SIH25166
+Hardware
+Government of Gujarat
+Gujarat Council on Science & Technology (GUJCOST),Dept of Science & Technology
+103629
+132021
+Swadess
+Amol Ajit Munot
+Winner
+₹  1,50,000
+National Institute of Technology, Rourkela, Odisha
+PARUL UNIVERSITY
+198
+SIH25167
+Hardware
+Government of Chhattisgarh
+Higher Education Department, Chhattisgarh
+91261
+123401
+ELECTROELITES
+AAKASH S
+Joint Winner
+₹  75,000
+Sri Krishna College of Engineering and Technology, Tamil Nadu
+O P Jindal University, Raigarh
+199
+SIH25167
+Hardware
+Government of Chhattisgarh
+Higher Education Department, Chhattisgarh
+116930
+121863
+TrunkAlert
+Aman Kaiwart
+Joint Winner
+₹  75,000
+ATAL BIHARI VAJPAYEE VISHWAVIDYALAYA, Chhattisgarh
+O P Jindal University, Raigarh
+200
+SIH25168
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Digital Agriculture Division, Department of Agriculture & Farmers Welfare (DoA&FW)
+81860
+67942
+Team InnoSphere
+IMMIDI N V S SRI KOUSHIK
+Winner
+₹  1,50,000
+AMRITA VISHWA VIDYAPEETHAM AMARAVATI CAMPUS, Andhra Pradesh
+MANAV RACHNA INTERNATIONAL INSTITUTE OF RESEARCH AND STUDIES
+201
+SIH25180
+Software
+Ministry of Coal (MoC)
+Central Mine Planning & Design Institute Limited (CMPDI)
+72110
+122144
+ByteSpace
+David Samuvel Sibi H
+Winner
+₹  1,50,000
+Chennai Institute of Technology, Tamil Nadu
+Rajalakshmi Engineering College
+202
+SIH25181
+Software
+Ministry of Coal (MoC)
+Central Mine Planning & Design Institute Limited (CMPDI)
+102387
+127955
+_Vajra Dev_
+Janardhan Verma
+Winner
+₹  1,50,000
+NETAJI SUBHAS UNIVERSITY OF TECHNOLOGY, Delhi
+Rajalakshmi Engineering College
+203
+SIH25182
+Hardware
+Ministry of Coal (MoC)
+Central Mine Planning & Design Institute Limited (CMPDI)
+55872
+121239
+VEL MOTIVES
+Savarna K
+Joint Winner
+₹  75,000
+R.M.K Engineering College, Tamil Nadu
+SRI SAI RAM ENGINEERING COLLEGE
+204
+SIH25182
+Hardware
+Ministry of Coal (MoC)
+Central Mine Planning & Design Institute Limited (CMPDI)
+79092
+131017
+CodeSolderRepeat
+Tanush Dhiraj Maloo
+Joint Winner
+₹  75,000
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West) Mumbai 400 056, Maharashtra
+SRI SAI RAM ENGINEERING COLLEGE
+205
+SIH25183
+Software
+Ministry of Defence (MoD)
+Army Cyber Group
+94193
+125681
+Black Order
+Sai Shravan P
+Winner
+₹  1,50,000
+SRM Valliammai Engineering College, Tamil Nadu
+Prin. L.N. Weingkar Institute of Management Development and Research (PGDM), Mumbai
+206
+SIH25184
+Software
+Ministry of Defence (MoD)
+Army Cyber Group
+72500
+121969
+Coding Krew
+Rudra Prasad M L
+Winner
+₹  1,50,000
+Chennai Institute of Technology, Tamil Nadu
+Prin. L.N. Weingkar Institute of Management Development and Research (PGDM), Mumbai
+207
+SIH25185
+Software
+Ministry of Development of North Eastern Region (MoDoNER)
+Ministry of Development of North Eastern Region
+107181
+124164
+__NEXUS__IIITB
+Aangir Doshi
+Winner
+₹  1,50,000
+International Institute of Information Technology, Bangalore, Karnataka
+North-Eastern Hill University, Meghalaya
+208
+SIH25186
+Hardware
+Ministry of Development of North Eastern Region (MoDoNER)
+Ministry of Road Transport & Highways (MoRTH) in coordination with MDONER and Ministry of Rural Development (PMGSY)
+109744
+124074
+BUILD-ZILLAS
+Rudra Satav
+Winner
+₹  1,50,000
+All India Shivaji Memorial Societys College of Engineering, Pune, Maharashtra
+MANIPAL UNIVERSITY JAIPUR
+209
+SIH25187
+Hardware
+Ministry of Steel (MoS)
+Rashtriya lspat Nigam Limited(RINL)
+102200
+122365
+Team solverz
+Ankan Mondal
+Joint Winner
+₹  75,000
+National Institute of Technology, Raipur, Chhattisgarh
+Coimbatore Innovation and Business Incubator (Forge)
+210
+SIH25187
+Hardware
+Ministry of Steel (MoS)
+Rashtriya lspat Nigam Limited(RINL)
+68329
+126034
+ASTRIX7007
+Kanish R B
+Joint Winner
+₹  75,000
+Sri Sairam Engineering College, Tamil Nadu
+Coimbatore Innovation and Business Incubator (Forge)
+211
+SIH25188
+Hardware
+Ministry of Steel (MoS)
+Rashtriya lspat Nigam Limited(RINL)
+63691
+132500
+Grain Seekers
+Ansh Bajaj
+Winner
+₹  1,50,000
+Maharaja Agrasen Institute of Technology, Delhi
+Coimbatore Innovation and Business Incubator (Forge)
+212
+SIH25189
+Software
+Ministry of Power (MoP)
+Power Grid Corporation of India Limited
+66913
+124481
+AsyncRifters_09
+Rohan Verma
+Winner
+₹  1,50,000
+IPS ACADEMY INSTITUTE OF ENGINEERING AND SCIENCE INDORE OFF CAMPUS I, Madhya Pradesh
+Marri Laxman Reddy Institute of Technology and Management
+213
+SIH25190
+Software
+Ministry of Power (MoP)
+Power Grid Corporation of India Limited
+70277
+125330
+CognitiveCore
+Adhityan Shanmugam Mudliyar
+Winner
+₹  1,50,000
+Sterling Institute of Management Studies Plot No.93 93A Sector 19 Nerul E) Navi Mumbai 400 706, Maharashtra
+Marri Laxman Reddy Institute of Technology and Management
+214
+SIH25191
+Software
+Ministry of Power (MoP)
+Power Grid Corporation of India Limited
+70884
+128402
+SkyLink
+Kartikey Narain Prajapati
+Joint Winner
+₹  75,000
+Dr. Akhilesh Das Gupta Institute of Technology & Management, Delhi
+Marri Laxman Reddy Institute of Technology and Management
+215
+SIH25191
+Software
+Ministry of Power (MoP)
+Power Grid Corporation of India Limited
+87963
+128546
+Oceanberg
+PREMNATH V R
+Joint Winner
+₹  75,000
+Bannari Amman Institute of Technology, Tamil Nadu
+Marri Laxman Reddy Institute of Technology and Management
+216
+SIH25192
+Software
+Ministry of Power (MoP)
+Power Grid Corporation of India Limited
+62920
+125415
+FRONTIER HACKSMITHS
+LOHITHADEVI M
+Joint Winner
+₹  75,000
+St. Joseph's College of Engineering, Tamil Nadu
+Marri Laxman Reddy Institute of Technology and Management
+217
+SIH25192
+Software
+Ministry of Power (MoP)
+Power Grid Corporation of India Limited
+54792
+128725
+zenithian
+Aravindh M
+Joint Winner
+₹  75,000
+R.M.K Engineering College, Tamil Nadu
+Marri Laxman Reddy Institute of Technology and Management
+218
+SIH25193
+Software
+Ministry of Power (MoP)
+Power Grid Corporation of India Limited
+98502
+127166
+TeamAxiom
+Soham Mehta
+Winner
+₹  1,50,000
+Birla Institute of Technology & Sciences, Pilani, Rajasthan
+ACE ENGINEERING COLLEGE
+219
+SIH25194
+Software
+Ministry of Power (MoP)
+Power Grid Corporation of India Limited
+104894
+122182
+Codevengerz
+S Muthu Viknesh
+Winner
+₹  1,50,000
+University College of Engineering, Kancheepuram, Tamil Nadu
+ACE ENGINEERING COLLEGE
+220
+SIH25195
+Software
+Ministry of Power (MoP)
+Power Grid Corporation of India Limited
+100378
+123454
+_StarWeb_
+Arpan Tomar
+Winner
+₹  1,50,000
+NETAJI SUBHAS UNIVERSITY OF TECHNOLOGY, Delhi
+ACE ENGINEERING COLLEGE
+221
+SIH25196
+Hardware
+Ministry of Home Affairs (MHA)
+National Security Guard (NSG)
+105751
+106206
+Impactx Innovators
+ANAND RAJ M
+Joint Winner
+₹  75,000
+University College of Engineering, Kancheepuram, Tamil Nadu
+IIT Roorkee
+222
+SIH25196
+Hardware
+Ministry of Home Affairs (MHA)
+National Security Guard (NSG)
+80190
+123771
+feniX
+MUKESH C
+Joint Winner
+₹  75,000
+NACHIMUTHU POLYTECHNIC COLLEGE POLLACHI, Tamil Nadu
+IIT Roorkee
+223
+SIH25197
+Software
+Ministry of Home Affairs (MHA)
+National Security Guard (NSG)
+67187
+132538
+TEAM NAME_25
+Arshad Ahmed
+Winner
+₹  1,50,000
+Sri Venkateswara College of Engineering, Tamil Nadu
+Oriental University, Indore
+224
+SIH25198
+Software
+Ministry of Home Affairs (MHA)
+National Investigation Agency (NIA)
+107492
+105288
+Team Kaizen7
+Srushti
+Joint Winner
+₹  75,000
+Sharnbasva University, Karnataka
+KIET Group of Institutions
+225
+SIH25198
+Software
+Ministry of Home Affairs (MHA)
+National Investigation Agency (NIA)
+73274
+132939
+INNOVATE A's
+Anushka Singh
+Joint Winner
+₹  75,000
+Swami Keshvanand Institute of Technology, Management & Gramothan, Rajasthan
+KIET Group of Institutions
+226
+SIH25200
+Software
+Ministry of Skill Development and Entrepreneurship (MSDE)
+Ministry of Skill Development and Entrepreneurship (MSDE) in association with National Council for Vocational Education and Training (NCVET)
+96544
+111526
+GenSix
+PANGULURI RANEESH CHOWDARY
+Winner
+₹  1,50,000
+Sri Krishna College of Engineering and Technology, Tamil Nadu
+Swami Keshvanand Institute of Technology, Management & Gramothan
+227
+SIH25201
+Software
+Ministry of Skill Development and Entrepreneurship (MSDE)
+Ministry of Skill Development and Entrepreneurship (MSDE) in association with National Council for Vocational Education and Training (NCVET)
+110451
+132535
+EcoBridges
+Thakkar Vrunda Ashokbhai
+Winner
+₹  1,50,000
+C. K. PITHAWALA COLLEGE OF ENGG. & TECH., SURAT 009, Gujarat
+Swami Keshvanand Institute of Technology, Management & Gramothan
+228
+SIH25202
+Software
+Ministry of Skill Development and Entrepreneurship (MSDE)
+Ministry of Skill Development and Entrepreneurship (MSDE) in association with National Council for Vocational Education and Training (NCVET)
+64240
+123905
+STATUS200.
+Mohd Adnan Khan
+Winner
+₹  1,50,000
+Jamia Millia Islamia University, Delhi
+Swami Keshvanand Institute of Technology, Management & Gramothan
+229
+SIH25203
+Software
+Ministry of Skill Development and Entrepreneurship (MSDE)
+Ministry of Skill Development and Entrepreneurship (MSDE) in association with National Council for Vocational Education and Training (NCVET)
+92927
+87659
+BinaryDNF
+Mohammad Zaid Sayyed
+Winner
+₹  1,50,000
+Bharati Vidyapeeths Institute of Management and Information Technology , Sector-8 C B D Belapur Navi Mumbai., Maharashtra
+Swami Keshvanand Institute of Technology, Management & Gramothan
+230
+SIH25204
+Hardware
+Ministry of Earth Sciences (MoES)
+Centre for Marine Living Resources and Ecology (CMLRE)
+89107
+120865
+Gandharvas
+SARTHAK MAURYA
+Winner
+₹  1,50,000
+Invertis University, Bareily, Uttar Pradesh
+Banaras Hindu University
+231
+SIH25205
+Software
+Government of Odisha
+E & IT Department
+98247
+128353
+SpiderCrawl
+ELWIN ALBERT
+Winner
+₹  1,50,000
+Karunya Institute of Technology and Sciences, Coimbatore, Tamil Nadu
+VEER SURENDRA SAI UNIVERSITY OF TECHNOLOGY
+232
+SIH25206
+Hardware
+Ministry of Mines
+Hindustan Copper Limited (HCL)
+66115
+132570
+ARKA!
+Junaid Momin
+Winner
+₹  1,50,000
+Fr Conceicao Rodrigues College of Engineering Band Stand Bandra West) Mumbai 400 050, Maharashtra
+PARUL UNIVERSITY
+233
+SIH25207
+Software
+Government of Jammu and Kashmir
+Directorate of Colleges, Higher Education Department
+79344
+123089
+Gap Bridgers
+Divyam Gupta
+Winner
+₹  1,50,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, NAGPUR, Maharashtra
+VARDHAMAN COLLEGE OF ENGINEERING
+234
+SIH25208
+Software
+Ministry of Steel (MoS)
+Steel Authority of India Limited (SAIL)
+110631
+109694
+Enigmaa
+Hargun Preet Singh
+Winner
+₹  1,50,000
+Indian Institute of Information Technology, Allahabad, Uttar Pradesh
+SRI VENKATESHWARAA COLLEGE OF ENGINEERING & TECHNOLOGY
+235
+SIH25209
+Software
+Ministry of Steel (MoS)
+Steel Authority of India Limited (SAIL)
+93161
+132961
+Team Shaurya
+Gaurav Manohar Salunke
+Winner
+₹  1,50,000
+Bharati Vidyapeeths College of Engineering Sector-7 C.B.D.Belpada Navi Mumbai 400 614, Maharashtra
+SRI VENKATESHWARAA COLLEGE OF ENGINEERING & TECHNOLOGY
+236
+SIH25210
+Software
+Ministry of Steel (MoS)
+National Mineral Developement Corporation (NMDC)
+85618
+129177
+Fallen Rock
+Saksham Tiwari
+Winner
+₹  1,50,000
+Indian Institute of Technology, Kharagpur, West Bengal
+SRI VENKATESHWARAA COLLEGE OF ENGINEERING & TECHNOLOGY
+237
+SIH25211
+Hardware
+Ministry of Home Affairs (MHA)
+National Disaster Response Force (NDRF)
+86883
+129619
+Skunk-Works
+Ishtpreet Singh
+Winner
+₹  1,50,000
+Thapar Institute of Engineering and Technology, Patiala, Punjab
+Gandhi Institute of Technology and Management(GITAM) Deemed to be University
+238
+SIH25212
+Hardware
+Ministry of Home Affairs (MHA)
+National Disaster Response Force (NDRF)
+61589
+125375
+Genius Grid
+Partho Probodh Ghoshal
+Winner
+₹  1,50,000
+Yashwantrao Chavan Engineering College, Wanadongri, Hingna road, Maharashtra
+Gandhi Institute of Technology and Management(GITAM) Deemed to be University
+239
+SIH25213
+Hardware
+Ministry of Home Affairs (MHA)
+National Disaster Response Force (NDRF)
+87538
+121352
+BLUE NOVA
+K.BANUPRIYA
+Winner
+₹  1,50,000
+Adhiparasakthi College of Engineering, Tamil Nadu
+Gandhi Institute of Technology and Management(GITAM) Deemed to be University
+240
+SIH25215
+Hardware
+AICTE
+AICTE
+84336
+129228
+Team Optivis
+Vaibhav Dwivedi
+Winner
+₹  1,50,000
+CHANDIGARH UNIVERSITY, Punjab
+MIT Art, Design and Technology University, Pune
+241
+SIH25216
+Software
+AICTE
+AICTE
+100449
+83777
+Auralis_KTM
+Antony Joseph
+Winner
+₹  1,50,000
+Rajiv Gandhi Institute of Technology, Velloor P.O.,Pampady. Kottayam - 689 501, Kerala
+Visvesvaraya Technological University
+242
+SIH25217
+Hardware
+Ministry of Defence (MoD)
+Defence Space Agency, Headquarters Integrated Defence Staff (IDS)
+80818
+122515
+VeloTriZ
+Jayanth K
+Winner
+₹  1,50,000
+SRM Institute of Science & Technology, Tiruchirapalli, Tamil Nadu
+MIT Art, Design and Technology University, Pune
+243
+SIH25218
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+78075
+105524
+Instant Ideators
+Vansh Bargotra
+Joint Winner
+₹  75,000
+Model Institute of Engg. & Technology, Jammu and Kashmir
+CHENNAI INSTITUTE OF TECHNOLOGY
+244
+SIH25218
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+115530
+117642
+ECO CURE
+Gajula Niharika
+Joint Winner
+₹  75,000
+VIGNAN INSTITUTE OF PHARMACEUTICAL TECHNOLOGY, Beside VSEZ, Vadlapudi PO),JaggarajupetaV),Gajuwaka ,PIN-530049CC-AC)), Andhra Pradesh
+CHENNAI INSTITUTE OF TECHNOLOGY
+245
+SIH25219
+Software
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+60849
+123658
+Sevadoot
+DHAVALE ANIKET VASANT
+Winner
+₹  1,50,000
+Datta Meghe College of Engineering CIDCO Sector III Airoli Navi Mumbai 400 708, Maharashtra
+G H Raisoni College of Engineering
+246
+SIH25220
+Software
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+70925
+110646
+CodeDivas
+M.Monikha
+Joint Winner
+₹  75,000
+B N M Institute of Technology, BANGALORE, Karnataka
+International Institute of Information Technology (IÂ²IT), Pune
+247
+SIH25220
+Software
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+93577
+119823
+NeuraX25AM05
+RITHIKA S
+Joint Winner
+₹  75,000
+KGiSL Institute of Technology, Tamil Nadu
+International Institute of Information Technology (IÂ²IT), Pune
+248
+SIH25221
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+51306
+122949
+VERTEX
+P Vinay
+Joint Winner
+₹  75,000
+Sreenidi Institute of Science &Technology, Telangana
+CHENNAI INSTITUTE OF TECHNOLOGY
+249
+SIH25221
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+65275
+128478
+V R Warriors 923
+Shreya R
+Joint Winner
+₹  75,000
+Sri Sairam Engineering College, Tamil Nadu
+CHENNAI INSTITUTE OF TECHNOLOGY
+250
+SIH25222
+Software
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+66458
+128522
+818_charCOAL
+Ashwani Tiwari
+Winner
+₹  1,50,000
+Indore Institute of Science & Technology, Village Dehri, Opp IIM, Pithampur Road, Indore 453 331, Madhya Pradesh
+International Institute of Information Technology (IÂ²IT), Pune
+251
+SIH25223
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+65597
+126199
+ELECTRIZZ3699
+Sharavana vell KT K
+Joint Winner
+₹  75,000
+Sri Sairam Engineering College, Tamil Nadu
+CHENNAI INSTITUTE OF TECHNOLOGY
+252
+SIH25223
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+64198
+129513
+Innov8 India
+Meeth R
+Joint Winner
+₹  75,000
+Sri Ramakrishna College of Arts and Science, Tamil Nadu
+CHENNAI INSTITUTE OF TECHNOLOGY
+253
+SIH25224
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+102187
+121274
+Shield Tech
+Dipanshu Narayan Rahangdale
+Winner
+₹  1,50,000
+Kavayitri Bahinabai Chaudhari North Maharashtra University, Jalgaon, Maharashtra
+CHENNAI INSTITUTE OF TECHNOLOGY
+254
+SIH25225
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+77453
+123515
+The Trailblazerz
+Kavin Thangam.M
+Winner
+₹  1,50,000
+Mepco Schlenk Engineering College, Tamil Nadu
+MIT Art, Design and Technology University, Pune
+255
+SIH25226
+Software
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+53789
+85394
+DEEPWISE25SSEC
+Bhavsar Priyanshu P.
+Winner
+₹  1,50,000
+SHANTILAL SHAH ENGINEERING COLLEGE ,BHAVNAGAR 043, Gujarat
+International Institute of Information Technology (IÂ²IT), Pune
+256
+SIH25227
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+92052
+119456
+INNO_CORES SIHAD016
+KAVINILA L
+Joint Winner
+₹  75,000
+KGiSL Institute of Technology, Tamil Nadu
+MIT Art, Design and Technology University, Pune
+257
+SIH25227
+Hardware
+Ministry of Science and Technology
+Department of Science and Technology (DST)
+118184
+126472
+ClutchSIH
+CV Balaji
+Joint Winner
+₹  75,000
+Dayananda Sagar College of Engineering, BANGALORE, Karnataka
+MIT Art, Design and Technology University, Pune
+258
+SIH25228
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+74737
+114612
+UTKARSH
+Aasritha Cherukuri
+Winner
+₹  1,50,000
+Goka Raju Ranga Raju Institute of Engineering & Technology, Telangana
+National Institute of Technology Calicut
+259
+SIH25229
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+111149
+126815
+Farm Copilot
+Suman k
+Winner
+₹  1,50,000
+Anna University Regional Campus - Coimbatore, Tamil Nadu
+National Institute of Technology Calicut
+260
+SIH25230
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+102790
+94748
+Team Cyfer Trace
+Ishant Choudhary
+Winner
+₹  1,50,000
+SYMBIOSIS SKILLS AND PROFESSIONAL UNIVERSITY, Maharashtra
+National Institute of Technology Calicut
+261
+SIH25231
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+117747
+125905
+HashItOut
+Nitesh Patnaik
+Winner
+₹  1,50,000
+Kalinga Institute of Industrial Technology, Bhubaneswar, Odisha
+National Institute of Technology Calicut
+262
+SIH25232
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+66392
+126520
+Waterloo
+Soumyadipta Dey
+Winner
+₹  1,50,000
+Heritage Institute of Technology 126, West Bengal
+IIM Lucknow Enterprise Incubation Centre
+263
+SIH25233
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+114859
+125426
+Devillum
+Niranjan V
+Winner
+₹  1,50,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, KOTTAYAM, Kerala
+Indian Institute of Technology, Jammu
+264
+SIH25234
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+113350
+127314
+Trinetra915
+Ishayu Potey
+Winner
+₹  1,50,000
+Veermata Jijabai Technological Institute Matunga Mumbai 400 019, Maharashtra
+Indian Institute of Technology, Jammu
+265
+SIH25235
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+72664
+126494
+MergeConflicts
+Sachhidananda Mahapatro
+Winner
+₹  1,50,000
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West) Mumbai 400 056, Maharashtra
+Indian Institute of Technology, Jammu
+266
+SIH25236
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+117812
+124196
+Point Blank
+Inchara J
+Winner
+₹  1,50,000
+Dayananda Sagar College of Engineering, BANGALORE, Karnataka
+Indian Institute of Technology, Jammu
+267
+SIH25237
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+56394
+108841
+SentinelX
+Kanishka Singhal
+Winner
+₹  1,50,000
+ABES INSTITUTE OF TECHNOLOGY, GHAZIABAD, Uttar Pradesh
+IIM Lucknow Enterprise Incubation Centre
+268
+SIH25238
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+118185
+128150
+Dedsec_01
+R Aswin
+Winner
+₹  1,50,000
+Dayananda Sagar College of Engineering, BANGALORE, Karnataka
+IIM Lucknow Enterprise Incubation Centre
+269
+SIH25239
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+94837
+127637
+Five_States
+Bhoomi Agrawal
+Winner
+₹  1,50,000
+Dayananda Sagar College of Engineering, BANGALORE, Karnataka
+IIM Lucknow Enterprise Incubation Centre
+270
+SIH25240
+Software
+National Technical Research Organisation (NTRO)
+National Technical Research Organisation (NTRO)
+62130
+125694
+Brahmastra_1
+Nikhil Shirsathe
+Winner
+₹  1,50,000
+MAEER's MIT Academy of Engineering, Alandi Devachi), Dehu Phata, Taluka - Khed, District - Pune 412105, Maharashtra
+IIM Lucknow Enterprise Incubation Centre
+271
+SIH25241
+Software
+Ministry of Jal Shakti (MoJS)
+Swacch Bharat Mission (Gramin), SBM -3 ,Department of Drinking Water and Sanitation(DDWS)
+60195
+129297
+FLUID FUSION
+LEWYN D
+Winner
+₹  1,50,000
+St. Joseph's College of Engineering, Tamil Nadu
+Rajalakshmi Engineering College
+272
+SIH25242
+Software
+Ministry of Defence (MoD)
+Defence Research and Development Organisation (DRDO)
+107569
+131041
+AI_vengers
+MOHAMMED AFEEF M
+Winner
+₹  1,50,000
+Bannari Amman Institute of Technology, Tamil Nadu
+NAGARJUNA COLLEGE OF ENGINEERING AND TECHNOLOGY
+273
+SIH25243
+Software
+Ministry of Defence (MoD)
+Defence Research and Development Organisation (DRDO)
+74899
+131311
+NeuroBots
+Pratham Samir Kokardekar
+Winner
+₹  1,50,000
+Marathwada Mitra Mandal's College of Engineering Pune 52, Maharashtra
+NAGARJUNA COLLEGE OF ENGINEERING AND TECHNOLOGY
+274
+SIH25244
+Software
+Ministry of Defence (MoD)
+Defence Research and Development Organisation (DRDO)
+88482
+72781
+Stravos
+Sanskruti Nehere
+Winner
+₹  1,50,000
+JSPM University, Maharashtra
+NAGARJUNA COLLEGE OF ENGINEERING AND TECHNOLOGY
+275
+SIH25245
+Software
+Ministry of Defence (MoD)
+Defence Research and Development Organisation (DRDO)
+75640
+114439
+Arogya +
+PUNEET KUSHWAHA
+Winner
+₹  1,50,000
+B N COLLEGE OF ENGINEERING AND TECHNOLOGY, LUCKNOW, Uttar Pradesh
+NAGARJUNA COLLEGE OF ENGINEERING AND TECHNOLOGY
+276
+SIH25246
+Software
+Ministry of Social Justice & Empowerment(MoSJE)
+Indian Sign Language Research & Training Centre(ISLRTC)
+90635
+108621
+Team-Origin
+Yash Sharma
+Winner
+₹  1,50,000
+R N S Institute of Technology, BANGALORE, Karnataka
+SRM Institute of Management and Technology
+277
+SIH25247
+Hardware
+Ministry of Social Justice & Empowerment(MoSJE)
+Indian Sign Language Research & Training Centre(ISLRTC)
+99069
+130500
+Hind Ke Sitara
+Dipu Kumar Singh
+Winner
+₹  1,50,000
+Bhilai Institute of Technology Durg, Chhattisgarh
+G. L. Bajaj Institute of Technology and Management
+278
+SIH25248
+Software
+Ministry of Jal Shakti (MoJS)
+Central Water Commission (CWC),Department of Water Resources, RD & GR
+60131
+124937
+SENTINELSV2
+BRAYON MOSES B
+Winner
+₹  1,50,000
+St. Joseph's College of Engineering, Tamil Nadu
+Rajalakshmi Engineering College
+279
+SIH25249
+Hardware
+Ministry of Jal Shakti (MoJS)
+Central Water Commission (CWC),Department of Water Resources, RD & GR
+94866
+119770
+CtrlAltDefeat_
+Rahul R Mallya
+Joint Winner
+₹  75,000
+R N S Institute of Technology, BANGALORE, Karnataka
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+280
+SIH25249
+Hardware
+Ministry of Jal Shakti (MoJS)
+Central Water Commission (CWC),Department of Water Resources, RD & GR
+90218
+123678
+Tech Mates2025
+Pranesh M N
+Joint Winner
+₹  75,000
+RATHINAM TECHNICAL CAMPUS, COIMBATORE, Tamil Nadu
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+281
+SIH25250
+Software
+Ministry of Jal Shakti (MoJS)
+Brahmaputra Board, Department of Water Resources (DoWR) , RD & GR
+112829
+114568
+TechTitans VJTI
+Shreya Vijay Mane
+Joint Winner
+₹  75,000
+Veermata Jijabai Technological Institute Matunga Mumbai 400 019, Maharashtra
+Rajalakshmi Engineering College
+282
+SIH25250
+Software
+Ministry of Jal Shakti (MoJS)
+Brahmaputra Board, Department of Water Resources (DoWR) , RD & GR
+107997
+121655
+Health_Warriors
+Krupa Bawane
+Joint Winner
+₹  75,000
+Indian Institute of Technology Jammu, Jammu and Kashmir
+Rajalakshmi Engineering College
+283
+SIH25251
+Hardware
+Ministry of Jal Shakti (MoJS)
+National Mission for Clean Ganga (NMCG), DoWR, RD & GR
+73279
+124615
+Sky Sentinels
+Vikram Prasad M
+Joint Winner
+₹  75,000
+Chennai Institute of Technology, Tamil Nadu
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+284
+SIH25251
+Hardware
+Ministry of Jal Shakti (MoJS)
+National Mission for Clean Ganga (NMCG), DoWR, RD & GR
+117535
+124512
+AkashPankh
+Om Suresh Patki
+Joint Winner
+₹  75,000
+MIT Art, Design and Technology University, Pune, Maharashtra
+VNR VIGNANA JYOTHI INSTITUTE OF ENGINEERING AND TECHNOLOGY
+285
+SIH25252
+Software
+Ministry of Education (MoE)
+Department of Higher Education (DHE)
+56336
+112144
+CODEX CREATORS
+RAVINDRA S
+Winner
+₹  1,50,000
+Bangalore Institute of Technology, BANGALORE-560 004, Karnataka
+BIJU PATNAIK UNIVERSITY OF TECHNOLOGY
+286
+SIH25253
+Software
+Ministry of Education (MoE)
+Department of Higher Education (DHE)
+89611
+127843
+Code for change(CFC)
+Shiva
+Winner
+₹  1,50,000
+JAGAN NATH UNIVERSITY, JHAJJAR, Haryana
+BIJU PATNAIK UNIVERSITY OF TECHNOLOGY
+287
+SIH25254
+Software
+Ministry of Education (MoE)
+Department of Higher Education (DHE)
+66952
+114145
+Git Happens_25
+Sarath Chandran.M
+Winner
+₹  1,50,000
+Sri Venkateswara College of Engineering, Tamil Nadu
+BIJU PATNAIK UNIVERSITY OF TECHNOLOGY
+288
+SIH25255
+Hardware
+Ministry of Home Affairs (MHA)
+Border Security Force(BSF)
+76848
+129291
+MEGATRON-
+Jashwanth Nagarajan
+Winner
+₹  1,50,000
+Chennai Institute of Technology, Tamil Nadu
+IIT Roorkee
+289
+SIH25256
+Hardware
+Ministry of Home Affairs (MHA)
+Indo-Tibetan Border Police (ITBP)
+77303
+127297
+CRYONEX
+ARCHANA S
+Winner
+₹  1,50,000
+K.G. College of Arts and Science, Tamil Nadu
+Gandhi Institute of Technology and Management(GITAM) Deemed to be University
+290
+SIH25257
+Software
+Ministry of Home Affairs (MHA)
+Cyber& Information Security Division (I4C)
+70988
+122598
+SKYVAR
+Vishaal A
+Winner
+₹  1,50,000
+Madras Institute of Technology Campus, Tamil Nadu
+Oriental University, Indore
+291
+SIH25258
+Software
+Ministry of Home Affairs (MHA)
+National Disaster Management Authority (NDMA) (DM Division)
+74792
+128833
+Data_Jarvis GGV
+Abhishek singh
+Winner
+₹  1,50,000
+Guru Ghasidas Vishwavidyalaya, Bilaspur, Chhattisgarh
+Oriental University, Indore
+292
+SIH25259
+Software
+Neilsoft Ltd.
+Neilsoft Ltd.
+62729
+121340
+EduBotx
+Pratham Vijay Jadhav
+Winner
+₹  1,50,000
+Sinhgad Technical Education Societys Smt. Kashibai Navale College of Engineering, Vadgaon bk., Sinhgad road, Pune 41, Maharashtra
+International Institute of Information Technology (IÂ²IT), Pune
+293
+SIH25260
+Software
+Neilsoft Ltd.
+Neilsoft Ltd.
+74566
+125963
+HouseOfCoders
+Akshay Gupta
+Winner
+₹  1,50,000
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, NAGPUR, Maharashtra
+International Institute of Information Technology (IÂ²IT), Pune
+294
+SIH25261
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (M&T)
+61240
+134027
+OWLgorithms_GX1
+Anirban Bandyopadhyay
+Winner
+₹  1,50,000
+Techno Main Salt Lake 130, West Bengal
+MANAV RACHNA INTERNATIONAL INSTITUTE OF RESEARCH AND STUDIES
+295
+SIH25262
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (PMFBY)
+93163
+133812
+Imaginary_Coders
+Anurag Tiwari
+Winner
+₹  1,50,000
+Devi Ahilya Vishwavidyalaya, Indore, Madhya Pradesh
+MANAV RACHNA INTERNATIONAL INSTITUTE OF RESEARCH AND STUDIES
+296
+SIH25263
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (PMFBY)
+52275
+133582
+Graviton
+Dhiraj Sachin Dahale
+Winner
+₹  1,50,000
+Amrutvahini Sheti & Vikas Santhas Amrutvahini College of Engineering , Amrutangar, Tal.Sangamner, Dist. Ahmednagar 422608, Maharashtra
+MANAV RACHNA INTERNATIONAL INSTITUTE OF RESEARCH AND STUDIES
+297
+SIH25264
+Hardware
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Crops)
+69527
+132444
+FARMEDGE
+KARTHICKRAJ R
+Winner
+₹  1,50,000
+Sri Krishna College of Technology, Tamil Nadu
+IIT Roorkee
+298
+SIH25265
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Crops)
+75440
+134247
+LifeLineX
+Tanishq Bhakar
+Winner
+₹  1,50,000
+Vivekanand Institute of Professional Studies Technical Campus, Delhi
+MANAV RACHNA INTERNATIONAL INSTITUTE OF RESEARCH AND STUDIES
+299
+SIH25266
+Hardware
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Crops)
+56595
+134330
+Mindsmiths
+Aravindh Shankar R
+Winner
+₹  1,50,000
+Rajalakshmi Engineering College, Tamil Nadu
+IIT Roorkee
+300
+SIH25267
+Hardware
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Crops)
+81496
+133736
+Caffeinated-Coders
+Mohammed Abdur Rafey
+Winner
+₹  1,50,000
+Lords Institute of Engineering & Technology, Telangana
+IIT Roorkee
+301
+SIH25268
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Crops)
+74454
+133910
+Team PsyConnect
+Rucha Sameer Pharande
+Winner
+₹  1,50,000
+Karmaveer Bhaurao Patil College of Engineering, Satara, Maharashtra
+MANAV RACHNA INTERNATIONAL INSTITUTE OF RESEARCH AND STUDIES
+302
+SIH25269
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+104214
+133925
+AquaCredZ
+Deepak Warude
+Joint Winner
+₹  75,000
+K.K.Wagh Education Society's K.K.Wagh Institute of Engineering Education & Research, Hirabai Haribai Vidyanagari, Panchavati, Nashik 422003, Maharashtra
+BIJU PATNAIK UNIVERSITY OF TECHNOLOGY
+303
+SIH25269
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+63079
+133514
+B10C0D3
+R Pritto Ruban
+Joint Winner
+₹  75,000
+R M K College of Engineering and Technology, Tamil Nadu
+BIJU PATNAIK UNIVERSITY OF TECHNOLOGY
+304
+SIH25270
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+86813
+134087
+Team Lumora
+Vidhaan Khare
+Winner
+₹  1,50,000
+Thapar Institute of Engineering and Technology, Patiala, Punjab
+BIJU PATNAIK UNIVERSITY OF TECHNOLOGY
+305
+SIH25271
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+110838
+133760
+techbastics
+SPARSH GUPTA
+Winner
+₹  1,50,000
+INSTITUTE OF ENGINEERING & TECHNOLOGY,LUCKNOW, Uttar Pradesh
+KITs College of Engineering Kolhapur (Empowered Autonomous)
+306
+SIH25272
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+115378
+133822
+CableSense
+Vidhi Metkar
+Winner
+₹  1,50,000
+K.K.Wagh Education Society's K.K.Wagh Institute of Engineering Education & Research, Hirabai Haribai Vidyanagari, Panchavati, Nashik 422003, Maharashtra
+KITs College of Engineering Kolhapur (Empowered Autonomous)
+307
+SIH25273
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+73869
+133469
+ALGO SAPIENS
+Janhavi Harishchandra Kashyap
+Winner
+₹  1,50,000
+Sinhgad Technical Education Societys Sinhgad Institute of Technology, Kusagaon bk., Lonavala,Tal. Maval,Dist.Pune, Maharashtra
+KITs College of Engineering Kolhapur (Empowered Autonomous)
+308
+SIH25274
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+63541
+133988
+Team Kwarcs
+Vedant Vikas Raut
+Winner
+₹  1,50,000
+Yashwantrao Chavan Engineering College, Wanadongri, Hingna road, Maharashtra
+KITs College of Engineering Kolhapur (Empowered Autonomous)
+309
+SIH25275
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+118607
+133629
+IdeaBliss
+Aditya Shinde
+Joint Winner
+₹  75,000
+MIT Art, Design and Technology University, Pune, Maharashtra
+KITs College of Engineering Kolhapur (Empowered Autonomous)
+310
+SIH25275
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+118392
+134189
+Agratas
+Parth T Pawar
+Joint Winner
+₹  75,000
+K.K.Wagh Education Society's K.K.Wagh Institute of Engineering Education & Research, Hirabai Haribai Vidyanagari, Panchavati, Nashik 422003, Maharashtra
+KITs College of Engineering Kolhapur (Empowered Autonomous)
+311
+SIH25276
+Software
+Ministry of Agriculture & Farmers Welfare (MoA&FW)
+Department of Agriculture & Farmers Welfare (DoA&FW) (Oil Palm)
+70396
+134277
+Hack4Impact!
+Sumantha
+Winner
+₹  1,50,000
+BMS College of Engineering, BANGALORE, Karnataka
+KITs College of Engineering Kolhapur (Empowered Autonomous)
+312
+SIH25169
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+100420
+131458
+Dakshin LocoVerse
+Mohammed Naveedh M
+Third Prize
+₹  50,000
+NATIONAL INSTITUTE OF TECHNOLOGY, ANDHRA PRADESH, Andhra Pradesh
+Gujarat Technological University
+313
+SIH25170
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+109246
+130771
+A.I.M
+Yash R Hosalli
+Second Prize
+₹  75,000
+Gogte Institute of Technology, BELGAUM, Karnataka
+Gujarat Technological University
+314
+SIH25171
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+86204
+131248
+Second Thoughts
+SAKSHAM GUPTA
+Future Innovators Award
+₹  10,000
+Indian Institute of Technology, Guwahati, Assam
+Gujarat Technological University
+315
+SIH25172
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+113196
+126280
+Vasuki..
+Aditya R Jemshetty
+First Prize
+₹  1,00,000
+MANIPAL ACADEMY OF HIGHER EDUCATION BANGALURU CAMPUS, Karnataka
+Gujarat Technological University
+316
+SIH25173
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+116554
+128697
+Sahastransh
+Parnika Milind Patil
+Consolation Prize
+₹  15,000
+K.K.Wagh Education Society's K.K.Wagh Institute of Engineering Education & Research, Hirabai Haribai Vidyanagari, Panchavati, Nashik 422003, Maharashtra
+Gujarat Technological University
+317
+SIH25174
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+66671
+128944
+AIT_GreenMatters
+Sayan Ghosh
+Consolation Prize
+₹  15,000
+Army Institute of Technology, Dighi Hills, Pune, Maharashtra
+Gujarat Technological University
+318
+SIH25175
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+53993
+61471
+Zillion Minds
+Aniket Singh
+Consolation Prize
+₹  15,000
+Institute of Engineering & Science, IPS Academy, Rajendra Nagar, A.B. Road, Sita Building, Indore 452003, Madhya Pradesh
+Gujarat Technological University
+319
+SIH25176
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+102604
+131485
+Aquanova1
+Ayushi Upadhyay
+Girls Achiever Award
+₹  20,000
+WOMEN INSTITUTE OF TECHNOLOGY, Uttarakhand
+Gujarat Technological University
+320
+SIH25177
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+62019
+91869
+Data Morphers
+Prashant Ranjan
+Future Innovators Award
+₹  10,000
+Rajiv Gandhi Institute of Petroleum Technology, Amethi, Uttar Pradesh
+Gujarat Technological University
+321
+SIH25178
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+90645
+131046
+Arabian Knights
+Srisha K S
+Future Innovators Award
+₹  10,000
+B M S Institute of Technology & Management, BANGALORE, Karnataka
+Gujarat Technological University
+322
+SIH25179
+Software
+Indian Space Research Organisation (ISRO)
+Department of Space(DoS)
+74847
+130129
+Data_Qubits
+Ankit singh
+Quantum Frontier Award
+₹  20,000
+Guru Ghasidas Vishwavidyalaya, Bilaspur, Chhattisgarh
+Gujarat Technological University
+Follow Us
+© 2025-26 Smart India Hackathon. All rights reserved
+Contact Us
+For any queries write to:
+sih@aicte-india.org
+011 29581222,
+011 29581223,
+011 29581239,
+011 29581240,
+011 29581241,
+011 29581319.
+Select Registration Type
+×
+College Faculty SPOC
+School Faculty SPOC
+College Faculty SPOC
+Existing Users
+New Users
+(*Please check your mail for OTP Verification)
+Design Mentors
+Close

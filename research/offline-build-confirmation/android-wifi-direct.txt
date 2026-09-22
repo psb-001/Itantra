@@ -1,0 +1,2676 @@
+Wi-Fi Direct (peer-to-peer or P2P) overview  |  Connectivity  |  Android Developers
+Skip to main content
+Essentials
+Build AI experiences
+Build AI-powered Android apps with Gemini APIs and more.
+Get started
+Get started
+Create your first app. Use Compose for UI and adaptive app development to support multiple device form factors.
+Hello, world!
+Developer Verification
+Adaptive apps
+Compose for UI
+AI-powered IDE
+Training
+Monetization with Play ↗️
+Optimize by form factor
+Build apps that optimize the user experience on phones, tablets, foldables, cars, XR, and more.
+Phones, tablets, foldables
+Android for Cars
+Android TV
+Android XR
+Googlebook
+ChromeOS
+Wear OS
+Build by category
+Learn to build for your use case by following Google's prescriptive and opinionated guidance.
+Games
+Camera & media
+Social & messaging
+Health & fitness
+Productivity
+Enterprise apps
+Get the latest
+Stay in touch with the latest releases throughout the year, join our preview programs, and give us your feedback.
+Latest updates
+Experimental updates
+Android Studio preview
+Jetpack & Compose libraries
+Wear OS releases
+Privacy Sandbox ↗️
+Design & Plan
+Excellent Experiences
+Build the best experiences for your best users.
+Learn more
+UI Design
+Design a beautiful user interface using Android best practices.
+Design for Android
+Mobile
+Desktop experiences
+XR Headsets & XR Glasses
+AI Glasses
+Widgets
+Wear OS
+Android TV
+Android for Cars
+Architecture
+Design robust, testable, and maintainable app logic and services.
+Introduction
+Libraries
+Navigation
+Modularization
+Testing
+Kotlin Multiplatform
+Quality
+Plan for app quality and align with Play store guidelines.
+Overview
+Core value
+User experience
+Accessibility
+Technical quality
+Excellent Experiences
+Security
+Safeguard users against threats and ensure a secure Android experience.
+Overview
+Privacy
+Permissions
+Identity
+Fraud prevention
+Develop
+Gemini in Android Studio
+Your AI development companion for Android development.
+Learn more
+Get Android Studio
+Core areas
+Get the samples and docs for the features you need.
+Samples
+Multidevice support
+User interfaces
+Background work
+Data and files
+Connectivity
+All core areas ⤵️
+Tools and workflow
+Use the IDE to write and build your app, or create your own pipeline.
+Write and debug code
+Build projects
+Test your app
+Performance
+Command-line tools
+Gradle plugin API
+Android Bench
+Device tech
+Write code for form factors. Connect devices and share data.
+Phones, tablets, foldables
+ChromeOS
+Android for Cars
+Android TV
+Android XR
+Wear OS
+Android Health
+Better Together
+All devices ⤵️
+Libraries
+Browse API reference documentation with all the details.
+Android platform
+Jetpack libraries
+Compose libraries
+Google Play services ↗️
+Google Play SDK index ↗️
+Google Play
+Play Console
+Publish your app or game and grow your business on Google Play.
+Go to Play Console
+Learn more ↗️
+Fundamentals
+Learn how to engage users, monitize, and secure your app.
+Play Monetization
+Play Integrity
+Play Policies
+Play Programs ↗️
+Games Dev Center
+Develop and deliver games. Get tools, downloads, and samples.
+Overview
+Play Asset Delivery
+Play Games Services
+Play Games on PC
+Level Up guidelines
+All Play guides ⤵️
+Libraries
+Browse API reference documentation with all the details.
+Play Feature Delivery
+Play In-app Updates
+Play In-app Reviews
+Play Install Referrer
+Google Play services ↗️
+Google Play SDK index ↗️
+All Play libraries ⤵️
+Tools & resources
+Tools for publishing, promoting, and managing your app.
+Android App Bundles
+Brand & marketing
+Play Console APIs ↗️
+Blog
+the Android Developer's Blog
+Read the latest
+Explore the authors →
+Explore categories
+Product News
+Stay in the loop with the latest updates, feature releases, and behind-the-scenes looks at how we’re evolving.
+Community
+Discover stories from our users, spotlight features, and the collaborative projects that bring us all together.
+How-tos
+From quick tips to deep-dive tutorials, these step-by-step guides are designed to help you work smarter and faster.
+Case Studies
+Real-world results from real-world users. Explore how different teams use our tools to achieve their goals.
+Events & Programs
+Get the details on upcoming webinars, workshops, meetups, and special initiatives designed to help you grow.
+Documentation
+Access detailed manuals, API references, and technical specifications to help you build and integrate with confidence.
+/
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어
+Android Studio
+Sign in
+Develop
+Core areas
+Connectivity
+Overview
+Guides
+Essentials
+More
+Design & Plan
+More
+Develop
+More
+Overview
+Guides
+Google Play
+More
+Blog
+More
+Android Studio
+All core areas
+Connectivity guides
+Add support for protocols
+Network
+Perform network operations
+About performing network operations
+Connect to the network
+Manage network usage
+Read network state
+Optimize network access
+Optimize network data usage
+Monitor connectivity status and connection metering
+Parse XML data
+Wi-Fi
+Set up Wi-Fi scanning
+Add Wi-Fi Direct (P2P)
+Implement Wi-Fi Aware
+Set up Wi-Fi location with the RTT API
+Use a local-only hotspot
+Request permission to access devices
+Discover and connect
+About network service discovery (NSD)
+Use NSD
+Create P2P connections with Wi-Fi Direct
+Use Wi-Fi Direct for service discovery
+About Wi-Fi Easy Connect
+Wi-Fi infrastructure
+About Wi-Fi infrastructure
+Suggest Wi-Fi access points
+Prompt for changing to a Wi-Fi P2P access point
+About Passpoint
+Save networks and Passpoint configurations
+Cellular
+Enhance your apps with 5G
+Overview
+Use network slicing
+Best Practices for 5G App Developers from GSMA
+Add a VPN service
+Constrained satellite networks
+Bluetooth
+Overview of Android support for Bluetooth
+Bluetooth Classic
+Set up Bluetooth
+Find Bluetooth devices
+Connect Bluetooth devices
+Transfer Bluetooth data
+Work with Bluetooth profiles
+Set up companion device pairing
+Set up Bluetooth permissions
+Bluetooth Low Energy (BLE)
+About BLE support
+Find BLE devices
+Connect to a GATT server
+Transfer BLE data
+Communicate in the background
+BLE Audio
+About BLE Audio support
+Use Audio Manager self-managed calls
+Manage calls using the Telecom API
+Set up audio recording
+Near Field Communication (NFC)
+About NFC support
+NFC basics
+Advanced NFC
+About host-based card emulation
+Ranging
+USB
+USB host and accessory overview
+Learn about USB accessories
+Connect to USB hosts
+Telecom
+About telecom
+Dialer Application
+Building a default phone application
+Prevent caller ID spoofing
+Detect eSIMs and SIM cards
+Redirect a call
+Screen calls
+Build a calling application
+Overview
+Telecom
+Call notifications
+API updates
+Unified call history
+Ultra-wideband (UWB) communication
+Optimize your app for connectivity
+Reduce network battery drainage
+About preserving battery
+Avoid unoptimized downloads
+Minimize the effect of regular updates
+Troubleshoot network issues
+Use Cronet to reduce latency and increase network throughput
+About Cronet capabilities
+Send a simple request
+About the Cronet request lifecycle
+Use Cronet with other libraries
+Build AI experiences
+Get started
+Get started
+Hello, world!
+Developer Verification
+Adaptive apps
+Compose for UI
+AI-powered IDE
+Training
+Monetization with Play ↗️
+Optimize by form factor
+Phones, tablets, foldables
+Android for Cars
+Android TV
+Android XR
+Googlebook
+ChromeOS
+Wear OS
+Build by category
+Games
+Camera & media
+Social & messaging
+Health & fitness
+Productivity
+Enterprise apps
+Get the latest
+Latest updates
+Experimental updates
+Android Studio preview
+Jetpack & Compose libraries
+Wear OS releases
+Privacy Sandbox ↗️
+Excellent Experiences
+Learn more
+UI Design
+Design for Android
+Mobile
+Desktop experiences
+XR Headsets & XR Glasses
+AI Glasses
+Widgets
+Wear OS
+Android TV
+Android for Cars
+Architecture
+Introduction
+Libraries
+Navigation
+Modularization
+Testing
+Kotlin Multiplatform
+Quality
+Overview
+Core value
+User experience
+Accessibility
+Technical quality
+Excellent Experiences
+Security
+Overview
+Privacy
+Permissions
+Identity
+Fraud prevention
+Gemini in Android Studio
+Learn more
+Get Android Studio
+Core areas
+Samples
+Multidevice support
+User interfaces
+Background work
+Data and files
+Connectivity
+All core areas ⤵️
+Tools and workflow
+Write and debug code
+Build projects
+Test your app
+Performance
+Command-line tools
+Gradle plugin API
+Android Bench
+Device tech
+Phones, tablets, foldables
+ChromeOS
+Android for Cars
+Android TV
+Android XR
+Wear OS
+Android Health
+Better Together
+All devices ⤵️
+Libraries
+Android platform
+Jetpack libraries
+Compose libraries
+Google Play services ↗️
+Google Play SDK index ↗️
+Play Console
+Go to Play Console
+Learn more ↗️
+Fundamentals
+Play Monetization
+Play Integrity
+Play Policies
+Play Programs ↗️
+Games Dev Center
+Overview
+Play Asset Delivery
+Play Games Services
+Play Games on PC
+Level Up guidelines
+All Play guides ⤵️
+Libraries
+Play Feature Delivery
+Play In-app Updates
+Play In-app Reviews
+Play Install Referrer
+Google Play services ↗️
+Google Play SDK index ↗️
+All Play libraries ⤵️
+Tools & resources
+Android App Bundles
+Brand & marketing
+Play Console APIs ↗️
+the Android Developer's Blog
+Read the latest
+Explore the authors →
+Explore categories
+Product News
+Community
+How-tos
+Case Studies
+Events & Programs
+Documentation
+Android Developers
+Develop
+Core areas
+Connectivity
+Guides
+Wi-Fi Direct (peer-to-peer or P2P) overview
+Stay organized with collections
+Save and categorize content based on your preferences.
+Wi-Fi Direct
+(P2P) allows devices with the appropriate hardware to connect directly to each
+other via Wi-Fi without an intermediate access point. Using these APIs, you can
+discover and connect to other devices when each device supports Wi-Fi P2P, then
+communicate over a speedy connection across distances much longer than a
+Bluetooth connection. This is useful for applications that share data among
+users, such as a multiplayer game or a photo-sharing application.
+The Wi-Fi P2P APIs consist of the following main parts:
+Methods that allow you to discover, request, and connect to peers, which are
+defined in the
+WifiP2pManager
+class.
+Listeners that allow you to be notified of the success or failure of
+WifiP2pManager
+method calls. When calling
+WifiP2pManager
+methods, each
+method can receive a specific listener passed in as a parameter.
+Intents that notify you of specific events detected by the Wi-Fi P2P
+framework, such as a dropped connection or a newly discovered peer.
+You will often use these three main components of the APIs together. For
+example, you can provide a
+WifiP2pManager.ActionListener
+to a call to
+discoverPeers()
+so that
+ActionListener.onSuccess()
+and
+ActionListener.onFailure()
+methods can notify you. A
+WIFI_P2P_PEERS_CHANGED_ACTION
+intent is also broadcast if the
+discoverPeers()
+method discovers that the
+peers list has changed.
+API overview
+The
+WifiP2pManager
+class provides methods to enable you to interact with the
+Wi-Fi hardware on your device to do things like discover and connect to peers.
+The following actions are available:
+Table 1.
+Wi-Fi P2P Methods
+Method
+Description
+initialize()
+Registers the application with the Wi-Fi framework. Call this before
+      calling any other Wi-Fi P2P method.
+connect()
+Starts a peer-to-peer connection with a device with the specified configuration.
+cancelConnect()
+Cancels any ongoing peer-to-peer group negotiation.
+requestConnectInfo()
+Requests a device's connection information.
+createGroup()
+Creates a peer-to-peer group with the current device as the group owner.
+removeGroup()
+Removes the current peer-to-peer group.
+requestGroupInfo()
+Requests peer-to-peer group information.
+discoverPeers()
+Initiates peer discovery.
+requestPeers()
+Requests the current list of discovered peers.
+WifiP2pManager
+methods let
+you pass in a listener, so that the Wi-Fi P2P framework can notify your activity
+of the status of a call. The available listener interfaces and the corresponding
+WifiP2pManager
+method calls
+that use the listeners are described in table 2.
+Table 2.
+Wi-Fi P2P Listeners
+Listener interface
+Associated actions
+WifiP2pManager.ActionListener
+connect()
+,
+cancelConnect()
+,
+createGroup()
+,
+removeGroup()
+, and
+discoverPeers()
+WifiP2pManager.ChannelListener
+initialize()
+WifiP2pManager.ConnectionInfoListener
+requestConnectInfo()
+WifiP2pManager.GroupInfoListener
+requestGroupInfo()
+WifiP2pManager.PeerListListener
+requestPeers()
+The Wi-Fi P2P APIs define intents that are broadcast when certain Wi-Fi P2P
+events happen, such as when a new peer is discovered or when a device's Wi-Fi
+state changes. You can register to receive these intents in your application by
+creating a broadcast receiver
+that handles these intents:
+Table 3.
+Wi-Fi P2P Intents
+Intent
+Description
+WIFI_P2P_CONNECTION_CHANGED_ACTION
+Broadcast when the state of the device's Wi-Fi connection changes.
+WIFI_P2P_PEERS_CHANGED_ACTION
+Broadcast when you call
+discoverPeers()
+. You will usually
+      call
+requestPeers()
+to get an updated list of peers if you
+      handle this intent in your application.
+WIFI_P2P_STATE_CHANGED_ACTION
+Broadcast when Wi-Fi P2P is enabled or disabled on the device.
+WIFI_P2P_THIS_DEVICE_CHANGED_ACTION
+Broadcast when a device's details have changed, such as the device's name.
+Create a broadcast receiver for Wi-Fi P2P intents
+A broadcast receiver allows you to receive intents broadcast by the Android
+system, so that your application can respond to events that you are interested
+in. The basic steps for creating a broadcast receiver to handle Wi-Fi P2P
+intents are as follows:
+Create a class that extends the
+BroadcastReceiver
+class.
+For the class' constructor, you will use parameters for the
+WifiP2pManager
+,
+WifiP2pManager.Channel
+, and the activity that this broadcast receiver will
+be registered in. This allows the broadcast receiver to send updates to the
+activity as well as have access to the Wi-Fi hardware and a communication
+channel if needed.
+In the broadcast receiver, check for the intents that you are interested in
+in the
+onReceive()
+method. Perform any necessary actions depending on the intent that is
+received. For example, if the broadcast receiver receives a
+WIFI_P2P_PEERS_CHANGED_ACTION
+intent, you can call the
+requestPeers()
+method to get a list of the currently discovered peers.
+The following code shows you how to create a typical broadcast receiver. The
+broadcast receiver takes a
+WifiP2pManager
+object and an activity as arguments
+and uses these two classes to appropriately carry out the needed actions when
+the broadcast receiver receives an intent:
+Kotlin
+/**
+* A BroadcastReceiver that notifies of important Wi-Fi p2p events.
+*/
+class
+WiFiDirectBroadcastReceiver
+(
+private
+val
+manager
+:
+WifiP2pManager
+,
+private
+val
+channel
+:
+WifiP2pManager
+.
+Channel
+,
+private
+val
+activity
+:
+MyWifiActivity
+)
+:
+BroadcastReceiver
+()
+{
+override
+fun
+onReceive
+(
+context
+:
+Context
+,
+intent
+:
+Intent
+)
+{
+val
+action
+:
+String
+=
+intent
+.
+action
+when
+(
+action
+)
+{
+WifiP2pManager
+.
+WIFI_P2P_STATE_CHANGED_ACTION
+-
+>
+{
+// Check to see if Wi-Fi is enabled and notify appropriate activity
+}
+WifiP2pManager
+.
+WIFI_P2P_PEERS_CHANGED_ACTION
+-
+>
+{
+// Call WifiP2pManager.requestPeers() to get a list of current peers
+}
+WifiP2pManager
+.
+WIFI_P2P_CONNECTION_CHANGED_ACTION
+-
+>
+{
+// Respond to new connection or disconnections
+}
+WifiP2pManager
+.
+WIFI_P2P_THIS_DEVICE_CHANGED_ACTION
+-
+>
+{
+// Respond to this device's wifi state changing
+}
+}
+}
+}
+Java
+/**
+* A BroadcastReceiver that notifies of important Wi-Fi p2p events.
+*/
+public
+class
+WiFiDirectBroadcastReceiver
+extends
+BroadcastReceiver
+{
+private
+WifiP2pManager
+manager
+;
+private
+Channel
+channel
+;
+private
+MyWiFiActivity
+activity
+;
+public
+WiFiDirectBroadcastReceiver
+(
+WifiP2pManager
+manager
+,
+Channel
+channel
+,
+MyWifiActivity
+activity
+)
+{
+super
+();
+this
+.
+manager
+=
+manager
+;
+this
+.
+channel
+=
+channel
+;
+this
+.
+activity
+=
+activity
+;
+}
+@Override
+public
+void
+onReceive
+(
+Context
+context
+,
+Intent
+intent
+)
+{
+String
+action
+=
+intent
+.
+getAction
+();
+if
+(
+WifiP2pManager
+.
+WIFI_P2P_STATE_CHANGED_ACTION
+.
+equals
+(
+action
+))
+{
+// Check to see if Wi-Fi is enabled and notify appropriate activity
+}
+else
+if
+(
+WifiP2pManager
+.
+WIFI_P2P_PEERS_CHANGED_ACTION
+.
+equals
+(
+action
+))
+{
+// Call WifiP2pManager.requestPeers() to get a list of current peers
+}
+else
+if
+(
+WifiP2pManager
+.
+WIFI_P2P_CONNECTION_CHANGED_ACTION
+.
+equals
+(
+action
+))
+{
+// Respond to new connection or disconnections
+}
+else
+if
+(
+WifiP2pManager
+.
+WIFI_P2P_THIS_DEVICE_CHANGED_ACTION
+.
+equals
+(
+action
+))
+{
+// Respond to this device's wifi state changing
+}
+}
+}
+On devices running Android 10 and higher, the following broadcast intents are
+non-sticky:
+WIFI_P2P_CONNECTION_CHANGED_ACTION
+Applications can use
+requestConnectionInfo()
+,
+requestNetworkInfo()
+,
+or
+requestGroupInfo()
+to retrieve the current connection information.
+WIFI_P2P_THIS_DEVICE_CHANGED_ACTION
+Applications can use
+requestDeviceInfo()
+to retrieve the current connection information.
+Create a Wi-Fi P2P application
+Creating a Wi-Fi P2P application involves creating and registering a broadcast
+receiver for your application, discovering peers, connecting to a peer, and
+transferring data to a peer. The following sections describe how to do this.
+Initial setup
+Before using the Wi-Fi P2P APIs, you must ensure that your application can
+access the hardware and that the device supports the Wi-Fi P2P protocol. If
+Wi-Fi P2P is supported, you can obtain an instance of
+WifiP2pManager
+, create
+and register your broadcast receiver, and begin using the Wi-Fi P2P APIs.
+Request permission to use the Wi-Fi hardware on the device and declare
+your application to have the correct minimum SDK version in the Android
+manifest:
+<uses-sdk
+android:minSdkVersion="14"
+/>
+<uses-permission
+android:name="android.permission.ACCESS_WIFI_STATE"
+/>
+<uses-permission
+android:name="android.permission.CHANGE_WIFI_STATE"
+/>
+<uses-permission
+android:name="android.permission.CHANGE_NETWORK_STATE"
+/>
+<uses-permission
+android:name="android.permission.INTERNET"
+/>
+<uses-permission
+android:name="android.permission.ACCESS_NETWORK_STATE"
+/>
+<!--
+If
+your
+app
+targets
+Android 13
+(API
+level 33)
+or
+higher,
+you
+must
+declare
+the
+NEARBY_WIFI_DEVICES
+permission.
+-->
+<uses-permission
+android:name="android.permission.NEARBY_WIFI_DEVICES"
+<!--
+If
+your
+app
+derives
+location
+information
+from
+Wi-Fi
+APIs,
+don't
+include
+the
+"usesPermissionFlags"
+attribute.
+-->
+android:usesPermissionFlags="neverForLocation"
+/>
+<uses-permission
+android:name="android.permission.ACCESS_FINE_LOCATION"
+<!--
+If
+any
+feature
+in
+your
+app
+relies
+on
+precise
+location
+information,
+don't
+include
+the
+"maxSdkVersion"
+attribute.
+-->
+android:maxSdkVersion="32"
+/>
+Note:
+On apps that target Android 13 (API level 33) and higher, both
+discoverPeers()
+and
+connect()
+require the
+android.permission.NEARBY_WIFI_DEVICES
+permission. On apps that target earlier versions of Android, these
+     methods require the
+ACCESS_FINE_LOCATION
+permission instead. Since
+     these permissions are
+dangerous
+     permissions
+, you must
+request them at runtime
+before you
+     can call
+discoverPeers()
+or
+connect()
+.
+Besides the preceding permissions, the following APIs also require Location
+Mode to be enabled:
+discoverPeers()
+discoverServices()
+requestPeers()
+Check to see if Wi-Fi P2P is on and supported. A good place to check this is
+in your broadcast receiver when it receives the
+WIFI_P2P_STATE_CHANGED_ACTION
+intent. Notify your activity of the Wi-Fi P2P
+state and react accordingly:
+Kotlin
+override
+fun
+onReceive
+(
+context
+:
+Context
+,
+intent
+:
+Intent
+)
+{
+...
+val
+action
+:
+String
+=
+intent
+.
+action
+when
+(
+action
+)
+{
+WifiP2pManager
+.
+WIFI_P2P_STATE_CHANGED_ACTION
+-
+>
+{
+val
+state
+=
+intent
+.
+getIntExtra
+(
+WifiP2pManager
+.
+EXTRA_WIFI_STATE
+,
+-
+1
+)
+when
+(
+state
+)
+{
+WifiP2pManager
+.
+WIFI_P2P_STATE_ENABLED
+-
+>
+{
+// Wifi P2P is enabled
+}
+else
+-
+>
+{
+// Wi-Fi P2P is not enabled
+}
+}
+}
+}
+...
+}
+Java
+@Override
+public
+void
+onReceive
+(
+Context
+context
+,
+Intent
+intent
+)
+{
+...
+String
+action
+=
+intent
+.
+getAction
+();
+if
+(
+WifiP2pManager
+.
+WIFI_P2P_STATE_CHANGED_ACTION
+.
+equals
+(
+action
+))
+{
+int
+state
+=
+intent
+.
+getIntExtra
+(
+WifiP2pManager
+.
+EXTRA_WIFI_STATE
+,
+-
+1
+);
+if
+(
+state
+==
+WifiP2pManager
+.
+WIFI_P2P_STATE_ENABLED
+)
+{
+// Wifi P2P is enabled
+}
+else
+{
+// Wi-Fi P2P is not enabled
+}
+}
+...
+}
+In your activity's
+onCreate()
+method, obtain an instance of
+WifiP2pManager
+and register your application
+with the Wi-Fi P2P framework by calling
+initialize()
+. This method returns a
+WifiP2pManager.Channel
+, which is used to connect your application to the
+Wi-Fi P2P framework. You should also create an instance of your broadcast
+receiver with the
+WifiP2pManager
+and
+WifiP2pManager.Channel
+objects along
+with a reference to your activity. This enables your broadcast receiver to
+notify your activity of interesting events and update it accordingly. It also
+enables you to manipulate the device's Wi-Fi state if necessary:
+Kotlin
+val
+manager
+:
+WifiP2pManager?
+by
+lazy
+(
+LazyThreadSafetyMode
+.
+NONE
+)
+{
+getSystemService
+(
+Context
+.
+WIFI_P2P_SERVICE
+)
+as
+WifiP2pManager?
+}
+var
+channel
+:
+WifiP2pManager
+.
+Channel
+?
+=
+null
+var
+receiver
+:
+BroadcastReceiver?
+=
+null
+override
+fun
+onCreate
+(
+savedInstanceState
+:
+Bundle?)
+{
+...
+channel
+=
+manager
+?.
+initialize
+(
+this
+,
+mainLooper
+,
+null
+)
+channel
+?.
+also
+{
+channel
+-
+>
+receiver
+=
+WiFiDirectBroadcastReceiver
+(
+manager
+,
+channel
+,
+this
+)
+}
+}
+Java
+WifiP2pManager
+manager
+;
+Channel
+channel
+;
+BroadcastReceiver
+receiver
+;
+...
+@Override
+protected
+void
+onCreate
+(
+Bundle
+savedInstanceState
+){
+...
+manager
+=
+(
+WifiP2pManager
+)
+getSystemService
+(
+Context
+.
+WIFI_P2P_SERVICE
+);
+channel
+=
+manager
+.
+initialize
+(
+this
+,
+getMainLooper
+(),
+null
+);
+receiver
+=
+new
+WiFiDirectBroadcastReceiver
+(
+manager
+,
+channel
+,
+this
+);
+...
+}
+Create an intent filter and add the same intents that your broadcast receiver
+checks for:
+Kotlin
+val
+intentFilter
+=
+IntentFilter
+().
+apply
+{
+addAction
+(
+WifiP2pManager
+.
+WIFI_P2P_STATE_CHANGED_ACTION
+)
+addAction
+(
+WifiP2pManager
+.
+WIFI_P2P_PEERS_CHANGED_ACTION
+)
+addAction
+(
+WifiP2pManager
+.
+WIFI_P2P_CONNECTION_CHANGED_ACTION
+)
+addAction
+(
+WifiP2pManager
+.
+WIFI_P2P_THIS_DEVICE_CHANGED_ACTION
+)
+}
+Java
+IntentFilter
+intentFilter
+;
+...
+@Override
+protected
+void
+onCreate
+(
+Bundle
+savedInstanceState
+){
+...
+intentFilter
+=
+new
+IntentFilter
+();
+intentFilter
+.
+addAction
+(
+WifiP2pManager
+.
+WIFI_P2P_STATE_CHANGED_ACTION
+);
+intentFilter
+.
+addAction
+(
+WifiP2pManager
+.
+WIFI_P2P_PEERS_CHANGED_ACTION
+);
+intentFilter
+.
+addAction
+(
+WifiP2pManager
+.
+WIFI_P2P_CONNECTION_CHANGED_ACTION
+);
+intentFilter
+.
+addAction
+(
+WifiP2pManager
+.
+WIFI_P2P_THIS_DEVICE_CHANGED_ACTION
+);
+...
+}
+Register the broadcast receiver in the
+onResume()
+method of your
+activity and unregister it in the
+onPause()
+method of your
+activity:
+Kotlin
+/* register the broadcast receiver with the intent values to be matched */
+override
+fun
+onResume
+()
+{
+super
+.
+onResume
+()
+receiver
+?.
+also
+{
+receiver
+-
+>
+registerReceiver
+(
+receiver
+,
+intentFilter
+)
+}
+}
+/* unregister the broadcast receiver */
+override
+fun
+onPause
+()
+{
+super
+.
+onPause
+()
+receiver
+?.
+also
+{
+receiver
+-
+>
+unregisterReceiver
+(
+receiver
+)
+}
+}
+Java
+/* register the broadcast receiver with the intent values to be matched */
+@Override
+protected
+void
+onResume
+()
+{
+super
+.
+onResume
+();
+registerReceiver
+(
+receiver
+,
+intentFilter
+);
+}
+/* unregister the broadcast receiver */
+@Override
+protected
+void
+onPause
+()
+{
+super
+.
+onPause
+();
+unregisterReceiver
+(
+receiver
+);
+}
+When you have gotten a
+WifiP2pManager.Channel
+and set up a broadcast
+receiver, your application can make Wi-Fi P2P method calls and receive Wi-Fi
+P2P intents.
+Implement your application, using the Wi-Fi P2P features by calling the
+methods in
+WifiP2pManager
+.
+The next sections describe how to do common actions such as discovering and
+connecting to peers.
+Discover peers
+Call
+discoverPeers()
+to detect available peers that are in range and available
+for connection. The call to this function is asynchronous and a success or
+failure is communicated to your application with
+onSuccess()
+and
+onFailure()
+if you created a
+WifiP2pManager.ActionListener
+. The
+onSuccess()
+method only
+notifies you that the discovery process succeeded and does not provide any
+information about the actual peers that it discovered, if any. The following
+code sample shows how to set this up.
+Kotlin
+manager
+?.
+discoverPeers
+(
+channel
+,
+object
+:
+WifiP2pManager
+.
+ActionListener
+{
+override
+fun
+onSuccess
+()
+{
+...
+}
+override
+fun
+onFailure
+(
+reasonCode
+:
+Int
+)
+{
+...
+}
+})
+Java
+manager
+.
+discoverPeers
+(
+channel
+,
+new
+WifiP2pManager
+.
+ActionListener
+()
+{
+@Override
+public
+void
+onSuccess
+()
+{
+...
+}
+@Override
+public
+void
+onFailure
+(
+int
+reasonCode
+)
+{
+...
+}
+});
+If the discovery process succeeds and detects peers, the system broadcasts the
+WIFI_P2P_PEERS_CHANGED_ACTION
+intent, which you can listen for in a broadcast
+receiver to get a list of peers. When your application receives the
+WIFI_P2P_PEERS_CHANGED_ACTION
+intent, you can request a list of the discovered
+peers with
+requestPeers()
+. The following code shows how to set this up.
+Kotlin
+override
+fun
+onReceive
+(
+context
+:
+Context
+,
+intent
+:
+Intent
+)
+{
+val
+action
+:
+String
+=
+intent
+.
+action
+when
+(
+action
+)
+{
+...
+WifiP2pManager
+.
+WIFI_P2P_PEERS_CHANGED_ACTION
+-
+>
+{
+manager
+?.
+requestPeers
+(
+channel
+)
+{
+peers
+:
+WifiP2pDeviceList?
+-
+>
+// Handle peers list
+}
+}
+...
+}
+}
+Java
+PeerListListener
+myPeerListListener
+;
+...
+if
+(
+WifiP2pManager
+.
+WIFI_P2P_PEERS_CHANGED_ACTION
+.
+equals
+(
+action
+))
+{
+// request available peers from the wifi p2p manager. This is an
+// asynchronous call and the calling activity is notified with a
+// callback on PeerListListener.onPeersAvailable()
+if
+(
+manager
+!=
+null
+)
+{
+manager
+.
+requestPeers
+(
+channel
+,
+myPeerListListener
+);
+}
+}
+The
+requestPeers()
+method is also asynchronous and can notify your activity
+when a list of peers is available with
+onPeersAvailable()
+,
+which is defined in the
+WifiP2pManager.PeerListListener
+interface. The
+onPeersAvailable()
+method provides you with a
+WifiP2pDeviceList
+, which
+you can iterate through to find the peer to connect to.
+Connect to peers
+Once you have gotten a list of possible peers and selected a device to connect
+to, call the
+connect()
+method to connect to the device. This method call
+requires a
+WifiP2pConfig
+object that contains information about the device to connect to.
+WifiP2pManager.ActionListener
+can notify you of a connection success or
+failure. The following code shows you how to create a connection to a device.
+Kotlin
+val
+device
+:
+WifiP2pDevice
+=
+...
+val
+config
+=
+WifiP2pConfig
+()
+config
+.
+deviceAddress
+=
+device
+.
+deviceAddress
+channel
+?.
+also
+{
+channel
+-
+>
+manager
+?.
+connect
+(
+channel
+,
+config
+,
+object
+:
+WifiP2pManager
+.
+ActionListener
+{
+override
+fun
+onSuccess
+()
+{
+//success logic
+}
+override
+fun
+onFailure
+(
+reason
+:
+Int
+)
+{
+//failure logic
+}
+}
+)}
+Java
+//obtain a peer from the WifiP2pDeviceList
+WifiP2pDevice
+device
+;
+WifiP2pConfig
+config
+=
+new
+WifiP2pConfig
+();
+config
+.
+deviceAddress
+=
+device
+.
+deviceAddress
+;
+manager
+.
+connect
+(
+channel
+,
+config
+,
+new
+ActionListener
+()
+{
+@Override
+public
+void
+onSuccess
+()
+{
+//success logic
+}
+@Override
+public
+void
+onFailure
+(
+int
+reason
+)
+{
+//failure logic
+}
+});
+Transfer data
+Once a connection is established, you can transfer data between the devices with
+sockets. The basic steps of transferring data are as follows:
+Create a
+ServerSocket
+. This socket
+waits for a connection from a client on a specified port and blocks until it
+happens, so do this in a background thread.
+Create a client
+Socket
+. The client uses the
+IP address and port of the server socket to connect to the server device.
+Send data from the client to the server. When the client socket successfully
+connects to the server socket, you can send data from the client to the
+server with byte streams.
+The server socket waits for a client connection (with the
+accept()
+method). This call
+blocks until a client connects, so call this in another thread. When a
+connection happens, the server device can receive the data from the client.
+The following example, modified from the
+Wi-Fi P2P
+Demo
+,
+shows you how to create this client-server socket communication and transfer
+JPEG images from a client to a server with a service. For a complete working
+example, compile and run the demo.
+Kotlin
+class
+FileServerAsyncTask
+(
+private
+val
+context
+:
+Context
+,
+private
+var
+statusText
+:
+TextView
+)
+:
+AsyncTask<Void
+,
+Void
+,
+String?
+>
+()
+{
+override
+fun
+doInBackground
+(
+vararg
+params
+:
+Void
+):
+String?
+{
+/**
+* Create a server socket.
+*/
+val
+serverSocket
+=
+ServerSocket
+(
+8888
+)
+return
+serverSocket
+.
+use
+{
+/**
+* Wait for client connections. This call blocks until a
+* connection is accepted from a client.
+*/
+val
+client
+=
+serverSocket
+.
+accept
+()
+/**
+* If this code is reached, a client has connected and transferred data
+* Save the input stream from the client as a JPEG file
+*/
+val
+f
+=
+File
+(
+Environment
+.
+getExternalStorageDirectory
+().
+absolutePath
++
+"/
+${
+context
+.
+packageName
+}
+/wifip2pshared-
+${
+System
+.
+currentTimeMillis
+()
+}
+.jpg"
+)
+val
+dirs
+=
+File
+(
+f
+.
+parent
+)
+dirs
+.
+takeIf
+{
+it
+.
+doesNotExist
+()
+}
+?.
+apply
+{
+mkdirs
+()
+}
+f
+.
+createNewFile
+()
+val
+inputstream
+=
+client
+.
+getInputStream
+()
+copyFile
+(
+inputstream
+,
+FileOutputStream
+(
+f
+))
+serverSocket
+.
+close
+()
+f
+.
+absolutePath
+}
+}
+private
+fun
+File
+.
+doesNotExist
+():
+Boolean
+=
+!
+exists
+()
+/**
+* Start activity that can handle the JPEG image
+*/
+override
+fun
+onPostExecute
+(
+result
+:
+String?
+)
+{
+result
+?.
+run
+{
+statusText
+.
+text
+=
+"File copied -
+$
+result
+"
+val
+intent
+=
+Intent
+(
+android
+.
+content
+.
+Intent
+.
+ACTION_VIEW
+).
+apply
+{
+setDataAndType
+(
+Uri
+.
+parse
+(
+"file://
+$
+result
+"
+),
+"image/*"
+)
+}
+context
+.
+startActivity
+(
+intent
+)
+}
+}
+}
+Java
+public
+static
+class
+FileServerAsyncTask
+extends
+AsyncTask
+{
+private
+Context
+context
+;
+private
+TextView
+statusText
+;
+public
+FileServerAsyncTask
+(
+Context
+context
+,
+View
+statusText
+)
+{
+this
+.
+context
+=
+context
+;
+this
+.
+statusText
+=
+(
+TextView
+)
+statusText
+;
+}
+@Override
+protected
+String
+doInBackground
+(
+Void
+...
+params
+)
+{
+try
+{
+/**
+* Create a server socket and wait for client connections. This
+* call blocks until a connection is accepted from a client
+*/
+ServerSocket
+serverSocket
+=
+new
+ServerSocket
+(
+8888
+);
+Socket
+client
+=
+serverSocket
+.
+accept
+();
+/**
+* If this code is reached, a client has connected and transferred data
+* Save the input stream from the client as a JPEG file
+*/
+final
+File
+f
+=
+new
+File
+(
+Environment
+.
+getExternalStorageDirectory
+()
++
+"/"
++
+context
+.
+getPackageName
+()
++
+"/wifip2pshared-"
++
+System
+.
+currentTimeMillis
+()
++
+".jpg"
+);
+File
+dirs
+=
+new
+File
+(
+f
+.
+getParent
+());
+if
+(
+!
+dirs
+.
+exists
+())
+dirs
+.
+mkdirs
+();
+f
+.
+createNewFile
+();
+InputStream
+inputstream
+=
+client
+.
+getInputStream
+();
+copyFile
+(
+inputstream
+,
+new
+FileOutputStream
+(
+f
+));
+serverSocket
+.
+close
+();
+return
+f
+.
+getAbsolutePath
+();
+}
+catch
+(
+IOException
+e
+)
+{
+Log
+.
+e
+(
+WiFiDirectActivity
+.
+TAG
+,
+e
+.
+getMessage
+());
+return
+null
+;
+}
+}
+/**
+* Start activity that can handle the JPEG image
+*/
+@Override
+protected
+void
+onPostExecute
+(
+String
+result
+)
+{
+if
+(
+result
+!=
+null
+)
+{
+statusText
+.
+setText
+(
+"File copied - "
++
+result
+);
+Intent
+intent
+=
+new
+Intent
+();
+intent
+.
+setAction
+(
+android
+.
+content
+.
+Intent
+.
+ACTION_VIEW
+);
+intent
+.
+setDataAndType
+(
+Uri
+.
+parse
+(
+"file://"
++
+result
+),
+"image/*"
+);
+context
+.
+startActivity
+(
+intent
+);
+}
+}
+}
+On the client, connect to the server socket with a client socket and transfer
+data. This example transfers a JPEG file on the client device's file system.
+Kotlin
+val
+context
+=
+applicationContext
+val
+host
+:
+String
+val
+port
+:
+Int
+val
+len
+:
+Int
+val
+socket
+=
+Socket
+()
+val
+buf
+=
+ByteArray
+(
+1024
+)
+...
+try
+{
+/**
+* Create a client socket with the host,
+* port, and timeout information.
+*/
+socket
+.
+bind
+(
+null
+)
+socket
+.
+connect
+((
+InetSocketAddress
+(
+host
+,
+port
+)),
+500
+)
+/**
+* Create a byte stream from a JPEG file and pipe it to the output stream
+* of the socket. This data is retrieved by the server device.
+*/
+val
+outputStream
+=
+socket
+.
+getOutputStream
+()
+val
+cr
+=
+context
+.
+contentResolver
+val
+inputStream
+:
+InputStream
+=
+cr
+.
+openInputStream
+(
+Uri
+.
+parse
+(
+"path/to/picture.jpg"
+))
+while
+(
+inputStream
+.
+read
+(
+buf
+).
+also
+{
+len
+=
+it
+}
+!=
+-
+1
+)
+{
+outputStream
+.
+write
+(
+buf
+,
+0
+,
+len
+)
+}
+outputStream
+.
+close
+()
+inputStream
+.
+close
+()
+}
+catch
+(
+e
+:
+FileNotFoundException
+)
+{
+//catch logic
+}
+catch
+(
+e
+:
+IOException
+)
+{
+//catch logic
+}
+finally
+{
+/**
+* Clean up any open sockets when done
+* transferring or if an exception occurred.
+*/
+socket
+.
+takeIf
+{
+it
+.
+isConnected
+}
+?.
+apply
+{
+close
+()
+}
+}
+Java
+Context
+context
+=
+this
+.
+getApplicationContext
+();
+String
+host
+;
+int
+port
+;
+int
+len
+;
+Socket
+socket
+=
+new
+Socket
+();
+byte
+buf
+[]
+=
+new
+byte
+[
+1024
+]
+;
+...
+try
+{
+/**
+* Create a client socket with the host,
+* port, and timeout information.
+*/
+socket
+.
+bind
+(
+null
+);
+socket
+.
+connect
+((
+new
+InetSocketAddress
+(
+host
+,
+port
+)),
+500
+);
+/**
+* Create a byte stream from a JPEG file and pipe it to the output stream
+* of the socket. This data is retrieved by the server device.
+*/
+OutputStream
+outputStream
+=
+socket
+.
+getOutputStream
+();
+ContentResolver
+cr
+=
+context
+.
+getContentResolver
+();
+InputStream
+inputStream
+=
+null
+;
+inputStream
+=
+cr
+.
+openInputStream
+(
+Uri
+.
+parse
+(
+"path/to/picture.jpg"
+));
+while
+((
+len
+=
+inputStream
+.
+read
+(
+buf
+))
+!=
+-
+1
+)
+{
+outputStream
+.
+write
+(
+buf
+,
+0
+,
+len
+);
+}
+outputStream
+.
+close
+();
+inputStream
+.
+close
+();
+}
+catch
+(
+FileNotFoundException
+e
+)
+{
+//catch logic
+}
+catch
+(
+IOException
+e
+)
+{
+//catch logic
+}
+/**
+* Clean up any open sockets when done
+* transferring or if an exception occurred.
+*/
+finally
+{
+if
+(
+socket
+!=
+null
+)
+{
+if
+(
+socket
+.
+isConnected
+())
+{
+try
+{
+socket
+.
+close
+();
+}
+catch
+(
+IOException
+e
+)
+{
+//catch logic
+}
+}
+}
+}
+Content and code samples on this page are subject to the licenses described in the
+Content License
+. Java and OpenJDK are trademarks or registered trademarks of Oracle and/or its affiliates.
+Last updated 2026-09-11 UTC.
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2026-09-11 UTC."],[],[]]
+X
+Follow @AndroidDev on X
+YouTube
+Check out Android Developers on YouTube
+LinkedIn
+Connect with the Android Developers community on LinkedIn
+More Android
+Android
+Android for Enterprise
+Security
+Source
+News
+Blog
+Podcasts
+Discover
+Gaming
+Machine Learning
+Health & Fitness
+Camera & Media
+Privacy
+5G
+Android Devices
+Large screens
+Wear OS
+ChromeOS devices
+Android for cars
+Android TV
+Releases
+Android 17
+Android 16
+Android 15
+Android 14
+Android 13
+Android 12
+Android 11
+Documentation and Downloads
+Android Studio guide
+Developers guides
+API reference
+Download Studio
+Android NDK
+Support
+Report platform bug
+Report documentation bug
+Google Play support
+Join research studies
+Android
+Chrome
+Firebase
+Google Cloud Platform
+All products
+Privacy
+License
+Brand guidelines
+Manage cookies
+Get news and tips by email
+Subscribe
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어

@@ -1,0 +1,142 @@
+<Slide style={{ width: 1280, height: 720, padding: '34px 48px 78px 48px', background: '#FFFFFF', fontFamily: 'Calibri', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+
+    <Box style={{ position: 'absolute', left: 0, bottom: 0, width: 1280, height: 56, background: '#0070C0', flexDirection: 'row', alignItems: 'center', padding: '0 48px' }}>
+        <Box style={{ width: 210 }}>
+            <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#FFFFFF' }}>B.J.P (Bug Janta Party)</Text>
+        </Box>
+        <Box style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 13, color: '#FFFFFF' }}>@SIH Idea submission- Template</Text>
+        </Box>
+        <Box style={{ width: 210, alignItems: 'flex-end' }}>
+            <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF' }}>3 / 6</Text>
+        </Box>
+    </Box>
+
+    <Box style={{ flexDirection: 'row', alignItems: 'center', height: 74 }}>
+        <Box style={{ width: 150, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 56, borderRadius: 28, border: '1.5px solid #7030A0' }}>
+            <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#7030A0', textAlign: 'center', lineHeight: 1.2 }}>B.J.P{'\n'}Bug Janta{'\n'}Party</Text>
+        </Box>
+        <Box style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 44, fontWeight: 'bold', fontFamily: 'Times New Roman', color: '#1A1A1A', textAlign: 'center' }}>
+                TECHNICAL APPROACH
+            </Text>
+            <Text style={{ fontSize: 18, color: '#5F5E5A', marginTop: 4 }}>Local intelligence, text-only transport</Text>
+        </Box>
+        <Box style={{ width: 150, alignItems: 'flex-end' }}>
+            <Image src='assets/sih_logo.png' style={{ width: 140, height: 66 }} />
+        </Box>
+    </Box>
+
+    <Box style={{ flexDirection: 'row', gap: 26, flex: 1, marginTop: 16 }}>
+
+        <Box style={{ flex: 0.47, background: '#01467D', borderRadius: 8, padding: 20, flexDirection: 'column' }}>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF', lineHeight: 1.3 }}>
+                Technologies to be used
+            </Text>
+            <Text style={{ fontSize: 12, color: '#9FC0DC', marginTop: 3 }}>programming languages, frameworks, hardware</Text>
+
+            <Box style={{ height: 1, background: '#2E6FA8', marginTop: 12 }} />
+
+            <Box style={{ flexDirection: 'column', gap: 9, marginTop: 12 }}>
+                {[
+                    { k: 'Android app', v: 'Kotlin · minSdk 21 (Android 5.0) · targetSdk 33 · native AudioRecord / AudioTrack / BluetoothSocket / WifiP2pManager' },
+                    { k: 'ASR', v: 'Meta Omnilingual 300M CTC INT8 · 348.4 MB · Apache 2.0' },
+                    { k: 'TTS', v: 'Piper VITS · hi_IN pratham 60.6 MB + en_US lessac 60.3 MB · MIT' },
+                    { k: 'VAD', v: 'Silero · 0.6 MB · MIT · RTF 0.004 (≈240× faster than real time)' },
+                    { k: 'Runtime', v: 'sherpa-onnx v1.13.8 · Apache 2.0 · arm64-v8a' },
+                    { k: 'Transport', v: 'Bluetooth Classic RFCOMM (primary) · Wi-Fi Direct (fallback)' },
+                ].map((r, i) => (
+                    <Box key={i}>
+                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#FFFFFF' }}>{r.k}</Text>
+                        <Text style={{ fontSize: 12.5, color: '#CFE0F0', lineHeight: 1.35 }}>{r.v}</Text>
+                    </Box>
+                ))}
+            </Box>
+        </Box>
+
+        <Box style={{ flex: 1, flexDirection: 'column' }}>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#01467D' }}>
+                Methodology and process for implementation
+            </Text>
+
+            <Box style={{ marginTop: 10, padding: '10px 14px', background: '#F4F8FC', border: '1px solid #B4B2A9', borderRadius: 6 }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#01467D' }}>PHONE A — SPEAKER &nbsp;<span style={{ fontWeight: 'normal', color: '#5F5E5A' }}>loads VAD + ASR</span></Text>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8 }}>
+                    {[
+                        { t: 'Mic', d: '16 kHz mono' },
+                        { t: 'Silero VAD', d: 'finds the pause' },
+                        { t: 'Omnilingual ASR', d: 'speech → text' },
+                        { t: 'Language filter', d: 'enforces script' },
+                    ].map((s, i) => (
+                        <Box key={i} style={{ flexDirection: 'row', alignItems: 'center', flex: 1, gap: 6 }}>
+                            <Box style={{ flex: 1, height: 74, border: '1px solid #01467D', borderRadius: 5, background: '#FFFFFF', alignItems: 'center', justifyContent: 'center', padding: 6 }}>
+                                <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#01467D', textAlign: 'center' }}>{s.t}</Text>
+                                <Text style={{ fontSize: 12, color: '#5F5E5A', marginTop: 3, textAlign: 'center' }}>{s.d}</Text>
+                            </Box>
+                            {i < 3 ? (
+                                <svg width={16} height={16} viewBox='0 0 24 24'>
+                                    <path d='M5 12h14M13 6l6 6-6 6' fill='none' stroke='#0070C0' strokeWidth='2.5' />
+                                </svg>
+                            ) : null}
+                        </Box>
+                    ))}
+                </Box>
+            </Box>
+
+            <Box style={{ alignItems: 'center', marginTop: 6 }}>
+                <svg width={22} height={22} viewBox='0 0 24 24'>
+                    <path d='M12 4v16M6 14l6 6 6-6' fill='none' stroke='#0070C0' strokeWidth='2.5' />
+                </svg>
+            </Box>
+
+            <Box style={{ padding: '10px 14px', border: '1px dashed #0070C0', borderRadius: 6, background: '#FFFFFF', flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                <Box style={{ padding: '6px 12px', borderRadius: 4, background: '#0070C0' }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF' }}>LINK</Text>
+                </Box>
+                <Text style={{ fontSize: 13.5, color: '#1A1A1A', flex: 1 }}>
+                    Compact UTF-8 text only &nbsp;·&nbsp; JSON envelope with 4-byte length prefix &nbsp;·&nbsp; <span style={{ fontWeight: 'bold', color: '#E46C0A' }}>49–111 bytes</span> of text, 128–275 bytes framed
+                </Text>
+            </Box>
+
+            <Box style={{ alignItems: 'center', marginTop: 6 }}>
+                <svg width={22} height={22} viewBox='0 0 24 24'>
+                    <path d='M12 4v16M6 14l6 6 6-6' fill='none' stroke='#0070C0' strokeWidth='2.5' />
+                </svg>
+            </Box>
+
+            <Box style={{ padding: '10px 14px', background: '#F4F8FC', border: '1px solid #B4B2A9', borderRadius: 6 }}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#01467D' }}>PHONE B — LISTENER &nbsp;<span style={{ fontWeight: 'normal', color: '#5F5E5A' }}>loads VAD + TTS</span></Text>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8 }}>
+                    {[
+                        { t: 'Message', d: 'dedupe + expiry' },
+                        { t: 'Piper TTS', d: 'text → speech' },
+                        { t: 'Audio out', d: '22 050 Hz, ALERT loop' },
+                    ].map((s, i) => (
+                        <Box key={i} style={{ flexDirection: 'row', alignItems: 'center', flex: 1, gap: 6 }}>
+                            <Box style={{ flex: 1, height: 74, border: '1px solid #01467D', borderRadius: 5, background: '#FFFFFF', alignItems: 'center', justifyContent: 'center', padding: 6 }}>
+                                <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#01467D', textAlign: 'center' }}>{s.t}</Text>
+                                <Text style={{ fontSize: 12, color: '#5F5E5A', marginTop: 3, textAlign: 'center' }}>{s.d}</Text>
+                            </Box>
+                            {i < 2 ? (
+                                <svg width={16} height={16} viewBox='0 0 24 24'>
+                                    <path d='M5 12h14M13 6l6 6-6 6' fill='none' stroke='#0070C0' strokeWidth='2.5' />
+                                </svg>
+                            ) : null}
+                        </Box>
+                    ))}
+                    <Box style={{ width: 60 }} />
+                </Box>
+            </Box>
+
+            <Box style={{ flex: 1 }} />
+
+            <Box style={{ padding: '10px 14px', background: '#FFF6EC', borderLeft: '4px solid #E46C0A', borderRadius: 4 }}>
+                <Text style={{ fontSize: 13.5, color: '#1A1A1A', lineHeight: 1.4 }}>
+                    <span style={{ fontWeight: 'bold', color: '#01467D' }}>One heavy model per phone.</span> The speaker loads VAD + ASR; the listener loads VAD + TTS. A naive design loads both models on both phones and doubles the memory for no benefit. On Android the speaker measures <span style={{ fontWeight: 'bold' }}>428 MB PSS</span>; the listener needs roughly 100 MB.
+                </Text>
+            </Box>
+        </Box>
+
+    </Box>
+
+</Slide>

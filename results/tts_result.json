@@ -1,0 +1,74 @@
+[
+ {
+  "lang": "Hindi",
+  "model": "hi_IN-pratham-medium.onnx",
+  "model_bytes": 63516050,
+  "load_s": 0.644,
+  "gen_s": 0.125,
+  "audio_s": 2.86,
+  "rtf": 0.044,
+  "sr": 22050,
+  "peak_rss_mb": 273104.0,
+  "text": "नमस्ते, यह एक आपातकालीन संदेश है।"
+ },
+ {
+  "lang": "Hindi",
+  "model": "hi_IN-pratham-medium.onnx",
+  "model_bytes": 63516050,
+  "load_s": 0.644,
+  "gen_s": 0.082,
+  "audio_s": 2.543,
+  "rtf": 0.032,
+  "sr": 22050,
+  "peak_rss_mb": 277376.0,
+  "text": "तुम्हें तुरंत सुरक्षित स्थान पर जाना होगा।"
+ },
+ {
+  "lang": "Hindi",
+  "model": "hi_IN-pratham-medium.onnx",
+  "model_bytes": 63516050,
+  "load_s": 0.644,
+  "gen_s": 0.112,
+  "audio_s": 3.358,
+  "rtf": 0.033,
+  "sr": 22050,
+  "peak_rss_mb": 284640.0,
+  "text": "बाढ़ की चेतावनी जारी की गई है, ऊपरी मंजिल पर रहें।"
+ },
+ {
+  "lang": "English",
+  "model": "en_US-lessac-medium.onnx",
+  "model_bytes": 63201294,
+  "load_s": 0.525,
+  "gen_s": 0.116,
+  "audio_s": 3.437,
+  "rtf": 0.034,
+  "sr": 22050,
+  "peak_rss_mb": 364896.0,
+  "text": "Emergency alert. Move to a safe location immediately."
+ },
+ {
+  "lang": "English",
+  "model": "en_US-lessac-medium.onnx",
+  "model_bytes": 63201294,
+  "load_s": 0.525,
+  "gen_s": 0.086,
+  "audio_s": 2.143,
+  "rtf": 0.04,
+  "sr": 22050,
+  "peak_rss_mb": 365136.0,
+  "text": "Flood warning issued. Stay on the upper floor."
+ },
+ {
+  "lang": "English",
+  "model": "en_US-lessac-medium.onnx",
+  "model_bytes": 63201294,
+  "load_s": 0.525,
+  "gen_s": 0.09,
+  "audio_s": 2.844,
+  "rtf": 0.032,
+  "sr": 22050,
+  "peak_rss_mb": 366384.0,
+  "text": "This is a test of the emergency broadcast system."
+ }
+]

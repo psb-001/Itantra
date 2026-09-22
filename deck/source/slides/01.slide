@@ -1,0 +1,75 @@
+<Slide style={{ width: 1280, height: 720, padding: '40px 48px', background: '#FFFFFF', fontFamily: 'Calibri', display: 'flex', flexDirection: 'column' }}>
+
+    <Box style={{ flexDirection: 'row', alignItems: 'center', height: 62 }}>
+        <Box style={{ width: 150 }} />
+        <Box style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 46, fontWeight: 'bold', fontFamily: 'Times New Roman', color: '#01467D', letterSpacing: 1, textAlign: 'center' }}>
+                SMART INDIA HACKATHON <span style={{ color: '#E46C0A' }}>2026</span>
+            </Text>
+        </Box>
+        <Box style={{ width: 150, alignItems: 'flex-end' }}>
+            <Image src='assets/sih_logo.png' style={{ width: 140, height: 66 }} />
+        </Box>
+    </Box>
+
+    <Box style={{ height: 3, background: '#01467D', marginTop: 10 }} />
+
+    <Box style={{ flexDirection: 'row', alignItems: 'center', marginTop: 18, height: 26 }}>
+        <Text style={{ fontSize: 17, color: '#5F5E5A' }}>
+            Idea Submission &nbsp;·&nbsp; Organised by the Indian Space Research Organisation (ISRO)
+        </Text>
+        <Box style={{ flex: 1 }} />
+        <Text style={{ fontSize: 17, color: '#5F5E5A' }}>
+            Problem Statement <span style={{ fontWeight: 'bold', color: '#01467D' }}>SIH26173</span>
+        </Text>
+    </Box>
+
+    <Box style={{ flexDirection: 'row', gap: 36, marginTop: 26, height: 496, alignItems: 'stretch' }}>
+
+        <Box style={{ flex: 1.25, flexDirection: 'column', gap: 10 }}>
+            {[
+                { k: 'Problem Statement ID', v: 'SIH26173' },
+                { k: 'Problem Statement Title', v: 'iTantra — Indian Multilingual TTS & STT Aided Neural Transceiver Radio Access for low bitrate links' },
+                { k: 'Theme', v: 'Smart Automation' },
+                { k: 'PS Category', v: 'Software' },
+                { k: 'Team ID', v: '[PORTAL TEAM ID]' },
+                { k: 'Team Name', v: 'B.J.P (Bug Janta Party)' },
+            ].map((f, i) => (
+                <Box key={i} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 14, padding: '0 16px', background: '#F4F8FC', borderLeft: '3px solid #0070C0', borderRadius: 4 }}>
+                    <Text style={{ width: 200, fontSize: 16, fontWeight: 'bold', color: '#01467D', lineHeight: 1.3 }}>{f.k}</Text>
+                    <Text style={{ flex: 1, fontSize: 17, color: '#1A1A1A', lineHeight: 1.3 }}>{f.v}</Text>
+                </Box>
+            ))}
+        </Box>
+
+        <Box style={{ flex: 1, background: '#01467D', borderRadius: 10, padding: 30, flexDirection: 'column' }}>
+            <Text style={{ fontSize: 48, fontWeight: 'bold', fontFamily: 'Times New Roman', color: '#FFFFFF' }}>iTantra</Text>
+            <Text style={{ fontSize: 18, color: '#CFE0F0', marginTop: 6, lineHeight: 1.4 }}>
+                Speech in. Text across the link. Speech out.
+            </Text>
+
+            <Box style={{ height: 2, background: '#2E6FA8', marginTop: 20 }} />
+
+            <Text style={{ fontSize: 17, color: '#FFFFFF', marginTop: 20, lineHeight: 1.55 }}>
+                An offline Android app that recognises speech on the sending phone, transmits only compact text over Bluetooth or Wi-Fi Direct, and speaks it aloud on the receiving phone.
+            </Text>
+
+            <Box style={{ flex: 1 }} />
+
+            <Box style={{ flexDirection: 'row', gap: 10 }}>
+                <Box style={{ padding: '8px 16px', borderRadius: 16, background: '#E46C0A' }}>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#FFFFFF' }}>Fully offline</Text>
+                </Box>
+                <Box style={{ padding: '8px 16px', borderRadius: 16, border: '1px solid #5B93C4' }}>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#CFE0F0' }}>10 languages</Text>
+                </Box>
+            </Box>
+
+            <Text style={{ fontSize: 13, color: '#9FC0DC', marginTop: 14 }}>
+                No cloud speech API &nbsp;·&nbsp; On-device processing &nbsp;·&nbsp; Text-only communication
+            </Text>
+        </Box>
+
+    </Box>
+
+</Slide>

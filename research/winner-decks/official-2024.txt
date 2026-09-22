@@ -1,0 +1,3871 @@
+Smart India Hackathon
+MIC Alumni
+SIH Login
+Home
+(current)
+About SIH
+SIH Process Flow
+SIH Themes
+Implementation Team
+SIH Past Editions
+SIH 2017
+SIH 2018 Software
+SIH 2018 Hardware
+SIH 2019 Software
+SIH 2019 Hardware
+SIH 2020 Software
+SIH 2020 Hardware
+SIH 2022
+SIH 2023
+SIH 2024
+SIH 2025
+Guidelines
+For Institutes/Universities
+Idea PPT
+Problem Statements
+Know Your SPOC
+Project Implementation
+FAQs
+Contact us
+SIH Login
+menu
+About SIH
+SIH Process Flow
+SIH Themes
+Know your SPOC
+Past Editions
+SIH 2017
+SIH 2018 Software
+SIH 2018 Hardware
+SIH 2019 Software
+SIH 2019 Hardware
+SIH 2020 Software
+SIH 2020 Hardware
+SIH 2022
+SIH 2023
+SIH 2024
+Guidelines
+How to apply as Institute SPOC
+Guidelines for Institutes/Universities
+Idea Presentation template PPT
+Problem Statements
+Know your SPOC
+Project Implementation
+FAQs
+Contact us
+Login/Register
+The final result of SIH 2024 Grand Finale is live.
+Please note that there are no winners against the PS IDs - SIH1529, SIH1564, SIH1692, SIH1697, SIH1776
+NODAL CENTER
+PS ID
+MINISTRY/GOVT DEPT/ORGANISATION
+TEAM ID
+IDEA ID
+TEAM NAME
+TEAM LEADER NAME
+WINNING STATUS
+INSTITUTE ID
+INSTITUTE
+INSTITUTE CITY
+INSTITUTE STATE
+Amal Jyothi College of Engineering
+SIH1556
+Ministry of AYUSH
+10880
+17357
+SUPERNOVAZ
+Padmaprabha T
+Winner
+C-27058
+Mepco Schlenk Engineering College
+Virudhunagar
+Tamil Nadu
+Amal Jyothi College of Engineering
+SIH1578
+Ministry of Social Justice and Empowerment
+43261
+40605
+RisingPhoenix076
+KIRUTHIKA S
+Winner
+C-16547
+Sri Sairam Engineering College
+Kanchipuram
+Tamil Nadu
+Amal Jyothi College of Engineering
+SIH1579
+Ministry of Social Justice and Empowerment
+14295
+17911
+NIET Pulse Shifters
+Sinthanaiselvan G
+Winner
+C-37025
+Nehru Institute of Engineering and Technology
+Coimbatore
+Tamil Nadu
+Amal Jyothi College of Engineering
+SIH1580
+Ministry of Social Justice and Empowerment
+4508
+2861
+TECHIE TACOS
+HARSHA VARDHINI S V
+Winner
+1-3662200961
+SRM Institute of Science & Technology, Vadapalani
+Chennai
+Tamil Nadu
+Amal Jyothi College of Engineering
+SIH1581
+Ministry of Social Justice and Empowerment
+268
+12331
+Team Black
+Abishek M
+Winner
+C-36947
+SNS College of Technology
+Coimbatore
+Tamil Nadu
+Bhilai Institute of Technology, Durg Chhattisgarh
+SIH1532
+AICTE, MIC-Student Innovation
+9896
+2278
+Data_Enhancer
+Nalini Soni
+Joint Winner
+U-0757
+AMITY UNIVERSITY, RAIPUR
+Chhattisgarh
+Raipur
+Bhilai Institute of Technology, Durg Chhattisgarh
+SIH1532
+AICTE, MIC-Student Innovation
+36332
+24877
+DREAM_EPIC
+PRIYADHARSHINI S
+Joint Winner
+C-24983
+K.Ramakrishnan College of Engineering
+Tiruchirappalli
+Tamil Nadu
+Bhilai Institute of Technology, Durg Chhattisgarh
+SIH1531
+AICTE, MIC-Student Innovation
+11122
+3336
+DEBUGGING EARTH
+Harshit Borana
+Winner
+C-25144
+Geetanjali Institute of Technical Studies,Udaipur
+Udaipur
+Rajasthan
+Bhilai Institute of Technology, Durg Chhattisgarh
+SIH1533
+AICTE, MIC-Student Innovation
+39078
+33025
+RANDOM
+T ADHVIK VITHUN
+Winner
+U-0460
+Karunya Institute of Technology and Sciences, Coimbatore
+Coimbatore
+Tamil Nadu
+Bhilai Institute of Technology, Durg Chhattisgarh
+SIH1534
+AICTE, MIC-Student Innovation
+46398
+49472
+Evibe_2024
+Animesh Jain
+Winner
+U-0306
+Indian Institute of Technology, Mumbai
+Mumbai
+Maharashtra
+Bhilai Institute of Technology, Durg Chhattisgarh
+SIH1535
+AICTE, MIC-Student Innovation
+4934
+7721
+TEAM_AARAMBH
+Tanishq Sood
+Winner
+C-36022
+Lakshmi Narain College of Technology, Kalchuri Nagar, Raisen Road, Post Klua, Bhopal-462021
+Bhopal
+Madhya Pradesh
+Coimbatore Innovation and Business Incubator (Forge Incubation)
+SIH1549
+Department of Science and Technology
+5902
+19769
+EnviroX
+MUTHUSHREE R
+Joint Winner
+C-36984
+Bannari Amman Institute of Technology
+Erode
+Tamil Nadu
+Coimbatore Innovation and Business Incubator (Forge Incubation)
+SIH1549
+Department of Science and Technology
+8033
+2889
+MedTech Mavericks
+Sanjana Abhilash
+Joint Winner
+C-16576
+Chennai Institute of Technology
+Kanchipuram
+Tamil Nadu
+Coimbatore Innovation and Business Incubator (Forge Incubation)
+SIH1545
+Department of Science and Technology
+18024
+9394
+ShadowTrace
+PAKALAPATI CHANAKYA
+Winner
+C-19793
+Mahatma Gandhi Institute of Technology
+Hyderabad
+Telangana
+Coimbatore Innovation and Business Incubator (Forge Incubation)
+SIH1546
+Department of Science and Technology
+26209
+17584
+HYDRO MINDS
+UDHAYA MITHRAN S
+Winner
+U-0459
+Karpagam Academy of Higher Education, Coimbatore
+Coimbatore
+Tamil Nadu
+Coimbatore Innovation and Business Incubator (Forge Incubation)
+SIH1547
+Department of Science and Technology
+29194
+49972
+Hridayam
+Abhra Bhattacharyya
+Winner
+U-0701
+Indian Institute of Technology
+Varanasi
+Uttar Pradesh
+Coimbatore Innovation and Business Incubator (Forge Incubation)
+SIH1548
+Department of Science and Technology
+15147
+9847
+CORTEX1
+THENNIKARTHIK M
+Winner
+U-0459
+Karpagam Academy of Higher Education, Coimbatore
+Coimbatore
+Tamil Nadu
+Coimbatore Innovation and Business Incubator (Forge Incubation)
+SIH1550
+Department of Science and Technology
+22147
+29187
+Visionariess_
+Deram Akshat Kunal
+Winner
+U-0467
+National Institute of Technology, Tiruchirapalli
+Tiruchirappalli
+Tamil Nadu
+Galgotias University
+SIH1566
+The National Disaster Response Force (NDRF), MHA
+42250
+37456
+Shakti Group_CU1
+Harshit Gupta
+Joint Winner
+U-0373
+Chitkara University, Patiala
+Patiala
+Punjab
+Galgotias University
+SIH1566
+The National Disaster Response Force (NDRF), MHA
+7730
+32315
+CODE-O-PHILES
+Sajiv Jess B I
+Joint Winner
+C-16626
+Rajalakshmi Engineering College
+Kanchipuram
+Tamil Nadu
+Galgotias University
+SIH1569
+Ministry of Jal Shakti
+31264
+41200
+Team PathoGems
+Atabi Debnath
+Joint Winner
+U-0493
+National Institute of Technology, Agartala
+West Tripura
+Tripura
+Galgotias University
+SIH1569
+Ministry of Jal Shakti
+26082
+36231
+Astrix7007
+Srikanth V T
+Joint Winner
+C-16547
+Sri Sairam Engineering College
+Tamil Nadu
+Kanchipuram
+Galgotias University
+SIH1570
+Ministry of Jal Shakti
+7194
+30709
+TECHNOLUNA
+SIVASURIYA K
+Joint Winner
+C-37065
+Kongu Engineering College
+Erode
+Tamil Nadu
+Galgotias University
+SIH1570
+Ministry of Jal Shakti
+41505
+35375
+SciDivine
+Krishnendu Das
+Joint Winner
+U-0379
+Lovely Professional University
+Kapurthala
+Punjab
+Galgotias University
+SIH1571
+Ministry of Jal Shakti
+36389
+25700
+SwiftNavigator
+Rishov Chakraborty
+Joint Winner
+C-6139
+Netaji Subhash Engineering College 109
+24 Paraganas South
+West Bengal
+Galgotias University
+SIH1571
+Ministry of Jal Shakti
+27681
+48008
+Team : AGRIDRIVE
+Vidisha Das
+Joint Winner
+U-0857
+ADAMAS UNIVERSITY
+Kolkata
+West Bengal
+Galgotias University
+SIH1562
+Narcotics Control Bureau (NCB)
+17541
+42325
+If Clause
+Srivatsan Sk
+Winner
+C-16560
+Easwari Engineering College
+Thiruvallur
+Tamil Nadu
+Galgotias University
+SIH1567
+Ministry of Jal Shakti
+37661
+49820
+MicroManthan
+Pranjal Kulkarni
+Winner
+U-0891
+MIT Art, Design and Technology University, Pune
+Maharashtra
+Pune
+Galgotias University
+SIH1568
+Ministry of Jal Shakti
+37968
+40489
+United 3
+Shreetej Sachin Korde
+Winner
+C-42216
+JSPMs Jayawantrao Sawant College of Engineering, Handewadi Road, Hadapsar, Pune 28.
+Pune
+Maharashtra
+Gandhi Institute of Technology & Management , Visakhapatnam
+SIH1526
+AICTE, MIC-Student Innovation
+5808
+5385
+ELEC EMBED INNOVATORS
+NAVIN K B
+Joint Winner
+C-36984
+Bannari Amman Institute of Technology
+Erode
+Tamil Nadu
+Gandhi Institute of Technology & Management , Visakhapatnam
+SIH1526
+AICTE, MIC-Student Innovation
+3081
+3156
+SMART SPARK
+Nimith B
+Joint Winner
+C-1398
+B N M Institute of Technology, BANGALORE
+Bengaluru Urban
+Karnataka
+Gandhi Institute of Technology & Management , Visakhapatnam
+SIH1527
+AICTE, MIC-Student Innovation
+298
+139
+Mecha minds
+MD AMAAN
+Joint Winner
+C-16658
+Bhilai Institute of Technology Durg
+Chhattisgarh
+Durg
+Gandhi Institute of Technology & Management , Visakhapatnam
+SIH1527
+AICTE, MIC-Student Innovation
+37116
+23864
+Lahurians Rescuers
+Maha Gayathri.S
+Joint Winner
+C-37063
+Hindusthan College of Engineering and Technology
+Coimbatore
+Tamil Nadu
+Gandhi Institute of Technology & Management , Visakhapatnam
+SIH1530
+AICTE, MIC-Student Innovation
+2122
+1593
+WINDTECH
+Vasanth M
+Joint Winner
+C-16611
+KCG College of Technology
+CHENGALPATTU
+Tamil Nadu
+Gandhi Institute of Technology & Management , Visakhapatnam
+SIH1530
+AICTE, MIC-Student Innovation
+21093
+12913
+AUTOROVE
+DHANISH HASAN KHAN A
+Joint Winner
+C-26785
+K.L.N. College of Engineering Pottapalayam, Sivagangai Dist
+Sivaganga
+Tamil Nadu
+Gandhi Institute of Technology & Management , Visakhapatnam
+SIH1528
+AICTE, MIC-Student Innovation
+34307
+33489
+Pill Bot Engineers
+Suhail Khan
+Winner
+C-1374
+G M Institute of Technology, DAVANGERE
+Davangere
+Karnataka
+IES Institute of Technology & Management, Bhopal
+SIH1560
+Ministry of Fisheries, Animal Husbandry and Dairying
+25494
+11692
+ALPHA9
+K YASHWANTH
+Joint Winner
+C-17932
+POTTI SRIRAMULU CHALAVADI MALLIKARJUNA RAO COLLEGE OF ENGINEERING AND TECHNOLOGY, D.No.7-3-61, Raghava Reddy Street, Kotha Peta, Vijayawada, PIN- 520 001.CC-KT
+Krishna
+Andhra Pradesh
+IES Institute of Technology & Management, Bhopal
+SIH1560
+Ministry of Fisheries, Animal Husbandry and Dairying
+24986
+15019
+LactoSecure
+Kanishk Munot
+Joint Winner
+U-0147
+PANDIT DEENDAYAL ENERGY UNIVERSITY, GANDHI NAGAR
+Gandhinagar
+Gujarat
+IES Institute of Technology & Management, Bhopal
+SIH1554
+Ministry of Agriculture and Farmers Welfare
+411
+4652
+Krishak
+Prapti Sanghi
+Winner
+C-16658
+Bhilai Institute of Technology Durg
+Chhattisgarh
+Durg
+IES Institute of Technology & Management, Bhopal
+SIH1561
+Ministry of Fisheries, Animal Husbandry and Dairying
+19630
+24150
+ECO-SALVATORS
+Keerthana S V
+Winner
+C-25006
+Saranathan College of Engineering
+Tiruchirappalli
+Tamil Nadu
+Indian Institute of Technology, Roorkee
+SIH1524
+Godrej Appliances
+36557
+25132
+MECHSPACE
+GOKUL S
+Joint Winner
+C-37058
+Knowledge Institute of Technology
+Salem
+Tamil Nadu
+Indian Institute of Technology, Roorkee
+SIH1524
+Godrej Appliances
+20483
+26721
+Pure Rince
+Nishit Modi
+Joint Winner
+U-0135
+Gujarat Technological University, Ahmedabad
+Ahmadabad
+Gujarat
+Indian Institute of Technology, Roorkee
+SIH1611
+Government of Himachal Pardesh
+32751
+18212
+PYYONEERS
+Oceania Kshetrimayum
+Joint Winner
+C-41256
+K.K.Wagh Education Society's K.K.Wagh Institute of Engineering Education & Research, Hirabai Haribai Vidyanagari, Panchavati, Nashik 422003
+Nashik
+Maharashtra
+Indian Institute of Technology, Roorkee
+SIH1611
+Government of Himachal Pardesh
+18439
+39207
+AGventures
+Karthick Ganesh M
+Joint Winner
+C-26783
+P.S.N.A. College of Engineering and Technology, Dindigul
+Dindigul
+Tamil Nadu
+Indian Institute of Technology, Roorkee
+SIH1563
+National Technical Research Organisation (NTRO)
+44233
+34930
+HexaSAR_2024
+Abhinav Verma
+Winner
+U-0306
+Indian Institute of Technology, Mumbai
+Mumbai
+Maharashtra
+Indian Institute of Technology, Roorkee
+SIH1565
+National Technical Research Organisation (NTRO)
+882
+6270
+Alt_24
+Gargeya Parab
+Winner
+C-33777
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West Mumbai 400 056
+Mumbai Suburban
+Maharashtra
+KIET Group of Institutions
+SIH1573
+Ministry of Power
+29276
+47797
+Mechvengers
+Prasad Uttam Pawar
+Joint Winner
+C-34671
+Deogiri Institute of Engineering and Management Studies, Aurangabad
+Aurangabad
+Maharashtra
+KIET Group of Institutions
+SIH1573
+Ministry of Power
+29657
+21924
+CATALYST CREWMATE
+AFROSE BEGAM A
+Joint Winner
+C-16570
+Agni College of Technology
+CHENGALPATTU
+Tamil Nadu
+KIET Group of Institutions
+SIH1574
+Ministry of Power
+12127
+38716
+GREEN PIONEERS
+SANJAY MANI C
+Joint Winner
+C-16620
+Panimalar Engineering College
+Thiruvallur
+Tamil Nadu
+KIET Group of Institutions
+SIH1574
+Ministry of Power
+4537
+51308
+VIGYANAM
+Shivam Jha
+Joint Winner
+C-35417
+Bharati Vidyapeeth Deemed to be University) College of Engineering, Pune
+Pune
+Maharashtra
+KIET Group of Institutions
+SIH1575
+Ministry of Power
+7189
+42401
+GREEN GUARDIANS
+SAISANJAY MK
+Joint Winner
+C-37065
+Kongu Engineering College
+Erode
+Tamil Nadu
+KIET Group of Institutions
+SIH1575
+Ministry of Power
+37731
+25861
+Eco Pave
+Sahil Amol Suryavanshi
+Joint Winner
+U-0891
+MIT Art, Design and Technology University, Pune
+Pune
+Maharashtra
+KIET Group of Institutions
+SIH1576
+Ministry of Power
+30525
+28441
+Ecovertex
+Padma Priya R S
+Joint Winner
+C-37063
+Hindusthan College of Engineering and Technology
+Coimbatore
+Tamil Nadu
+KIET Group of Institutions
+SIH1576
+Ministry of Power
+20112
+21359
+Garudam
+Rakshith Vs
+Joint Winner
+U-0906
+Indian Institute of Technology Jammu
+Jammu
+Jammu and Kashmir
+KIET Group of Institutions
+SIH1576
+Ministry of Power
+12375
+27794
+SPHINXTRON
+KEERTHI RAMANAA K M
+Joint Winner
+C-16620
+Panimalar Engineering College
+Thiruvallur
+Tamil Nadu
+KIET Group of Institutions
+SIH1572
+Ministry of Power
+27168
+47895
+Vikrama
+Sakshi Tejram Thakre
+Winner
+C-7592
+S.G.G.S. Inst. of Engineering & Technology, Vishnupuri, Nanded
+Nanded
+Maharashtra
+KIET Group of Institutions
+SIH1577
+Ministry of Power
+49886
+57224
+Maverick-915
+Aditya Chakraborty
+Winner
+C-33641
+Veermata Jijabai Technological Institute Matunga Mumbai 400 019
+Mumbai
+Maharashtra
+KLE Technological University
+SIH1536
+AICTE, MIC-Student Innovation
+27174
+46033
+AgroPals
+Dhrumil Parikh
+Joint Winner
+U-0497
+Amity University, Uttar Pradesh
+Gautam Buddha Nagar
+Uttar Pradesh
+KLE Technological University
+SIH1536
+AICTE, MIC-Student Innovation
+20203
+10775
+Blackwell
+Umarjikar.Ishan.Jaideep
+Joint Winner
+C-15788
+WALCHAND INSTITUTE OF TECHNOLOGY, SOLAPUR
+Solapur
+Maharashtra
+KLE Technological University
+SIH1537
+AICTE, MIC-Student Innovation
+25061
+25851
+MahaDevs
+Yash Petkar
+Winner
+C-10996
+Kolhapur Institute of Technology's College of Engineering Autonomous),  GOKUL-SHIRGAON
+Maharashtra
+Kolhapur
+KLE Technological University
+SIH1538
+AICTE, MIC-Student Innovation
+26703
+29969
+Globe Preventers 24
+Nitheswaran K
+Winner
+C-16476
+Sri Sai Ram Institute of Technology
+Kanchipuram
+Tamil Nadu
+KLE Technological University
+SIH1539
+AICTE, MIC-Student Innovation
+28720
+48683
+Marsh Mavericks
+M RAKESH
+Winner
+C-17889
+Lakireddy Bali Reddy College of Engineering, L.B. Reddy Nagar, Mylavaram, PIN-521230CC-76)
+Krishna
+Andhra Pradesh
+KLE Technological University
+SIH1540
+AICTE, MIC-Student Innovation
+12969
+22497
+NextGen Xperts
+MD TARIKUL HOQUE JAMADER
+Winner
+U-0846
+BRAINWARE UNIVERSITY
+Kolkata
+West Bengal
+Manipal University, Jaipur
+SIH1558
+Ministry of Culture
+12410
+47550
+Team Traceroute_24
+Leena K
+Winner
+C-16572
+Sri Venkateswara College of Engineering
+Kanchipuram
+Tamil Nadu
+Manipal University, Jaipur
+SIH1559
+Ministry of Electronics and Information Technology
+15406
+56068
+Hexadecimals
+Muhammad Sheikh
+Winner
+C-33641
+Veermata Jijabai Technological Institute Matunga Mumbai 400 019
+Mumbai
+Maharashtra
+Manipal University, Jaipur
+SIH1755
+Ministry of Communication
+40247
+54704
+Team TDS
+Shivam Dwivedi
+Winner
+U-0105
+Indraprastha Institute of Information Technology, Delhi
+South
+Delhi
+Manipal University, Jaipur
+SIH1778
+Ministry of Skill Development and Entrepreneurship (MSDE)
+17808
+44275
+Mitigators
+Ramkumar S
+Winner
+C-36995
+Sri Krishna College of Engineering and Technology
+Coimbatore
+Tamil Nadu
+Manipal University, Jaipur
+SIH1780
+Ministry of Skill Development and Entrepreneurship (MSDE)
+7059
+7249
+Electrovision
+Abhishek Sharma
+Winner
+U-0513
+G.L.A University, Mathura
+Mathura
+Uttar Pradesh
+MIT Art, Design and Technology University
+SIH1582
+Ministry of Housing and Urban Affairs
+621
+5317
+THE OLYAMPIANS
+Aesha Suthar
+Joint Winner
+C-25123
+Swami Keshvanand Institute of Technology, Management & Gramothan
+Jaipur
+Rajasthan
+MIT Art, Design and Technology University
+SIH1582
+Ministry of Housing and Urban Affairs
+12676
+6875
+Paradox Innovator
+Ranjan Kumar Gupta
+Joint Winner
+C-6202
+Heritage Institute of Technology 126
+24 Paraganas North
+West Bengal
+MIT Art, Design and Technology University
+SIH1584
+Ministry of Housing and Urban Affairs
+9917
+38579
+Rail Maniacs
+Tantresh Nandan
+Joint Winner
+U-0573
+Indian Institute of Technology, Kharagpur
+Medinipur West
+West Bengal
+MIT Art, Design and Technology University
+SIH1584
+Ministry of Housing and Urban Affairs
+13004
+33498
+NIDAAN 7.0
+Shubham Prakash
+Joint Winner
+C-43247
+Muzaffarpur Institute of Technology
+Muzaffarpur
+Bihar
+MIT Art, Design and Technology University
+SIH1557
+Ministry of Coal
+23285
+27869
+ZHAGARAM007
+HEMAKRISHNAN A
+Winner
+C-16547
+Sri Sairam Engineering College
+Kanchipuram
+Tamil Nadu
+MIT Art, Design and Technology University
+SIH1583
+Ministry of Housing and Urban Affairs
+12286
+19131
+Team VoltAces
+Abhishek Duharia
+Winner
+U-0189
+National Institute of Technology, Hamirpur
+Hamirpur
+Himachal Pradesh
+MIT Art, Design and Technology University
+SIH1585
+Ministry of Housing and Urban Affairs
+18626
+9135
+Mavericks_NIE
+K CHANDRAKANTH
+Winner
+C-1263
+National Institute of Engineering, MYSORE
+Mysuru
+Karnataka
+Panipat Institute of Engineering and Technology, Samalkha
+SIH1764
+Ministry of Jal Shakti
+47886
+49467
+Tech Chargers
+Rushikesh Dhotre
+Winner
+U-0297
+Defence Institute of Advanced Technology, Girinagar, Pune
+Pune
+Maharashtra
+Panipat Institute of Engineering and Technology, Samalkha
+SIH1765
+Ministry of Jal Shakti
+22007
+24432
+Insight Syndicate
+Alan Biju
+Winner
+C-1336
+B M S Institute of Technology & Management, BANGALORE
+Bengaluru Urban
+Karnataka
+Panipat Institute of Engineering and Technology, Samalkha
+SIH1767
+Ministry of Jal Shakti
+28436
+32067
+AGILE_AVENGERS
+MADHUMITHA.K
+Winner
+C-25014
+C K College of Engineering & Technology
+Cuddalore
+Tamil Nadu
+Panipat Institute of Engineering and Technology, Samalkha
+SIH1768
+Ministry of Jal Shakti
+37745
+35634
+Foodomics
+Vaishnavi Singh
+Winner
+U-0891
+MIT Art, Design and Technology University, Pune
+Pune
+Maharashtra
+Panipat Institute of Engineering and Technology, Samalkha
+SIH1770
+Ministry of Jal Shakti
+16438
+51951
+AgroSentry
+Roshaun Infant R
+Winner
+C-50605
+PSG INSTITUTE OF TECHNOLOGY AND APPLIED RESEARCH
+Coimbatore
+Tamil Nadu
+Panipat Institute of Engineering and Technology, Samalkha
+SIH1771
+Ministry of Jal Shakti
+20212
+36418
+Sense CL2
+Ejner Sneh
+Winner
+U-0135
+Gujarat Technological University, Ahmedabad
+Ahmadabad
+Gujarat
+The National Institute of Engineering
+SIH1541
+AICTE, MIC-Student Innovation
+42428
+35149
+Gloriosa Gestures
+Gowtham S
+Joint Winner
+C-37006
+Chettinad College of Engineering & Technology
+Karur
+Tamil Nadu
+The National Institute of Engineering
+SIH1541
+AICTE, MIC-Student Innovation
+34770
+29918
+Epic Explorers 6.0
+M.SHANMATHI
+Joint Winner
+C-16476
+Sri Sai Ram Institute of Technology
+Kanchipuram
+Tamil Nadu
+The National Institute of Engineering
+SIH1542
+AICTE, MIC-Student Innovation
+17618
+18919
+MACH-6
+Tejas Raghv
+Joint Winner
+U-0724
+M.S. RAMAIAH UNIVERSITY OF APPLIED SCIENCES, BANGALORE
+Karnataka
+Bengaluru Urban
+The National Institute of Engineering
+SIH1542
+AICTE, MIC-Student Innovation
+20794
+47143
+Alpha Century
+Krishna Suratwala
+Joint Winner
+C-7623
+M.G.M.'S College of Engineering, Air Port, Hingoli Road, Nanded
+Nanded
+Maharashtra
+The National Institute of Engineering
+SIH1774
+Indo-Tibetan Border Police (ITBP), MHA
+29854
+52439
+Aerophiles
+Sankalp
+Joint Winner
+U-0286
+Pandhi Dwarka Prasad Mishra Indian Institute of Information Technology & Manufacturing , Jabalpur
+Jabalpur
+Madhya Pradesh
+The National Institute of Engineering
+SIH1774
+Indo-Tibetan Border Police (ITBP), MHA
+30159
+43847
+GARUDA VEGA
+VARIKUTI VISHNU VARDHAN REDDY
+Joint Winner
+U-0020
+Koneru Lakshmaiah Education Foundation,Guntur
+Guntur
+Andhra Pradesh
+The National Institute of Engineering
+SIH1543
+Autodesk
+3159
+36465
+VIJAYRATH
+VELAMALA DIVYA
+Winner
+C-24171
+Anil Neerukonda Institute Of Technology & Sciences
+Visakhapatanam
+Andhra Pradesh
+The National Institute of Engineering
+SIH1544
+Autodesk
+18879
+13911
+Fusion Force360
+Nagul Raj G
+Winner
+C-37013
+PSG College of Technology
+Coimbatore
+Tamil Nadu
+Amity University Raipur Chhattisgarh
+SIH1587
+AICTE, MIC-Student Innovation
+9723
+14738
+Team Codiee
+Joel Pawar
+Joint Winner
+C-33981
+Fr Conceicao Rodrigues College of Engineering Band Stand Bandra West) Mumbai 400 050
+Mumbai Suburban
+Maharashtra
+Amity University Raipur Chhattisgarh
+SIH1587
+AICTE, MIC-Student Innovation
+2820
+35539
+Escape Character
+Garvit Gulati
+Joint Winner
+U-0385
+Thapar Institute of Engineering and Technology, Patiala
+Patiala
+Punjab
+Amity University Raipur Chhattisgarh
+SIH1598
+AICTE, MIC-Student Innovation
+33794
+22606
+Dharohar Dhara_TMSL
+Pratik Biswas
+Joint Winner
+C-6133
+Techno Main Salt Lake 130
+24 Paraganas North
+West Bengal
+Amity University Raipur Chhattisgarh
+SIH1598
+AICTE, MIC-Student Innovation
+18085
+27986
+V R Warriors 923
+Selva Vignesh S M
+Joint Winner
+C-16547
+Sri Sairam Engineering College
+Tamil Nadu
+Kanchipuram
+Amity University Raipur Chhattisgarh
+SIH1586
+AICTE, MIC-Student Innovation
+18174
+18320
+Dhrishti
+Gowri Dhatri K
+Winner
+C-36995
+Sri Krishna College of Engineering and Technology
+Coimbatore
+Tamil Nadu
+Amity University Raipur Chhattisgarh
+SIH1592
+AICTE, MIC-Student Innovation
+31269
+25942
+TrashCam
+Kirti Rathi
+Winner
+C-6425
+Hans Raj College
+North
+Delhi
+Amity University Raipur Chhattisgarh
+SIH1599
+AICTE, MIC-Student Innovation
+38391
+35671
+Swasth Infinity
+Sneha Roychowdhury
+Winner
+U-0685
+INDIRA GANDHI DELHI TECHNICAL UNIVERSITY FOR WOMEN
+Central
+Delhi
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1649
+Ministry of Defence
+10740
+39861
+Pragati
+Devashish Kaushik
+Joint Winner
+U-0099
+Guru Gobind Singh Indraprastha University
+West
+Delhi
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1649
+Ministry of Defence
+8722
+8009
+SecureOps
+Mohammad Zaid Khan
+Joint Winner
+C-53648
+GYAN GANGA COLLEGE OF TECHNOLOGY, JABALPUR
+Jabalpur
+Madhya Pradesh
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1650
+Ministry of Defence
+7917
+2061
+TEAM SLYTHERIN-
+GAYATHRI M
+Joint Winner
+C-36984
+Bannari Amman Institute of Technology
+Erode
+Tamil Nadu
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1650
+Ministry of Defence
+14483
+36305
+Echoes of Lhonak
+Toshik Soni
+Joint Winner
+U-0426
+Sir Padampat Singhania University, Udaipur
+Udaipur
+Rajasthan
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1652
+Ministry of Defence
+18684
+41674
+HIVE
+Peerampalli Abdul Basit Md. Idris
+Joint Winner
+C-15788
+WALCHAND INSTITUTE OF TECHNOLOGY, SOLAPUR
+Solapur
+Maharashtra
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1652
+Ministry of Defence
+2436
+7960
+Coding Saints
+Rushikesh Shelar
+Joint Winner
+C-33792
+Manjara Charitable Trust?s Rajiv Gandhi Institute of Technology, Juhu Versova Link Road, Versova, Andheri West, Mumbai-400053
+Mumbai Suburban
+Maharashtra
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1653
+Ministry of Defence
+11929
+30073
+Aastra
+Keshav Malik
+Joint Winner
+C-46141
+ABES INSTITUTE OF TECHNOLOGY, GHAZIABAD
+Ghaziabad
+Uttar Pradesh
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1653
+Ministry of Defence
+13218
+7941
+Aikarthya
+Ambuj Kulshrestha
+Joint Winner
+U-0507
+Dayalbagh Educational Institute, Agra
+Agra
+Uttar Pradesh
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1654
+Ministry of Defence
+3224
+2800
+Dynamo
+Jashanpreet Kaur
+Joint Winner
+U-0890
+Bennett University, Greater Noida
+Gautam Buddha Nagar
+Uttar Pradesh
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1654
+Ministry of Defence
+7521
+35557
+BlackSwan
+Vidhu Sarwal
+Joint Winner
+U-0385
+Thapar Institute of Engineering and Technology, Patiala
+Patiala
+Punjab
+Vivekananda Institute of Professional Studies - TechnicalÃ”Ã¶Â¼â”œÃ­Campus
+SIH1651
+Ministry of Defence
+549
+2414
+Teen Stellars
+Sukanth A K
+Winner
+C-16576
+Chennai Institute of Technology
+Kanchipuram
+Tamil Nadu
+Excel Engineering College
+SIH1588
+AICTE, MIC-Student Innovation
+15342
+25635
+Pact
+Bhaavan Prabhakar
+Joint Winner
+C-1406
+C M R Institute of Technology, BANGALORE
+Bengaluru Urban
+Karnataka
+Excel Engineering College
+SIH1588
+AICTE, MIC-Student Innovation
+3419
+3296
+The Binary Brains
+ANIRBAN ROY
+Joint Winner
+C-6242
+Future Institute of Engineering and Management 148
+24 Paraganas South
+West Bengal
+Excel Engineering College
+SIH1591
+AICTE, MIC-Student Innovation
+13171
+6183
+Code Crusher.
+Piyush Gupta
+Joint Winner
+C-29461
+CGC College of Engineering, Landran
+S.A.S Nagar
+Punjab
+Excel Engineering College
+SIH1591
+AICTE, MIC-Student Innovation
+12995
+11730
+InoGenius
+Shivam Soni`
+Joint Winner
+C-62835
+G L Bajaj Group of Institutions
+Mathura
+Uttar Pradesh
+Excel Engineering College
+SIH1589
+AICTE, MIC-Student Innovation
+6497
+35633
+KnightCoders_27
+Pooja Gawade
+Winner
+C-33681
+Thadomal Shahani Engineering College 32nd Road TPS III Bandra Mumbai 400 050
+Mumbai Suburban
+Maharashtra
+Excel Engineering College
+SIH1590
+AICTE, MIC-Student Innovation
+9707
+34428
+SafeWay Innovations
+Bhushan Suresh Naik
+Winner
+C-33981
+Fr Conceicao Rodrigues College of Engineering Band Stand Bandra West) Mumbai 400 050
+Mumbai Suburban
+Maharashtra
+G H Raisoni College of Engineering, Nagpur
+SIH1594
+AICTE, MIC-Student Innovation
+34213
+21390
+Technical Mavde
+Prasanna Pal
+Winner
+U-0945
+Vellore Institute of Technology - Andhra Pradesh
+Guntur
+Andhra Pradesh
+G H Raisoni College of Engineering, Nagpur
+SIH1777
+Ministry of Skill Development and Entrepreneurship (MSDE)
+8423
+49896
+PragatiAi 365
+Ishika Garg
+Winner
+C-36237
+Acropolis Institute of Technology & Research, Village Raukhedi, Khasra No. 1443, Indore Bypass Road, Indore-453771
+Indore
+Madhya Pradesh
+G H Raisoni College of Engineering, Nagpur
+SIH1779
+Ministry of Skill Development and Entrepreneurship (MSDE)
+18217
+35485
+Smart Smurfs 561
+Harini V
+Winner
+C-16547
+Sri Sairam Engineering College
+Kanchipuram
+Tamil Nadu
+G H Raisoni College of Engineering, Nagpur
+SIH1781
+Ministry of Skill Development and Entrepreneurship (MSDE)
+39305
+41379
+Helloworld(printf)
+SANKALP. S
+Winner
+C-1381
+Sri Venkateshwara College of Engineering, BANGALORE
+Bengaluru Urban
+Karnataka
+Gujarat Technological University
+SIH1732
+Indian Space Research Organization (ISRO)
+13159
+48380
+Chandrakriti
+Kapil Parmar
+Consolation Prize
+C-52580
+SAL ENGINEERING AND TECHNICAL INSTITUTE 126
+Ahmadabad
+Gujarat
+Gujarat Technological University
+SIH1740
+Indian Space Research Organization (ISRO)
+29791
+52712
+Barely Made It
+Pranjal Soni
+Winner
+U-0053
+Indian Institute of Technology, Guwahati
+Kamrup
+Assam
+Gujarat Technological University
+SIH1739
+Indian Space Research Organization (ISRO)
+13304
+9308
+BlueSentinel
+Eeshu
+Consolation Prize
+C-46109
+AJAY KUMAR GARG ENGINEERING COLLEGE, GHAZIABAD
+Ghaziabad
+Uttar Pradesh
+Gujarat Technological University
+SIH1733
+Indian Space Research Organization (ISRO)
+17048
+43350
+Cosmo Guards
+Kriti Joshi
+Nari Shakti Award
+C-47540
+WOMEN INSTITUTE OF TECHNOLOGY
+Dehradun
+Uttarakhand
+Gujarat Technological University
+SIH1736
+Indian Space Research Organization (ISRO)
+14783
+5705
+Cloudweave
+Archis Gokhale
+First Runner-up
+U-0938
+Dr. Vishwanath Karad MIT World Peace University
+Pune
+Maharashtra
+Gujarat Technological University
+SIH1733
+Indian Space Research Organization (ISRO)
+34005
+25225
+Sarva-Conquerors
+Krushna Prakash Thakare
+Consolation Prize
+S-1810
+4012-Government Polytechnic, Sadar, Nagpur
+Nagpur
+Maharashtra
+Gujarat Technological University
+SIH1738
+Indian Space Research Organization (ISRO)
+17045
+16225
+DevDotCom
+Subinoy Biswas
+Second Runner-up
+C-6260
+JIS College of Engineering 123
+Nadia
+West Bengal
+Guru Ghasidas Vishwavidyalaya, Department of IT
+SIH1612
+Government of NCT of Delhi
+8225
+8386
+Codeblitz
+Srishti Singh
+Winner
+C-46111
+KIET GROUP OF INSTITUTIONS, GHAZIABAD
+Uttar Pradesh
+Ghaziabad
+Guru Ghasidas Vishwavidyalaya, Department of IT
+SIH1613
+Government of NCT of Delhi
+28866
+43011
+BlazeBrains
+Himanshu Mishra
+Winner
+C-34341
+Government College of Engineering, Railway Station Road, Aurangabad.
+Aurangabad
+Maharashtra
+Guru Ghasidas Vishwavidyalaya, Department of IT
+SIH1614
+Government of NCT of Delhi
+31837
+55381
+Team Alphonics
+Yug Shrivastava
+Winner
+U-1329
+Madhav Institute of Technology and Science
+Gwalior
+Madhya Pradesh
+Guru Ghasidas Vishwavidyalaya, Department of IT
+SIH1615
+Government of NCT of Delhi
+30499
+40771
+Parikshit
+Rohit Dahale
+Winner
+C-41725
+MAEER's MIT Academy of Engineering, Alandi Devachi, Dehu Phata, Taluka - Khed, District - Pune 412105
+Pune
+Maharashtra
+Chandigarh College of Engineering, Jhanjeri, Mohali
+SIH1661
+Ministry of Education
+437
+4673
+Linear_Depression
+Simran Sota
+Winner
+C-33777
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West Mumbai 400 056
+Mumbai Suburban
+Maharashtra
+Chandigarh College of Engineering, Jhanjeri, Mohali
+SIH1664
+Ministry of Education
+9804
+40032
+@Cyber Wardens
+Sneha Jain
+Winner
+C-41351
+Bansilal Ramnath Agarwal Charitable Trusts Vishwakarama Institute of Technology, Apper Indiranagar, Pune 411037
+Pune
+Maharashtra
+Chandigarh College of Engineering, Jhanjeri, Mohali
+SIH1666
+Ministry of Education
+45326
+47601
+ABES_INNOSQUAD
+Nandini
+Winner
+C-46112
+ABES ENGINEERING COLLEGE, GHAZIABAD
+Ghaziabad
+Uttar Pradesh
+Chandigarh College of Engineering, Jhanjeri, Mohali
+SIH1667
+Ministry of Education
+39798
+34912
+Team Error404
+Khushi Kalra
+Winner
+U-0535
+Rajiv Gandhi Institute of Petroleum Technology, Amethi
+Amethi
+Uttar Pradesh
+Chandigarh College of Engineering, Jhanjeri, Mohali
+SIH1742
+Ministry of Education
+15532
+38648
+Bengal Tigers Apex
+Ankit Biswas
+Winner
+C-6286
+Meghnad Saha Institute of Technology 142
+24 Paraganas North
+West Bengal
+Indian Institute of Technology, Bhubaneshwar
+SIH1723
+National Aluminium Company Limited (NALCO)
+32364
+53910
+Pratishtha
+Tejas Goyal
+Joint Winner
+U-0747
+CHANDIGARH UNIVERSITY
+S.A.S Nagar
+Punjab
+Indian Institute of Technology, Bhubaneshwar
+SIH1723
+National Aluminium Company Limited (NALCO)
+36113
+54827
+Mad Astra
+Satwik Singh
+Joint Winner
+U-1193
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY
+Bhopal
+Madhya Pradesh
+Indian Institute of Technology, Bhubaneshwar
+SIH1525
+Godrej Appliances
+47497
+50146
+Refrriranger
+Utkarsh Bisht
+Winner
+C-28993
+INSTITUTE OF MANAGEMENT STUDIES A-8B, SECTOR-62, INSTITUTIONAL ARYA ,NOIDA Ph. No :- 241050-51-43
+Gautam Buddha Nagar
+Uttar Pradesh
+Indian Institute of Technology, Bhubaneshwar
+SIH1674
+Narcotics Control Bureau (NCB)
+11438
+37492
+Hacktivists_24
+Pooja A
+Winner
+C-16572
+Sri Venkateswara College of Engineering
+Kanchipuram
+Tamil Nadu
+Indian Institute of Technology, Bhubaneshwar
+SIH1675
+Narcotics Control Bureau (NCB)
+29928
+47661
+TRA1LF1NDERS
+ARITRA DHABAL
+Winner
+C-6168
+Jalpaiguri Govt. Engineering College 101
+Jalpaiguri
+West Bengal
+Indian Institute of Technology, Bhubaneshwar
+SIH1687
+The National Disaster Response Force (NDRF), MHA
+345
+4669
+Matrix Infinity
+Vishaal Krishna T G
+Winner
+C-16626
+Rajalakshmi Engineering College
+Kanchipuram
+Tamil Nadu
+Indian Institute of Technology, Gandhinagar
+SIH1608
+Government of Gujarat
+20816
+25549
+Typewriters-II
+Harsh Kumar Das
+Joint Winner
+U-0770
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, SENAPATI
+Senapati
+Manipur
+Indian Institute of Technology, Gandhinagar
+SIH1608
+Government of Gujarat
+9598
+41657
+INSIGHTS
+Ritik Raushan
+Joint Winner
+C-55756
+Bakhtiyarpur College of Engineering
+Patna
+Bihar
+Indian Institute of Technology, Gandhinagar
+SIH1610
+Government of Gujarat
+30172
+36523
+Bhasha Setu
+Sanket Mane
+Joint Winner
+C-41725
+MAEER's MIT Academy of Engineering, Alandi Devachi), Dehu Phata, Taluka - Khed, District - Pune 412105
+Pune
+Maharashtra
+Indian Institute of Technology, Gandhinagar
+SIH1610
+Government of Gujarat
+37751
+39749
+Leviosa
+Damin Risho J V
+Joint Winner
+C-36926
+Kumaraguru college of Technology
+Coimbatore
+Tamil Nadu
+Indian Institute of Technology, Gandhinagar
+SIH1724
+Ministry of Housing and Urban Affairs
+23064
+26827
+Team Anurved
+Prasad Ajay Mahankal
+Joint Winner
+C-41991
+Pimpri Chinchwad Education Trust's Pimpri Chinchwad College of Engineering, Nigdi, Pune 411044.
+Pune
+Maharashtra
+Indian Institute of Technology, Gandhinagar
+SIH1724
+Ministry of Housing and Urban Affairs
+961
+2126
+Coding Gurus
+Darshan Vishnu Khapekar
+Joint Winner
+C-33895
+Vivekanand Education Societys Institute of Technology
+Mumbai Suburban
+Maharashtra
+Indian Institute of Technology, Gandhinagar
+SIH1609
+Government of Gujarat
+864
+764
+SAARTHI
+DIVYA KAURANI
+Winner
+C-322
+030 L.D.R.P. INSTITUTE OF TECH. & RESEARCH., GANDHINAGAR
+Gandhinagar
+Gujarat
+Indian Institute of Technology, Gandhinagar
+SIH1725
+Ministry of Housing and Urban Affairs
+387
+16513
+AANYA
+Sabhya Lokhande
+Winner
+C-41755
+Dr. D.Y.Patil Institute of Engineering, Management and Research, Sector no 29, PCNTDA Ravet), Akurdi, Pune 411044
+Pune
+Maharashtra
+Indian Institute of Technology, Gandhinagar
+SIH1726
+Ministry of Housing and Urban Affairs
+1374
+47288
+CodeZ
+Mishree Sanura
+Winner
+C-33777
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West) Mumbai 400 056
+Mumbai Suburban
+Maharashtra
+Indian Institute of Technology, Gandhinagar
+SIH1727
+Ministry of Housing and Urban Affairs
+43023
+38247
+One Boat Solution
+KUNAAL SHIRISH SHINDAGI
+Winner
+C-62653
+JAIN COLLEGE OF ENGINEERING AND RESEARCH BELAGAVI
+Belagavi
+Karnataka
+Indian Institute of Technology, Guwahati
+SIH1681
+National Technical Research Organisation (NTRO)
+10324
+52016
+BinaryByte
+Pawan Sharma
+Joint Winner
+U-0573
+Indian Institute of Technology, Kharagpur
+Medinipur West
+West Bengal
+Indian Institute of Technology, Guwahati
+SIH1681
+National Technical Research Organisation (NTRO)
+8232
+13760
+HEXCORP
+Vishnudharan B
+Joint Winner
+C-37065
+Kongu Engineering College
+Erode
+Tamil Nadu
+Indian Institute of Technology, Guwahati
+SIH1680
+National Technical Research Organisation (NTRO)
+25609
+49490
+PARADOX.
+Mohammad Ahmadullah Khan
+Winner
+U-0108
+Jamia Millia Islamia University
+South East
+Delhi
+Indian Institute of Technology, Guwahati
+SIH1682
+National Technical Research Organisation (NTRO)
+27724
+34951
+ByteKnights
+Habeeb Saleh
+Winner
+C-25464
+Muffakham Jah College of Engineering & Technology
+Hyderabad
+Telangana
+Indian Institute of Technology, Guwahati
+SIH1683
+National Technical Research Organisation (NTRO)
+14184
+5039
+Apex 0110
+Raj Mathuria
+Winner
+C-33773
+Bhartiya Vidya Bhavans Sardar Patel Institute of Technology Munshi Nagar Andheri Mumbai
+Mumbai Suburban
+Maharashtra
+Indian Institute of Technology, Hyderabad
+SIH1637
+Ministry of Agriculture and Farmers Welfare
+19750
+11980
+Agritech Titans_
+Anshul Mishra
+Winner
+S-19472
+PRIN L N WELINGKAR INSTITUTE OF MANAGEMENT DEVELOPMENT AND RESEARCH PGDM
+Maharashtra
+Mumbai
+Indian Institute of Technology, Hyderabad
+SIH1638
+Ministry of Agriculture and Farmers Welfare
+36257
+24327
+CodeFusers
+Satyaki Dey
+Winner
+C-6133
+Techno Main Salt Lake 130
+24 Paraganas North
+West Bengal
+Indian Institute of Technology, Hyderabad
+SIH1639
+Ministry of Agriculture and Farmers Welfare
+31118
+28096
+GrowCode
+Valhari Meshram
+Winner
+C-18254
+Yashwantrao Chavan Engineering College, Wanadongri, Hingna road
+Nagpur
+Maharashtra
+Indian Institute of Technology, Hyderabad
+SIH1640
+Ministry of Agriculture and Farmers Welfare
+17993
+8780
+VoidSeekers
+Ujjwal Srivastava
+Winner
+C-46232
+NOIDA INSTITUTE OF ENGG. AND TECHNOLOGY, GREATER NOIDA
+Gautam Buddha Nagar
+Uttar Pradesh
+Shobhit Institute of Engineering and Technology
+SIH1714
+Ministry of Social Justice and Empowerment
+7505
+3867
+INNOV8_01
+Yash Buddhadev
+Winner
+C-33777
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West Mumbai 400 056
+Mumbai Suburban
+Maharashtra
+Shobhit Institute of Engineering and Technology
+SIH1715
+Ministry of Social Justice and Empowerment
+46347
+49421
+Alerta_2024
+Mukund  Kushwaha
+Winner
+U-0306
+Indian Institute of Technology, Mumbai
+Mumbai
+Maharashtra
+Shobhit Institute of Engineering and Technology
+SIH1716
+Ministry of Social Justice and Empowerment
+8682
+30018
+Philosia
+Ujjwal Seth
+Winner
+C-36237
+Acropolis Institute of Technology & Research, Village Raukhedi, Khasra No. 1443, Indore Bypass Road, Indore-453771
+Indore
+Madhya Pradesh
+Shobhit Institute of Engineering and Technology
+SIH1717
+Ministry of Social Justice and Empowerment
+17855
+47099
+Cyklones
+Larwin J
+Winner
+C-36995
+Sri Krishna College of Engineering and Technology
+Coimbatore
+Tamil Nadu
+Shobhit Institute of Engineering and Technology
+SIH1718
+Ministry of Social Justice and Empowerment
+4504
+40401
+Key 2 Innov@tion
+Hrishikesh Das
+Winner
+C-6294
+Bengal Institute of Technology 121
+24 Paraganas North
+West Bengal
+Indian Institute of Technology, Tirupati
+SIH1643
+Ministry of AYUSH
+20585
+41835
+Carbon Daters
+Kaushal Vyas
+Joint Winner
+C-42054
+Army Institute of Technology, Dighi Hills, Pune
+Pune
+Maharashtra
+Indian Institute of Technology, Tirupati
+SIH1643
+Ministry of AYUSH
+33129
+43067
+Sahvrindam
+Parnika Patil
+Joint Winner
+C-41256
+K.K.Wagh Institute of Engineering Education & Research
+Nashik
+Maharashtra
+Indian Institute of Technology, Tirupati
+SIH1555
+Ministry of AYUSH
+3258
+12346
+STACK SQUAD
+C B SUSMITHA
+Winner
+C-36969
+Coimbatore Institute of Technology
+Coimbatore
+Tamil Nadu
+Indian Institute of Technology, Tirupati
+SIH1641
+Ministry of AYUSH
+14179
+12141
+PRAGATI MITRA
+Swetha R
+Winner
+C-16614
+R.M.K Engineering College
+Thiruvallur
+Tamil Nadu
+Indian Institute of Technology, Tirupati
+SIH1642
+AYUSH
+19321
+6103
+Kode Crafts
+Kartik
+Winner
+U-0078
+Panjab University,Chandigarh
+Chandigarh
+Chandigarh
+Integral University
+SIH1673
+Ministry of Fisheries, Animal Husbandry and Dairying
+9303
+23993
+gg-inc
+Mohammed Zubair
+Winner
+U-0385
+Thapar Institute of Engineering and Technology, Patiala
+Patiala
+Punjab
+Integral University
+SIH1775
+Indo-Tibetan Border Police (ITBP), MHA
+48338
+53193
+Tech Simp-2
+Satyam Yadav
+Winner
+C-41913
+G. H. Raisoni College of Engineering and Management, Pune
+Pune
+Maharashtra
+Integral University
+SIH1782
+Ministry of Information and Broadcasting
+25539
+34515
+CodeRunner_1
+Debanjan Rakshit
+Winner
+U-0284
+Maulana Azad National Institute of Technology, Bhopal
+Bhopal
+Madhya Pradesh
+KCG College of Technology
+SIH1752
+Ministry of Communication
+27040
+36646
+HexTech1
+Muhammad Affan Asif
+Winner
+C-25464
+Muffakham Jah College of Engineering & Technology
+Hyderabad
+Telangana
+KCG College of Technology
+SIH1753
+Ministry of Communication
+7028
+32895
+ABHYUDAY
+Suyash Dongre
+Winner
+C-41351
+Bansilal Ramnath Agarwal Charitable Trusts Vishwakarama Institute of Technology, Apper Indiranagar, Pune 411037
+Pune
+Maharashtra
+KCG College of Technology
+SIH1754
+Ministry of Communication
+40288
+54532
+Mini Juris 2.0
+Samminga Sainath Rao
+Winner
+U-0535
+Rajiv Gandhi Institute of Petroleum Technology, Amethi
+Amethi
+Uttar Pradesh
+KCG College of Technology
+SIH1756
+Ministry of Communication
+49596
+56834
+BHOOMIK
+Rahul joshi
+Winner
+C-46109
+AJAY KUMAR GARG ENGINEERING COLLEGE, GHAZIABAD
+Ghaziabad
+Uttar Pradesh
+KIT's College of Engineering (Autonomous), Kolhapur
+SIH1596
+AICTE, MIC-Student Innovation
+13770
+20013
+Sorcerers
+Eklavya Bhardwaj
+Joint Winner
+C-10575
+Panipat Institute of Engg. & Technology
+Panipat
+Haryana
+KIT's College of Engineering (Autonomous), Kolhapur
+SIH1596
+AICTE, MIC-Student Innovation
+33834
+20683
+Team P.O.V
+Rohith Krishna K V
+Joint Winner
+C-1291
+Dr. Ambedkar Institute of Technology, BANGALORE
+Bengaluru Urban
+Karnataka
+KIT's College of Engineering (Autonomous), Kolhapur
+SIH1710
+Ministry of Railway
+30428
+35379
+Pravaah_29
+Maitreyee Majumdar
+Joint Winner
+C-41725
+MAEER's MIT Academy of Engineering, Alandi Devachi), Dehu Phata, Taluka - Khed, District - Pune 412105
+Pune
+Maharashtra
+KIT's College of Engineering (Autonomous), Kolhapur
+SIH1710
+Ministry of Railway
+1483
+4329
+LDI Hackos
+Sriram R S
+Joint Winner
+C-16576
+Chennai Institute of Technology
+Kanchipuram
+Tamil Nadu
+KIT's College of Engineering (Autonomous), Kolhapur
+SIH1595
+AICTE, MIC-Student Innovation
+22643
+45335
+NERDDEV
+SOUBARNIKA S
+Winner
+C-37064
+Sri Krishna College of Technology
+Coimbatore
+Tamil Nadu
+KIT's College of Engineering (Autonomous), Kolhapur
+SIH1597
+AICTE, MIC-Student Innovation
+594
+7648
+CAPTIVATORS 3.0
+Snehal Sunil Shirsath
+Winner
+C-41515
+Amrutvahini Sheti & Vikas Santhas Amrutvahini College of Engineering , Amrutangar, Tal.Sangamner, Dist. Ahmednagar 422608
+Ahmednagar
+Maharashtra
+KIT's College of Engineering (Autonomous), Kolhapur
+SIH1711
+Ministry of Railway
+787
+1343
+Manifest Coders
+Ezhil Srikanth M
+Winner
+C-16576
+Chennai Institute of Technology
+Kanchipuram
+Tamil Nadu
+Lakshmi Narain College of Technology
+SIH1788
+Madhya Pradesh Police
+47915
+52096
+ExpertChain
+Pankaj C
+Joint Winner
+C-48544
+VISHWANIKETANs INSTITUTE OF MANAGEMENT ENTREPRENEURSHIP and ENGINEERING TECHNOLOGY
+Raigad
+Maharashtra
+Lakshmi Narain College of Technology
+SIH1788
+Madhya Pradesh Police
+4895
+48231
+THE HAXTERS
+Vansh Rathi
+Joint Winner
+C-36022
+Lakshmi Narain College of Technology, Kalchuri Nagar, Raisen Road, Post Klua, Bhopal-462021
+Bhopal
+Madhya Pradesh
+Lakshmi Narain College of Technology
+SIH1787
+Madhya Pradesh Police
+24017
+52156
+RouteMasters26
+Jagdish Bhagchand Raut
+Winner
+C-41513
+Dr. D. Y. Patil Pratishthan's, D.Y. Patil College of Engineering, Akurdi, Pune
+Pune
+Maharashtra
+Lakshmi Narain College of Technology
+SIH1789
+Madhya Pradesh Police
+39780
+38131
+405_Resolved
+Bhoomi Agrawal
+Winner
+C-1413
+Dayananda Sagar College of Engineering, BANGALORE
+Bengaluru Urban
+Karnataka
+Lakshmi Narain College of Technology
+SIH1790
+Madhya Pradesh Police
+12319
+33779
+Team EXPLORERS
+Ritik Jaiswal
+Winner
+C-36030
+LAKSHMI NARAIN COLLEGE OF TECHNOLOGY EXCELLENCE, Khajuri Khurd, Raisen Road, Bhopal - 462021
+Bhopal
+Madhya Pradesh
+Lovely Professional University
+SIH1628
+Government of Punjab
+724
+41724
+Access Denied
+Shreyans Jain
+Joint Winner
+C-33681
+Thadomal Shahani Engineering College 32nd Road TPS III Bandra Mumbai 400 050
+Mumbai Suburban
+Maharashtra
+Lovely Professional University
+SIH1628
+Government of Punjab
+42933
+51562
+Stellar Six
+Yashaswee Kesharwani
+Joint Winner
+U-0379
+Lovely Professional University
+Kapurthala
+Punjab
+Lovely Professional University
+SIH1629
+Government of Punjab
+10314
+32969
+NavKriti
+Asmita Mishra
+Joint Winner
+C-36009
+Lakshmi Narain College of Technology & Science, Kalchuri Nagar, Raisen Road, Bhopal-462021
+Bhopal
+Madhya Pradesh
+Lovely Professional University
+SIH1629
+Government of Punjab
+21218
+32398
+Nirvana Legions
+Varun Bhat P
+Joint Winner
+U-1288
+UNIVERSITY OF VISVESVARAYA COLLEGE OF ENGINEERING
+Bengaluru Urban
+Karnataka
+Lovely Professional University
+SIH1630
+Government of Punjab
+12929
+50053
+Connexus
+Ritesh Kumar
+Joint Winner
+C-6202
+Heritage Institute of Technology 126
+24 Paraganas North
+West Bengal
+Lovely Professional University
+SIH1630
+Government of Punjab
+16296
+22893
+ZenCoders11
+Henil Patel
+Joint Winner
+C-94
+G.H.PATEL COLLEGE OF ENGG. & TECH. , V. V. NAGAR 011
+Anand
+Gujarat
+Lovely Professional University
+SIH1631
+Government of Rajasthan
+28734
+20287
+Arambh_99
+Om Panchal
+Winner
+C-41725
+MAEER's MIT Academy of Engineering, Alandi Devachi), Dehu Phata, Taluka - Khed, District - Pune 412105
+Pune
+Maharashtra
+Lovely Professional University
+SIH1632
+Government of Rajasthan
+42490
+37055
+PlaceX
+Yashita Bansal
+Winner
+U-0080
+Punjab Engineering College , Chandigarh
+Chandigarh
+Chandigarh
+Lovely Professional University
+SIH1633
+Government of Rajasthan
+7636
+3002
+underScore
+Prince Kumar
+Winner
+C-46805
+BUNDELKHAND INSTITUTE OF ENGINEERING AND TECHNOLOGY, JHANSI
+Jhansi
+Uttar Pradesh
+M. S. Ramaiah University of Applied Sciences
+SIH1688
+Ministry of Jal Shakti
+39691
+33517
+Tech Wave
+Ayush Raj
+Winner
+C-35964
+IES s College of Technology, Kalikheda, Ratibad Main Road, Bhopal - 462044
+Bhopal
+Madhya Pradesh
+M. S. Ramaiah University of Applied Sciences
+SIH1689
+Ministry of Jal Shakti
+738
+31772
+Drop Squad
+Akanksha Ravindra Bhagat
+Winner
+C-34225
+Shivajirao S. Jondhale College of Engineering, Sonarpada, Dombivli East) Dist: Thane
+Thane
+Maharashtra
+M. S. Ramaiah University of Applied Sciences
+SIH1690
+Ministry of Jal Shakti
+18691
+11948
+AKATSUKI_AU
+SATVIK RAO
+Winner
+U-0959
+AVANTIKA UNIVERSITY
+Ujjain
+Madhya Pradesh
+Don Bosco Institute of Technology Bangalore
+SIH1691
+Ministry of Jal Shakti
+49460
+56613
+Team Chakravyuh123
+Aaditya Thakur
+Winner
+U-0385
+Thapar Institute of Engineering and Technology, Patiala
+Patiala
+Punjab
+Don Bosco Institute of Technology Bangalore
+SIH1693
+Ministry of Jal Shakti
+36652
+30110
+Airavata
+Aniket Sanjay Rane
+Winner
+C-34012
+Sterling Institute of Management Studies Plot No.93 93A Sector 19 Nerul E Navi Mumbai 400 706
+Thane
+Maharashtra
+New Horizon College of Engineering, Bangalore
+SIH1694
+Ministry of Jal Shakti
+32279
+22766
+Nirvana1
+Dev Soni
+Joint Winner
+U-0405
+LNM Institute of Information Technology, Jaipur
+Jaipur
+Rajasthan
+New Horizon College of Engineering, Bangalore
+SIH1694
+Ministry of Jal Shakti
+1792
+3520
+Vormir
+Pratik Raut
+Joint Winner
+C-41497
+BRACT Vishwakarma Institute of Information Technology, Pune 411048.
+Pune
+Maharashtra
+New Horizon College of Engineering, Bangalore
+SIH1698
+Ministry of Jal Shakti
+18043
+34571
+Journey Maker's
+Nandgaonkar Virag Sanjay
+Joint Winner
+C-15788
+WALCHAND INSTITUTE OF TECHNOLOGY, SOLAPUR
+Solapur
+Maharashtra
+New Horizon College of Engineering, Bangalore
+SIH1698
+Ministry of Jal Shakti
+10935
+8180
+C0deCr4ft
+Atharva Aurangabadkar
+Joint Winner
+C-33588
+Vidyalankar Institute of Technology Pearl Center Senapati Bapat Marg Dadar West) Mumbai 400 028
+Mumbai
+Maharashtra
+New Horizon College of Engineering, Bangalore
+SIH1695
+Ministry of Jal Shakti
+49542
+57173
+CONFLUENCE
+Prithika Andrea Angelina F
+Winner
+C-36995
+Sri Krishna College of Engineering and Technology
+Coimbatore
+Tamil Nadu
+New Horizon College of Engineering, Bangalore
+SIH1696
+Ministry of Jal Shakti
+15469
+33352
+CodeSHEild
+AYUSH SAHA ROY
+Winner
+C-6286
+Meghnad Saha Institute of Technology 142
+24 Paraganas North
+West Bengal
+New Horizon College of Engineering, Bangalore
+SIH1731
+MathWorks India Private Limited
+14595
+12455
+Solar Masters
+Rajput Vaibhavpradhansingh Devrajsingh
+Winner
+U-0426
+Sir Padampat Singhania University, Udaipur
+Udaipur
+Rajasthan
+NIT Srinagar
+SIH1706
+GAIL, Ministry of Petroleum and Natural Gas
+15551
+7668
+Agents of Chaos
+Shrutika Yeole
+Joint Winner
+C-33773
+Bhartiya Vidya Bhavans Sardar Patel Institute of Technology Munshi Nagar Andheri Mumbai
+Mumbai Suburban
+Maharashtra
+NIT Srinagar
+SIH1706
+GAIL, Ministry of Petroleum and Natural Gas
+12522
+38627
+Team Maverick_24
+Kishore M
+Joint Winner
+C-16572
+Sri Venkateswara College of Engineering
+Kanchipuram
+Tamil Nadu
+NIT Srinagar
+SIH1707
+GAIL, Ministry of Petroleum and Natural Gas
+398
+4619
+Coding_Wizard
+Asmi Khare
+Winner
+C-16658
+Bhilai Institute of Technology Durg
+Durg
+Chhattisgarh
+NIT Srinagar
+SIH1708
+GAIL, Ministry of Petroleum and Natural Gas
+39750
+47941
+Lan_Lords
+Vivek Agarwal
+Winner
+C-1413
+Dayananda Sagar College of Engineering, BANGALORE
+Bengaluru Urban
+Karnataka
+NIT Srinagar
+SIH1712
+Ministry of Social Justice and Empowerment
+12795
+20960
+SHIP SHAPES
+Nirmal Yuvaraj.C
+Winner
+U-0459
+Karpagam Academy of Higher Education, Coimbatore
+Coimbatore
+Tamil Nadu
+NIT Srinagar
+SIH1719
+Ministry of Social Justice and Empowerment
+38685
+27901
+TechSpectra
+Harish Lukare
+Winner
+C-41256
+K.K.Wagh Education Society's K.K.Wagh Institute of Engineering Education & Research, Hirabai Haribai Vidyanagari, Panchavati, Nashik 422003
+Nashik
+Maharashtra
+NIT Suratkal
+SIH1644
+Ministry of Coal
+1703
+2682
+JM_Tech Avengers
+Sarthak Garg
+Joint Winner
+C-10653
+Seth Jai Parkash Mukand Lal Inst. of Engineering & Technology
+Yamunanagar
+Haryana
+NIT Suratkal
+SIH1644
+Ministry of Coal
+5762
+1371
+Coldcoders
+Prajwal V Wadekar
+Joint Winner
+C-58013
+JAIN COLLEGE OF ENGINEERING AND TECHNOLOGY, Hubballi
+Dharwad
+Karnataka
+NIT Suratkal
+SIH1645
+Ministry of Coal
+14994
+4937
+42HackHeads
+Prathamesh Sanaye
+Joint Winner
+C-33773
+Bhartiya Vidya Bhavans Sardar Patel Institute of Technology Munshi Nagar Andheri Mumbai
+Mumbai Suburban
+Maharashtra
+NIT Suratkal
+SIH1645
+Ministry of Coal
+12880
+42040
+CarbonClad
+Abhay Prasad
+Joint Winner
+U-1080
+C.V. RAMAN GLOBAL UNIVERSITY, ODISHA
+Khordha
+Odisha
+NIT Suratkal
+SIH1646
+Ministry of Coal
+13697
+50663
+Brainvoltzzz
+Vedang Bhole
+Joint Winner
+U-0923
+VIT Bhopal University, Sehore
+Sehore
+Madhya Pradesh
+NIT Suratkal
+SIH1646
+Ministry of Coal
+11663
+17347
+$BLACKGOLD$
+Tejaswini Ganesh Koparde
+Joint Winner
+C-41614
+Jaywant Shikshan Prasarak Mandal's Rajshree Shahu College of Engineering, S.No. 80, Pune Bombay Bypass highway, Thathwade, Pune 411 033
+Pune
+Maharashtra
+NIT Suratkal
+SIH1722
+Ministry of Youth Affairs & Sports
+39290
+44305
+Algonauts_
+MRIDHUL KRISHNAN K B
+Joint Winner
+U-0472
+Rajiv Gandhi National Instiute of Youth Development, Sriperumbudur
+Kanchipuram
+Tamil Nadu
+NIT Suratkal
+SIH1722
+Ministry of Youth Affairs & Sports
+31295
+37034
+TechTitans..
+Prachi shah
+Joint Winner
+U-0720
+G.D. GOENKA UNIVERSITY
+Gurugram
+Haryana
+NIT Suratkal
+SIH1720
+Ministry of Youth Affairs & Sports
+33436
+21987
+RADIANCE 07
+Muthukumar G
+Winner
+C-16476
+Sri Sai Ram Institute of Technology
+Kanchipuram
+Tamil Nadu
+NIT Suratkal
+SIH1721
+Ministry of Youth Affairs & Sports
+13699
+41187
+Bit_REBEL$
+Mit Nitin Jain
+Winner
+C-50450
+A P SHAH INSTITUTE OF TECHNOLOGY, KASARVADAVALI
+Thane
+Maharashtra
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1624
+Government of NCT of Delhi
+35674
+50886
+Team ProSortX
+Anuja Eknath Pawar
+Joint Winner
+C-51494
+CSMSS Chh. Shahu College of Engineering, Kanchanwadi, Aurangabad.
+Aurangabad
+Maharashtra
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1624
+Government of NCT of Delhi
+18292
+46888
+HASHTECH
+Sujan D S
+Joint Winner
+C-36995
+Sri Krishna College of Engineering and Technology
+Coimbatore
+Tamil Nadu
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1624
+Government of NCT of Delhi
+42653
+44846
+DebugThugs123
+Arnav Vikas Garg
+Joint Winner
+U-0080
+Punjab Engineering College , Chandigarh
+Chandigarh
+Chandigarh
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1625
+Government of NCT of Delhi
+3328
+53761
+HacK'N'SeeK
+Sivaramakrishnan R
+Joint Winner
+C-16626
+Rajalakshmi Engineering College
+Kanchipuram
+Tamil Nadu
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1625
+Government of NCT of Delhi
+15076
+50656
+S.P.D
+Charan Manikanta Nalla
+Joint Winner
+C-17915
+Raghu Engineering College, Dakamarri Village, Bheemunipatnam Mandal,PIN-531162CC-98)
+Visakhapatanam
+Andhra Pradesh
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1709
+Ministry of Power
+14428
+41166
+SmartInspect
+Raghav Sharma
+Joint Winner
+C-28457
+Dronacharya College of Engg. Farukh Nagar, Gurgaon
+Gurugram
+Haryana
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1709
+Ministry of Power
+10054
+53719
+Wiz.Ai
+Siddharth Sharma
+Joint Winner
+C-36010
+Institute of Engineering & Science, IPS Academy, Rajendra Nagar, A.B. Road, Sita Building, Indore 452003
+Indore
+Madhya Pradesh
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1743
+National Investigation Agency (NIA)
+26571
+53066
+CyberVanguard
+Gomtesh Gandhi
+Joint Winner
+U-0921
+Symbiosis University of Applied Sciences, Indore
+Indore
+Madhya Pradesh
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1743
+National Investigation Agency (NIA)
+3929
+12916
+CipherEdgers
+Aayushman Singh
+Joint Winner
+C-46125
+IMS ENGINEERING COLLEGE, GHAZIABAD
+Ghaziabad
+Uttar Pradesh
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1744
+National Investigation Agency (NIA)
+20672
+39698
+Syndicate Ã”Ã¶Â£â”œÂ®Ã”Ã¶Â¼â”œÃ­.
+Chetan Singh
+Joint Winner
+C-42054
+Army Institute of Technology, Dighi Hills, Pune
+Pune
+Maharashtra
+Noida Institute of Engineerign and Technology, Greater Noida
+SIH1744
+National Investigation Agency (NIA)
+38175
+44382
+Black syndicate
+BRUNO A
+Joint Winner
+U-0460
+Karunya Institute of Technology and Sciences, Coimbatore
+Coimbatore
+Tamil Nadu
+Oriental Institute of Science and Technology Bhopal
+SIH1785
+Madhya Pradesh Police
+39090
+47013
+KyuTek
+ATHISH N S
+Joint Winner
+U-0460
+Karunya Institute of Technology and Sciences, Coimbatore
+Coimbatore
+Tamil Nadu
+Oriental Institute of Science and Technology Bhopal
+SIH1785
+Madhya Pradesh Police
+39862
+38856
+ELECTRIZZ3699
+Sharavana Vell KT K
+Joint Winner
+C-16547
+Sri Sairam Engineering College
+Kanchipuram
+Tamil Nadu
+Oriental Institute of Science and Technology Bhopal
+SIH1783
+Madhya Pradesh Police
+31983
+38011
+Trim Work
+Anshul Ojha
+Winner
+U-0945
+Vellore Institute of Technology - Andhra Pradesh
+Guntur
+Andhra Pradesh
+Oriental Institute of Science and Technology Bhopal
+SIH1784
+Madhya Pradesh Police
+4197
+53840
+Team Nerve
+Ganesh Vasudeo Wadhe
+Winner
+C-33566
+Bharati Vidyapeeths College of Engineering Sector-7 C.B.D.Belpada Navi Mumbai 400 614
+Mumbai
+Maharashtra
+Oriental Institute of Science and Technology Bhopal
+SIH1786
+Madhya Pradesh Police
+39811
+42075
+Tech_Veda
+Shreya Singhal
+Winner
+U-0685
+INDIRA GANDHI DELHI TECHNICAL UNIVERSITY FOR WOMEN
+Central
+Delhi
+Prin. L. N. Welingkar Institute of Management Development and Research (PGDM)
+SIH1607
+Department of Science and Technology
+3382
+11977
+Aristos
+S. Kavya Sudha
+Joint Winner
+C-16626
+Rajalakshmi Engineering College
+Tamil Nadu
+Kanchipuram
+Prin. L. N. Welingkar Institute of Management Development and Research (PGDM)
+SIH1607
+Department of Science and Technology
+16249
+25783
+PowerX
+Mawwiz Shaikh
+Joint Winner
+U-1101
+MGM UNIVERSITY
+Aurangabad
+Maharashtra
+Prin. L. N. Welingkar Institute of Management Development and Research (PGDM)
+SIH1604
+Bharat Electronics Limited (BEL)
+20853
+11093
+Team Terabyte
+Akash Bora
+Winner
+U-1249
+GIRIJANANDA CHOWDHURY UNIVERSITY
+Kamrup
+Assam
+Prin. L. N. Welingkar Institute of Management Development and Research (PGDM)
+SIH1605
+Bharat Electronics Limited (BEL)
+780
+160
+SHILEDAR
+Kshitij Umesh Sharma
+Winner
+C-34200
+Datta Meghe College of Engineering CIDCO Sector III Airoli Navi Mumbai 400 708
+Mumbai
+Maharashtra
+Prin. L. N. Welingkar Institute of Management Development and Research (PGDM)
+SIH1606
+Bharat Electronics Limited (BEL)
+39446
+36900
+RadarVision
+Inchara J
+Winner
+C-1413
+Dayananda Sagar College of Engineering, BANGALORE
+Bengaluru Urban
+Karnataka
+Prin. L. N. Welingkar Institute of Management Development and Research (PGDM)
+SIH1772
+National Security Guard (NSG), MHA
+25070
+41441
+Sankalp007
+Adrija Sengupta
+Winner
+U-0385
+Thapar Institute of Engineering and Technology, Patiala
+Patiala
+Punjab
+Prin. L. N. Welingkar Institute of Management Development and Research (PGDM)
+SIH1773
+National Security Guard (NSG), MHA
+248
+16597
+X-Helios
+Libbe Raj Keerthy
+Winner
+C-16576
+Chennai Institute of Technology
+Kanchipuram
+Tamil Nadu
+Rajalakshmi Engineering College
+SIH1757
+Ministry of Communication
+35863
+22759
+Instant Ideators
+Praguni Sanotra
+Joint Winner
+C-23000
+Model Institute of Engg. & Technology
+Jammu
+Jammu and Kashmir
+Rajalakshmi Engineering College
+SIH1757
+Ministry of Communication
+7060
+35094
+Stealth Mode
+Soham Dixit
+Joint Winner
+C-41351
+Bansilal Ramnath Agarwal Charitable Trusts Vishwakarama Institute of Technology
+Pune
+Maharashtra
+Rajalakshmi Engineering College
+SIH1647
+Ministry of Consumer Affairs, Food and Public Distribution
+4279
+2624
+CTRL K
+DEV SHAH
+Winner
+1-3662200961
+SRM Institute of Science & Technology, Vadapalani
+Chennai
+Tamil Nadu
+Rajalakshmi Engineering College
+SIH1758
+Ministry of Communication
+8478
+35111
+LeakCode404
+Shriyash Beohar
+Winner
+C-36237
+Acropolis Institute of Technology & Research, Village Raukhedi, Khasra No. 1443, Indore Bypass Road, Indore-453771
+Indore
+Madhya Pradesh
+Rajalakshmi Engineering College
+SIH1759
+Ministry of Communication
+38599
+37435
+Travelling Postman
+Svayam Kapadia
+Winner
+U-0804
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, PUNE
+Pune
+Maharashtra
+Rungta College of Engineering and Technology, Bhilai
+SIH1618
+Government of NCT of Delhi
+2748
+53604
+Vajra
+Kanishk Jagya
+Joint Winner
+U-0385
+Thapar Institute of Engineering and Technology, Patiala
+Patiala
+Punjab
+Rungta College of Engineering and Technology, Bhilai
+SIH1618
+Government of NCT of Delhi
+20777
+39591
+Indent
+Sajal Batra
+Joint Winner
+U-0722
+SRM UNIVERSITY, SONEPAT
+Sonipat
+Haryana
+Rungta College of Engineering and Technology, Bhilai
+SIH1616
+Government of NCT of Delhi
+49161
+55686
+Sky Guardians
+Ranjan Gupta
+Winner
+U-0643
+GALGOTIAS UNIVERSITY
+Uttar Pradesh
+Gautam Buddha Nagar
+Rungta College of Engineering and Technology, Bhilai
+SIH1617
+Government of NCT of Delhi
+24109
+20949
+CHASING HORIZONS
+PONNURU VENKATESH
+Winner
+C-45100
+RGUKT- NUZVID
+Eluru
+Andhra Pradesh
+Rungta College of Engineering and Technology, Bhilai
+SIH1619
+Government of NCT of Delhi
+22687
+35715
+Techno Tuners
+Ashit Rai
+Winner
+U-0747
+CHANDIGARH UNIVERSITY
+S.A.S Nagar
+Punjab
+Rungta College of Engineering and Technology, Bhilai
+SIH1620
+Government of NCT of Delhi
+11538
+10077
+Team Void
+Aastha Ketan Kataria
+Winner
+U-1085
+SOMAIYA VIDYAVIHAR UNIVERSITY
+Mumbai
+Maharashtra
+Sahyadri College of Engineering & Management, Mangaluru
+SIH1668
+Ministry of Electronics and Information Technology
+18509
+45425
+Data Defenders Nexus
+Kasthuri Krishna L M
+Winner
+C-36995
+Sri Krishna College of Engineering and Technology
+Tamil Nadu
+Coimbatore
+Sahyadri College of Engineering & Management, Mangaluru
+SIH1669
+Ministry of Electronics and Information Technology
+1373
+49666
+DODS
+Aryan Rajpurkar
+Winner
+C-33777
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West) Mumbai 400 056
+Mumbai Suburban
+Maharashtra
+Sahyadri College of Engineering & Management, Mangaluru
+SIH1670
+Ministry of Electronics and Information Technology
+46155
+53427
+Smart Indian Hackers
+Tanmay Vig
+Winner
+U-0522
+Jaypee Institute of Information Technology, Noida
+Gautam Buddha Nagar
+Uttar Pradesh
+Sahyadri College of Engineering & Management, Mangaluru
+SIH1671
+Ministry of Electronics and Information Technology
+7240
+24619
+VANGUARDS ELEVATE
+TAMILARASI P
+Winner
+C-37065
+Kongu Engineering College
+Erode
+Tamil Nadu
+Sahyadri College of Engineering & Management, Mangaluru
+SIH1672
+Ministry of Electronics and Information Technology
+7218
+38834
+INNOVISIONERSZ
+Mano Sundar M
+Winner
+C-37065
+Kongu Engineering College
+Erode
+Tamil Nadu
+Indian Institute of Technology, Jammu
+SIH1745
+National Critical Information Infrastructure Protection Center (NCIIPC)
+39435
+43480
+REBELSCODE
+Shashank Pandey
+Winner
+U-0986
+SARALA BIRLA UNIVERSITY
+Ranchi
+Jharkhand
+Indian Institute of Technology, Jammu
+SIH1746
+National Critical Information Infrastructure Protection Center (NCIIPC)
+13680
+41604
+FuzZpL0iT915
+Sushant Mane
+Winner
+C-33641
+Veermata Jijabai Technological Institute Matunga Mumbai 400 019
+Mumbai
+Maharashtra
+Indian Institute of Technology, Jammu
+SIH1747
+National Critical Information Infrastructure Protection Center (NCIIPC)
+38233
+46627
+Ritorno
+Akash Meruva
+Winner
+U-0934
+SRM University-AP, Amaravati
+Guntur
+Andhra Pradesh
+Indian Institute of Technology, Jammu
+SIH1748
+National Critical Information Infrastructure Protection Center (NCIIPC)
+32812
+46426
+Salient Devs
+Manvith Bhandari
+Winner
+C-34018
+Haji Jamaluddin Thim TrustTheem College of Engineering At Village Betegaon Boisar Chikhar Road N.H.No.8 Near Union Park BoisarE Tal Palghar Dist. Thane 401 501
+Palghar
+Maharashtra
+Indian Institute of Technology, Jammu
+SIH1749
+National Critical Information Infrastructure Protection Center (NCIIPC)
+39205
+41142
+NiteWatch
+Yogesh Prashant Rane
+Winner
+U-0234
+Manipal Academy of Higher Education, Manipal
+Udupi
+Karnataka
+Indian Institute of Technology, Jammu
+SIH1750
+National Critical Information Infrastructure Protection Center (NCIIPC)
+49807
+57269
+Vidya-Dhaar
+Danush Khanna
+Winner
+U-0749
+MANIPAL UNIVERSITY, JAIPUR
+Jaipur
+Rajasthan
+Sri Krishna College of Engineering and Technology
+SIH1648
+Ministry of Culture
+254
+3240
+GRYFFINDORS
+N GOWRI VENKAT
+Joint Winner
+C-16626
+Rajalakshmi Engineering College
+Kanchipuram
+Tamil Nadu
+Sri Krishna College of Engineering and Technology
+SIH1648
+Ministry of Culture
+67
+3056
+CodeX
+Chetan Kashyap
+Joint Winner
+C-10381
+Guru Nanak Dev Engineering College, Ludhiana
+Ludhiana
+Punjab
+Sri Krishna College of Engineering and Technology
+SIH1626
+Government of NCT of Delhi
+10554
+29777
+Shamsheer
+Rohan Jaiswal
+Winner
+U-0856
+DAYANANDA SAGAR UNIVERSITY
+Bengaluru Urban
+Karnataka
+Sri Krishna College of Engineering and Technology
+SIH1704
+Ministry of Panchayati Raj
+24401
+32959
+Dead_Lock
+Vikash Kumar
+Winner
+U-0207
+National Institute of Technology, Jamshedpur
+Saraikela Kharsawan
+Jharkhand
+Sri Krishna College of Engineering and Technology
+SIH1705
+Ministry of Panchayati Raj
+29075
+11917
+Future Fixers - KPRIET
+RAM KUMAR R
+Winner
+C-36999
+KPR Institute of Engineering and Technology
+Coimbatore
+Tamil Nadu
+Sri Sairam Engineering College
+SIH1621
+Government of NCT of Delhi
+24731
+37894
+MEDISURE
+Bhushan Amol Anokar
+Winner
+C-41309
+Marathwada Mitra Mandal's College of Engineering Pune 52
+Pune
+Maharashtra
+Sri Sairam Engineering College
+SIH1622
+Government of NCT of Delhi
+4457
+25896
+Digital Dockets
+Aadi Nitin Bhujbal
+Winner
+C-49660
+PIMPRI CHINCHWAD EDUCATION TRUST'S PIMPRI CHINCHWAD COLLEGE OF ENGINEERING AND RESEARCH, LAXMINAGAR, RAVET
+Pune
+Maharashtra
+Sri Sairam Engineering College
+SIH1623
+Government of NCT of Delhi
+33898
+51861
+Agrani.
+Neem Chetanbhai Sheth
+Winner
+U-0149
+Sardar Vallabhbhai National Institute of Technology, Surat
+Surat
+Gujarat
+Sri Sairam Engineering College
+SIH1627
+Government of NCT of Delhi
+15780
+6115
+MediNexus
+Dhruv Dawar
+Winner
+U-0098
+Delhi Technological University
+North West
+Delhi
+Sri Venkateswara College of Engineering and Technology
+SIH1729
+AICTE
+21417
+41761
+ARTH
+Parth Gupta
+Joint Winner
+U-0747
+CHANDIGARH UNIVERSITY
+S.A.S Nagar
+Punjab
+Sri Venkateswara College of Engineering and Technology
+SIH1729
+AICTE
+21546
+39255
+KAL HONA CODE
+Appari Satya Bargav
+Joint Winner
+U-0020
+Koneru Lakshmaiah Education Foundation,Guntur
+Guntur
+Andhra Pradesh
+Sri Venkateswara College of Engineering and Technology
+SIH1593
+AICTE, MIC-Student Innovation
+31666
+31251
+eleevate
+Guduru Dinesh
+Winner
+C-1269
+R V College of Engineering, BANGALORE
+Bengaluru Urban
+Karnataka
+Sri Venkateswara College of Engineering and Technology
+SIH1728
+AICTE
+30663
+48888
+Byte Overload
+PRATHAMESH MANDIYE
+Winner
+U-0577
+National Institute of Technology, Durgapur
+Purba Bardhaman
+West Bengal
+Sri Venkateswara College of Engineering and Technology
+SIH1730
+AICTE
+2718
+13506
+Neural_Nexus
+Sara Nambiar
+Winner
+C-42072
+Pune Institute of Computer Technology, Dhankawadi, Pune 411043
+Pune
+Maharashtra
+St. Joseph's Institute of Technology
+SIH1751
+Ministry of Communication
+35152
+22146
+RENEGADES-VI
+Anmol Mangaraj
+Winner
+U-0357
+National Institute of Technology, Rourkela
+Sundargarh
+Odisha
+St. Joseph's Institute of Technology
+SIH1760
+Ministry of Communication
+36135
+53243
+Big O
+Harsh Shivhare
+Winner
+U-1193
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY
+Bhopal
+Madhya Pradesh
+St. Joseph's Institute of Technology
+SIH1761
+Ministry of Communication
+26990
+31206
+Logitech_Trailblazers_
+Atharva Sanjay Bhavar
+Winner
+C-41474
+Sanjeevani Education Societys College of Engineering, At. Sahajanandnagar, Post. Shingnapur, Tal. Kopargaon, Dist. Ahmednagar 423603
+Ahmednagar
+Maharashtra
+St. Joseph's Institute of Technology
+SIH1762
+Ministry of Communication
+2582
+7480
+Hackstreet Hustlers
+Nandani Kadave
+Winner
+C-33792
+Manjara Charitable Trust?s Rajiv Gandhi Institute of Technology, Juhu Versova Link Road, Versova, Andheri West, Mumbai-400053
+Mumbai Suburban
+Maharashtra
+Vardhaman College of Engineering, Hyderabad - 501218, Telangana.
+SIH1655
+Ministry of Earth Sciences
+20213
+19699
+Aquintel
+Pragyashree D
+Winner
+U-0055
+National Institute of Technology, Silchar
+Cachar
+Assam
+Vardhaman College of Engineering, Hyderabad - 501218, Telangana.
+SIH1656
+Ministry of Earth Sciences
+7181
+33024
+NullPointer
+Aviral Gupta
+Winner
+U-0841
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, NAGPUR
+Nagpur
+Maharashtra
+Vardhaman College of Engineering, Hyderabad - 501218, Telangana.
+SIH1657
+Ministry of Earth Sciences
+998
+37831
+Astraa
+Sneha Anil Deshmukh
+Winner
+C-34200
+Datta Meghe College of Engineering CIDCO Sector III Airoli Navi Mumbai 400 708
+Mumbai
+Maharashtra
+Vardhaman College of Engineering, Hyderabad - 501218, Telangana.
+SIH1658
+Ministry of Earth Sciences
+20388
+11698
+Hello_World_LT
+Lata
+Winner
+U-0267
+Atal Bihari Vajpayee Indian Institute of Information Technology and Management, Gwalior
+Gwalior
+Madhya Pradesh
+Vardhaman College of Engineering, Hyderabad - 501218, Telangana.
+SIH1659
+Ministry of Earth Sciences
+28919
+47932
+Syntax Weavers
+Nav Srijan
+Winner
+U-0505
+Chatrapati Sahuji Maharaj Kanpur University, Kanpur
+Kanpur Nagar
+Uttar Pradesh
+Vardhaman College of Engineering, Hyderabad - 501218, Telangana.
+SIH1660
+Ministry of Earth Sciences
+33604
+37938
+Aqua Sentinels_11
+Jeet Shah
+Winner
+C-41681
+International Institute of Information Technology, Pune Infotech Park, Hinjawadi, Pune 411057
+Pune
+Maharashtra
+Vidyavardhaka College of Engineering, Mysuru
+SIH1601
+AICTE, MIC-Student Innovation
+12114
+10084
+Outcast
+Riya Mehta
+Joint Winner
+U-1080
+C.V. RAMAN GLOBAL UNIVERSITY, ODISHA
+Khordha
+Odisha
+Vidyavardhaka College of Engineering, Mysuru
+SIH1601
+AICTE, MIC-Student Innovation
+18341
+5477
+Silent Scars
+R. Adwaith
+Joint Winner
+C-41054
+Dr.N.G.P. Arts and Science College
+Coimbatore
+Tamil Nadu
+Vidyavardhaka College of Engineering, Mysuru
+SIH1600
+AICTE, MIC-Student Innovation
+36629
+26320
+The Bengal Brainiacs
+SAMANNAY SAHA
+Winner
+C-6139
+Netaji Subhash Engineering College 109
+24 Paraganas South
+West Bengal
+Vidyavardhaka College of Engineering, Mysuru
+SIH1602
+AICTE, MIC-Student Innovation
+11523
+3772
+Avishkari Nexus
+Muskan Goyal
+Winner
+C-1331
+M S Ramaiah Institute of Technology, BANGALORE
+Bengaluru Urban
+Karnataka
+Vidyavardhaka College of Engineering, Mysuru
+SIH1603
+Autodesk
+2294
+632
+TEAM PAC_BOT
+Guru Prasad P R
+Winner
+C-16611
+KCG College of Technology
+CHENGALPATTU
+Tamil Nadu
+Visvesvaraya Technological University
+SIH1699
+Ministry of Law and Justice
+14237
+6874
+Team Aavishkaar
+B. Mourya
+Winner
+C-17958
+GMR Institute of Technology GMRIT), GMR Nagar, Rajam, Srikakulam Dt.,-532127 CC-34))
+Srikakulam
+Andhra Pradesh
+Visvesvaraya Technological University
+SIH1700
+Ministry of Law and Justice
+960
+3513
+Catalyst
+Manav Keswani
+Winner
+C-33895
+Vivekanand Education Societys Institute of Technology
+Mumbai Suburban
+Maharashtra
+Visvesvaraya Technological University
+SIH1701
+Ministry of Law and Justice
+38094
+35309
+Inno__Ventures
+Divyanshi Pal
+Winner
+U-0685
+INDIRA GANDHI DELHI TECHNICAL UNIVERSITY FOR WOMEN
+Central
+Delhi
+Visvesvaraya Technological University
+SIH1702
+Ministry of Law and Justice
+17657
+17152
+Syntax Sentries
+D.L.Priyanka
+Winner
+C-16497
+R M K College of Engineering and Technology
+Thiruvallur
+Tamil Nadu
+Visvesvaraya Technological University
+SIH1703
+Ministry of Law and Justice
+25595
+11305
+Manthan 1
+Om Khattar
+Winner
+C-33634
+Mumbai Educational Trusts Institute Management Studies Gen.Arunkumar Vaidya Chowk Bandra Reclamation,Bandra West) Mumbai-400 050
+Mumbai Suburban
+Maharashtra
+Indian Institute of Technology Kharagpur
+SIH1679
+National Technical Research Organisation (NTRO)
+43680
+52975
+Screen Warriors #
+Varun Patil
+Joint Winner
+C-33550
+Mahavir Education Trusts Shah and Anchor Kutchi Engineering College Shivaji Chowk Junction V N Purav Marg Opp R K Studio Near M s Dukes Co Chembur Mumbai 400 088
+Mumbai Suburban
+Maharashtra
+Indian Institute of Technology Kharagpur
+SIH1679
+National Technical Research Organisation (NTRO)
+29556
+51821
+Pursuit of Perfection
+Piyush Kulkarni
+Joint Winner
+U-0804
+INDIAN INSTITUTE OF INFORMATION TECHNOLOGY, PUNE
+Pune
+Maharashtra
+Indian Institute of Technology Kharagpur
+SIH1676
+National Technical Research Organisation (NTRO)
+38634
+35627
+6BYTESQUAD
+ASUTOSH KUMAR
+Winner
+C-6139
+Netaji Subhash Engineering College 109
+24 Paraganas South
+West Bengal
+Indian Institute of Technology Kharagpur
+SIH1677
+National Technical Research Organisation (NTRO)
+20236
+50257
+Digital Fortress
+Abhisht Chouhan
+Winner
+U-0147
+PANDIT DEENDAYAL ENERGY UNIVERSITY, GANDHI NAGAR
+Gandhinagar
+Gujarat
+Indian Institute of Technology Kharagpur
+SIH1678
+National Technical Research Organisation (NTRO)
+829
+7780
+Enthalpy
+Surabhi Waingankar
+Winner
+C-33777
+Shri Vile Parle Kelavani Mandals Dwarkadas J. Sanghvi College of Engineering Plot No U-15 J V P D Scheme Gulmohar Road Vile Parle West Mumbai 400 056
+Mumbai Suburban
+Maharashtra
+Indian Institute of Technology Kharagpur
+SIH1684
+National Technical Research Organisation (NTRO)
+40039
+38122
+BadCops
+Abhijeet Sandeep Jadhav
+Winner
+U-0535
+Rajiv Gandhi Institute of Petroleum Technology, Amethi
+Amethi
+Uttar Pradesh
+Indian Institute of Technology Kharagpur
+SIH1685
+National Technical Research Organisation (NTRO)
+394
+3364
+Samraksha
+Poorva Diwan
+Winner
+C-16658
+Bhilai Institute of Technology Durg
+Durg
+Chhattisgarh
+Indian Institute of Technology Kharagpur
+SIH1686
+National Technical Research Organisation (NTRO)
+27113
+52479
+Canon Crew
+Nikhil Guru Venkatesh
+Winner
+C-19946
+Keshav Memorial Institute of Technology
+Hyderabad
+Telangana
+Prin. L. N. Welingkar Institute of Management Development and Research (PGDM)
+SIH1604
+Bharat Electronics Limited
+16446
+10564
+BeGANs
+Ryan Madhuwala
+WESCHOOL AWARD
+U-0267
+Atal Bihari Vajpayee Indian Institute of Information Technology and Management, Gwalior
+Gwalior
+Madhya Pradesh
+Prin. L. N. Welingkar Institute of Management Development and Research (PGDM)
+SIH1605
+Bharat Electronics Limited
+226
+2368
+Team Boka
+Tejashree Bhangale
+WeSchool Consolation Award
+C-33530
+Angel Charities Fr. C. Rodrigues Institute of Technology, Sector 9- A, Vashi, Navi Mumbai - 400703
+Thane
+Maharashtra
+KLE Technological University
+SIH1540
+AICTE MIC Student Innovation
+43324
+31899
+AeroSentinels
+Ashik Thanush R S
+Special Jury Award
+U-0013
+Indian Institute of Technology, Hyderabad
+Medak
+Telangana
+Galgotias University
+SIH1571
+Ministry of Jal Shakti
+7046
+7492
+Flying Eye
+SUSANTA GORAI
+Special Prize Award
+C-6163
+Durgapur Institute of Advanced Technology and Management 155
+Purba Bardhaman
+West Bengal
+Follow Us
+© 2025-26 Smart India Hackathon. All rights reserved
+Contact Us
+For any queries write to:
+sih@aicte-india.org
+011 29581222,
+011 29581223,
+011 29581239,
+011 29581240,
+011 29581241,
+011 29581319.
+Select Registration Type
+×
+College Faculty SPOC
+School Faculty SPOC
+College Faculty SPOC
+Existing Users
+New Users
+(*Please check your mail for OTP Verification)
+Design Mentors
+Close

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iTantra</string>
+
+    <string name="loading">Loading models…</string>
+    <string name="hint">Hold the button and speak.\nSpeech is recognised on this phone and only the text is sent.\nEither phone can talk or listen — just don\'t both talk at once.</string>
+
+    <string name="ptt">Hold to talk</string>
+    <string name="recording">Recording — release to send</string>
+
+    <string name="devices">DEVICES</string>
+    <string name="settings">SETTINGS</string>
+
+    <string name="not_connected">NOT CONNECTED — tap DEVICES to link</string>
+    <string name="connected_to">CONNECTED — %1$s</string>
+
+    <string name="peer_dialog_title">Connect to</string>
+</resources>

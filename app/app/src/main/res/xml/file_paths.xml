@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Exposes only the app's own external files directory to the FileProvider, so the log can be
+  shared out without granting access to anything else.
+-->
+<paths>
+    <external-files-path
+        name="logs"
+        path="logs/" />
+</paths>

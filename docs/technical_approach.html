@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIH26173 iTantra — Technical Approach · Team B.J.P</title>
+<style>
+  :root{
+    --bg:#0b1020; --panel:#121a33; --panel2:#0f1628; --ink:#e8edf7; --mut:#9aa8c7;
+    --acc:#4cc9f0; --acc2:#f72585; --ok:#3ddc97; --warn:#ffb703; --bad:#ff5d73;
+    --line:#232e52;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif; line-height:1.55;}
+  .wrap{max-width:1180px; margin:0 auto; padding:28px 20px 80px;}
+  header.hero{border:1px solid var(--line); border-radius:16px; padding:26px 28px; background:linear-gradient(135deg,#121a33 0%,#1a1040 100%); margin-bottom:26px;}
+  .tag{display:inline-block; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--acc); border:1px solid var(--acc); border-radius:999px; padding:3px 12px; margin-bottom:12px;}
+  h1{font-size:30px; line-height:1.2; margin-bottom:8px;}
+  h1 small{display:block; font-size:15px; color:var(--mut); font-weight:400; margin-top:6px;}
+  .warnbar{margin-top:14px; background:#2a1c08; border:1px solid var(--warn); color:#ffe1a1; border-radius:10px; padding:10px 14px; font-size:13.5px;}
+  h2{font-size:21px; margin:34px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line); color:#fff;}
+  h3{font-size:15.5px; margin:20px 0 8px; color:var(--acc);}
+  .grid{display:grid; gap:16px;}
+  .g2{grid-template-columns:1fr 1fr;} .g3{grid-template-columns:repeat(3,1fr);} .g4{grid-template-columns:repeat(4,1fr);}
+  @media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+  .card p{color:var(--mut); font-size:13.5px;}
+  .stat{font-size:27px; font-weight:700; color:var(--ok); margin:2px 0;}
+  .stat b{font-size:14px; color:var(--mut); font-weight:400;}
+  .lbl{font-size:11.5px; text-transform:uppercase; letter-spacing:1px; color:var(--mut);}
+  table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  th,td{padding:8px 10px; text-align:left; border-bottom:1px solid var(--line);}
+  th{color:var(--acc); font-size:11.5px; text-transform:uppercase; letter-spacing:1px;}
+  tr:last-child td{border-bottom:none;}
+  code{background:#0a0f1f; color:#ffd166; padding:1px 6px; border-radius:5px; font-size:12.5px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}
+  .pill{display:inline-block; border-radius:999px; padding:2px 10px; font-size:11.5px; font-weight:600;}
+  .p-ok{background:#0d2e22; color:var(--ok); border:1px solid var(--ok);}
+  .p-warn{background:#2e2408; color:var(--warn); border:1px solid var(--warn);}
+  .p-bad{background:#2e0f16; color:var(--bad); border:1px solid var(--bad);}
+  /* flow diagram */
+  .flow{display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:stretch; margin:8px 0 6px;}
+  .phone{background:var(--panel2); border:1px solid var(--acc); border-radius:14px; padding:14px 16px;}
+  .phone h4{color:var(--acc); font-size:13px; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px;}
+  .step{display:flex; align-items:center; gap:10px; background:#0d1428; border:1px solid var(--line); border-radius:9px; padding:8px 11px; margin-bottom:8px; font-size:13px;}
+  .step:last-child{margin-bottom:0;}
+  .n{flex:0 0 22px; height:22px; border-radius:50%; background:var(--acc); color:#04121a; font-weight:700; display:flex; align-items:center; justify-content:center; font-size:12px;}
+  .arrowcol{display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 12px; color:var(--acc2); font-weight:700;}
+  .arrowcol .ray{writing-mode:vertical-rl; transform:rotate(180deg); font-size:11px; letter-spacing:2px; color:var(--mut); margin-bottom:6px;}
+  .legend{font-size:12px; color:var(--mut); margin-top:8px;}
+  .foot{margin-top:40px; border-top:1px solid var(--line); padding-top:16px; color:var(--mut); font-size:12.5px;}
+  ul{padding-left:20px;} li{margin-bottom:6px; font-size:13.5px; color:var(--mut);}
+  ul b, li b{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="tag">SIH26173 · ISRO · Software</span>
+    <h1>iTantra — Offline Multilingual Voice Transceiver
+      <small>Team <b style="color:var(--acc2)">B.J.P (Bug Janta Party)</b> · Technical Approach &amp; Measured Evidence · 18 Sep 2026</small>
+    </h1>
+    <div class="warnbar">
+      <b>EVIDENCE STATUS:</b> every number on this page was measured on a Mac (Apple Silicon, 17&nbsp;GB RAM), <b>not an Android phone</b>.
+      Phone performance is still untested and will be worse. Items labelled <span class="pill p-warn">TARGET</span> are goals, not results.
+    </div>
+  </header>
+
+  <h2>1 · The Idea in One Sentence</h2>
+  <div class="card">
+    <p style="font-size:15px; color:var(--ink);">
+      You speak on phone&nbsp;A. Instead of transmitting <b>audio</b> (which is huge), the app converts your speech to
+      <b>text</b>, sends only the text over Wi-Fi/Bluetooth, and phone&nbsp;B converts it <b>back to speech</b>.
+      Because text is <b style="color:var(--ok)">~1,000× smaller than audio</b>, voice gets through on links that cannot carry voice —
+      which is exactly ISRO's "low bitrate link" problem.
+    </p>
+  </div>
+
+  <h2>2 · The Full Loop — and What We Actually Ran</h2>
+  <div class="flow">
+    <div class="phone">
+      <h4>Phone A · Speaker (STT mode)</h4>
+      <div class="step"><span class="n">1</span><span>Mic records 16&nbsp;kHz mono audio</span></div>
+      <div class="step"><span class="n">2</span><span>Silero VAD detects pause &rarr; cuts a sentence</span></div>
+      <div class="step"><span class="n">3</span><span>Omnilingual ASR 300M INT8 &rarr; text</span></div>
+      <div class="step"><span class="n">4</span><span>Text tagged with language, UTF-8 encoded</span></div>
+    </div>
+    <div class="arrowcol">
+      <div class="ray">TEXT ONLY · ~50–110 BYTES</div>
+      <div style="font-size:26px;">&#10142;</div>
+      <div class="legend" style="writing-mode:horizontal-tb; transform:none;">Wi-Fi Direct / Bluetooth<br>no internet</div>
+    </div>
+    <div class="phone">
+      <h4>Phone B · Listener (TTS mode)</h4>
+      <div class="step"><span class="n">1</span><span>Receives UTF-8 text + language tag</span></div>
+      <div class="step"><span class="n">2</span><span>Piper TTS picks voice (hi / en)</span></div>
+      <div class="step"><span class="n">3</span><span>Synthesises speech at 22&nbsp;050&nbsp;Hz</span></div>
+      <div class="step"><span class="n">4</span><span>Plays at <b>max volume, non-interruptible</b></span></div>
+    </div>
+  </div>
+  <p class="legend">Push-to-talk = walkie-talkie mode. Release the button = the app behaves like a normal phone (full duplex via the same pipeline).</p>
+
+  <h2>3 · Headline Numbers (all MEASURED)</h2>
+  <div class="grid g4">
+    <div class="card"><div class="lbl">Bandwidth saved</div><div class="stat">~1,000&times;<b> smaller</b></div><p>83&nbsp;B of text replaces 749&nbsp;kbit of audio for the same sentence.</p></div>
+    <div class="card"><div class="lbl">Mouth-to-ear compute</div><div class="stat">0.29&ndash;0.42 s</div><p>ASR + TTS per utterance, on a Mac. <span class="pill p-warn">TARGET &lt; 1 s on phone</span></p></div>
+    <div class="card"><div class="lbl">ASR speed (RTF)</div><div class="stat">0.036&ndash;0.043</div><p>~25&times; faster than real time. Covers 1,668 languages incl. Hindi &amp; English.</p></div>
+    <div class="card"><div class="lbl">TTS speed (RTF)</div><div class="stat">0.032&ndash;0.044</div><p>~28&times; faster than real time, both Hindi and English voices.</p></div>
+  </div>
+
+  <h2>4 · The Stack — Fully Open Source, Permissive Licenses</h2>
+  <table>
+    <tr><th>Layer</th><th>Component</th><th>Size</th><th>License</th><th>Status</th></tr>
+    <tr><td>VAD</td><td><code>silero_vad.int8.onnx</code></td><td>208 KB</td><td>MIT</td><td><span class="pill p-ok">MEASURED</span></td></tr>
+    <tr><td>ASR</td><td>Omnilingual CTC 300M INT8 (sherpa-onnx)</td><td>348 MiB</td><td><b>Apache 2.0</b></td><td><span class="pill p-ok">RAN</span></td></tr>
+    <tr><td>TTS Hindi</td><td>Piper <code>hi_IN</code> pratham</td><td>60.6 MiB</td><td><b>MIT</b></td><td><span class="pill p-ok">RAN</span></td></tr>
+    <tr><td>TTS English</td><td>Piper <code>en_US</code> lessac</td><td>60.3 MiB</td><td><b>MIT</b></td><td><span class="pill p-ok">RAN</span></td></tr>
+    <tr><td>Phonemes</td><td>espeak-ng-data (hi + en dicts)</td><td>7.2 MiB</td><td>GPL (data)</td><td><span class="pill p-ok">RAN</span></td></tr>
+    <tr><td>Transport</td><td>Wi-Fi Direct / Bluetooth RFCOMM</td><td>&mdash;</td><td>Android SDK</td><td><span class="pill p-warn">TARGET</span></td></tr>
+    <tr><td>Reference app</td><td><code>SherpaOnnxVadAsr</code> (official)</td><td>APK 284 MiB</td><td>Apache 2.0</td><td><span class="pill p-ok">VERIFIED</span></td></tr>
+  </table>
+  <p class="legend" style="margin-top:10px;">No CC-BY-NC anywhere. This matters: SIH forbids proprietary/closed SDKs, and a non-commercial licence would block deployment.</p>
+
+  <h2>5 · End-to-End Results — the Walkie-Talkie Round Trip</h2>
+  <table>
+    <tr><th>Language</th><th>Utterance spoken</th><th>ASR out (transcribed)</th><th>Payload</th><th>Compute</th></tr>
+    <tr><td><b>Hindi</b></td><td>नमस्ते, यह एक आपातकालीन संदेश है।</td><td>नमस्ते यह एक आपातकालीन संदेश है</td><td>83 B</td><td>0.42 s</td></tr>
+    <tr><td><b>Hindi</b></td><td>तुम्हें तुरंत सुरक्षित स्थान पर जाना होगा।</td><td>तुम्हें तुरंत सुरक्षित स्थान पर जाना होगा</td><td>111 B</td><td>0.29 s</td></tr>
+    <tr><td><b>English</b></td><td>Emergency alert. Move to a safe location immediately.</td><td>emergency alert moved to a safe location immediately</td><td>52 B</td><td>0.38 s</td></tr>
+    <tr><td><b>English</b></td><td>This is a test of the emergency broadcast system.</td><td>this is a test of the emergency broad cast system</td><td>49 B</td><td>0.29 s</td></tr>
+  </table>
+  <p class="legend" style="margin-top:10px;">Hindi round-trips with meaning fully intact. Note ASR output has no punctuation and is lowercase &mdash; the UI must not promise punctuated transcripts.</p>
+
+  <h2>6 · Accuracy on Real Recorded Human Speech (FLEURS)</h2>
+  <div class="grid g4">
+    <div class="card"><div class="lbl">Hindi</div><div class="stat">CER 0.24</div><p>WER 0.44 &mdash; meaning clear, spelling slips.</p></div>
+    <div class="card"><div class="lbl">Odia</div><div class="stat">CER 0.08</div><p>WER 0.40 &mdash; the language stock Whisper lacks.</p></div>
+    <div class="card"><div class="lbl">Bengali</div><div class="stat">CER 0.09</div><p>WER 0.31 &mdash; strongest of the Indian set.</p></div>
+    <div class="card"><div class="lbl">Marathi</div><div class="stat" style="color:var(--bad)">WER 0.74</div><p><b>Weak.</b> Cannot claim all 10 languages work.</p></div>
+  </div>
+  <p class="legend" style="margin-top:10px;"><b>Report CER, not WER.</b> In Devanagari/Bengali, one phoneme error fails a whole word for WER but only changes a few characters. CER reflects what a reader actually understands.</p>
+
+  <h2>7 · The Hinglish Question — Honest Answer</h2>
+  <div class="card">
+    <p>You asked for Hindi + English + <b>Hinglish</b>. I checked all 1,668 language IDs the ASR model supports:</p>
+    <ul style="margin:10px 0 4px 20px;">
+      <li><code>hin_Deva</code> (Hindi, Devanagari) &mdash; <span class="pill p-ok">SUPPORTED</span></li>
+      <li><code>eng_Latn</code> (English) &mdash; <span class="pill p-ok">SUPPORTED</span></li>
+      <li><code>hin_Latn</code> (romanised Hindi) &mdash; <span class="pill p-bad">DOES NOT EXIST</span>. Zero romanised Indian languages are in the model.</li>
+    </ul>
+    <p style="margin-top:10px;"><b>Recommendation:</b> scope the submission to <b>Hindi + English</b> (both fully proven end-to-end). Treat Hinglish as an optional UI convenience for <i>typed</i> text on phone&nbsp;B only &mdash; never claim the ASR outputs it. The problem statement lists 10 languages; we have measured 4, and the deck should say so.</p>
+  </div>
+
+  <h2>8 · Mapped to ISRO's Marking Scheme</h2>
+  <table>
+    <tr><th>Criterion</th><th>Weight</th><th>Our position</th></tr>
+    <tr><td><b>Efficiency</b> (model/app size, idle CPU)</td><td>20%</td><td>Models ~475 MiB; official APK 284 MiB. Idle listening runs <b>only the VAD</b> &mdash; ASR/TTS load on demand, so idle CPU is near zero by design.</td></tr>
+    <tr><td><b>Accuracy</b> (low STT WER, TTS legibility)</td><td>40%</td><td>Hindi CER 0.24, English ~0 on clean speech. TTS legibility <span class="pill p-warn">needs a human panel</span>.</td></tr>
+    <tr><td><b>Latency</b> (word&rarr;STT, text&rarr;audio, RTF, mouth-to-ear)</td><td>20%</td><td>Compute 0.29&ndash;0.42 s. RTF 0.03&ndash;0.04. Mouth-to-ear <span class="pill p-warn">TARGET &lt; 1 s</span> once measured on a phone.</td></tr>
+  </table>
+
+  <h2>9 · Build Order</h2>
+  <div class="grid g3">
+    <div class="card"><h3>1 · Fork the reference app</h3><p><code>SherpaOnnxVadAsr</code> already does mic &rarr; VAD &rarr; ASR &rarr; text on Android. This is the fastest legal start.</p></div>
+    <div class="card"><h3>2 · Add TTS + transport</h3><p>Ship both Piper voices + espeak-ng-data in assets. Add a Wi-Fi Direct socket; get text A&rarr;B.</p></div>
+    <div class="card"><h3>3 · Push-to-talk &amp; alerts</h3><p>Hold = STT, other phone = TTS. Alert mode: max volume, audio focus, non-interruptible loop.</p></div>
+  </div>
+  <p class="legend" style="margin-top:12px;">Then benchmark on the <b>cheapest phone you can find</b>. That is the real test &mdash; everything here is a Mac.</p>
+
+  <h2>10 · What Is Still Not Proven</h2>
+  <ul>
+    <li><b>Android performance</b> — RTF/RAM on low/mid-range phones. <b>Highest priority risk.</b></li>
+    <li><b>Noisy real-world speech</b> — FLEURS is clean studio audio; a disaster zone is not.</li>
+    <li><b>TTS legibility score</b> — needs human listeners, cannot be auto-scored.</li>
+    <li><b>Wi-Fi Direct reliability</b> — each Android OEM implements P2P differently.</li>
+    <li><b>Six of ten languages</b> — untested. Marathi measured and weak.</li>
+  </ul>
+
+  <div class="foot">
+    Team B.J.P (Bug Janta Party) &middot; SIH26173 iTantra &middot; ISRO &middot; Smart India Hackathon 2026<br>
+    Evidence files: <code>end_to_end.py</code> · <code>tts_bench.py</code> · <code>fleurs_eval.py</code> · <code>convert_piper.py</code> · <code>TECHNICAL_APPROACH.md</code><br>
+    <i>All figures measured 18 Sep 2026 on macOS arm64. Nothing on this page is a projected or fabricated result; targets are explicitly labelled.</i>
+  </div>
+
+</div>
+</body>
+</html>

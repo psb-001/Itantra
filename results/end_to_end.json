@@ -1,0 +1,58 @@
+[
+ {
+  "lang": "Hindi",
+  "text": "नमस्ते, यह एक आपातकालीन संदेश है।",
+  "speak_audio_s": 2.927,
+  "tts_a_s": 0.127,
+  "asr_s": 0.199,
+  "asr_rtf": 0.068,
+  "hyp": "नमस्ते यह एक आपातकालीन संदेश है",
+  "payload_bytes": 83,
+  "payload_bytes_utf16": 62,
+  "tts_b_s": 0.098,
+  "tts_b_rtf": 0.036,
+  "loop_compute_s": 0.424
+ },
+ {
+  "lang": "Hindi",
+  "text": "तुम्हें तुरंत सुरक्षित स्थान पर जाना होगा।",
+  "speak_audio_s": 2.496,
+  "tts_a_s": 0.087,
+  "asr_s": 0.11,
+  "asr_rtf": 0.044,
+  "hyp": "तुम्हें तुरंत सुरक्षित स्थान पर जाना होगा",
+  "payload_bytes": 111,
+  "payload_bytes_utf16": 82,
+  "tts_b_s": 0.09,
+  "tts_b_rtf": 0.034,
+  "loop_compute_s": 0.287
+ },
+ {
+  "lang": "English",
+  "text": "Emergency alert. Move to a safe location immediately.",
+  "speak_audio_s": 3.576,
+  "tts_a_s": 0.129,
+  "asr_s": 0.137,
+  "asr_rtf": 0.038,
+  "hyp": "emergency alert moved to a safe location immediately",
+  "payload_bytes": 52,
+  "payload_bytes_utf16": 104,
+  "tts_b_s": 0.109,
+  "tts_b_rtf": 0.033,
+  "loop_compute_s": 0.375
+ },
+ {
+  "lang": "English",
+  "text": "This is a test of the emergency broadcast system.",
+  "speak_audio_s": 2.74,
+  "tts_a_s": 0.089,
+  "asr_s": 0.111,
+  "asr_rtf": 0.041,
+  "hyp": "this is a test of the emergency broad cast system",
+  "payload_bytes": 49,
+  "payload_bytes_utf16": 98,
+  "tts_b_s": 0.093,
+  "tts_b_rtf": 0.032,
+  "loop_compute_s": 0.294
+ }
+]

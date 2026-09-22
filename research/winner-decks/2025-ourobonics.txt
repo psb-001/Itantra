@@ -1,0 +1,92 @@
+SLIDE 1
+SMAR T	INDIA	HACKATHON	2025
+Problem Statement ID –	
+25117
+Problem	Statement	tittle-	
+Student	Innovation: 
+Atmanirbhar
+ Bharat - Robotics and Drones
+Swadeshi	for
+Theme- 
+robotics & drones
+PS Category- Hardware TEAM ID- TID128
+TEAM Name- 
+Ourobonics
+SLIDE 2
+                 
+AI-Driven Modular Humanoid Robot for MSME  
+Empowerment & High risk work environment
+MSMEs face staff shortages, high turnover, inconsistent service.
+High-risk sites (radiology, chemical plants, industries) expose workers to radiation/chemicals.
+Existing humanoids are too expensive (₹20–60 lakh), non-modular, hard to repair.
+We propose 
+Kritrim
+ 
+– Modular Snap-and-Fit Humanoid
+1. Indigenous humanoid using snap-and-fit modular architecture.
+2. Parts can be replaced/repair/customized quickly without technical skills.
+Service environments:
+ receptions, libraries, public desks, MSMEs → Customer service.
+High-risk environments:
+ radiology rooms, chemical zones, industrial sites → assists safely, handles    documents, guides patients, works where humans face health risks.
+Kritrim also allows material customization based on deployment needs making it a highly versatile and cost-effective solution.
+Kritrim’s uniqueness lies in its combination of modular hardware, snap-and-fit functionality, material flexibility, affordability, and adaptability for both service and hazardous environments. This makes it a truly scalable solution that supports India’s goals of Digital India and Atmanirbhar Bharat by providing a practical, safe, and cost-effective humanoid robot tailored to real Indian needs.
+Ourobonics
+SLIDE 3
+TECHNICAL APPR OCH
+AI VISION & Object Recognition 
+– Detects customers and surroundings. 
+Speech-to-TEXT  &  NLP 
+– Understands queries 
+Robotics Control System 
+– Performs gestures, movements, and tasks. 
+Cloud & On-Device Machine Learning 
+– Learns from interactions and
+improves performance.
+Ourobonics
+TECHNOLOGIES  USED
+Hardware
+: Raspberry Pi, Arduino, Webcam, Servo(
+Deao
+ DS,60kg), MG 90s Servos
+Software/Frameworks
+: Python
+APIs
+: Speech-to-Text (Google), Google Cloud
+, 
+LIVEkit
+Preview link 
+– https://youtu.be/SfIbuJaK5dU?si=pInQTNrInSaJUY6u.
+SLIDE 4
+FEASIBILITY	AND	VIABILITY
+Ourobonics
+SLIDE 5
+IMP   ACT 	 & BENEFITS
+Ourobonics
+Improved Safety in High-Risk Environments
+By deploying radiation-resistant or chemical-resistant modules, the robot protects workers in radiology rooms, chemical plants, and industrial zones—reducing human exposure to harmful conditions.
+Operational Efficiency
+Kritrim handles repetitive tasks—greetings, guidance, document handling—allowing human staff to focus on complex, decision making work.
+Major Cost Reduction Through Modularity
+Snap-and-fit parts make maintenance extremely simple and inexpensive . Instead of replacing the entire robot, MSMEs can replace only the damaged module → cutting service costs dramatically.Overall, the robot remains 
+70–80% cheaper
+ than global humanoids.
+MSME Empowerment Through Customizable Material & Design
+Businesses can choose the material (lightweight, durable, radiation-safe, chemical-safe) based on their needs, making advanced robotics affordable and practical even for small enterprises.
+Scalability Across Multiple Sectors
+Thanks to modularity, the same robot can be configured for:
+MSMEs
+Hospitality & receptions
+Libraries & public service desks
+Hospitals / radiology zones
+Chemical or industrial plants
+Education institutes
+A single platform adapts to many industries.
+SLIDE 6
+RESEARCH	AND	REFERENCES
+Ourobonics
+A survey on modularity and distributivity in series-parallel hybrid robots
+Modularity in humanoid robot design
+for flexibility in system structure and application
+Advancements in Humanoid Robots: A Comprehensive Review and Future Prospects by IEEE
+India Humanoid Robot Market Size & Outlook, 2024-2030

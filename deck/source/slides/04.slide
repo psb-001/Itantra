@@ -1,0 +1,131 @@
+<Slide style={{ width: 1280, height: 720, padding: '34px 48px 78px 48px', background: '#FFFFFF', fontFamily: 'Calibri', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+
+    <Box style={{ position: 'absolute', left: 0, bottom: 0, width: 1280, height: 56, background: '#0070C0', flexDirection: 'row', alignItems: 'center', padding: '0 48px' }}>
+        <Box style={{ width: 210 }}>
+            <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#FFFFFF' }}>B.J.P (Bug Janta Party)</Text>
+        </Box>
+        <Box style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 13, color: '#FFFFFF' }}>@SIH Idea submission- Template</Text>
+        </Box>
+        <Box style={{ width: 210, alignItems: 'flex-end' }}>
+            <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF' }}>4 / 6</Text>
+        </Box>
+    </Box>
+
+    <Box style={{ flexDirection: 'row', alignItems: 'center', height: 74 }}>
+        <Box style={{ width: 150, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 56, borderRadius: 28, border: '1.5px solid #7030A0' }}>
+            <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#7030A0', textAlign: 'center', lineHeight: 1.2 }}>B.J.P{'\n'}Bug Janta{'\n'}Party</Text>
+        </Box>
+        <Box style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 44, fontWeight: 'bold', fontFamily: 'Times New Roman', color: '#1A1A1A', textAlign: 'center' }}>
+                FEASIBILITY AND VIABILITY
+            </Text>
+            <Text style={{ fontSize: 18, color: '#5F5E5A', marginTop: 4 }}>Analysis of the feasibility of the idea &nbsp;·&nbsp; measured, not projected</Text>
+        </Box>
+        <Box style={{ width: 150, alignItems: 'flex-end' }}>
+            <Image src='assets/sih_logo.png' style={{ width: 140, height: 66 }} />
+        </Box>
+    </Box>
+
+    <Box style={{ flexDirection: 'row', gap: 24, flex: 1, marginTop: 14 }}>
+
+        <Box style={{ flex: 1.42, flexDirection: 'column' }}>
+            <Box style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#01467D' }}>Offline ASR on real human speech — Google FLEURS</Text>
+                <Box style={{ flex: 1 }} />
+                <Text style={{ fontSize: 13, color: '#5F5E5A' }}>lower is better</Text>
+            </Box>
+
+            <Box style={{ marginTop: 8, flex: 1 }}>
+                <Table
+                    style={{ width: '100%', height: '100%' }}
+                    defaultTextStyle={{ fontSize: 13.5, textAlign: 'center', color: '#1A1A1A' }}
+                    defaultCellStyle={{ border: { left: { width: 1, color: '#D8D6CE' }, right: { width: 1, color: '#D8D6CE' }, top: { width: 1, color: '#D8D6CE' }, bottom: { width: 1, color: '#D8D6CE' } } }}
+                    cells={[
+                        [
+                            { text: 'Language', textStyle: { bold: true, color: '#FFFFFF', fontSize: 13.5 }, cellStyle: { background: { color: '#01467D' } } },
+                            { text: 'WER (norm)', textStyle: { bold: true, color: '#FFFFFF', fontSize: 13.5 }, cellStyle: { background: { color: '#01467D' } } },
+                            { text: 'CER (norm)', textStyle: { bold: true, color: '#FFFFFF', fontSize: 13.5 }, cellStyle: { background: { color: '#01467D' } } },
+                            { text: 'RTF median', textStyle: { bold: true, color: '#FFFFFF', fontSize: 13.5 }, cellStyle: { background: { color: '#01467D' } } },
+                        ],
+                        [{ text: 'Kannada', textStyle: { bold: true, textAlign: 'left' } }, '0.307', { text: '0.053', textStyle: { bold: true, color: '#0070C0' } }, '0.041'],
+                        [{ text: 'Malayalam', textStyle: { bold: true, textAlign: 'left' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.361', cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.059', textStyle: { bold: true, color: '#0070C0' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.041', cellStyle: { background: { color: '#F4F8FC' } } }],
+                        [{ text: 'English', textStyle: { bold: true, textAlign: 'left' } }, '0.181', { text: '0.067', textStyle: { bold: true, color: '#0070C0' } }, '0.040'],
+                        [{ text: 'Gujarati', textStyle: { bold: true, textAlign: 'left' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.300', cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.071', textStyle: { bold: true, color: '#0070C0' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.041', cellStyle: { background: { color: '#F4F8FC' } } }],
+                        [{ text: 'Bengali', textStyle: { bold: true, textAlign: 'left' } }, '0.359', { text: '0.100', textStyle: { bold: true, color: '#0070C0' } }, '0.040'],
+                        [{ text: 'Telugu', textStyle: { bold: true, textAlign: 'left' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.431', cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.100', textStyle: { bold: true, color: '#0070C0' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.039', cellStyle: { background: { color: '#F4F8FC' } } }],
+                        [{ text: 'Marathi', textStyle: { bold: true, textAlign: 'left' } }, '0.416', { text: '0.108', textStyle: { bold: true, color: '#0070C0' } }, '0.040'],
+                        [{ text: 'Hindi', textStyle: { bold: true, textAlign: 'left' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.281', cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.113', textStyle: { bold: true, color: '#0070C0' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.040', cellStyle: { background: { color: '#F4F8FC' } } }],
+                        [{ text: 'Tamil', textStyle: { bold: true, textAlign: 'left' } }, '0.501', { text: '0.129', textStyle: { bold: true, color: '#C00000' } }, '0.040'],
+                        [{ text: 'Odia', textStyle: { bold: true, textAlign: 'left' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.509', cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.134', textStyle: { bold: true, color: '#C00000' }, cellStyle: { background: { color: '#F4F8FC' } } }, { text: '0.043', cellStyle: { background: { color: '#F4F8FC' } } }],
+                    ]}
+                />
+            </Box>
+
+            <Text style={{ fontSize: 12, color: '#5F5E5A', marginTop: 6, lineHeight: 1.35 }}>
+                Model v2 (ctc-v2-int8) · 200 clips per language, 2,000 clips, 6.72 h · mean CER 0.093 · every language under 0.14.
+                Normalisation strips punctuation and case because the CTC decoder emits neither; raw WER runs ≈1.3× higher.
+            </Text>
+        </Box>
+
+        <Box style={{ flex: 1, flexDirection: 'column', gap: 10 }}>
+
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 10, padding: '7px 12px', background: '#F4F8FC', borderLeft: '4px solid #0070C0', borderRadius: 4 }}>
+                <svg width={24} height={24} viewBox='0 0 24 24'><circle cx={12} cy={12} r={9} fill='none' stroke='#0070C0' strokeWidth={2} /><path d='M12 7v5l3.5 2' fill='none' stroke='#0070C0' strokeWidth={2} strokeLinecap='round' /></svg>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#01467D' }}>Fast local processing</Text>
+                    <Text style={{ fontSize: 13, color: '#1A1A1A', lineHeight: 1.35 }}>RTF median 0.039–0.043 across all ten. A 3-second sentence costs ≈0.12 s of compute.</Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 10, padding: '7px 12px', background: '#F4F8FC', borderLeft: '4px solid #0070C0', borderRadius: 4 }}>
+                <svg width={24} height={24} viewBox='0 0 24 24'><path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2' fill='none' stroke='#0070C0' strokeWidth={2} strokeLinecap='round' /><circle cx={9} cy={7} r={4} fill='none' stroke='#0070C0' strokeWidth={2} /><path d='M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' fill='none' stroke='#0070C0' strokeWidth={2} strokeLinecap='round' /></svg>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#01467D' }}>Full multilingual coverage</Text>
+                    <Text style={{ fontSize: 13, color: '#1A1A1A', lineHeight: 1.35 }}>All ten PS-mandated languages measured. Best Kannada 0.053, weakest Odia 0.134.</Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 10, padding: '7px 12px', background: '#FFF6EC', borderLeft: '4px solid #E46C0A', borderRadius: 4 }}>
+                <svg width={24} height={24} viewBox='0 0 24 24'><path d='M18 20V10M12 20V4M6 20v-6' fill='none' stroke='#E46C0A' strokeWidth={2} strokeLinecap='round' /></svg>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#01467D' }}>Against a far larger model</Text>
+                    <Text style={{ fontSize: 13, color: '#1A1A1A', lineHeight: 1.35 }}>Meta's 7B LLM-ASR is 2–3× better — but it is 25 GiB and cannot run on a phone. Ours is 348 MB and does. Malayalam within 1.1×, Telugu 1.5×.</Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flexDirection: 'row', gap: 8, marginTop: 2 }}>
+                <Box style={{ flex: 1, padding: '6px 12px', background: '#C00000', borderRadius: 4 }}>
+                    <Text style={{ fontSize: 13.5, fontWeight: 'bold', color: '#FFFFFF' }}>Challenge / Risk</Text>
+                </Box>
+                <Box style={{ flex: 1, padding: '6px 12px', background: '#00B050', borderRadius: 4 }}>
+                    <Text style={{ fontSize: 13.5, fontWeight: 'bold', color: '#FFFFFF' }}>Engineering fix / Strategy</Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flex: 1, flexDirection: 'column', gap: 7 }}>
+                {[
+                    { r: 'The radio link has never connected — RFCOMM socket and Wi-Fi Direct group formation are unexecuted.', s: 'Next milestone: two physical phones. Adapter access and discovery already verified.' },
+                    { r: 'Every figure is from an API 34 emulator, not a low-end handset.', s: 'Benchmark on the cheapest available phone first; ship a release build.' },
+                    { r: 'Hindi degrades sharply in noise — CER 0.133 → 0.424 at 30 dB SNR.', s: 'Report CER beside WER; add a noise-robust front end; scope the demo to Hindi + English.' },
+                    { r: 'Kannada, Tamil and Odia TTS voices are not yet wired.', s: 'Route through espeak-ng; ship one voice per language to cut APK size.' },
+                ].map((p, i) => (
+                    <Box key={i} style={{ flexDirection: 'row', gap: 10, flex: 1, alignItems: 'center' }}>
+                        <Box style={{ flex: 1, height: '100%', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 12.5, color: '#1A1A1A', lineHeight: 1.3 }}>{p.r}</Text>
+                        </Box>
+                        <svg width={18} height={18} viewBox='0 0 24 24'>
+                            <path d='M5 12h14M13 6l6 6-6 6' fill='none' stroke='#00B050' strokeWidth='2.5' />
+                        </svg>
+                        <Box style={{ flex: 1, height: '100%', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 12.5, color: '#1A1A1A', lineHeight: 1.3 }}>{p.s}</Text>
+                        </Box>
+                    </Box>
+                ))}
+            </Box>
+
+        </Box>
+
+    </Box>
+
+</Slide>

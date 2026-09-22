@@ -1,0 +1,39 @@
+=================== en_us ===================
+tsv: 647 lines
+downloading audio (resumable, up to 3 attempts)...
+  gzip OK on attempt 1 (289M)
+  extracted: 647 files
+=================== ta_in ===================
+tsv: 591 lines
+downloading audio (resumable, up to 3 attempts)...
+  gzip OK on attempt 1 (401M)
+  extracted: 591 files
+=================== te_in ===================
+tsv: 472 lines
+downloading audio (resumable, up to 3 attempts)...
+  gzip OK on attempt 1 (273M)
+  extracted: 472 files
+=================== ml_in ===================
+tsv: 958 lines
+downloading audio (resumable, up to 3 attempts)...
+  gzip OK on attempt 1 (704M)
+  extracted: 958 files
+=================== gu_in ===================
+tsv: already present
+downloading audio (resumable, up to 3 attempts)...
+  gzip OK on attempt 1 (528M)
+[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED] {"count":630,"threshold":50,"scope":"turn","targets":["/Users/prathameshbhujbal/scrapling/output/option_a_stt/fleurs/test-gu_in"],"targetCount":1}
+  extracted: 1001 files
+=================== kn_in ===================
+tsv: 838 lines
+downloading audio (resumable, up to 3 attempts)...
+  gzip OK on attempt 1 (593M)
+  extracted: 838 files
+
+=================== DONE ===================
+en_us  tsv=yes  audio_files=647
+ta_in  tsv=yes  audio_files=591
+te_in  tsv=yes  audio_files=472
+ml_in  tsv=yes  audio_files=958
+gu_in  tsv=yes  audio_files=1001
+kn_in  tsv=yes  audio_files=838

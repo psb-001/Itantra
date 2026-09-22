@@ -1,0 +1,126 @@
+Omnilingual ASR — sherpa 1.3 documentation
+sherpa
+1.3
+Introduction
+Download pdf
+Social groups
+Run Next-gen Kaldi in your browser
+Pre-trained models
+k2-fsa/sherpa
+sherpa
+k2-fsa/sherpa-ncnn
+sherpa-ncnn
+k2-fsa/sherpa-onnx
+sherpa-onnx
+Tutorials
+Installation
+Frequently Asked Question (FAQs)
+Python
+C API
+Java API
+Javascript API (Node-Addon)
+Kotlin API
+Swift API
+Go API
+Rust API
+C# API
+Pascal API
+Lazarus
+WebAssembly
+Android
+HarmonyOS
+iOS
+Flutter
+Tauri Desktop Apps
+WebSocket
+Hotwords (Contextual biasing)
+Keyword spotting
+Punctuation
+Audio tagging
+Spoken language identification
+VAD
+Google MedASR
+Pre-trained models
+Whisper
+Moonshine
+Omnilingual ASR
+Huggingface space
+Export to ONNX
+Models
+Android APKs for Omnilingual ASR
+C API examples
+C# API examples
+Dart API examples
+Go API examples
+Java API examples
+JavaScript API examples
+Kotlin API examples
+Pascal API examples
+Python API examples
+Swift API examples
+SenseVoice
+Cohere Transcribe
+FunASR Nano
+Qwen3-ASR
+Paraformer
+NeMo
+FireRedAsr
+Dolphin
+拼音词组匹配替换
+Speaker Diarization
+Speaker Identification
+Speech enhancement
+Source separation
+Qualcomm NPU (QNN, HTP)
+rknn
+SpacemiT CPUs
+Ascend NPU (昇腾 NPU)
+Text-to-speech (TTS)
+Triton
+Triton
+sherpa
+»
+sherpa-onnx
+»
+Omnilingual ASR
+Edit on GitHub
+Omnilingual ASR
+
+This section describes how to use ASR models from
+https://github.com/facebookresearch/omnilingual-asr
+.
+It supports more than 1600 languages.
+Huggingface space
+Export to ONNX
+Where to find the export code
+Where to find test code
+GitHub Actions
+Models
+sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12 (1600+ languages)
+Download the model
+Decode wave files
+Speech recognition from a microphone
+Speech recognition from a microphone with VAD
+Android APKs for Omnilingual ASR
+C API examples
+C# API examples
+Dart API examples
+Go API examples
+Java API examples
+JavaScript API examples
+WebAssembly based npm package
+node-addon based npm package
+Kotlin API examples
+Pascal API examples
+Python API examples
+Swift API examples
+Previous
+Next
+© Copyright 2022-2026, sherpa development team.
+Built with
+Sphinx
+using a
+theme
+provided by
+Read the Docs
+.

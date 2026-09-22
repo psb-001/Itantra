@@ -1,0 +1,19 @@
+{
+  "machine": "Darwin arm64",
+  "note": "macOS ru_maxrss is in bytes, Linux in kilobytes. Earlier scripts assumed KB and mislabelled the result as MB.",
+  "models": {
+    "asr": "omnilingual-asr-300M-ctc-int8 (348 MiB on disk)",
+    "tts_hi": "hi_IN-pratham-medium (60.6 MiB on disk)",
+    "tts_en": "en_US-lessac-medium (60.3 MiB on disk)"
+  },
+  "baseline_mib": 29.5,
+  "asr_load_s": 0.403,
+  "peak_after_asr_mib": 710.1,
+  "tts_hi_load_s": 0.599,
+  "peak_after_asr_plus_hi_mib": 792.4,
+  "tts_en_load_s": 0.533,
+  "peak_all_models_mib": 838.1,
+  "smoke_asr_text": "jěho ik",
+  "smoke_tts_samples": 27136,
+  "peak_after_use_mib": 888.6
+}

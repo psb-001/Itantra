@@ -1,0 +1,96 @@
+<Slide style={{ width: 1280, height: 720, padding: '34px 48px 78px 48px', background: '#FFFFFF', fontFamily: 'Calibri', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+
+    <Box style={{ position: 'absolute', left: 0, bottom: 0, width: 1280, height: 56, background: '#0070C0', flexDirection: 'row', alignItems: 'center', padding: '0 48px' }}>
+        <Box style={{ width: 210 }}>
+            <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#FFFFFF' }}>B.J.P (Bug Janta Party)</Text>
+        </Box>
+        <Box style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 13, color: '#FFFFFF' }}>@SIH Idea submission- Template</Text>
+        </Box>
+        <Box style={{ width: 210, alignItems: 'flex-end' }}>
+            <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF' }}>2 / 6</Text>
+        </Box>
+    </Box>
+
+    <Box style={{ flexDirection: 'row', alignItems: 'center', height: 74 }}>
+        <Box style={{ width: 150, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 56, borderRadius: 28, border: '1.5px solid #7030A0' }}>
+            <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#7030A0', textAlign: 'center', lineHeight: 1.2 }}>B.J.P{'\n'}Bug Janta{'\n'}Party</Text>
+        </Box>
+        <Box style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={{ fontSize: 44, fontWeight: 'bold', fontFamily: 'Times New Roman', color: '#1A1A1A', textAlign: 'center' }}>
+                iTantra — send voice as <span style={{ color: '#E46C0A' }}>text</span>, not as audio
+            </Text>
+            <Text style={{ fontSize: 18, color: '#5F5E5A', marginTop: 4 }}>IDEA TITLE &nbsp;·&nbsp; Proposed Solution</Text>
+        </Box>
+        <Box style={{ width: 150, alignItems: 'flex-end' }}>
+            <Image src='assets/sih_logo.png' style={{ width: 140, height: 66 }} />
+        </Box>
+    </Box>
+
+    <Box style={{ flexDirection: 'row', gap: 30, flex: 1, marginTop: 16 }}>
+
+        <Box style={{ flex: 1.5, flexDirection: 'column' }}>
+            <Text style={{ fontSize: 19, fontWeight: 'bold', color: '#01467D' }}>What crosses the link</Text>
+
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 14 }}>
+                {[
+                    { n: '1', t: 'VOICE', d: 'Mic, 16 kHz' },
+                    { n: '2', t: 'TEXT', d: 'ASR on device' },
+                    { n: '3', t: 'TRANSMIT', d: '49–111 bytes' },
+                    { n: '4', t: 'VOICE', d: 'TTS on device' },
+                ].map((s, i) => (
+                    <Box key={i} style={{ flexDirection: 'row', alignItems: 'center', flex: 1, gap: 8 }}>
+                        <Box style={{ flex: 1, height: 128, border: '1px solid #01467D', borderRadius: 6, background: i === 2 ? '#01467D' : '#F4F8FC', alignItems: 'center', justifyContent: 'center', padding: 8 }}>
+                            <Text style={{ fontSize: 12, fontWeight: 'bold', color: i === 2 ? '#9FC0DC' : '#0070C0' }}>STEP {s.n}</Text>
+                            <Text style={{ fontSize: 19, fontWeight: 'bold', color: i === 2 ? '#FFFFFF' : '#01467D', marginTop: 6 }}>{s.t}</Text>
+                            <Text style={{ fontSize: 13, color: i === 2 ? '#CFE0F0' : '#5F5E5A', marginTop: 4, textAlign: 'center' }}>{s.d}</Text>
+                        </Box>
+                        {i < 3 ? (
+                            <svg width={20} height={20} viewBox='0 0 24 24'>
+                                <path d='M5 12h14M13 6l6 6-6 6' fill='none' stroke='#0070C0' strokeWidth='2.5' />
+                            </svg>
+                        ) : null}
+                    </Box>
+                ))}
+            </Box>
+
+            <Box style={{ marginTop: 22, padding: '18px 20px', background: '#F4F8FC', border: '1px solid #B4B2A9', borderRadius: 6 }}>
+                <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#01467D' }}>Same sentence, two ways</Text>
+
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 14 }}>
+                    <Text style={{ width: 190, fontSize: 14, color: '#5F5E5A' }}>Raw PCM audio, 3 s</Text>
+                    <Box style={{ flex: 1, height: 22, background: '#B4B2A9', borderRadius: 3 }} />
+                    <Text style={{ width: 70, fontSize: 15, fontWeight: 'bold', color: '#5F5E5A', textAlign: 'right' }}>≈ 93 KB</Text>
+                </Box>
+
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 10 }}>
+                    <Text style={{ width: 190, fontSize: 14, color: '#5F5E5A' }}>iTantra text payload</Text>
+                    <Box style={{ flex: 1, height: 22, alignItems: 'flex-start' }}>
+                        <Box style={{ width: 4, height: 22, background: '#E46C0A', borderRadius: 2 }} />
+                    </Box>
+                    <Text style={{ width: 70, fontSize: 15, fontWeight: 'bold', color: '#E46C0A', textAlign: 'right' }}>49–111 B</Text>
+                </Box>
+
+                <Text style={{ fontSize: 13, color: '#5F5E5A', marginTop: 12 }}>
+                    Measured payload from 4 test utterances. Roughly 1,000× smaller than the equivalent audio.
+                </Text>
+            </Box>
+        </Box>
+
+        <Box style={{ flex: 1, flexDirection: 'column', gap: 12 }}>
+            {[
+                { h: 'Proposed solution', b: 'An offline Android app: speech in, text out, a compact packet over Bluetooth or Wi-Fi Direct, speech back out on the receiving phone.' },
+                { h: 'Detailed explanation', b: 'Push-to-talk works like a walkie-talkie. When idle, both phones run only a voice-activity detector. The speaker\'s phone carries the ASR cost; the listener\'s phone carries the TTS cost.' },
+                { h: 'How it addresses the problem', b: 'Audio is too large for low-bitrate links. One spoken sentence becomes 49–111 bytes of UTF-8 text, so voice fits where it could not before.' },
+                { h: 'Innovation and uniqueness', b: 'An asymmetric pipeline — one heavy model per phone. Only 0.6 MB of VAD runs while listening, so idle CPU stays near zero by design.' },
+            ].map((c, i) => (
+                <Box key={i} style={{ flex: 1, background: '#FFFFFF', border: '1px solid #B4B2A9', borderLeft: '4px solid #01467D', borderRadius: 4, padding: '10px 14px', justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#01467D' }}>{c.h}</Text>
+                    <Text style={{ fontSize: 14, color: '#1A1A1A', lineHeight: 1.4, marginTop: 4 }}>{c.b}</Text>
+                </Box>
+            ))}
+        </Box>
+
+    </Box>
+
+</Slide>

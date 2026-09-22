@@ -1,0 +1,20 @@
+Loading model.int8.onnx ...
+Loaded in 0.42 s. n per language = 200
+[or_in ] n= 200  WER raw 0.571 norm 0.504  CER raw 0.168 norm 0.143  RTF med 0.041
+[hi_in ] n= 200  WER raw 0.380 norm 0.305  CER raw 0.164 norm 0.141  RTF med 0.039
+[bn_in ] n= 200  WER raw 0.447 norm 0.337  CER raw 0.131 norm 0.094  RTF med 0.039
+[mr_in ] n= 200  WER raw 0.507 norm 0.415  CER raw 0.129 norm 0.108  RTF med 0.038
+[gu_in] tsv present but 0 clips extracted — skipping
+[kn_in] no tsv — skipping
+[ta_in] no tsv — skipping
+[te_in] no tsv — skipping
+[ml_in] no tsv — skipping
+
+=== SUMMARY (corpus-level) ===
+language      n  WER raw  WER norm  CER raw  CER norm  RTF med
+Odia        200    0.571     0.504    0.168     0.143    0.041
+Hindi       200    0.380     0.305    0.164     0.141    0.039
+Bengali     200    0.447     0.337    0.131     0.094    0.039
+Marathi     200    0.507     0.415    0.129     0.108    0.038
+
+Wrote asr_full_<code>.json + SUMMARY_full.json

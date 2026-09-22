@@ -1,0 +1,47 @@
+{
+  "vad_model_bytes": 643854,
+  "sample_rate": 16000,
+  "results": [
+    {
+      "test": "silence_5s",
+      "segments": 0,
+      "pass": true
+    },
+    {
+      "test": "speech_hi_in",
+      "audio_s": 9.36,
+      "segments": 3,
+      "segment_lengths_s": [
+        2.02,
+        3.2,
+        1.79
+      ],
+      "speech_detected_s": 7.0,
+      "vad_rtf": 0.0041,
+      "pass": true
+    },
+    {
+      "test": "speech_or_in",
+      "audio_s": 8.76,
+      "segments": 1,
+      "segment_lengths_s": [
+        7.9
+      ],
+      "speech_detected_s": 7.9,
+      "vad_rtf": 0.0042,
+      "pass": true
+    },
+    {
+      "test": "speech_ta_in",
+      "audio_s": 15.12,
+      "segments": 2,
+      "segment_lengths_s": [
+        10.55,
+        3.1
+      ],
+      "speech_detected_s": 13.65,
+      "vad_rtf": 0.0042,
+      "pass": true
+    }
+  ]
+}

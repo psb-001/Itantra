@@ -1,0 +1,295 @@
+ai4bharat/indic-conformer-600m-multilingual · Hugging Face
+Hugging Face
+Models
+Datasets
+Spaces
+Buckets
+new
+Docs
+Enterprise
+Pricing
+Website
+Tasks
+HuggingChat
+Collections
+Languages
+Organizations
+Community
+Blog
+Posts
+Daily Papers
+Hardware
+Learn
+Discord
+Forum
+GitHub
+Solutions
+Team & Enterprise
+Hugging Face PRO
+Enterprise Support
+Inference Providers
+Inference Endpoints
+Storage Buckets
+Log In
+Sign Up
+ai4bharat
+/
+indic-conformer-600m-multilingual
+Like
+167
+Follow
+AI4Bharat
+2.07k
+Automatic Speech Recognition
+ONNX
+custom_code
+Eval Results
+License:
+mit
+Model card
+Files
+Files and versions
+xet
+Community
+19
+Copy to bucket
+new
+You need to agree to share your contact information to access this model
+This repository is publicly accessible, but
+you have to accept the conditions to access its files and content
+.
+Log in
+or
+Sign Up
+to review the conditions and access this model content.
+IndicConformer
+Model Details
+Model Usage
+Installation
+Inference Example
+Supported Languages
+Contact
+IndicConformer
+AI4Bharat's IndicConformers is a suite of ASR models built to deliver accurate speech-to-text conversion in all 22 official Indian languages. By leveraging cutting-edge deep learning techniques, these models provide precise transcriptions. As the country's first open-source ASR system covering such a vast array of languages, AI4Bharat Indic Conformer is a transformative tool for making technology more inclusive and accessible to all. IndicConformer is released under the MIT license.
+Model Details
+Model Name:
+IndicConformer-600M-Multi
+Repository:
+ai4bharat/indic-conformer-600m-multilingual
+Architecture:
+Multilingual Conformer-based Hybrid CTC + RNNT ASR model
+Parameter Size:
+600M
+Languages Supported:
+IN-22
+Model Usage
+This model can be used to transcribe speech in various Indian languages. It supports two decoding strategies:
+CTC (Connectionist Temporal Classification)
+RNNT (Recurrent Neural Network Transducer)
+Installation
+Ensure that you have
+transformers
+and
+torchaudio
+installed:
+pip install transformers torchaudio
+"onnxruntime==1.20.1"
+"onnx==1.20.1"
+"onnxruntime-gpu==1.20.1"
+Inference Example
+from
+transformers
+import
+AutoModel
+import
+torch, torchaudio
+# Load the model
+model = AutoModel.from_pretrained(
+"ai4bharat/indic-conformer-600m-multilingual"
+, trust_remote_code=
+True
+)
+# Load an audio file
+wav, sr = torchaudio.load(
+"audio.flac"
+)
+wav = torch.mean(wav, dim=
+0
+, keepdim=
+True
+)
+
+target_sample_rate =
+16000
+# Expected sample rate
+if
+sr != target_sample_rate:
+    resampler = torchaudio.transforms.Resample(orig_freq=sr, new_freq=target_sample_rate)
+    wav = resampler(wav)
+# Perform ASR with CTC decoding
+transcription_ctc = model(wav,
+"hi"
+,
+"ctc"
+)
+print
+(
+"CTC Transcription:"
+, transcription_ctc)
+# Perform ASR with RNNT decoding
+transcription_rnnt = model(wav,
+"hi"
+,
+"rnnt"
+)
+print
+(
+"RNNT Transcription:"
+, transcription_rnnt)
+Supported Languages
+IndicConformer-600M-Multi is trained for
+22 officially recognized languages of India
+, including:
+Assamese(
+as
+)
+Bengali(
+bn
+)
+Bodo(
+brx
+)
+Dogri(
+doi
+)
+Gujarati(
+gu
+)
+Hindi(
+hi
+)
+Kannada(
+kn
+)
+Konkani(
+kok
+)
+Kashmiri(
+ks
+)
+Maithili(
+mai
+)
+Malayalam(
+ml
+)
+Manipuri(
+mni
+)
+Marathi(
+mr
+)
+Nepali(
+ne
+)
+Odia(
+or
+)
+Punjabi(
+pa
+)
+Sanskrit(
+sa
+)
+Santali(
+sat
+)
+Sindhi(
+sd
+)
+Tamil(
+ta
+)
+Telugu(
+te
+)
+Urdu(
+ur
+)
+The tokenizers used for these languages can be found
+here
+Contact
+For any questions or feedback, please contact:
+Tahir Javed (
+tahir@cse.iitm.ac.in
+)
+Kaushal Bhogale (
+CS22D006@cse.iitm.ac.in
+)
+Downloads last month
+399,444
+Inference Providers
+NEW
+Automatic Speech Recognition
+This model isn't deployed by any Inference Provider.
+🙋
+1
+Ask for provider support
+Model tree for
+ai4bharat/indic-conformer-600m-multilingual
+Finetunes
+1 model
+Quantizations
+9 models
+Spaces using
+ai4bharat/indic-conformer-600m-multilingual
+49
+🎙️
+say123ya123/indicvoices-asr-explorer
+🚀
+kasimali/new-asr-voxlingua
+🐨
+rverma0631/MultilingualASR
+📊
+arshadul/silence-trimmer
+🏆
+Gaykar/AIService
+🚀
+ishanr/modelhub-tester
+🏃
+Harsha909/Video-Audio-to-Text
+🏆
+Noumida/ASR_IndicConformer
++ 44 Spaces
++ 41 Spaces
+Collection including
+ai4bharat/indic-conformer-600m-multilingual
+IndicConformer
+Collection
+A collection of ASR models for 22 scheduled languages of India
+•
+23 items
+•
+Updated
+Mar 2
+•
+42
+Evaluation results
+ARTPARK-IISc/Vaani-Benchmark-V1.0
+·
+Hindi WER
+View evaluation results
+leaderboard
+13.2
+System theme
+Company
+TOS
+Privacy
+About
+Careers
+Website
+Models
+Datasets
+Spaces
+Pricing
+Docs

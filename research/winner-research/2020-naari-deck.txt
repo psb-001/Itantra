@@ -1,0 +1,92 @@
+PAGE 1
+AS_122 
+CODE MAGICIANS
+NAARI – The WEB APPLICATION
+
+PAGE 2
+NAARI – The Web Application
+
+PAGE 3
+Technology Stack Used
+•HTML,CSS,JQuery
+•Bootstrap , JavaScriptFrontend
+•nodejs v14.3.0
+•database postgresql -12Backend
+•Chat Bot- Dialog Flow
+•Deep learning keras (ResNet-50)ML Models
+• Government- Digilocker API , Aadhar Verification
+• Google -Geo Location API, Translator APIAPIs
+• AWS (Amazon Web Service)
+• Digital OceanCloud Sever
+• Paytm APIFor Transaction
+PAGE 4
+Services provided by NAARI 
+PAGE 5
+Working of 
+NAARI 
+Chat Bot
+Language Select 
+Is 
+member
+Yes
+No
+PAGE 6
+After Login Signup Women Dashboard will appear
+Webpage opens with 
+various types of jobs 
+and qualification in it
+Webpage of 
+Various Courses of 
+education Opens
+Webpage 
+opens that will 
+help to open ur
+bank account
+PAGE 7
+Gullak
+Webpage appear 
+to add or transfer 
+money
+PAGE 8
+Hand Cash to Digi Cash
+R->S
+• The DIGI Cash dialog box appears 
+Shopkeeper 
+will 
+• If you want to become a sender login 
+to page and start the process.
+• Search Digi Senders nearby our place 
+
+PAGE 9
+Job Portal
+Webpage appear for 
+Adding a job and he 
+must be registered
+Job Search site opens
+PAGE 10
+Vocal for local
+Webpage appear for 
+promoting your Products
+You can see the new 
+Products which are being 
+advertised.
+Web page for Vocal 
+Appears
+PAGE 11
+Open a Bank Account
+Login page appears 
+and women 
+dashboard appears
+Webpage appears in 
+which bank she wants to 
+add her account and can 
+call or videocall them
+PAGE 12
+Latest Schemes and Policies
+TTThis Webpage Helps you find the 
+latest Schemes and Policies 
+Provided by the government and 
+how to use them and how to 
+register for them
+
+PAGE 13

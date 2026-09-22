@@ -1,0 +1,121 @@
+Introduction | Meshtastic
+Skip to main content
+Meshtastic
+Docs
+Blog
+Downloads
+Flasher
+2.8
+2.8
+2.7 and below
+Search
+Donate
+GitHub
+About
+Introduction
+Overview
+Contributing
+FAQs
+Getting Started
+Configuration
+Hardware
+Software
+MeshtasticD
+Community
+Development
+Legal
+Glossary of Terms
+Version: 2.8
+On this page
+Introduction
+Meshtastic® is a project that enables you to use inexpensive
+LoRa
+LoRa
+A low-power, long-range wireless communication technology used by Meshtastic devices to enable communication over distances of several kilometers without the need for cellular, Wi-Fi, or other traditional network infrastructures.
+radios as a long range off-grid communication platform in areas without existing or reliable communications infrastructure. This project is 100% community driven and open source!
+19:50
+MESHTASTIC
+Primary Channel
+Send a message to the mesh
+Mesh network topology connections
+Client
+Client
+Client
+Client
+Router
+Client
+Client
+Client
+meshtastic-cli
+$ meshtastic --listen
+Listening for messages...
+LoRa
+Bluetooth
+WiFi
+USB
+Features
+​
+Long range (
+331km record by MartinR7 & alleg
+)
+No phone required for mesh communication
+Decentralized communication - no dedicated router required
+Encrypted communication
+Excellent battery life
+Send and receive text messages between members of the mesh
+Optional
+GPS
+GPS
+(Global Positioning System). A satellite positioning system. A node with a GPS module determines its own location and can report that position to the mesh.
+based location features
+And more!
+How it works
+​
+Meshtastic utilizes
+LoRa
+LoRa
+A low-power, long-range wireless communication technology used by Meshtastic devices to enable communication over distances of several kilometers without the need for cellular, Wi-Fi, or other traditional network infrastructures.
+, a long-range radio protocol, which is widely accessible in most regions without the need for additional licenses or certifications, unlike ham radio operations.
+These radios are designed to rebroadcast messages they receive, forming a mesh network. This setup ensures that every group member, including those at the furthest distance, can receive messages.
+Additionally, Meshtastic radios can be paired with a single phone, allowing friends and family to send messages directly to your specific radio. It's important to note that each device is capable of supporting a connection from only one user at a time.
+If you are interested in a more technical overview of how Meshtastic works, visit the overview section below:
+Technical Overview
+Contributors
+​
+Meshtastic is an open source project available on GitHub. Our generous volunteers donate their personal time to write and maintain this codebase. If you would like to contribute see our
+GitHub
+, join our
+Discord server
+, and read up on our
+Meshtastic Discussions
+.
+Contribute!
+Start using Meshtastic
+​
+Hopefully your "Getting Started" experience is straight forward and headache free. If you encounter any issues, please consider updating our documentation to improve future user experiences or reach out on the forum or Discord.
+Our support is 100% volunteer based. We are passionate about the project and hope to help newcomers become Meshtastic experts!
+Getting Started
+Edit this page
+Last updated by
+github-actions[bot]
+Previous
+About
+Next
+Overview
+Features
+How it works
+Contributors
+Start using Meshtastic
+Discord
+X
+Facebook
+Instagram
+YouTube
+Reddit
+Bluesky
+Mastodon
+Telegram
+Powered by ▲ Vercel
+| Meshtastic® is a registered trademark of Meshtastic LLC. |
+Legal Information
+.

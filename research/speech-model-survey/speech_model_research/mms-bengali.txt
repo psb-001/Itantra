@@ -1,0 +1,240 @@
+facebook/mms-tts-ben · Hugging Face
+Hugging Face
+Models
+Datasets
+Spaces
+Buckets
+new
+Docs
+Enterprise
+Pricing
+Website
+Tasks
+HuggingChat
+Collections
+Languages
+Organizations
+Community
+Blog
+Posts
+Daily Papers
+Hardware
+Learn
+Discord
+Forum
+GitHub
+Solutions
+Team & Enterprise
+Hugging Face PRO
+Enterprise Support
+Inference Providers
+Inference Endpoints
+Storage Buckets
+Log In
+Sign Up
+facebook
+/
+mms-tts-ben
+Like
+5
+Follow
+AI at Meta
+14.7k
+Text-to-Speech
+Transformers
+PyTorch
+Safetensors
+vits
+text-to-audio
+mms
+arxiv:
+2305.13516
+License:
+cc-by-nc-4.0
+Model card
+Files
+Files and versions
+xet
+Community
+Deploy
+Copy to bucket
+new
+Use this model
+Instructions to use facebook/mms-tts-ben with libraries, inference providers, notebooks, and local apps. Follow these links to get started.
+Libraries
+Transformers
+How to use facebook/mms-tts-ben with Transformers:
+# Use a pipeline as a high-level helper
+from transformers import pipeline
+
+pipe = pipeline("text-to-speech", model="facebook/mms-tts-ben")
+# Load model directly
+from transformers import AutoTokenizer, AutoModelForTextToWaveform
+
+tokenizer = AutoTokenizer.from_pretrained("facebook/mms-tts-ben")
+model = AutoModelForTextToWaveform.from_pretrained("facebook/mms-tts-ben", device_map="auto")
+Notebooks
+Google Colab
+Kaggle
+Massively Multilingual Speech (MMS): Bengali Text-to-Speech
+Model Details
+Usage
+BibTex citation
+License
+Massively Multilingual Speech (MMS): Bengali Text-to-Speech
+This repository contains the
+Bengali (ben)
+language text-to-speech (TTS) model checkpoint.
+This model is part of Facebook's
+Massively Multilingual Speech
+project, aiming to
+provide speech technology across a diverse range of languages. You can find more details about the supported languages
+and their ISO 639-3 codes in the
+MMS Language Coverage Overview
+,
+and see all MMS-TTS checkpoints on the Hugging Face Hub:
+facebook/mms-tts
+.
+MMS-TTS is available in the 🤗 Transformers library from version 4.33 onwards.
+Model Details
+VITS (
+V
+ariational
+I
+nference with adversarial learning for end-to-end
+T
+ext-to-
+S
+peech) is an end-to-end 
+speech synthesis model that predicts a speech waveform conditional on an input text sequence. It is a conditional variational 
+autoencoder (VAE) comprised of a posterior encoder, decoder, and conditional prior.
+A set of spectrogram-based acoustic features are predicted by the flow-based module, which is formed of a Transformer-based
+text encoder and multiple coupling layers. The spectrogram is decoded using a stack of transposed convolutional layers,
+much in the same style as the HiFi-GAN vocoder. Motivated by the one-to-many nature of the TTS problem, where the same text 
+input can be spoken in multiple ways, the model also includes a stochastic duration predictor, which allows the model to 
+synthesise speech with different rhythms from the same input text.
+The model is trained end-to-end with a combination of losses derived from variational lower bound and adversarial training. 
+To improve the expressiveness of the model, normalizing flows are applied to the conditional prior distribution. During 
+inference, the text encodings are up-sampled based on the duration prediction module, and then mapped into the 
+waveform using a cascade of the flow module and HiFi-GAN decoder. Due to the stochastic nature of the duration predictor,
+the model is non-deterministic, and thus requires a fixed seed to generate the same speech waveform.
+For the MMS project, a separate VITS checkpoint is trained on each langauge.
+Usage
+MMS-TTS is available in the 🤗 Transformers library from version 4.33 onwards. To use this checkpoint, 
+first install the latest version of the library:
+pip install --upgrade transformers accelerate
+Then, run inference with the following code-snippet:
+from
+transformers
+import
+VitsModel, AutoTokenizer
+import
+torch
+
+model = VitsModel.from_pretrained(
+"facebook/mms-tts-ben"
+)
+tokenizer = AutoTokenizer.from_pretrained(
+"facebook/mms-tts-ben"
+)
+
+text =
+"some example text in the Bengali language"
+inputs = tokenizer(text, return_tensors=
+"pt"
+)
+with
+torch.no_grad():
+    output = model(**inputs).waveform
+The resulting waveform can be saved as a
+.wav
+file:
+import
+scipy
+
+scipy.io.wavfile.write(
+"techno.wav"
+, rate=model.config.sampling_rate, data=output)
+Or displayed in a Jupyter Notebook / Google Colab:
+from
+IPython.display
+import
+Audio
+
+Audio(output, rate=model.config.sampling_rate)
+BibTex citation
+This model was developed by Vineel Pratap et al. from Meta AI. If you use the model, consider citing the MMS paper:
+@article{pratap2023mms,
+    title={Scaling Speech Technology to 1,000+ Languages},
+    author={Vineel Pratap and Andros Tjandra and Bowen Shi and Paden Tomasello and Arun Babu and Sayani Kundu and Ali Elkahky and Zhaoheng Ni and Apoorv Vyas and Maryam Fazel-Zarandi and Alexei Baevski and Yossi Adi and Xiaohui Zhang and Wei-Ning Hsu and Alexis Conneau and Michael Auli},
+    journal={arXiv},
+    year={2023}
+}
+License
+The model is licensed as
+CC-BY-NC 4.0
+.
+Downloads last month
+4,369
+Safetensors
+Model size
+36.3M params
+Tensor type
+F32
+·
+Files info
+Inference Providers
+NEW
+Text-to-Speech
+This model isn't deployed by any Inference Provider.
+🙋
+1
+Ask for provider support
+Model tree for
+facebook/mms-tts-ben
+Quantizations
+2 models
+Spaces using
+facebook/mms-tts-ben
+100
+🌍
+Daniel9046/SoniTranslate
+🌍🈷️
+RO-Rtechs/Translate_Video_language
+🌍
+waloneai/VideoTranslate_translate_audio_of_a_video_content
+🌍🈷️
+G-Rost/SoniTranslate_2
+🌍
+r3gm/SoniTranslate_translate_audio_of_a_video_content
+🌍
+r3gm/video_dubbing_sonitr_demo
+🌍🈷️
+aikitty/SoniTranslate_translate_audio_of_a_video_content-sandbox
+🌍🈷️
+sub314xxl/SoniTranslate_translate_audio_of_a_video_content
++ 95 Spaces
++ 92 Spaces
+Paper for
+facebook/mms-tts-ben
+Scaling Speech Technology to 1,000+ Languages
+Paper
+•
+2305.13516
+•
+Published
+May 22, 2023
+•
+12
+System theme
+Company
+TOS
+Privacy
+About
+Careers
+Website
+Models
+Datasets
+Spaces
+Pricing
+Docs

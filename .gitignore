@@ -1,0 +1,66 @@
+# ============================================================
+# iTantra — SIH26173
+# Nothing large is committed. Every excluded item below is
+# either a build artifact or re-fetchable by a script in-repo.
+# ============================================================
+
+# ---------- Android build output (regenerable: app/build.sh) ----------
+app/app/build/
+app/.gradle/
+app/build/
+app/local.properties
+.gradle/
+captures/
+
+# ---------- Python (moved venv; shebangs are stale) ----------
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# ---------- Large model binaries ----------
+# ASR (349 MiB), Piper voices (139 MiB), Silero VAD, reference APK.
+# Fetched by: app/setup-project.sh  and  eval/ scripts.
+*.onnx
+*.tflite
+*.bin
+*.pt
+*.ckpt
+models/reference-apk/
+app/app/src/main/assets/sherpa-onnx-*/
+app/app/src/main/assets/tts/*.onnx
+
+# ---------- Compiled release artifacts (~1.0 GB) ----------
+# Ship these as GitHub Release assets, not in git history.
+releases/
+*.apk
+*.aab
+
+# ---------- Datasets (7.1 GB) ----------
+# Re-fetchable: eval/fetch_missing_langs.sh
+dataset/
+
+# ---------- Archives ----------
+*.tar.gz
+*.tgz
+*.tar.bz2
+*.zip
+
+# ---------- Agent workspace state ----------
+.workbuddy-ai/
+
+# ---------- macOS ----------
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# ---------- Editors / IDE ----------
+.idea/
+.vscode/
+*.swp
+
+# ---------- Logs that are not evidence ----------
+*.tmp

@@ -1,0 +1,86 @@
+=== boot pid=76068 ts=2026-09-21 11:18:44.668 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/01.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:18:44.664] [INFO ] [pid=76068] [validate] ok slideId=01 status=ready ms=1099
+=== boot pid=76387 ts=2026-09-21 11:18:53.481 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/01.slide ===
+[2026-09-21 11:18:53.476] [INFO ] [pid=76387] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:18:53.515] [INFO ] [pid=76387] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:18:53.522] [INFO ] [pid=76387] [mcp] mcp:slide_get_info ok ms=4
+=== boot pid=76933 ts=2026-09-21 11:19:33.489 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/01.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:19:33.485] [INFO ] [pid=76933] [validate] ok slideId=01 status=ready ms=1097
+=== boot pid=76965 ts=2026-09-21 11:19:35.783 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/01.slide --page-index 0 ===
+[2026-09-21 11:19:35.779] [INFO ] [pid=76965] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:19:35.819] [INFO ] [pid=76965] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:19:35.826] [INFO ] [pid=76965] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=77506 ts=2026-09-21 11:20:02.351 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/02.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:20:02.347] [INFO ] [pid=77506] [validate] ok slideId=02 status=ready ms=1377
+=== boot pid=77761 ts=2026-09-21 11:20:13.349 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/02.slide ===
+[2026-09-21 11:20:13.344] [INFO ] [pid=77761] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:20:13.388] [INFO ] [pid=77761] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:20:13.394] [INFO ] [pid=77761] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=78213 ts=2026-09-21 11:20:47.339 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/03.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:20:47.334] [INFO ] [pid=78213] [validate] ok slideId=03 status=ready ms=1249
+=== boot pid=78469 ts=2026-09-21 11:21:00.843 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/03.slide ===
+[2026-09-21 11:21:00.838] [INFO ] [pid=78469] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:21:00.878] [INFO ] [pid=78469] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:21:00.885] [INFO ] [pid=78469] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=78923 ts=2026-09-21 11:21:33.094 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/04.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:21:33.090] [INFO ] [pid=78923] [validate] ok slideId=04 status=ready ms=4690
+=== boot pid=79189 ts=2026-09-21 11:21:41.697 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/04.slide ===
+[2026-09-21 11:21:41.692] [INFO ] [pid=79189] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:21:41.732] [INFO ] [pid=79189] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:21:41.739] [INFO ] [pid=79189] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=79491 ts=2026-09-21 11:22:15.250 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/05.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:22:15.246] [INFO ] [pid=79491] [validate] ok slideId=05 status=ready ms=7783
+=== boot pid=80236 ts=2026-09-21 11:22:47.518 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/05.slide ===
+[2026-09-21 11:22:47.513] [INFO ] [pid=80236] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:22:47.553] [INFO ] [pid=80236] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:22:47.560] [INFO ] [pid=80236] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=80697 ts=2026-09-21 11:23:27.947 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/06.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:23:27.943] [INFO ] [pid=80697] [validate] ok slideId=06 status=ready ms=1217
+=== boot pid=81814 ts=2026-09-21 11:24:37.640 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/06.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:24:37.635] [INFO ] [pid=81814] [validate] ok slideId=06 status=ready ms=1187
+=== boot pid=81864 ts=2026-09-21 11:24:44.391 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/06.slide ===
+[2026-09-21 11:24:44.387] [INFO ] [pid=81864] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:24:44.426] [INFO ] [pid=81864] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:24:44.433] [INFO ] [pid=81864] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=88282 ts=2026-09-21 11:31:11.076 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/04.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:31:11.071] [INFO ] [pid=88282] [validate] ok slideId=04 status=ready ms=1493
+=== boot pid=88313 ts=2026-09-21 11:31:14.691 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/05.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:31:14.687] [INFO ] [pid=88313] [validate] ok slideId=05 status=ready ms=1278
+=== boot pid=88541 ts=2026-09-21 11:31:18.299 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/06.slide --project /Users/prathameshbhujbal/scrapling/iTantra_SIH26173 ===
+[2026-09-21 11:31:18.295] [INFO ] [pid=88541] [validate] ok slideId=06 status=ready ms=1282
+=== boot pid=88601 ts=2026-09-21 11:31:28.769 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/04.slide ===
+[2026-09-21 11:31:28.764] [INFO ] [pid=88601] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:31:28.804] [INFO ] [pid=88601] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:31:28.811] [INFO ] [pid=88601] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=88881 ts=2026-09-21 11:31:33.070 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/05.slide ===
+[2026-09-21 11:31:33.066] [INFO ] [pid=88881] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:31:33.104] [INFO ] [pid=88881] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:31:33.111] [INFO ] [pid=88881] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=88987 ts=2026-09-21 11:31:37.448 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/06.slide ===
+[2026-09-21 11:31:37.443] [INFO ] [pid=88987] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:31:37.486] [INFO ] [pid=88987] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"sid_muatcyfx_dn680dm8"}
+[2026-09-21 11:31:37.493] [INFO ] [pid=88987] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=90410 ts=2026-09-21 11:32:57.111 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/01.slide ===
+[2026-09-21 11:32:57.106] [INFO ] [pid=90410] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:32:57.146] [INFO ] [pid=90410] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"5E919478-1C06-45D6-8A12-F9216A49A2D6"}
+[2026-09-21 11:32:57.154] [INFO ] [pid=90410] [mcp] mcp:slide_get_info ok ms=4
+=== boot pid=90439 ts=2026-09-21 11:33:00.841 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/02.slide ===
+[2026-09-21 11:33:00.836] [INFO ] [pid=90439] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:33:00.875] [INFO ] [pid=90439] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"5E919478-1C06-45D6-8A12-F9216A49A2D6"}
+[2026-09-21 11:33:00.882] [INFO ] [pid=90439] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=90667 ts=2026-09-21 11:33:04.638 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/03.slide ===
+[2026-09-21 11:33:04.634] [INFO ] [pid=90667] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:33:04.673] [INFO ] [pid=90667] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"5E919478-1C06-45D6-8A12-F9216A49A2D6"}
+[2026-09-21 11:33:04.680] [INFO ] [pid=90667] [mcp] mcp:slide_get_info ok ms=4
+=== boot pid=90698 ts=2026-09-21 11:33:08.638 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/04.slide ===
+[2026-09-21 11:33:08.633] [INFO ] [pid=90698] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:33:08.672] [INFO ] [pid=90698] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"5E919478-1C06-45D6-8A12-F9216A49A2D6"}
+[2026-09-21 11:33:08.679] [INFO ] [pid=90698] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=90731 ts=2026-09-21 11:33:12.700 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/05.slide ===
+[2026-09-21 11:33:12.695] [INFO ] [pid=90731] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:33:12.733] [INFO ] [pid=90731] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"5E919478-1C06-45D6-8A12-F9216A49A2D6"}
+[2026-09-21 11:33:12.740] [INFO ] [pid=90731] [mcp] mcp:slide_get_info ok ms=3
+=== boot pid=90769 ts=2026-09-21 11:33:16.797 cwd=/Users/prathameshbhujbal/scrapling/iTantra_SIH26173 argv=/Users/prathameshbhujbal/.workbuddy-ai/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl iTantra_SIH26173.pptx --dsl-file slides/06.slide ===
+[2026-09-21 11:33:16.792] [INFO ] [pid=90769] [server-url] env TENCENT_DOCS_LOCAL_MCP = <unset>
+[2026-09-21 11:33:16.830] [INFO ] [pid=90769] [mcp] mcp:slide_get_info send url=http://localhost:39099/mcp args={"file_id":"5E919478-1C06-45D6-8A12-F9216A49A2D6"}
+[2026-09-21 11:33:16.837] [INFO ] [pid=90769] [mcp] mcp:slide_get_info ok ms=3

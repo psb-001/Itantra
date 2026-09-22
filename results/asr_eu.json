@@ -1,0 +1,38 @@
+{
+  "machine": "macOS arm64 (NOT Android)",
+  "model": "omnilingual-asr-300M-ctc-int8",
+  "model_load_seconds": 0.528,
+  "model_bytes": 365352120,
+  "utterances": [
+    {
+      "file": "de.wav",
+      "duration_s": 2.752,
+      "recognize_s": 0.118,
+      "rtf": 0.043,
+      "text": "alles hat ein ende nur die wurst hat zwei"
+    },
+    {
+      "file": "en.wav",
+      "duration_s": 3.845,
+      "recognize_s": 0.148,
+      "rtf": 0.039,
+      "text": "ask not what your country can do for you ask what you can do for your country"
+    },
+    {
+      "file": "es.wav",
+      "duration_s": 5.329,
+      "recognize_s": 0.213,
+      "rtf": 0.04,
+      "text": "no preguntes que puede hacer tu país por ti pregunta que puedes hacer te un puer tu país"
+    },
+    {
+      "file": "fr.wav",
+      "duration_s": 4.969,
+      "recognize_s": 0.187,
+      "rtf": 0.038,
+      "text": "ne vous demandez pas ce que votre pays peut faire pour vous demandez-vous plutôt ce que vous pouvez faire pour lui"
+    }
+  ],
+  "total_audio_s": 16.895,
+  "total_recognize_s": 0.666
+}

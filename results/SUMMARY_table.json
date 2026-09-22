@@ -1,0 +1,38 @@
+[
+  {
+    "language": "Odia",
+    "n_clips": 6,
+    "audio_s": 64.14,
+    "recognize_s": 2.291,
+    "rtf": 0.036,
+    "wer": 0.4023,
+    "cer": 0.0825
+  },
+  {
+    "language": "Hindi",
+    "n_clips": 6,
+    "audio_s": 65.46,
+    "recognize_s": 2.455,
+    "rtf": 0.038,
+    "wer": 0.4445,
+    "cer": 0.2386
+  },
+  {
+    "language": "Bengali",
+    "n_clips": 6,
+    "audio_s": 113.64,
+    "recognize_s": 4.364,
+    "rtf": 0.038,
+    "wer": 0.3131,
+    "cer": 0.0887
+  },
+  {
+    "language": "Marathi",
+    "n_clips": 6,
+    "audio_s": 67.32,
+    "recognize_s": 2.421,
+    "rtf": 0.036,
+    "wer": 0.744,
+    "cer": 0.2289
+  }
+]

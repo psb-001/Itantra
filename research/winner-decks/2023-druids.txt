@@ -1,0 +1,57 @@
+SLIDE 1
+Basic Details of the Team and Problem Statement
+Ministry/Organization Name/Student Innovation: 
+PS Code:
+   
+Problem Statement Title:
+Team Name:
+Team Leader Name:
+Institute Code (AISHE):
+Institute Name:
+Theme Name:
+SLIDE 2
+Idea/Approach Details
+Describe your idea/Solution/Prototype here:
+ 
+2
+Add process flow chart or simulated image of prototype or any relevant image related to your idea
+Describe your Technology stack here
+:
+  
+SLIDE 3
+Idea/Approach Details
+Describe your Use Cases here
+  
+3
+Describe your Dependencies / Show stopper here
+  
+SLIDE 4
+Team Member Details 
+Team Leader Name: Type Your Name Here
+Branch (Btech/Mtech/PhD etc):			Stream (ECE, CSE etc):			Year (I,II,III,IV): 
+Team Member 1 Name: Type Your Name Here
+Branch (Btech/Mtech/PhD etc):			Stream (ECE, CSE etc):			Year (I,II,III,IV): 
+Team Member 2 Name: Type Your Name Here
+Branch (Btech/Mtech/PhD etc):			Stream (ECE, CSE etc):			Year (I,II,III,IV): 
+Team Member 3 Name: Type Your Name Here
+Branch (Btech/Mtech/PhD etc):			Stream (ECE, CSE etc):			Year (I,II,III,IV): 
+Team Member 4 Name: Type Your Name Here
+Branch (Btech/Mtech/PhD etc):			Stream (ECE, CSE etc):			Year (I,II,III,IV): 
+Team Member 5 Name: Type Your Name Here
+Branch (Btech/Mtech/PhD etc):			Stream (ECE, CSE etc):			Year (I,II,III,IV): 
+Team Mentor 1 Name: Type Your Name Here
+Category (Academic/Industry): 			Expertise (AI/ML/Blockchain etc): 		Domain Experience (in years):    
+Team Mentor 2 Name: Type Your Name Here
+Category (Academic/Industry):		 	Expertise (AI/ML/Blockchain etc): 		Domain Experience (in years):    
+SLIDE 5
+Important Pointers
+Please ensure below pointers are met while  
+Kindly keep the maximum slides limit to 4 pages
+All the topics should be utilized for description of your idea
+Try to avoid paragraphs and post your idea in points
+Keep your explanation precisely and easy to understand
+Idea should be unique and novel. If it has a business potential more weightage will be given. 
+Apart from this PPT abstract of your idea will be asked separately while submitting
+You need to save the file in PDF and upload the same on portal. No PPT, Word Doc or any other format will be supported
+You can delete this slide (Important Pointers) when you upload the details of your idea on SIH portal.
+5

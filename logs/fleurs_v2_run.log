@@ -1,0 +1,27 @@
+Loading model.int8.onnx ...
+Loaded in 0.48 s. n per language = 200
+[or_in ] n= 200  WER raw 0.585 norm 0.509  CER raw 0.160 norm 0.134  RTF med 0.043
+[hi_in ] n= 200  WER raw 0.358 norm 0.281  CER raw 0.136 norm 0.113  RTF med 0.040
+[bn_in ] n= 200  WER raw 0.472 norm 0.359  CER raw 0.136 norm 0.100  RTF med 0.040
+[mr_in ] n= 200  WER raw 0.509 norm 0.416  CER raw 0.129 norm 0.108  RTF med 0.040
+[gu_in ] n= 200  WER raw 0.399 norm 0.300  CER raw 0.099 norm 0.071  RTF med 0.041
+[kn_in ] n= 200  WER raw 0.431 norm 0.307  CER raw 0.079 norm 0.053  RTF med 0.041
+[ta_in ] n= 200  WER raw 0.589 norm 0.501  CER raw 0.150 norm 0.129  RTF med 0.040
+[te_in ] n= 200  WER raw 0.543 norm 0.431  CER raw 0.125 norm 0.100  RTF med 0.039
+[ml_in ] n= 200  WER raw 0.504 norm 0.361  CER raw 0.084 norm 0.059  RTF med 0.041
+[en_us ] n= 200  WER raw 0.348 norm 0.181  CER raw 0.118 norm 0.067  RTF med 0.040
+
+=== SUMMARY (corpus-level) ===
+language      n  WER raw  WER norm  CER raw  CER norm  RTF med
+Odia        200    0.585     0.509    0.160     0.134    0.043
+Hindi       200    0.358     0.281    0.136     0.113    0.040
+Bengali     200    0.472     0.359    0.136     0.100    0.040
+Marathi     200    0.509     0.416    0.129     0.108    0.040
+Gujarati    200    0.399     0.300    0.099     0.071    0.041
+Kannada     200    0.431     0.307    0.079     0.053    0.041
+Tamil       200    0.589     0.501    0.150     0.129    0.040
+Telugu      200    0.543     0.431    0.125     0.100    0.039
+Malayalam   200    0.504     0.361    0.084     0.059    0.041
+English     200    0.348     0.181    0.118     0.067    0.040
+
+Wrote asr_full_<code>.json + SUMMARY_full.json

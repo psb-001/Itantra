@@ -1,0 +1,6 @@
+09-21 19:58:47.825  ===== iTantra log opened =====
+09-21 19:58:47.846  app started
+09-21 19:58:47.859  permissions: mic=true
+09-21 19:58:47.947  ERROR — no paired device — pair the two phones in Android Settings first
+09-21 19:58:47.982  Loading models… this takes a moment
+09-21 19:58:50.978  Ready. SPEAKER mode — Bluetooth Classic (RFCOMM)

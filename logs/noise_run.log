@@ -1,0 +1,101 @@
+==============================================================================
+NOISE ROBUSTNESS — how much accuracy survives real-world noise?
+==============================================================================
+model    : sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-v2-int8-2026-02-05
+clips    : 50 per language per condition
+languages: Hindi, Tamil, English, Bengali
+SNR      : [None, 30, 20, 15, 10, 5, 0]  (None = clean)
+noise    : ['white', 'pink']
+total inferences: 2600
+
+[Hindi] clean                CER 0.1331  script OK  94.0%   (26s)
+[Hindi] white 30 dB SNR    CER 0.4239  script OK  64.0%  (+0.2908 vs clean)
+[Hindi] white 20 dB SNR    CER 0.5060  script OK  56.0%  (+0.3729 vs clean)
+[Hindi] white 15 dB SNR    CER 0.5755  script OK  48.0%  (+0.4423 vs clean)
+[Hindi] white 10 dB SNR    CER 0.5497  script OK  54.0%  (+0.4165 vs clean)
+[Hindi] white  5 dB SNR    CER 0.4937  script OK  64.0%  (+0.3605 vs clean)
+[Hindi] white  0 dB SNR    CER 0.5881  script OK  60.0%  (+0.4550 vs clean)
+[Hindi] pink  30 dB SNR    CER 0.4787  script OK  56.0%  (+0.3455 vs clean)
+[Hindi] pink  20 dB SNR    CER 0.5842  script OK  46.0%  (+0.4511 vs clean)
+[Hindi] pink  15 dB SNR    CER 0.6577  script OK  40.0%  (+0.5245 vs clean)
+[Hindi] pink  10 dB SNR    CER 0.6348  script OK  40.0%  (+0.5017 vs clean)
+[Hindi] pink   5 dB SNR    CER 0.5870  script OK  50.0%  (+0.4539 vs clean)
+[Hindi] pink   0 dB SNR    CER 0.5423  script OK  64.0%  (+0.4092 vs clean)
+
+[Tamil] clean                CER 0.1389  script OK 100.0%   (32s)
+[Tamil] white 30 dB SNR    CER 0.1841  script OK  94.0%  (+0.0452 vs clean)
+[Tamil] white 20 dB SNR    CER 0.2057  script OK  92.0%  (+0.0668 vs clean)
+[Tamil] white 15 dB SNR    CER 0.2190  script OK  92.0%  (+0.0801 vs clean)
+[Tamil] white 10 dB SNR    CER 0.2803  script OK  88.0%  (+0.1414 vs clean)
+[Tamil] white  5 dB SNR    CER 0.4648  script OK  78.0%  (+0.3259 vs clean)
+[Tamil] white  0 dB SNR    CER 0.7326  script OK  44.0%  (+0.5937 vs clean)
+[Tamil] pink  30 dB SNR    CER 0.1729  script OK  96.0%  (+0.0340 vs clean)
+[Tamil] pink  20 dB SNR    CER 0.1946  script OK  94.0%  (+0.0557 vs clean)
+[Tamil] pink  15 dB SNR    CER 0.2107  script OK  90.0%  (+0.0718 vs clean)
+[Tamil] pink  10 dB SNR    CER 0.2374  script OK  90.0%  (+0.0985 vs clean)
+[Tamil] pink   5 dB SNR    CER 0.3612  script OK  80.0%  (+0.2223 vs clean)
+[Tamil] pink   0 dB SNR    CER 0.5735  script OK  60.0%  (+0.4346 vs clean)
+
+[English] clean                CER 0.0873  script OK 100.0%   (22s)
+[English] white 30 dB SNR    CER 0.0949  script OK 100.0%  (+0.0076 vs clean)
+[English] white 20 dB SNR    CER 0.1046  script OK 100.0%  (+0.0173 vs clean)
+[English] white 15 dB SNR    CER 0.1217  script OK 100.0%  (+0.0344 vs clean)
+[English] white 10 dB SNR    CER 0.1514  script OK 100.0%  (+0.0641 vs clean)
+[English] white  5 dB SNR    CER 0.2327  script OK 100.0%  (+0.1454 vs clean)
+[English] white  0 dB SNR    CER 0.3993  script OK  98.0%  (+0.3120 vs clean)
+[English] pink  30 dB SNR    CER 0.0951  script OK 100.0%  (+0.0078 vs clean)
+[English] pink  20 dB SNR    CER 0.1041  script OK 100.0%  (+0.0168 vs clean)
+[English] pink  15 dB SNR    CER 0.1127  script OK 100.0%  (+0.0255 vs clean)
+[English] pink  10 dB SNR    CER 0.1186  script OK 100.0%  (+0.0313 vs clean)
+[English] pink   5 dB SNR    CER 0.1497  script OK 100.0%  (+0.0624 vs clean)
+[English] pink   0 dB SNR    CER 0.2540  script OK 100.0%  (+0.1667 vs clean)
+
+[Bengali] clean                CER 0.0896  script OK 100.0%   (43s)
+[Bengali] white 30 dB SNR    CER 0.0908  script OK 100.0%  (+0.0012 vs clean)
+[Bengali] white 20 dB SNR    CER 0.1035  script OK 100.0%  (+0.0139 vs clean)
+[Bengali] white 15 dB SNR    CER 0.1174  script OK 100.0%  (+0.0278 vs clean)
+[Bengali] white 10 dB SNR    CER 0.1619  script OK  96.0%  (+0.0722 vs clean)
+[Bengali] white  5 dB SNR    CER 0.2147  script OK  96.0%  (+0.1251 vs clean)
+[Bengali] white  0 dB SNR    CER 0.3210  script OK  92.0%  (+0.2314 vs clean)
+[Bengali] pink  30 dB SNR    CER 0.0902  script OK 100.0%  (+0.0005 vs clean)
+[Bengali] pink  20 dB SNR    CER 0.0943  script OK 100.0%  (+0.0046 vs clean)
+[Bengali] pink  15 dB SNR    CER 0.1042  script OK 100.0%  (+0.0146 vs clean)
+[Bengali] pink  10 dB SNR    CER 0.1261  script OK  98.0%  (+0.0365 vs clean)
+[Bengali] pink   5 dB SNR    CER 0.1894  script OK  94.0%  (+0.0997 vs clean)
+[Bengali] pink   0 dB SNR    CER 0.2842  script OK  90.0%  (+0.1946 vs clean)
+
+==============================================================================
+SUMMARY — mean CER across languages
+==============================================================================
+condition            Hindi     Tamil   English   Bengali
+clean               0.1331    0.1389    0.0873    0.0896
+white_30db          0.4239    0.1841    0.0949    0.0908
+white_20db          0.5060    0.2057    0.1046    0.1035
+white_15db          0.5755    0.2190    0.1217    0.1174
+white_10db          0.5497    0.2803    0.1514    0.1619
+white_5db           0.4937    0.4648    0.2327    0.2147
+white_0db           0.5881    0.7326    0.3993    0.3210
+pink_30db           0.4787    0.1729    0.0951    0.0902
+pink_20db           0.5842    0.1946    0.1041    0.0943
+pink_15db           0.6577    0.2107    0.1127    0.1042
+pink_10db           0.6348    0.2374    0.1186    0.1261
+pink_5db            0.5870    0.3612    0.1497    0.1894
+pink_0db            0.5423    0.5735    0.2540    0.2842
+
+script retention (% of outputs in the EXPECTED alphabet — the app-relevant metric)
+condition            Hindi     Tamil   English   Bengali
+clean                 94.0     100.0     100.0     100.0
+white_30db            64.0      94.0     100.0     100.0
+white_20db            56.0      92.0     100.0     100.0
+white_15db            48.0      92.0     100.0     100.0
+white_10db            54.0      88.0     100.0      96.0
+white_5db             64.0      78.0     100.0      96.0
+white_0db             60.0      44.0      98.0      92.0
+pink_30db             56.0      96.0     100.0     100.0
+pink_20db             46.0      94.0     100.0     100.0
+pink_15db             40.0      90.0     100.0     100.0
+pink_10db             40.0      90.0     100.0      98.0
+pink_5db              50.0      80.0     100.0      94.0
+pink_0db              64.0      60.0     100.0      90.0
+
+Wrote noise_robustness.json

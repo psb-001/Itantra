@@ -1,0 +1,141 @@
+09-21 20:02:50.819  ===== iTantra log opened =====
+09-21 20:02:50.830  app started
+09-21 20:02:50.835  permissions: mic=false
+09-21 20:02:50.923  ERROR — Bluetooth is switched off — turn it on and retry
+09-21 20:02:50.933  Loading models… this takes a moment
+09-21 20:02:54.826  Ready. SPEAKER mode — Bluetooth Classic (RFCOMM)
+09-21 20:02:59.162  device picker: 0 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:03:00.972  sharing /storage/emulated/0/Android/data/com.bjp.itantra/files/logs/itantra.log
+09-21 20:03:05.133  device picker: 0 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:03:08.032  listening for an incoming connection
+09-21 20:03:09.590  device picker: 0 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:03:11.640  ERROR — Bluetooth is switched off — turn it on and retry
+09-21 20:03:15.273  switching role to SPEAKER
+09-21 20:03:15.279  Switching to SPEAKER — closing the link
+09-21 20:03:15.285  IDLE — stopped
+09-21 20:03:15.292  old link closed
+09-21 20:03:15.298  Loading SPEAKER models…
+09-21 20:03:17.797  transport not started yet — wait for models to finish loading
+09-21 20:03:18.589  Ready — SPEAKER (Bluetooth Classic (RFCOMM))
+09-21 20:03:18.598  SPEAKER models ready, opening the link
+09-21 20:03:18.604  ERROR — Bluetooth is switched off — turn it on and retry
+09-21 20:04:04.846  device picker: 0 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:04:26.450  switching role to LISTENER
+09-21 20:04:26.459  Switching to LISTENER — closing the link
+09-21 20:04:26.467  IDLE — stopped
+09-21 20:04:26.471  old link closed
+09-21 20:04:26.474  Loading LISTENER models…
+09-21 20:04:27.214  switching role to SPEAKER
+09-21 20:04:27.222  Switching to SPEAKER — closing the link
+09-21 20:04:27.228  old link closed
+09-21 20:04:27.231  Loading SPEAKER models…
+09-21 20:04:29.909  Ready — SPEAKER (Bluetooth Classic (RFCOMM))
+09-21 20:04:29.914  SPEAKER models ready, opening the link
+09-21 20:04:29.918  ERROR — Bluetooth is switched off — turn it on and retry
+09-21 20:04:30.323  Ready — LISTENER (Bluetooth Classic (RFCOMM))
+09-21 20:04:30.327  LISTENER models ready, opening the link
+09-21 20:04:30.330  ERROR — Bluetooth is switched off — turn it on and retry
+09-21 20:04:43.024  switching role to LISTENER
+09-21 20:04:43.030  Switching to LISTENER — closing the link
+09-21 20:04:43.036  IDLE — stopped
+09-21 20:04:43.040  old link closed
+09-21 20:04:43.043  Loading LISTENER models…
+09-21 20:04:43.539  switching role to SPEAKER
+09-21 20:04:43.542  Switching to SPEAKER — closing the link
+09-21 20:04:43.545  old link closed
+09-21 20:04:43.547  Loading SPEAKER models…
+09-21 20:04:46.769  Ready — SPEAKER (Bluetooth Classic (RFCOMM))
+09-21 20:04:46.775  SPEAKER models ready, opening the link
+09-21 20:04:46.778  ERROR — Bluetooth is switched off — turn it on and retry
+09-21 20:04:47.006  Ready — LISTENER (Bluetooth Classic (RFCOMM))
+09-21 20:04:47.010  LISTENER models ready, opening the link
+09-21 20:04:47.013  ERROR — Bluetooth is switched off — turn it on and retry
+09-21 20:15:25.518  ===== iTantra log opened =====
+09-21 20:15:25.527  app started
+09-21 20:15:25.532  permissions: mic=true
+09-21 20:15:25.549  listening for the other phone
+09-21 20:15:25.576  ERROR — Bluetooth is switched off — turn it on and retry
+09-21 20:15:25.585  Loading models… this takes a moment
+09-21 20:15:32.974  Ready — hold to talk (Bluetooth Classic (RFCOMM))
+09-21 20:15:36.975  device picker: 0 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:20:59.775  device picker: 8 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:21:01.213  connecting to OPPO K12x 5G (AC:45:CA:10:83:9E)
+09-21 20:21:01.219  connecting to a chosen device
+09-21 20:21:01.228  CONNECTING — connecting to OPPO K12x 5G
+09-21 20:21:01.366  CONNECTING — attempt 1 failed after 0s — retrying
+09-21 20:21:01.719  CONNECTING — attempt 2 failed after 0s — retrying
+09-21 20:21:02.136  CONNECTING — attempt 3 failed after 0s — retrying
+09-21 20:21:02.493  CONNECTING — attempt 4 failed after 0s — retrying
+09-21 20:21:02.906  CONNECTING — attempt 5 failed after 0s — retrying
+09-21 20:21:02.925  ERROR — could not reach OPPO K12x 5G after 1s. Is the other phone in LISTENER mode and paired?
+09-21 20:21:05.165  device picker: 8 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:21:06.838  connecting to OPPO K12x 5G (AC:45:CA:10:83:9E)
+09-21 20:21:06.847  connecting to a chosen device
+09-21 20:21:06.858  CONNECTING — connecting to OPPO K12x 5G
+09-21 20:21:06.983  CONNECTING — attempt 1 failed after 0s — retrying
+09-21 20:21:07.381  CONNECTING — attempt 2 failed after 0s — retrying
+09-21 20:21:07.801  CONNECTING — attempt 3 failed after 0s — retrying
+09-21 20:21:08.294  CONNECTING — attempt 4 failed after 0s — retrying
+09-21 20:21:08.832  CONNECTING — attempt 5 failed after 0s — retrying
+09-21 20:21:08.849  ERROR — could not reach OPPO K12x 5G after 1s. Is the other phone in LISTENER mode and paired?
+09-21 20:21:23.210  device picker: 8 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:21:24.737  connecting to vivo T3x 5G (38:39:CD:6C:96:70)
+09-21 20:21:24.746  connecting to a chosen device
+09-21 20:21:24.755  CONNECTING — connecting to vivo T3x 5G
+09-21 20:21:25.836  CONNECTING — attempt 1 failed after 1s — retrying
+09-21 20:21:26.203  CONNECTING — attempt 2 failed after 0s — retrying
+09-21 20:21:26.580  CONNECTING — attempt 3 failed after 0s — retrying
+09-21 20:21:27.008  CONNECTING — attempt 4 failed after 0s — retrying
+09-21 20:21:27.390  CONNECTING — attempt 5 failed after 0s — retrying
+09-21 20:21:27.405  ERROR — could not reach vivo T3x 5G after 2s. Is the other phone in LISTENER mode and paired?
+09-21 20:22:05.977  device picker: 8 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:22:07.354  connecting to OPPO K12x 5G (AC:45:CA:10:83:9E)
+09-21 20:22:07.359  connecting to a chosen device
+09-21 20:22:07.365  CONNECTING — connecting to OPPO K12x 5G
+09-21 20:22:07.510  CONNECTING — attempt 1 failed after 0s — retrying
+09-21 20:22:07.943  CONNECTING — attempt 2 failed after 0s — retrying
+09-21 20:22:08.374  CONNECTING — attempt 3 failed after 0s — retrying
+09-21 20:22:08.845  CONNECTING — attempt 4 failed after 0s — retrying
+09-21 20:22:09.387  CONNECTING — attempt 5 failed after 0s — retrying
+09-21 20:22:09.396  ERROR — could not reach OPPO K12x 5G after 2s. Is the other phone in LISTENER mode and paired?
+09-21 20:22:38.851  device picker: 8 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:22:45.244  connecting to vivo T3x 5G (38:39:CD:6C:96:70)
+09-21 20:22:45.250  connecting to a chosen device
+09-21 20:22:45.259  CONNECTING — connecting to vivo T3x 5G
+09-21 20:22:46.732  CONNECTING — attempt 1 failed after 1s — retrying
+09-21 20:22:47.098  CONNECTING — attempt 2 failed after 0s — retrying
+09-21 20:22:47.496  CONNECTING — attempt 3 failed after 0s — retrying
+09-21 20:22:47.893  CONNECTING — attempt 4 failed after 0s — retrying
+09-21 20:22:48.271  CONNECTING — attempt 5 failed after 0s — retrying
+09-21 20:22:48.292  ERROR — could not reach vivo T3x 5G after 3s. Is the other phone in LISTENER mode and paired?
+09-21 20:27:38.191  device picker: 8 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:27:47.997  connecting to OPPO K12x 5G (AC:45:CA:10:83:9E)
+09-21 20:27:48.005  connecting to a chosen device
+09-21 20:27:48.015  CONNECTING — connecting to OPPO K12x 5G
+09-21 20:27:48.498  CONNECTING — attempt 1 failed after 0s — retrying
+09-21 20:27:48.928  CONNECTING — attempt 2 failed after 0s — retrying
+09-21 20:27:49.443  CONNECTING — attempt 3 failed after 0s — retrying
+09-21 20:27:49.895  CONNECTING — attempt 4 failed after 0s — retrying
+09-21 20:27:50.328  CONNECTING — attempt 5 failed after 0s — retrying
+09-21 20:27:50.336  ERROR — could not reach OPPO K12x 5G after 2s. Is the other phone in LISTENER mode and paired?
+09-21 20:27:56.355  Recording — speak, then release
+09-21 20:27:56.359  recording started (mic OK, sampleRate=16000)
+09-21 20:27:57.560  Finishing…
+09-21 20:27:57.575  segment 1: 9632 samples = 0.60s -> recognising
+09-21 20:27:57.577  stopped; VAD flushed, segments this hold = 1
+09-21 20:27:59.251  ASR 1673ms -> "لو"
+09-21 20:27:59.259  DROPPED: wrong script (fraction=0.0, removed=2)
+09-21 20:27:59.287  Dropped — not hin_Deva
+09-21 20:28:01.773  device picker: 8 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:28:05.671  connecting to OPPO K12x 5G (AC:45:CA:10:83:9E)
+09-21 20:28:05.678  connecting to a chosen device
+09-21 20:28:05.686  CONNECTING — connecting to OPPO K12x 5G
+09-21 20:28:06.387  CONNECTING — attempt 1 failed after 0s — retrying
+09-21 20:28:06.801  CONNECTING — attempt 2 failed after 0s — retrying
+09-21 20:28:07.290  CONNECTING — attempt 3 failed after 0s — retrying
+09-21 20:28:07.735  CONNECTING — attempt 4 failed after 0s — retrying
+09-21 20:28:08.214  CONNECTING — attempt 5 failed after 0s — retrying
+09-21 20:28:08.227  ERROR — could not reach OPPO K12x 5G after 2s. Is the other phone in LISTENER mode and paired?
+09-21 20:28:11.633  device picker: 8 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:29:52.952  device picker: 8 peer(s) available via Bluetooth Classic (RFCOMM)
+09-21 20:38:28.707  sharing /storage/emulated/0/Android/data/com.bjp.itantra/files/logs/itantra.log
