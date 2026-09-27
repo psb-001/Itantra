@@ -79,7 +79,7 @@ Still true and still unaddressed: slide 4's table is **v1**, superseded by v2.
 | # | Old text | New text |
 |---|---|---|
 | 3.1 | `Wi-Fi Direct/ Bluetooth / Transmit only compact text` | **`Bluetooth Classic RFCOMM (primary)`** / `Wi-Fi Direct (fallback)` / `4-byte length-prefixed UTF-8 packets` |
-| 3.2 | — | Add the reason, it's a strong slide line: `Payload is 50–250 bytes; both transports offer ~1,000× more bandwidth than needed. Reliability decides, not speed — Wi-Fi Direct behaves differently across vendors, and Bluetooth pairing authenticates the sender of an emergency alert.` |
+| 3.2 | — | Add the reason, it's a strong slide line: `Payload is 129–278 bytes — ~66× smaller than a 16 kbps speech codec; both transports offer orders of magnitude more bandwidth than needed. Reliability decides, not speed — Wi-Fi Direct behaves differently across vendors, and Bluetooth pairing authenticates the sender of an emergency alert.` |
 
 ### 3b. Spelling and naming
 
@@ -211,7 +211,8 @@ Things the deck currently implies but the folder does **not** support. Remove or
 | TTS synth time (Android) | 49 – 380 ms per sentence | `loopback_test_verified.txt` |
 | Mouth-to-ear (emulator) | ~0.9 – 1.0 s | `VERIFICATION_STATUS.md` |
 | Payload | 49–111 B text · **128–275 B** framed | `TECH_STACK_AND_ARCHITECTURE.md` §5.2 |
-| Raw PCM equivalent | ~93 KB / 3 s → ~1,000× | derived |
+| vs 16 kbps speech codec | 13,880 B → 211 B = **~66×** | derived from measured packet |
+| vs raw PCM (16 kHz 16-bit) | 222 KB → 211 B = **~1,050×** | derived — name the basis when quoting |
 | ASR model | 348.4 MB, INT8, Apache 2.0 | `TECH_STACK_AND_ARCHITECTURE.md` §3 |
 | TTS voices | 60.6 MB + 60.3 MB, MIT | same |
 | Silero VAD | 0.6 MB, RTF 0.004, MIT | same |

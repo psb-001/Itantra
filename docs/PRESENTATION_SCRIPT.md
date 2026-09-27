@@ -276,7 +276,8 @@ they probe, you lose the room.
 | TTS RTF (Android emu) | 0.055 – 0.058 | same |
 | Mouth-to-ear | ~0.9 – 1.0 s (emulator) | same |
 | Payload | 49 – 111 B text · ~150–250 B on wire | `end_to_end.json` |
-| Raw PCM equivalent | ~93 KB → **~1,000× reduction** | derived |
+| vs 16 kbps speech codec | 13,880 B → 211 B = **~66×** | derived from measured packet |
+| vs raw PCM (16 kHz 16-bit) | 222 KB → 211 B = **~1,050×** | derived — name the basis when quoting |
 | ASR model | 348 MiB disk / 279 MiB download, INT8 | `ARCHITECTURE.md` |
 | Debug APK | ~540 MB (model ships inside) | `iTantra-debug.apk` |
 | TTS voice size | ~60 MiB each | `tts_result.json` |

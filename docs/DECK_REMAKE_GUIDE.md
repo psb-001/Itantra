@@ -101,8 +101,13 @@ Keep the structure. The one upgrade: state the number that makes the idea obviou
 > Hold to talk. This phone turns your speech into text **on-device** and sends only the text.
 > The other phone reads it aloud. Your voice is never transmitted.
 >
-> 3 seconds of speech is ~96,000 bytes. The same sentence as text is ~200 bytes — **480× smaller**.
-> A weak or damaged radio link can carry a sentence when it could never carry a voice.
+> **Measured on device:** 6.94 seconds of speech became a **211-byte** packet. That is ~1,050× smaller than
+> the raw PCM the microphone produces (32 KB/s), and **~66× smaller than a 16 kbps speech codec** — the
+> thing a damaged radio would otherwise have to carry. A weak link can carry a sentence when it could
+> never carry a voice.
+>
+> **Do not quote "1,000×" without saying "versus raw PCM." Against a real codec it is ~66×.** The 66× is
+> the honest number for a low-bitrate link, and it is still the difference between working and impossible.
 >
 > **No internet. No server. No cloud. Nothing leaves the phone.**
 
@@ -297,7 +302,7 @@ these as human legibility scores.
 |---|---|---|
 | ASR real-time factor | 0.032–0.039 | desktop, 10-core |
 | ASR RTF | **0.147** | **Android emulator, 16384-byte pages** |
-| TTS synthesis | 45–306 ms per sentence | Android, on device |
+| TTS synthesis | 49–380 ms per sentence (median 193 ms) | Android, on device |
 | 6.94 s of speech → 211 bytes of text | 1020 ms end to end | Android |
 | Packet size | 129–278 bytes | Android |
 
@@ -360,3 +365,70 @@ If you can spare one line anywhere, these are the highest-value additions:
 - *"Which languages should we judge on?"* — English and Hindi. Tamil and Odia have about one
   word in two wrong, and three languages are text-only. We would rather tell you that than have
   you find it.
+
+---
+
+## ADDENDUM — 27 September 2026
+
+### The two-phone demo now works
+
+The team ran the release APK on **two physical Android phones**: speech on one was recognised, sent
+as text, and spoken aloud on the other.
+
+**Put this on slide 4.** It converts the single biggest open risk in the project into the
+strongest claim in the submission. Before this, the Bluetooth socket had never once connected, by
+anyone — the code had been read, not run.
+
+Suggested wording for `Analysis of the feasibility of the idea`:
+
+> **The two-phone demo works.** Two physical Android phones: speech on one is recognised, sent as
+> text, and spoken aloud on the other. This had never connected before 27 September 2026.
+
+Attach before submitting: a screenshot of each phone, `adb logcat` from both showing `CONNECTED`
+and packet sizes, which transport and languages were used, and wall-clock from button-release on A
+to audio starting on B. The logs already print all of it — tags `iTantra/BT` and `iTantra/LOOP`.
+
+### This changes the risk panel
+
+`Potential challenges and risks` should no longer list "the demo has never run." It should now read:
+
+> • **No human has judged the voices.** Every intelligibility figure is the machine reading its own
+>   audio back, not a listening panel.
+> • **Tamil and Odia are weak** — about one word in two wrong (word error 0.50 and 0.51). We say so
+>   rather than hide it.
+> • **3 of 10 languages are text-only for speech output.** No permissively-licensed offline voice
+>   exists for Gujarati, Kannada or Odia that we can integrate.
+> • **All latency and memory figures are from an emulator.** A budget handset will be slower; we
+>   have not measured by how much.
+> • **Field accuracy in a real disaster is unmeasured.** Noise was added to clean speech afterwards.
+> • **804 MB APK.** Fine for sideloading, over a store's limit.
+
+### CORRECTION — the "1,000× smaller" claim was inflated
+
+An earlier draft of this guide replaced "~1,000× smaller" with "480× smaller." **Both were
+overstated, and the correction matters more than the original error.**
+
+The 1,000× figure was derived by comparing text against **raw PCM** — the 32 KB/s the microphone
+actually produces. That is a fair comparison *only when labelled as such*. Against a **speech
+codec**, which is what a damaged radio would really have to carry, the honest figure is **~66×**:
+
+| Baseline for the 6.94 s / 211-byte measurement | Audio bytes | Ratio |
+|---|---|---|
+| AMR-NB 4.75 kbps (worst case) | 4,121 | 20× |
+| AMR-NB 9.6 kbps (low-end radio) | 8,328 | 39× |
+| **16 kbps speech codec (typical narrowband)** | **13,880** | **66×** |
+| 24 kbps speech codec | 20,820 | 99× |
+| AMR-WB+ 32 kbps | 27,760 | 132× |
+| Raw 16 kHz mono 16-bit PCM | 222,080 | 1,050× |
+
+Getting 480× requires assuming **117 kbps** audio, which is not a low-bitrate link at all.
+
+**Use ~66× and name the basis.** It is the defensible number, it is still the difference between
+working and impossible, and stating the assumption out loud is exactly the behaviour the rest of
+the deck is claiming. A technical evaluator who finds an unexplained multiplier stops trusting
+every other number on the slide.
+
+### TTS synthesis timing, corrected
+
+The evidence supports **49–380 ms per sentence, median 193 ms** (`app/evidence/benchmark_onddevice.txt`,
+`loopback_test_verified.txt`). An earlier "45–306 ms" range was not what the logs show.

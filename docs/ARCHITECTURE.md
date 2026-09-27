@@ -105,7 +105,7 @@ This is the entire point of the project: **send text, not audio.**
 **Measured size:** the raw text is **49–111 bytes** (4 test utterances, `end_to_end.json`). With the
 JSON envelope the packet lands around **150–250 bytes**.
 
-**Comparison:** the equivalent audio is roughly **1,000× larger**. That ratio is the whole argument.
+**Comparison:** 6.94 s of speech became a **211-byte** packet on device. That is **~1,050× smaller than the raw PCM the mic produces** (16 kHz mono 16-bit = 32 KB/s) and **~66× smaller than a 16 kbps speech codec**, which is what a damaged radio would otherwise carry. **Always name the basis** — quoting "1,000×" without saying "versus raw PCM" is the kind of overstatement an evaluator will pull apart.
 
 **Note on the envelope:** JSON is used for clarity during development. It is not the minimum possible
 size — a compact binary encoding would be smaller. For a ~200-byte packet on a link that carries

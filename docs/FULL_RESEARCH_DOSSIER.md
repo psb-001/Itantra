@@ -81,7 +81,7 @@ of your sentence and cuts a clean segment. An **offline speech-recognition model
 ASR 300M INT8, Apache 2.0)** converts that segment into text. The app sends **only the text** —
 about 50–110 bytes — over **Wi-Fi Direct or Bluetooth** to phone B, which runs an **offline
 text-to-speech model (Piper, MIT licence)** and speaks the sentence out loud at maximum volume in a
-way that cannot be interrupted. Because text is roughly **1,000× smaller than audio**, voice gets
+way that cannot be interrupted. Because text is far smaller than the audio it replaces — **~1,050× smaller than the raw PCM the mic produces, ~66× smaller than a 16 kbps speech codec** — voice gets
 through on links that physically cannot carry voice — which is exactly the problem ISRO set.
 Idle phones run only the tiny VAD, so listening costs almost no CPU.
 
@@ -251,7 +251,7 @@ with meaning intact.
 | English | Emergency alert. Move to a safe location immediately. | emergency alert moved to a safe location immediately | **52 B** | **0.38 s** | **2,201× smaller** |
 | English | This is a test of the emergency broadcast system. | this is a test of the emergency broad cast system | **49 B** | **0.29 s** | **1,789× smaller** |
 
-**Bottom line: ~0.3 s of compute per utterance, ~1,000× bandwidth reduction.**
+**Bottom line: ~0.3 s of compute per utterance, and a 211-byte packet for 6.94 s of speech — ~1,050× smaller than raw PCM, ~66× smaller than a 16 kbps codec.**
 
 ## 3.5 Pre-built Android APK (verified to exist and download)
 
@@ -449,7 +449,7 @@ Research base: `output/comms_feasibility_review/`, `output/winner_decks_verified
 
 **Conclusion for our pitch:** the idea "STT + radio + TTS" is **not novel by itself** — prior art
 exists. Our differentiators must be presented as:
-1. **Speech-to-text before transmit** — only 50–250 bytes cross the link, ~1,000x less than audio.
+1. **Speech-to-text before transmit** — measured 129–278 bytes cross the link, ~66× less than a 16 kbps speech codec (~1,050× less than raw PCM).
 2. **VAD-only idle listening** — near-zero idle CPU (directly answers the Efficiency metric).
 3. **Per-language honest accuracy reporting (CER + WER)** on a real benchmark.
 4. **Fully permissive licensing** (Apache 2.0 + MIT) with zero commercial risk.
@@ -618,7 +618,7 @@ Phone B turns the text back into speech at full volume.
 
 WHY THIS APPROACH
 One sentence costs roughly 50-110 bytes instead of hundreds of kilobits —
-about 1,000x smaller.
+about 66x smaller than a 16 kbps codec.
 Idle phones run only a voice-activity detector, so idle CPU stays near zero
 by design.
 Push-to-talk works as a walkie-talkie; alerts cannot be interrupted.
@@ -683,7 +683,7 @@ Text instead of audio cuts transmitted energy per message.
 
 MEASURED SO FAR
 Hindi and English round-trip cleanly with meaning intact.
-About 1,000x bandwidth reduction per spoken sentence.
+A 211-byte packet for 6.94 s of speech: ~66x smaller than a 16 kbps speech codec, ~1,050x smaller than raw PCM.
 
 VALIDATION NEEDED
 Field accuracy in noise, phone-class latency, TTS legibility scoring,

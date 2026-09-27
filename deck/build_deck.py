@@ -65,7 +65,7 @@ panel(s, .45, 2.03, 6.0, 2.2, "Proposed Solution (Describe your Idea/Solution/Pr
 panel(s, 6.65, 2.03, 6.2, 2.2, "Detailed explanation of the proposed solution",
       "Push-to-talk works like a walkie-talkie. When idle, both phones run a full-duplex phone-style path. Alerts play at maximum volume and cannot be interrupted.", 18)
 panel(s, .45, 4.42, 6.0, 2.2, "How it addresses the problem",
-      "Audio is too large for low-data-rate links. One spoken sentence becomes ~50-110 bytes of UTF-8 text — roughly 1,000x smaller — so voice fits where it could not before.", 18)
+      "Audio is too large for low-data-rate links. Measured: 6.94 s of speech became a 211-byte text packet — about 66x smaller than a 16 kbps speech codec — so voice fits where it could not before.", 18)
 panel(s, 6.65, 4.42, 6.2, 2.2, "Innovation and uniqueness of the solution",
       "Asymmetric pipeline: the speaker's phone carries the ASR cost, the listener's phone carries TTS. Idle listening runs only a voice-activity detector, so idle CPU stays near zero by design.", 17)
 

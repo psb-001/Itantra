@@ -56,17 +56,46 @@
 
 ---
 
-## NOT VERIFIED — still just code
+## THE DEMO NOW EXISTS — 27 September 2026
+
+**This was the single largest open risk in the project and it is now closed.** The team ran the
+built release APK on **two physical Android phones** and the two-phone walkie-talkie loop worked:
+speech on one phone was recognised, sent as text over the radio, and spoken aloud on the other.
+
+Before this, the Bluetooth RFCOMM socket had **never once connected, by anyone**, in the whole
+life of the project. The transport code had been read, not run. It ran, and it worked.
+
+**This is the most important line in the submission.** Every earlier draft of the report
+described the two-phone demo as the thing that did not yet exist. It now does.
+
+### Still needs capturing as evidence
+
+The test is verified but not yet documented in this repository. To make it defensible under
+questioning, attach:
+
+- [ ] Screenshot of phone A showing a recognised sentence
+- [ ] Screenshot of phone B showing the same text **and** the spoken-audio transcript line
+- [ ] `adb logcat` from both phones showing the CONNECTED state and packet sizes
+- [ ] Which transport was used — Bluetooth RFCOMM, or Wi-Fi Direct
+- [ ] Which language(s) were tested
+- [ ] Wall-clock from releasing the button on A to audio starting on B
+- [ ] A short video of the whole exchange, if the submission format allows it
+
+The logs already print what is needed: `"CONNECTED to <name> in N ms"`, `"sent N B"`, and on the
+receive side the rendered text plus TTS synthesis time. Log tags `iTantra/BT` and `iTantra/LOOP`.
+
+## Still not verified
 
 | # | What | Why it is unverified | Risk |
 |---|---|---|---|
-| 1 | **Bluetooth RFCOMM socket** | The emulator has no paired device, so no socket has ever been established. The handshake and byte transfer remain unexecuted. **But the adapter is now reachable and the app reports the real reason it cannot proceed.** | **HIGH** — this is the demo |
-| 2 | **Wi-Fi Direct group formation** | Discovery runs and reports correctly, but there is no second device to form a group with. | MEDIUM |
-| 3 | **Two-device operation** | Only one runtime available | HIGH |
-| 4 | **Real microphone audio** | The emulator's mic input is silent, so the VAD correctly found 0 segments. The path runs; it has never seen actual speech. | MEDIUM |
-| 5 | **A real low-end phone** | All figures are from an emulator on Apple Silicon. A budget handset will be slower. | MEDIUM |
+| 1 | ~~Bluetooth RFCOMM socket~~ | **CLOSED 27 Sep** — two physical phones, loop worked. See above. | ~~HIGH~~ closed |
+| 2 | ~~Two-device operation~~ | **CLOSED 27 Sep.** | ~~HIGH~~ closed |
+| 3 | ~~Real microphone audio~~ | **CLOSED 27 Sep** — real speech captured and recognised on the team's hardware. | ~~MEDIUM~~ closed |
+| 4 | **Wi-Fi Direct group formation** | Discovery runs and reports correctly, but group formation itself is unexercised. Bluetooth is the primary transport and is proven, so this is the fallback only. | LOW |
+| 5 | **A real low-end phone — with numbers** | The app has run on physical phones, but every RTF and RAM *figure* is still from an emulator. A budget handset will be slower and we have not measured by how much. | MEDIUM |
 | 6 | **Alert non-interruptibility** | Playback starts in ALERT mode, but "cannot be ducked by other apps" was not tested against a competing audio source. | LOW |
-| 7 | **TTS voices for Kannada, Tamil, Odia, Gujarati** | **No voice exists that we can ship.** Not "not wired up" — the espeak-ng fallback that was planned is not implementable (espeak-ng is a phonemiser, not a standalone voice, and the JNI library has no espeak TTS config). These four are text-only and the UI says so. See `docs/TTS_LICENCE_AUDIT.md`. | MEDIUM (PS requirement) |
+| 7 | **TTS voices for Gujarati, Kannada, Odia** | **No voice exists that we can ship.** Not "not wired up" — the espeak-ng fallback that was planned is not implementable (espeak-ng is a phonemiser, not a standalone voice, and the JNI library has no espeak TTS config). These three are text-only and the UI says so. See `docs/TTS_LICENCE_AUDIT.md` and `docs/ALL10_LANGUAGES_FEASIBILITY.md`. | MEDIUM (PS requirement) |
+| 8 | **Human TTS legibility panel** | Every intelligibility figure is an ASR round-trip proxy. No human has scored the voices. | MEDIUM |
 
 ---
 
