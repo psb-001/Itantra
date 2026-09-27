@@ -797,7 +797,19 @@ fun getOfflineModelConfig(type: Int): OfflineModelConfig? {
         }
 
         44 -> {
-            val modelDir = "sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12"
+            // LOCALLY MODIFIED 27 Sep 2026 — do not let a `setup-project.sh` re-run silently
+            // revert this. Upstream ships the full 1,600-language asset here
+            // ("...-1600-languages-300M-ctc-int8-2025-11-12"); we ship the v2 model with its CTC
+            // output vocabulary pruned to the nine scripts the ten required languages use
+            // (10,288 -> 1,002 tokens, built by eval/prune_vocab.py). Same 300M encoder.
+            //
+            // Why: the unpruned model substitutes phonetically identical characters from other
+            // scripts — "hello" -> "هello" (Arabic heh) on clean audio — and the old lenient
+            // filter then stripped the odd character and transmitted "ello". Pruning makes
+            // out-of-script output structurally impossible: Hindi script retention under pink
+            // noise at 15 dB SNR went 40% -> 78%, clean Hindi 94% -> 100%, and 9 of 10 languages
+            // scored bit-identical CER. See docs/VOCAB_PRUNE_FINDINGS.md.
+            val modelDir = "sherpa-onnx-omnilingual-asr-10lang-300M-ctc-v2-int8"
             return OfflineModelConfig(
                 omnilingual = OfflineOmnilingualAsrCtcModelConfig(
                     model = "$modelDir/model.int8.onnx",

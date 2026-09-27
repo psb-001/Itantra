@@ -38,7 +38,19 @@ _SUFFIX = f"_{TAG}" if TAG else ""
 
 MODEL = os.path.join(BASE, _MODEL_DIR, "model.int8.onnx")
 TOKENS = os.path.join(BASE, _MODEL_DIR, "tokens.txt")
-FLEURS = os.path.join(BASE, "fleurs")
+# The 7.1 GB FLEURS corpus lives at repo-root dataset/fleurs. Keep the historical eval/fleurs
+# location working, but allow an override so nobody has to copy or symlink 7 GB to re-run a
+# measurement:  FLEURS_DIR=../dataset/fleurs ./.venv/bin/python fleurs_eval_full.py 200
+FLEURS = os.environ.get("FLEURS_DIR", os.path.join(BASE, "fleurs"))
+if not os.path.isdir(FLEURS):
+    fallback = os.path.join(os.path.dirname(BASE), "dataset", "fleurs")
+    if os.path.isdir(fallback):
+        FLEURS = fallback
+    else:
+        sys.exit(
+            f"FLEURS corpus not found at {FLEURS!r} or {fallback!r}.\n"
+            f"Set FLEURS_DIR, or restore it with: eval/fetch_missing_langs.sh"
+        )
 
 LANGUAGES = [
     ("Odia", "or_in"),

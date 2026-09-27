@@ -39,6 +39,18 @@
 | 19 | ASR latency on Android: **RTF 0.120–0.127** | `benchmark_onddevice.txt` |
 | 20 | TTS latency on Android: **RTF 0.055–0.058** | `benchmark_onddevice.txt` |
 | 21 | Memory with the ASR model resident: **428 MB PSS / 535 MB RSS** | `dumpsys meminfo` |
+| 27 | **Pruned-vocab model decodes correctly** — 10,288 → 1,002 tokens | `eval/fleurs_eval_full.py`, `SUMMARY_full_v3pruned.json` |
+| 28 | **Pruned model emits zero out-of-script characters** (was 2/19 on clean short English) | `docs/VOCAB_PRUNE_FINDINGS.md` §1 |
+| 29 | **Hindi script retention 40% → 78%** under pink noise @ 15 dB; clean 94% → 100% | `noise_robustness_v3pruned.json` |
+| 30 | **Mean CER 0.0934 → 0.0918**; 9 of 10 languages bit-identical | `SUMMARY_full_v3pruned.json` |
+| 31 | **LanguageFilter drops whole segments, never partial** — 25/25 cases | `eval/language_filter.py`, `language_filter.json` |
+| 32 | **All 6 TTS voices synthesise** — real audio, correct length and amplitude | `eval/tts_intelligibility.py`, `tts_intelligibility_pruned.json` |
+| 33 | **TTS round-trip: Hindi CER 0.339 → 0.102** (was "the most important open question") | `tts_intelligibility_pruned.json` |
+| 34 | **v1/v2 discrepancy closed** — the APK now ships the model the deck reports | `unzip -l app-debug.apk \| grep omnilingual` |
+| 35 | **16 KB page-size compatible** — the "not 16 KB compatible" dialog on a real phone is gone | `zipalign -c -P 16 releases/iTantra-release.apk` exits 0 |
+| 36 | **All 6 TTS voices synthesise** after trimming espeak-ng-data 17.2 MB → 1.7 MB | `eval/tts_smoke.py` 6/6 |
+| 37 | **Material 3 UI, light and dark** — connection dot, mic level bar, About and Licences screens | `app/evidence/ui/*.png` |
+| 38 | On-device ASR **RTF 0.147** on a 16384-byte-page emulator (6.94 s clip in 1020 ms) | `app/evidence/pipeline_pruned_model_2026-09-27.txt` |
 
 **Everything except the radio has now been executed at least once.**
 
@@ -54,7 +66,7 @@
 | 4 | **Real microphone audio** | The emulator's mic input is silent, so the VAD correctly found 0 segments. The path runs; it has never seen actual speech. | MEDIUM |
 | 5 | **A real low-end phone** | All figures are from an emulator on Apple Silicon. A budget handset will be slower. | MEDIUM |
 | 6 | **Alert non-interruptibility** | Playback starts in ALERT mode, but "cannot be ducked by other apps" was not tested against a competing audio source. | LOW |
-| 7 | **TTS voices for Kannada, Tamil, Odia** | Not implemented — decision was espeak-ng, which is not wired up. | MEDIUM (PS requirement) |
+| 7 | **TTS voices for Kannada, Tamil, Odia, Gujarati** | **No voice exists that we can ship.** Not "not wired up" — the espeak-ng fallback that was planned is not implementable (espeak-ng is a phonemiser, not a standalone voice, and the JNI library has no espeak TTS config). These four are text-only and the UI says so. See `docs/TTS_LICENCE_AUDIT.md`. | MEDIUM (PS requirement) |
 
 ---
 

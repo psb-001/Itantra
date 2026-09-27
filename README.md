@@ -25,11 +25,11 @@ Nothing leaves the device. No network, no cloud.
 
 | Path | What lives there |
 |---|---|
-| `docs/` | **Start here.** `DECISION_SIH26173.md` (why this PS), `HANDOVER.md` (latest state), `ARCHITECTURE.md`, `TECHNICAL_APPROACH.md`, `FULL_RESEARCH_DOSSIER.md`, plus results and deck-change notes. |
+| `docs/` | **Start here.** `DECISION_SIH26173.md` (why this PS), `HANDOVER.md` (latest state), `VOCAB_PRUNE_FINDINGS.md` (the wrong-script fix), `TTS_LICENCE_AUDIT.md` (voice licences, incl. the CC-BY-NC-SA Hindi voice), plus results and deck-change notes. |
 | `app/` | The Android app — Kotlin, Gradle, `setup-project.sh`, `build.sh`, plus `evidence/` (device screenshots + logs). |
-| `models/` | `asr-v2/` (**current**), `asr-v1/` (superseded), `vad/` (Silero), `reference-apk/` (the prebuilt sherpa-onnx reference APK). |
+| `models/` | `asr-v3-10lang/` (**current** — v2 with its output vocabulary pruned), `asr-v2/` (unpruned baseline, kept for comparison), `asr-v1/` (superseded), `vad/` (Silero), `reference-apk/`. |
 | `tts/` | Piper voices (`en_US-lessac`, `hi_IN-pratham`), `espeak-ng-data/`, and the 40 intelligibility test wavs. |
-| `eval/` | Every benchmark and eval script — ASR, TTS, VAD, RAM, noise robustness, language filter, FLEURS harness. |
+| `eval/` | Every benchmark and eval script — ASR, TTS, VAD, RAM, noise robustness, language filter, FLEURS harness, plus `prune_vocab.py` (builds the pruned model) and `fetch_tts_voices.py` (downloads and prepares the Piper voices). |
 | `results/` | All measured output as JSON. `SUMMARY_full_v2.json` is the current headline result. |
 | `logs/` | Eval run logs + `device/` logcat captures. |
 | `dataset/` | FLEURS evaluation audio (7.1 GB). Re-fetchable with `eval/fetch_missing_langs.sh`. |
@@ -45,35 +45,51 @@ Nothing leaves the device. No network, no cloud.
 
 | Thing | Evidence |
 |---|---|
-| Model runs on Android | Loaded on device, **428 MB PSS / 535 MB RSS** with the 348 MiB model resident |
-| App builds, installs, runs | 521 MB APK built and launched on Android 34; screenshots in `app/evidence/` |
-| ASR accuracy | Mean CER **0.0934** on v2 across 200 clips × 10 languages (`results/SUMMARY_full_v2.json`). **Measured with v2 — but the shipped APK bundles v1. See Known risk.** |
+| Model runs on Android | Loaded on device, **428 MB PSS / 535 MB RSS** with the model resident |
+| App builds, installs, runs | **744 MB release APK**, sideloadable, verified on Android 34 with a **16384-byte page size**; screenshots in `app/evidence/ui/` |
+| ASR accuracy | Mean CER **0.0918** across 200 clips × 10 languages, 2,000 clips, 6.7 h of real speech (`eval/SUMMARY_full_v3pruned.json`) |
+| **Out-of-script output** | **Zero, and structurally impossible.** The model is shipped with its CTC vocabulary pruned 10,288 → 1,002 tokens, so it cannot emit Arabic, CJK or Hangul. Previously "hello" came back as `هello` and was transmitted as `ello`. See `docs/VOCAB_PRUNE_FINDINGS.md` |
+| **Hindi under noise** | Script retention 40% → **78%** at pink 15 dB SNR; clean 94% → **100%**. Previously the project's single largest weakness |
+| Language filter | **25/25** cases — drops any segment containing a foreign-script letter, never partially edits one |
+| TTS voices | **6 of 10** languages speak aloud (hi, mr, bn, ml, te, en), all verified by synthesis |
+| TTS intelligibility | Hindi round-trip CER **0.339 → 0.102** (was the top open accuracy question) |
 | On-device latency | ASR RTF 0.120–0.127, TTS RTF 0.055–0.058 → **~0.9–1.0 s mouth-to-ear** |
 | VAD | 0 segments on silence, RTF 0.004 |
-| Language filter | 21/21 cases — accepts the ten scripts, rejects everything else |
 
 ### Not yet proven
 
 | Gap | Why it matters |
 |---|---|
+| **No two-phone test** | **The demo still does not exist.** The Bluetooth RFCOMM link has never once connected |
 | **Real low-end phone** | Latency and RAM are emulator numbers, not a budget handset |
-| **No two-phone test** | The actual demo does not exist yet |
-| **Human TTS panel** | 40% of the marks are legibility; 40 wavs sit in `tts/intelligibility/` unscored |
+| **Human TTS panel** | 40% of the marks are legibility. Every intelligibility number is an ASR round-trip proxy; 80 wavs sit in `tts/intelligibility/` unscored by a human |
+| **4 of 10 languages are text-only** | Gujarati, Kannada, Tamil and Odia display correct text and stay silent. The UI labels them. See `docs/TTS_LICENCE_AUDIT.md` |
 | **Battery drain** | Never measured |
-| **Hindi under noise** | Script retention drops to ~50% at 15 dB SNR — pick a demo language |
 
-### Known risk
+### Known risks
 
-**The shipped APK runs v1, but the deck reports v2 accuracy.** `SpeechEngine.kt` pins
-`MODEL_TYPE_OMNILINGUAL = 44`, which resolves to `...-ctc-int8-2025-11-12` — the v1 directory.
-Verified inside `releases/iTantra-release.apk`: `assets/...-ctc-int8-2025-11-12/model.int8.onnx`,
-365,352,120 bytes. The v2 model is in `models/asr-v2/` but is not referenced under `app/`.
-Deck headline CER 0.0934 is v2; the APK would measure 0.0992. Fix and options in
-`docs/HANDOVER.md` § "OPEN DISCREPANCY".
+**16 KB page size — fixed 27 Sep, worth knowing why.** Real phones showed an "This app isn't
+16 KB compatible" dialog. The libraries were never the problem: every `PT_LOAD` segment in both
+`.so` files is already aligned to 16384 bytes. The fault was their *position inside the APK zip*
+— with `useLegacyPackaging = false` they were stored uncompressed, and an uncompressed library
+must itself begin on a 16 KB boundary in the archive. Fixed by compressing the native libraries
+(`zipalign -c -P 16` now exits 0), and the APK got 16 MB smaller as a side effect. This is the
+kind of thing a judge with a modern phone would have hit on first launch, so it is recorded
+here rather than left in the build log.
 
-The model flips script under noise — Hindi at 30 dB SNR (inaudible noise) drops from 94% to 64%
-script retention, writing the same sounds in Arabic/Urdu or Gujarati. English and Bengali hold
-100% down to 10 dB. See `docs/NOISE_ROBUSTNESS_FINDINGS.md`.
+**Licences are CC, and we say so.** The Hindi voice in the APK is **CC-BY-NC-SA 4.0**
+(non-commercial, share-alike) and three of the four newly added voices are CC-BY-SA or CC-BY.
+An earlier version of this project claimed "no CC-BY-NC anywhere"; that was wrong.
+`docs/TTS_LICENCE_AUDIT.md` has the full table and the attribution text to ship.
+
+**Tamil still collapses at 0 dB** — 44% script retention. Pruning changed nothing there because
+Tamil's failure mode is dropping syllables, not switching script.
+
+**Wrong language, right script, still passes.** Hindi cannot be told from Marathi, nor Bengali
+from Assamese. Fixing that needs a language-ID model, which is out of scope.
+
+**Noise is synthetic.** White and pink noise measure *sensitivity*, not field accuracy in a
+disaster zone. Still unmeasured.
 
 ---
 

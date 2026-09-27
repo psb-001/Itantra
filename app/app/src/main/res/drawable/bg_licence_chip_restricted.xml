@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chip for a licence that carries obligations (Creative Commons, arXiv). Deliberately a
+     filled error container so a judge skimming the page cannot miss that two of these are not
+     permissive. See the alert/error note in values/themes.xml for the same reasoning. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/md_errorContainer" />
+    <corners android:radius="8dp" />
+</shape>

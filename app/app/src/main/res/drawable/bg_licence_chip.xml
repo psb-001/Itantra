@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chip for a permissive licence: MIT / Apache / BSD. Quiet, because there are many of them. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/md_secondaryContainer" />
+    <corners android:radius="8dp" />
+</shape>

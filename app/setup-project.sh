@@ -65,17 +65,30 @@ fi
 
 echo
 echo "=== 3. models into assets ==="
-# ASR: 348 MiB. VAD: 629 KB.
-ASR_SRC="$OUT/omni300m"
-VAD_SRC="$OUT/omni300m_vad/silero_vad.onnx"
-ASR_DST="$SRC_ASSETS/sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12"
+# Resolve the repo root from this script's location, so the paths work regardless of cwd.
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
+
+# ASR: the v2 Omnilingual model with its CTC output vocabulary pruned to the nine scripts the
+# ten required languages use (10,288 -> 1,002 tokens). Built by eval/prune_vocab.py; see
+# docs/VOCAB_PRUNE_FINDINGS.md. Shipping the unpruned v1 here is what caused "hello" to come
+# back as "هello" (Arabic heh) and then be transmitted as "ello".
+ASR_SRC="$REPO/models/asr-v3-10lang/sherpa-onnx-omnilingual-asr-10lang-300M-ctc-int8"
+VAD_SRC="$REPO/models/vad/silero_vad.onnx"
+ASR_DST="$SRC_ASSETS/sherpa-onnx-omnilingual-asr-10lang-300M-ctc-v2-int8"
+
+if [ ! -f "$ASR_SRC/model.int8.onnx" ]; then
+  echo "  pruned ASR model missing at $ASR_SRC — building it now"
+  "$REPO/.venv/bin/python" "$REPO/eval/prune_vocab.py" \
+    --src "$REPO/models/asr-v2/sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-v2-int8-2026-02-05" \
+    --dst "$ASR_SRC" || { echo "  could not build the pruned model — aborting" >&2; exit 1; }
+fi
 
 if [ -f "$ASR_SRC/model.int8.onnx" ]; then
   mkdir -p "$ASR_DST"
   cp -v "$ASR_SRC/model.int8.onnx" "$ASR_DST/"
   cp -v "$ASR_SRC/tokens.txt"      "$ASR_DST/"
 else
-  echo "  ASR model not found at $ASR_SRC"
+  echo "  ASR model not found at $ASR_SRC" >&2; exit 1
 fi
 
 if [ -f "$VAD_SRC" ]; then
@@ -84,17 +97,40 @@ else
   echo "  VAD model not found at $VAD_SRC"
 fi
 
-# TTS voices + espeak data. Only the two we have.
-TTS_SRC="$OUT/tts"
+# TTS voices + espeak data.
+# Six of the ten required languages have a bundled voice: hi, mr, bn, ml, te, en. Gujarati,
+# Kannada, Tamil and Odia have none — see docs/TTS_LICENCE_AUDIT.md for why no permissively
+# licensed voice exists for them that we can integrate.
+#
+# fetch_tts_voices.py derives each voice's phoneme table from its own .onnx.json and patches
+# the ONNX metadata that sherpa-onnx requires. Do not hand-copy .onnx files: raw Piper models
+# have no metadata_props and sherpa-onnx aborts natively with
+# "'sample_rate' does not exist in the metadata".
+TTS_SRC="$REPO/tts"
 TTS_DST="$SRC_ASSETS/tts"
 mkdir -p "$TTS_DST"
 for v in hi_IN-pratham-medium en_US-lessac-medium; do
   [ -f "$TTS_SRC/$v.onnx" ]   && cp -v "$TTS_SRC/$v.onnx"   "$TTS_DST/"
   [ -f "$TTS_SRC/$v.tokens" ] && cp -v "$TTS_SRC/$v.tokens" "$TTS_DST/"
 done
+
+echo "  fetching the four additional MIT Piper voices (mr, bn, ml, te)"
+"$REPO/.venv/bin/python" "$REPO/eval/fetch_tts_voices.py" --dest "$TTS_DST" \
+  || echo "  !! voice fetch failed — the app will still build, but those languages go text-only"
+
 if [ -d "$TTS_SRC/espeak-ng-data" ]; then
   echo "  copying espeak-ng-data (this takes a moment)"
   cp -R "$TTS_SRC/espeak-ng-data" "$TTS_DST/"
+  # espeak-ng ships 113 language dictionaries (18 MB) and we need 10. Keeping Russian (8.1 MB),
+  # Mandarin (1.5 MB) and 101 others in the APK is 15.4 MB of dead weight. The script keeps the
+  # shared phoneme tables and the lang/ and voices/ family directories whole, because those are
+  # load-bearing and small; it deletes only *_dict.
+  echo "  trimming espeak-ng-data to the ten required languages"
+  "$REPO/.venv/bin/python" "$REPO/eval/trim_espeak.py" --dir "$TTS_DST/espeak-ng-data" \
+    || echo "  !! trim failed - voices may be missing for some languages"
+  echo "  verifying every voice still speaks after the trim"
+  "$REPO/.venv/bin/python" "$REPO/eval/tts_smoke.py" --tts-dir "$TTS_DST" \
+    || echo "  !! SMOKE TEST FAILED - do not ship this build, a dictionary was needed"
 fi
 
 echo

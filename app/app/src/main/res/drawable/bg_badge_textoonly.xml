@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  "Text only" pill. Deliberately MUTED, not the alert red.
+
+  Four of the ten languages are genuinely silent. That is a known, accepted limitation rather
+  than a failure, and painting it red would be self-dramatising on a screen a judge reads. The
+  contrast against the "Speaks aloud" pill is the point: quiet, but visibly different.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/colorSurfaceContainerHighest" />
+    <corners android:radius="10dp" />
+</shape>

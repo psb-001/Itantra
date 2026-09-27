@@ -63,7 +63,7 @@ committed there.
 |---|---|
 | Low STT WER | **MEASURED — all 10 required languages on model v2**, 200 clips each on FLEURS. Normalised CER **0.053 (Kannada) → 0.134 (Odia)**, mean **0.0934** |
 | TTS legibility | **PROXY ONLY** — ASR round-trip: English CER 0.030, Hindi CER 0.339. Human panel still required |
-| TTS language coverage | **7 of 10** have a neural voice. Kannada, Tamil, Odia fall back to espeak-ng. See `MODEL_AND_TTS_FINDINGS.md` |
+| TTS language coverage | **6 of 10** have a neural voice (hi, mr, bn, ml, te, en). **Gujarati, Kannada, Tamil and Odia are TEXT-ONLY** — shown in the UI, not spoken. See `TTS_LICENCE_AUDIT.md` |
 | Language coverage | **COMPLETE** — 10 of 10 required languages measured on real human speech. No gaps |
 
 ### Latency — 20%
@@ -103,8 +103,15 @@ Ordered by what actually moves the score, not by what is comfortable to work on.
 
 1. **Switch to model v2** (`...-ctc-v2-int8-2026-02-05`). Same 279 MiB size, mean CER 0.0992 →
    0.0934 (−5.9% relative), better on 6 of 10 languages. No cost to switching.
-2. **Ship espeak-ng for Kannada, Tamil and Odia**, not MMS-TTS. Keeps the whole shipped stack at
-   MIT / Apache-2.0 / GPL with zero CC-BY-NC. State the quality limitation openly.
+2. ~~**Ship espeak-ng for Kannada, Tamil and Odia**~~ — **OVERTURNED 27 Sep 2026. This is not
+   possible.** espeak-ng is a *phonemiser* inside a VITS model, not a standalone voice. Neither
+   `master` nor `v1.13.8` of sherpa-onnx's Kotlin API exposes an espeak TTS config, and the
+   `OfflineTtsEspeakModelConfig` symbol is absent from the shipped `libsherpa-onnx-jni.so`. The
+   17.2 MB of espeak dictionaries in the APK only phonemises text for the Piper voices.
+   Replaced by: **six MIT-wrapper Piper voices, four of them CC-licensed and disclosed, four
+   languages text-only.** See `TTS_LICENCE_AUDIT.md`. The original reasoning also mis-stated the
+   licence position — the Hindi voice already in the APK is CC-BY-NC-SA 4.0, so the stack was
+   never "MIT / Apache-2.0 / GPL with zero CC-BY-NC".
 3. **Android app BUILDS.** `option_a_stt/android/iTantraApp/` — Kotlin, Bluetooth + Wi-Fi Direct
    transports, TTS playback, language filter. Toolchain installed 20 Sep at `~/android-dev/`
    (JDK 17 + Android SDK 34 + Gradle 8.2). **521 MB debug APK produced and verified.**

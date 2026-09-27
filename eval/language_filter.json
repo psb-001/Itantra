@@ -1,0 +1,291 @@
+{
+  "allowed_scripts": {
+    "DEVANAGARI": "Hindi, Marathi",
+    "GUJARATI": "Gujarati",
+    "KANNADA": "Kannada",
+    "MALAYALAM": "Malayalam",
+    "TAMIL": "Tamil",
+    "TELUGU": "Telugu",
+    "ORIYA": "Odia",
+    "BENGALI": "Bengali",
+    "LATIN": "English"
+  },
+  "threshold": 0.6,
+  "cases": [
+    {
+      "label": "Hindi",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "नमस्ते यह एक आपातकालीन संदेश है",
+      "raw": "नमस्ते यह एक आपातकालीन संदेश है",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Marathi",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "युरोप हा खंड तुलनेने लहान आहे परंतु त्यात अनेक स्वतंत्र देश आहेत",
+      "raw": "युरोप हा खंड तुलनेने लहान आहे परंतु त्यात अनेक स्वतंत्र देश आहेत",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Bengali",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "গুরুত্বপূর্ণ সামরিক এবং অসামরিক যোগান",
+      "raw": "গুরুত্বপূর্ণ সামরিক এবং অসামরিক যোগান",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Odia",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "ମନୋବିଜ୍ଞାନ ସମେତ ବିଜ୍ଞାନ ସମ୍ବନ୍ଧିତ ସମସ୍ତ ବିଷୟ",
+      "raw": "ମନୋବିଜ୍ଞାନ ସମେତ ବିଜ୍ଞାନ ସମ୍ବନ୍ଧିତ ସମସ୍ତ ବିଷୟ",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Gujarati",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "આ એક કટોકટીનો સંદેશ છે",
+      "raw": "આ એક કટોકટીનો સંદેશ છે",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Kannada",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "ಇದು ತುರ್ತು ಸಂದೇಶವಾಗಿದೆ",
+      "raw": "ಇದು ತುರ್ತು ಸಂದೇಶವಾಗಿದೆ",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Tamil",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "இது ஒரு அவசர செய்தி",
+      "raw": "இது ஒரு அவசர செய்தி",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Telugu",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "ఇది అత్యవసర సందేశం",
+      "raw": "ఇది అత్యవసర సందేశం",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Malayalam",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "ഇതൊരു അടിയന്തിര സന്ദേശമാണ്",
+      "raw": "ഇതൊരു അടിയന്തിര സന്ദേശമാണ്",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "English",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "Emergency alert. Move to a safe location immediately.",
+      "raw": "Emergency alert. Move to a safe location immediately.",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Hindi + English mix",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "यह एक emergency alert संदेश है",
+      "raw": "यह एक emergency alert संदेश है",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Numbers in Hindi",
+      "expected_send": true,
+      "correct": true,
+      "send": true,
+      "text": "बाड़ 3 पर आग लगी है, 112 पर कॉल करें",
+      "raw": "बाड़ 3 पर आग लगी है, 112 पर कॉल करें",
+      "verdict": "ACCEPT",
+      "allowed_fraction": 1.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Real bug: heh for h",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "هello",
+      "verdict": "REJECT (1 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.8,
+      "foreign_chars_removed": 1
+    },
+    {
+      "label": "Real bug: meem for m",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "help مe",
+      "verdict": "REJECT (1 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.8333,
+      "foreign_chars_removed": 1
+    },
+    {
+      "label": "Real bug: alif+waw",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "اr yوk",
+      "verdict": "REJECT (2 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.6,
+      "foreign_chars_removed": 2
+    },
+    {
+      "label": "Hindi + 2 stray CJK",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "यह एक आपातकालीन संदेश है 緊急",
+      "verdict": "REJECT (2 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.875,
+      "foreign_chars_removed": 2
+    },
+    {
+      "label": "Chinese",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "紧急警报请立即转移到安全地点",
+      "verdict": "REJECT (14 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.0,
+      "foreign_chars_removed": 14
+    },
+    {
+      "label": "Japanese",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "緊急警報です安全な場所に移動してください",
+      "verdict": "REJECT (20 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.0,
+      "foreign_chars_removed": 20
+    },
+    {
+      "label": "Korean",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "긴급 경보 안전한 장소로 이동하십시오",
+      "verdict": "REJECT (16 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.0,
+      "foreign_chars_removed": 16
+    },
+    {
+      "label": "Arabic",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "تنبيه طارئ انتقل إلى مكان آمن",
+      "verdict": "REJECT (24 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.0,
+      "foreign_chars_removed": 24
+    },
+    {
+      "label": "Russian",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "Экстренное оповещение переместитесь в безопасное место",
+      "verdict": "REJECT (49 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.0,
+      "foreign_chars_removed": 49
+    },
+    {
+      "label": "Thai",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "แจ้งเตือนฉุกเฉินโปรดย้ายไปยังที่ปลอดภัย",
+      "verdict": "REJECT (30 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.0,
+      "foreign_chars_removed": 30
+    },
+    {
+      "label": "Greek",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "Επείγουσα ειδοποίηση μετακινηθείτε σε ασφαλές μέρος",
+      "verdict": "REJECT (46 foreign chars - whole segment dropped)",
+      "allowed_fraction": 0.0,
+      "foreign_chars_removed": 46
+    },
+    {
+      "label": "Empty",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "",
+      "verdict": "REJECT (no letters)",
+      "allowed_fraction": 0.0,
+      "foreign_chars_removed": 0
+    },
+    {
+      "label": "Numbers only",
+      "expected_send": false,
+      "correct": true,
+      "send": false,
+      "text": "",
+      "raw": "12345",
+      "verdict": "REJECT (no letters)",
+      "allowed_fraction": 0.0,
+      "foreign_chars_removed": 0
+    }
+  ]
+}

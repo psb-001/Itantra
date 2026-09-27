@@ -2,17 +2,75 @@
 <resources>
     <string name="app_name">iTantra</string>
 
-    <string name="loading">Loading models…</string>
-    <string name="hint">Hold the button and speak.\nSpeech is recognised on this phone and only the text is sent.\nEither phone can talk or listen — just don\'t both talk at once.</string>
-
+    <!-- ===== Main screen ===== -->
+    <string name="loading">Loading…</string>
+    <string name="hint">Hold the button below and speak.\n\nYour words are turned into text on this phone, and only the text is sent to the other phone. The other phone then reads it out loud. Nothing is recorded and nothing is uploaded.</string>
     <string name="ptt">Hold to talk</string>
-    <string name="recording">Recording — release to send</string>
+    <string name="recording">Listening — let go to send</string>
+    <string name="devices">Devices</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="show_log">Show technical log</string>
+    <string name="hide_log">Hide technical log</string>
 
-    <string name="devices">DEVICES</string>
-    <string name="settings">SETTINGS</string>
-
-    <string name="not_connected">NOT CONNECTED — tap DEVICES to link</string>
-    <string name="connected_to">CONNECTED — %1$s</string>
-
+    <string name="not_connected">Not connected — tap Devices to link up</string>
+    <string name="connected_to">Connected to %1$s</string>
     <string name="peer_dialog_title">Connect to</string>
+
+    <!-- ===== About: section headings (plain words, no jargon) ===== -->
+    <string name="about_title">About iTantra</string>
+    <string name="about_what_header">What this app does</string>
+    <string name="about_langs_header">Which languages</string>
+    <string name="about_heard_header">It can LISTEN to</string>
+    <string name="about_spoken_header">It can SPEAK</string>
+    <string name="about_team_header">The team</string>
+    <string name="about_how_good_header">How well it works</string>
+    <string name="about_event_header">Competition details</string>
+    <string name="about_limits_header">What we have not tested yet</string>
+    <string name="about_more">Open-source credits and licences</string>
+
+    <string name="about_what_body">Two phones, no internet needed.\n\nYou hold the button and speak. This phone works out what you said and turns it into written words. It then sends just those words to the other phone, which reads them out loud.\n\nYour actual voice is never sent and never recorded. Only the written words travel — and written words are around 480 times smaller than speech, which is the whole point: a weak or damaged radio link can carry a sentence even when it could never carry a voice.</string>
+
+    <string name="about_langs_body">All ten required languages are understood. Six of them are also spoken aloud by this app; the other four show the words on screen but stay silent, and the app tells you so rather than pretending.</string>
+
+    <string name="about_good_body">We tested speech recognition on 2,000 real recordings of real people speaking — about 6 hours and 40 minutes of audio, the same set for every language.\n\nOn average, 9 out of every 100 letters came out wrong. That sounds alarming, but a mistake is usually one letter inside an otherwise correct word.\n\nEnglish and Hindi are the most accurate. Tamil and Odia are the weakest — roughly 1 word in 2 contains a mistake. If you try those, expect errors.</string>
+
+    <string name="about_limits_body">We would rather list these than have you find them.\n\n• Two phones have never actually been tested against each other. The Bluetooth connection has never completed a real conversation. This is the most important thing still to prove.\n\n• No human has listened to the voices yet and judged them. Every “how clear is the speech” number we have comes from a computer feeding the audio back into itself, which is not the same as a person understanding it in a stressful situation.\n\n• We tested with recorded background noise added afterwards. We have not recorded anyone speaking in a real disaster.</string>
+
+    <string name="about_event_body">This was built for a problem statement set by ISRO, Department of Space.</string>
+
+    <string name="about_field_ps">Problem statement number</string>
+    <string name="about_field_title">What it asks for</string>
+    <string name="about_field_team">Team name</string>
+    <string name="about_field_org">Set by</string>
+    <string name="about_field_category">Category</string>
+    <string name="about_field_theme">Theme</string>
+    <string name="about_field_build">Version</string>
+
+    <string name="ps_title_plain">A two-way radio that works on a bad connection, using 10 Indian languages</string>
+    <string name="ps_title_official">Indian Multilingual TTS &amp; STT Aided Neural Transceiver Radio Access for low bitrate links</string>
+    <string name="team_bjp">B.J.P — Bug Janta Party</string>
+    <string name="org_isro">ISRO, Department of Space</string>
+    <string name="category_software">Software</string>
+    <string name="theme_smart_automation">Smart Automation</string>
+
+    <string name="lang_capable_badge">Speaks aloud</string>
+    <string name="lang_text_only_badge">Text only</string>
+
+    <!-- ===== Licences: plain words ===== -->
+    <string name="licences_title">Open-source credits</string>
+    <string name="licences_intro">iTantra is mostly not our code. The speech recognition, the voices, the speech engine and the screen design all come from other people who made their work free to use, and we are grateful for it.\n\nThis page lists every part, says in plain words what it does, and points you at the original so you can check us.\n\nTwo of them carry conditions you should know about, and they are marked clearly below.</string>
+
+    <string name="licence_group_models">Parts that turn your voice into words, and words into a voice</string>
+    <string name="licence_group_software">Parts that make the app run, and draw the screen</string>
+    <string name="licence_group_data">Test data we used to measure accuracy (not included in the app)</string>
+
+    <string name="licence_action_header">Do you need to do anything?</string>
+    <string name="licence_action_none">No. Free to use, no conditions.</string>
+    <string name="licence_action_attribution">You must credit the creators if you reuse it. We have done that here.</string>
+    <string name="licence_action_noncommercial">Cannot be used commercially. Fine for a competition entry or research; not fine if someone later sells a product using it.</string>
+    <string name="licence_action_sharealike">Cannot be used commercially, and anything built on it must be shared under the same terms.</string>
+    <string name="licence_action_unclear">We could not establish the terms. Treated as unknown until its authors clarify.</string>
+
+    <string name="open_source_page">Open the original page</string>
 </resources>

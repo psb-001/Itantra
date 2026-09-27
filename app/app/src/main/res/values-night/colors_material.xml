@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Material 3 dark colour roles for iTantra.
+
+  GENERATED FILE - edit eval/gen_material_palette.py and re-run instead.
+  Roles are tone-mapped in HSL so hue is identical at every tone; every
+  foreground/background pair is contrast-checked against WCAG AA by the
+  generator, which exits non-zero if any pair fails.
+-->
+<resources>
+    <color name="md_primary">#9ECBF8</color>
+    <color name="md_onPrimary">#1A314A</color>
+    <color name="md_primaryContainer">#094685</color>
+    <color name="md_onPrimaryContainer">#CFE5FC</color>
+    <color name="md_inversePrimary">#0C5EB0</color>
+    <color name="md_secondary">#BBC8D5</color>
+    <color name="md_onSecondary">#2B3137</color>
+    <color name="md_secondaryContainer">#384859</color>
+    <color name="md_onSecondaryContainer">#DDE4EA</color>
+    <color name="md_tertiary">#97D2C5</color>
+    <color name="md_onTertiary">#213330</color>
+    <color name="md_tertiaryContainer">#224E45</color>
+    <color name="md_onTertiaryContainer">#CBE9E2</color>
+    <color name="md_error">#F5B6B6</color>
+    <color name="md_onError">#512121</color>
+    <color name="md_errorContainer">#8E1414</color>
+    <color name="md_onErrorContainer">#FADCDC</color>
+    <color name="md_background">#131414</color>
+    <color name="md_onBackground">#E2E3E5</color>
+    <color name="md_surface">#131414</color>
+    <color name="md_onSurface">#E2E3E5</color>
+    <color name="md_surfaceVariant">#44464C</color>
+    <color name="md_onSurfaceVariant">#C5C7CB</color>
+    <color name="md_surfaceContainerLowest">#0E0F0F</color>
+    <color name="md_surfaceContainerLow">#1B1C1D</color>
+    <color name="md_surfaceContainer">#1F2021</color>
+    <color name="md_surfaceContainerHigh">#292A2B</color>
+    <color name="md_surfaceContainerHighest">#333438</color>
+    <color name="md_outline">#8D9198</color>
+    <color name="md_outlineVariant">#44464C</color>
+    <color name="md_inverseSurface">#E2E3E5</color>
+    <color name="md_inverseOnSurface">#303032</color>
+    <color name="md_scrim">#000000</color>
+    <color name="md_alert">#F0B8BC</color>
+    <color name="md_onAlert">#4D2427</color>
+    <color name="md_alertContainer">#920013</color>
+    <color name="md_onAlertContainer">#FFDADE</color>
+</resources>

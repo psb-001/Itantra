@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Initials badge for a team member. Uses the light primaryContainer; the About screen is
+     short-lived and the dark variant of the same drawable would be needed only if it were
+     ever shown in a permanently dark context. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/md_primaryContainer" />
+</shape>

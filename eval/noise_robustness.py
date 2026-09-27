@@ -42,7 +42,16 @@ MODEL_DIR = os.environ.get(
 )
 MODEL = os.path.join(BASE, MODEL_DIR, "model.int8.onnx")
 TOKENS = os.path.join(BASE, MODEL_DIR, "tokens.txt")
-FLEURS = os.path.join(BASE, "fleurs")
+# See the note in fleurs_eval_full.py: the 7.1 GB corpus lives at repo-root dataset/fleurs.
+FLEURS = os.environ.get("FLEURS_DIR", os.path.join(BASE, "fleurs"))
+if not os.path.isdir(FLEURS):
+    _fb = os.path.join(os.path.dirname(BASE), "dataset", "fleurs")
+    if os.path.isdir(_fb):
+        FLEURS = _fb
+    else:
+        sys.exit(f"FLEURS corpus not found at {FLEURS!r} or {_fb!r}. Set FLEURS_DIR.")
+# Tag the output file so two model versions can be compared without overwriting each other.
+_OUT_TAG = os.environ.get("OMNI_TAG", "").strip()
 SR = 16000
 
 LANGUAGES = [("Hindi", "hi_in"), ("Tamil", "ta_in"), ("English", "en_us"), ("Bengali", "bn_in")]
@@ -309,8 +318,10 @@ def main():
             line += f"{c['script_retention_pct']:>10.1f}" if c else f"{'-':>10s}"
         print(line)
 
-    with open(os.path.join(BASE, "noise_robustness.json"), "w") as f:
+    name = f"noise_robustness_{_OUT_TAG}.json" if _OUT_TAG else "noise_robustness.json"
+    with open(os.path.join(BASE, name), "w") as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
+    print(f"\nwrote {name}")
     print("\nWrote noise_robustness.json")
 
 

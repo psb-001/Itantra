@@ -114,39 +114,53 @@ def accept(text: str, threshold: float = THRESHOLD) -> tuple[bool, dict]:
     return ok, info
 
 
-def clean(text: str) -> str:
-    """Strip foreign-script characters, keeping allowed letters, digits and punctuation.
-
-    A mostly-Hindi sentence with two stray CJK characters is a Hindi sentence. Accept it,
-    then remove the noise so the transmitted packet contains only valid text.
-    """
-    out = []
-    for ch in text:
-        s = script_of(ch)
-        if s in ("NEUTRAL", "OTHER") or s in ALLOWED:
-            out.append(ch)
-    # collapse the whitespace left behind
-    import re
-
-    return re.sub(r"\s{2,}", " ", "".join(out)).strip()
-
-
 def filter_transcript(text: str, threshold: float = THRESHOLD) -> dict:
     """The function the app should actually call.
 
-    Returns whether to send the segment, and the cleaned text to send.
+    STRICT BY DESIGN. The old rule scored the fraction of in-script letters and, if it cleared
+    `threshold`, transmitted the transcript with the foreign characters DELETED. Measured on
+    26 Sep 2026, that shipped garbled emergency text:
+
+        said "hello"        -> "هello"       (Arabic heh for Latin h)
+        said "help me"      -> "help مe"      (Arabic meem for Latin m)
+        said "are you okay" -> "اr yوk"       (Arabic alif, Arabic waw)
+
+    Those scored 0.60-0.83, cleared the threshold, and were sent with the foreign character
+    removed — the receiving phone displayed "ello" and "help e". Confident, unreadable, wrong
+    text for an emergency, with nothing marking it as suspect.
+
+    The rule now: any letter outside the allowed set drops the WHOLE segment. Nothing is ever
+    partially stripped.
+
+    The primary defence is the model itself, whose CTC output vocabulary is pruned to the nine
+    target scripts by `eval/prune_vocab.py`. This filter is the second layer, and it exists for
+    the confusion pruning cannot prevent: Hindi arriving in Gujarati, both in-vocabulary.
     """
-    ok, info = accept(text, threshold)
-    cleaned = clean(text) if ok else ""
-    removed = sum(n for s, n in info["scripts"].items() if s not in ALLOWED)
-    return {
-        "send": ok,
-        "text": cleaned,
-        "raw": text,
-        "verdict": info["verdict"],
-        "allowed_fraction": info["allowed_fraction"],
-        "foreign_chars_removed": removed,
-    }
+    info = score(text)
+    foreign = sum(n for s, n in info["scripts"].items() if s not in ALLOWED)
+
+    if info["letters"] == 0:
+        return {"send": False, "text": "", "raw": text,
+                "verdict": "REJECT (no letters)",
+                "allowed_fraction": info["allowed_fraction"],
+                "foreign_chars_removed": foreign}
+
+    if foreign > 0:
+        return {"send": False, "text": "", "raw": text,
+                "verdict": f"REJECT ({foreign} foreign chars - whole segment dropped)",
+                "allowed_fraction": info["allowed_fraction"],
+                "foreign_chars_removed": foreign}
+
+    return {"send": True, "text": tidy(text), "raw": text,
+            "verdict": "ACCEPT",
+            "allowed_fraction": info["allowed_fraction"],
+            "foreign_chars_removed": 0}
+
+
+def tidy(text: str) -> str:
+    """Whitespace only. This does NOT remove characters - see filter_transcript."""
+    import re
+    return re.sub(r"\s{2,}", " ", text).strip()
 
 
 def main():
@@ -163,7 +177,13 @@ def main():
         ("Malayalam", "ഇതൊരു അടിയന്തിര സന്ദേശമാണ്", True),
         ("English", "Emergency alert. Move to a safe location immediately.", True),
         ("Hindi + English mix", "यह एक emergency alert संदेश है", True),
-        ("Hindi + 2 stray CJK", "यह एक आपातकालीन संदेश है 緊急", True),
+        ("Numbers in Hindi", "बाड़ 3 पर आग लगी है, 112 पर कॉल करें", True),
+        # --- STRICT POLICY: the next three were the bug. Under the old 0.60-fraction rule they
+        # --- were SENT with the foreign character deleted, producing "ello" / "help e" / "r yk".
+        ("Real bug: heh for h", "هello", False),
+        ("Real bug: meem for m", "help مe", False),
+        ("Real bug: alif+waw", "اr yوk", False),
+        ("Hindi + 2 stray CJK", "यह एक आपातकालीन संदेश है 緊急", False),
         ("Chinese", "紧急警报请立即转移到安全地点", False),
         ("Japanese", "緊急警報です安全な場所に移動してください", False),
         ("Korean", "긴급 경보 안전한 장소로 이동하십시오", False),

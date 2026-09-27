@@ -67,56 +67,64 @@ Piper covers only 6 of the 10. Full audit across every source we have:
 | Language | Neural voice available | Source | Licence |
 |---|---|---|---|
 | Hindi | ✅ | Piper `hi_IN` pratham | **MIT** |
-| Marathi | ✅ | Piper `mr_IN` | **MIT** |
-| Malayalam | ✅ | Piper `ml_IN` arjun / meera | **MIT** |
-| Telugu | ✅ | Piper `te_IN` | **MIT** |
-| Bengali | ✅ | Piper `bn` | **MIT** |
-| English | ✅ | Piper `en_US` lessac | **MIT** |
-| **Gujarati** | ✅ | **Mimic3 `gu_IN` cmu-indic** (in sherpa-onnx) | check before shipping |
-| **Kannada** | ❌ | only MMS-TTS or espeak-ng | — |
-| **Tamil** | ❌ | only MMS-TTS or espeak-ng | — |
-| **Odia** | ❌ | only MMS-TTS or espeak-ng | — |
+| Marathi | ✅ SHIPPED | Piper `mr_IN-google-medium` | MIT wrapper / **CC-BY-SA 4.0** data |
+| Malayalam | ✅ SHIPPED | Piper `ml_IN-arjun-medium` | MIT wrapper / **unclear** data |
+| Telugu | ✅ SHIPPED | Piper `te_IN-venkatesh-medium` | MIT wrapper / **CC-BY-4.0** data |
+| Bengali | ✅ SHIPPED | Piper `bn_BD-google-medium` | MIT wrapper / **CC-BY-SA 4.0** data |
+| English | ✅ SHIPPED | Piper `en_US` lessac | MIT wrapper / Blizzard 2013 |
+| Hindi | ✅ SHIPPED | Piper `hi_IN-pratham-medium` | MIT wrapper / **CC-BY-NC-SA 4.0** |
+| **Gujarati** | ❌ | Mimic3 is AGPL-3.0; IndicTTS needs a PyTorch port | — |
+| **Kannada** | ❌ | MMS-TTS only (CC-BY-NC) | — |
+| **Tamil** | ❌ | MMS-TTS only (CC-BY-NC) | — |
+| **Odia** | ❌ | MMS-TTS only (CC-BY-NC) | — |
 
-### The two options for Kannada, Tamil and Odia
+> **SUPERSEDED 27 September 2026 — two claims in this section were wrong.**
+>
+> **1. The "MIT" column above was never accurate for any Indic voice.** Piper's wrapper is MIT;
+> the *training data* is not. `hi_IN-pratham-medium`, which has shipped in the APK all along, is
+> **CC-BY-NC-SA 4.0 — non-commercial and share-alike**. The claim elsewhere in this project that
+> the stack contains "no CC-BY-NC anywhere" was incorrect. See `TTS_LICENCE_AUDIT.md`.
+>
+> **2. espeak-ng cannot be a standalone voice, so the fallback below was never implementable.**
+> espeak-ng is a *phonemiser* used inside a VITS model, not a synthesiser you can call directly.
+> Neither `master` nor the `v1.13.8` tag of sherpa-onnx's Kotlin API has an espeak TTS config
+> class, and the `OfflineTtsEspeakModelConfig` symbol is absent from the shipped
+> `libsherpa-onnx-jni.so` — verified by inspecting the library. The 17.2 MB of espeak
+> dictionaries in the APK phonemises text *for the Piper voices*; it does not generate audio on
+> its own. The "quality is robotic but intelligible" trade-off described below therefore never
+> arose.
+>
+> **What actually shipped:** six neural Piper voices (hi, mr, bn, ml, te, en), all four newly
+> added ones CC-licensed and disclosed. Gujarati, Kannada, Tamil and Odia are **text-only**, and
+> the app says so on screen rather than failing silently. The remaining route to all ten is
+> AI4Bharat Indic-TTS (BSD-2, all 13 languages), which is FastPitch+HiFi-GAN in PyTorch and
+> needs an NDK cross-compile of sherpa-onnx or a Kotlin reimplementation. Post-deadline project.
 
-**Option A — MMS-TTS (Meta).** Available for all three: `facebook/mms-tts-kan`, `-tam`, `-ory`.
-Good neural quality. **Licence: `cc-by-nc-4.0` — non-commercial.**
+### Options considered for the four remaining languages
 
-> Read the PS restriction precisely: *"Proprietary, closed-source or commercial voice-activation
-> SDKs are strictly prohibited."* CC-BY-NC is none of those three — the weights are public and
-> open. It restricts *commercial use*, which a student hackathon is not. So it is arguably
-> compliant. But it is a licence a judge could question, and it needs stating openly rather than
-> being buried.
+**Option A — MMS-TTS (Meta).** Has all four, good neural quality. **CC-BY-NC 4.0.** Rejected to
+stay consistent with the team's own licence rule, though it is arguably compliant for a
+non-commercial hackathon — the restriction bans proprietary, closed-source and *commercial*
+voice SDKs, and CC-BY-NC is none of those three.
 
-**Option B — espeak-ng.** Already in our stack: `tts/espeak-ng-data/` ships dictionaries for
-**all nine Indic scripts** (`gu_dict`, `kn_dict`, `ta_dict`, `or_dict`, `hi_dict`, `mr_dict`,
-`ml_dict`, `te_dict`, `bn_dict` — all verified present). Licence **GPL-3.0**.
+**Option B — AI4Bharat Indic-TTS.** **BSD-2**, covers 13 languages with male and female speakers.
+Licence-clean and technically the right answer. Blocked on integration: the prebuilt JNI library
+implements only `Vits, Matcha, Kokoro, Zipvoice, Kitten, Pocket, Supertonic`, so adding FastPitch
+means rebuilding sherpa-onnx for Android with the NDK (neither NDK nor cmake is installed here)
+or writing the model in Kotlin from scratch. Weeks, not days.
 
-Quality is robotic — it is a formant synthesiser, not neural. But it is intelligible, fully
-offline, and adds **zero new dependencies or licence questions**.
-
-### Recommendation
-
-**Ship espeak-ng for the three, and state the limitation.** Reasons:
-
-1. It keeps the entire shipped stack at MIT / Apache-2.0 / GPL — no CC-BY-NC anywhere. That is a
-   clean, checkable compliance story, and the dossier already flags espeak-ng as a known GPL
-   dependency.
-2. It costs nothing to add — the data is already bundled.
-3. The alternative is a licence argument you do not need to have with a judge.
+**Option C — text-only, stated openly.** What we did. Four languages display correct text and
+are labelled TEXT-ONLY in the UI.
 
 Then say this plainly in the submission:
 
-> *"Seven of the ten required languages use neural TTS voices (MIT-licensed Piper, plus Mimic3 for
-> Gujarati). Kannada, Tamil and Odia use the espeak-ng formant synthesiser, which is intelligible
-> but noticeably more robotic. Higher-quality neural voices exist for those three under a
-> non-commercial licence and are the next upgrade if the organisers permit it."*
+> *"Six of the ten required languages have neural TTS voices, all MIT-licensed Piper weights
+> (four carry Creative Commons training data, disclosed in TTS_LICENCE_AUDIT.md). Speech
+> recognition works in all ten. Gujarati, Kannada, Tamil and Odia currently receive text without
+> audio; a BSD-2 Indic-TTS port is the identified next step and is scoped in
+> TTS_LICENCE_AUDIT.md."*
 
 That is a stronger position than pretending all ten are equal, and stronger than silently shipping
-three robotic voices.
-
----
-
 ## Part 3 — what this changes in the submission
 
 | Document | Change needed |

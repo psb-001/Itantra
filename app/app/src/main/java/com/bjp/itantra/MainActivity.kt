@@ -2,6 +2,7 @@ package com.bjp.itantra
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioFormat
 import android.media.AudioRecord
@@ -12,11 +13,13 @@ import android.os.Debug
 import android.os.SystemClock
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.bjp.itantra.speech.AsrEngine
 import com.bjp.itantra.speech.Lang
 import com.bjp.itantra.speech.Speaker
@@ -66,6 +69,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pttButton: Button
     private lateinit var settingsButton: Button
     private lateinit var devicesButton: Button
+    private lateinit var aboutButton: Button
+    private lateinit var logToggle: Button
+    private lateinit var logScroll: View
+    private lateinit var levelBar: LinearProgressIndicator
+    private lateinit var connectionDot: View
 
     /** Rolling on-screen event log. Capped, for glancing at. */
     private val logLines = ArrayDeque<String>()
@@ -133,6 +141,11 @@ class MainActivity : AppCompatActivity() {
         pttButton = findViewById(R.id.ptt_button)
         settingsButton = findViewById(R.id.settings_button)
         devicesButton = findViewById(R.id.devices_button)
+        aboutButton = findViewById(R.id.about_button)
+        logToggle = findViewById(R.id.log_toggle)
+        logScroll = findViewById(R.id.log_scroll)
+        levelBar = findViewById(R.id.level_bar)
+        connectionDot = findViewById(R.id.connection_dot)
 
         log("app started")
         log("permissions: mic=${granted(Manifest.permission.RECORD_AUDIO)}")
@@ -141,6 +154,18 @@ class MainActivity : AppCompatActivity() {
 
         settingsButton.setOnClickListener { showSettings() }
         devicesButton.setOnClickListener { showDevicePicker() }
+        aboutButton.setOnClickListener {
+            startActivity(Intent(this, AboutActivity::class.java))
+        }
+
+        // The diagnostics log is hidden by default. It is genuinely useful — it is how most of
+        // this project's silent bugs were tracked down — but it is noise during a demo, and a
+        // wall of monospace text at the bottom of the screen makes the app look unfinished.
+        logToggle.setOnClickListener {
+            val showing = logScroll.visibility == View.VISIBLE
+            logScroll.visibility = if (showing) View.GONE else View.VISIBLE
+            logToggle.setText(if (showing) R.string.show_log else R.string.hide_log)
+        }
 
         // Push-to-talk: press and hold. No role check — either phone may talk at any time.
         pttButton.setOnTouchListener { _, event ->
@@ -587,7 +612,18 @@ class MainActivity : AppCompatActivity() {
         // Speech out. Always needed — either phone can be the one receiving.
         val voice = TtsEngine.voiceFor(langTag)
         if (voice == null) {
-            log("no TTS voice bundled for $langTag — will receive silently")
+            // Surface this. A language with no bundled voice still shows correct TEXT on the
+            // receiving phone, so without a visible warning the demo looks like it is working
+            // right up until nobody hears any sound. That is a much worse failure than an
+            // honest "this one is text-only".
+            val spoken = TtsEngine.speakableLanguages().joinToString(", ") { it.substringBefore('_') }
+            log("no TTS voice bundled for $langTag — this language is TEXT-ONLY")
+            log("  voices bundled for: $spoken")
+            runOnUiThread {
+                setStatus("$langTag is text-only — no bundled voice")
+                append("⚠ $langTag has no bundled voice. Incoming messages will be shown as text and NOT spoken.")
+                append("   Voices bundled for: $spoken")
+            }
         } else {
             tts = TtsEngine(this@MainActivity, voice, numThreads = 2)
         }
@@ -665,6 +701,11 @@ class MainActivity : AppCompatActivity() {
                     lastUi = now
                     val bars = (p * 60).toInt().coerceIn(0, 60)
                     runOnUiThread {
+                        // The bar is the glanceable part; the ASCII meter below it is the
+                        // diagnostic part, because it shows the numeric peak and that is what
+                        // proves the mic is genuinely delivering audio.
+                        levelBar.visibility = View.VISIBLE
+                        levelBar.setProgressCompat(bars * 100 / 60, true)
                         levelView.text = "mic |" + "#".repeat(bars) +
                             ".".repeat(60 - bars) + "| " + "%.3f".format(p)
                     }
@@ -686,7 +727,11 @@ class MainActivity : AppCompatActivity() {
         }
         audioRecord = null
         pttButton.text = getString(R.string.ptt)
-        runOnUiThread { levelView.text = "" }
+        runOnUiThread {
+            levelView.text = ""
+            levelBar.visibility = View.INVISIBLE
+            levelBar.setProgressCompat(0, false)
+        }
 
         // THE CRITICAL BIT — this was the bug that made speech-to-text appear completely dead.
         // The VAD only emits a segment when it sees ~0.25 s of TRAILING SILENCE. A speaker who
@@ -738,8 +783,18 @@ class MainActivity : AppCompatActivity() {
             // Hindi→Gujarati script flip (common under mild noise) would pass as valid text.
             val verdict = LanguageFilter.filter(raw, langTag)
             if (!verdict.send) {
-                log("DROPPED: wrong script (fraction=${verdict.fraction}, removed=${verdict.removed})")
-                runOnUiThread { setStatus("Dropped — not $langTag") }
+                // Name the offending characters. Without them this is unactionable: "dropped"
+                // alone does not distinguish a model failure from a filter bug, and the whole
+                // "hello -> هello" class of problem was invisible for exactly that reason.
+                val culprits = LanguageFilter.foreignLetters(raw, langTag)
+                    .map { "%s(U+%04X)".format(it, it.code) }
+                    .joinToString(" ")
+                log(
+                    "DROPPED whole segment: ${verdict.removed} foreign char(s) " +
+                        "[$culprits] fraction=${verdict.fraction}"
+                )
+                // Tell the sender to repeat. Silence with no explanation reads as a broken app.
+                runOnUiThread { setStatus("Not heard as $langTag — hold PTT and repeat") }
                 return@thread
             }
 
@@ -919,12 +974,21 @@ class MainActivity : AppCompatActivity() {
     private fun updateConnectionIndicator() {
         val t = transport
         val peer = t?.connectedPeerName
+        val connected = t?.isConnected == true && peer != null
         runOnUiThread {
-            connectionView.text = if (t?.isConnected == true && peer != null) {
+            connectionView.text = if (connected) {
                 getString(R.string.connected_to, peer)
             } else {
                 getString(R.string.not_connected)
             }
+            // A coloured dot next to the text, so link state is readable at a glance from
+            // across a table during a demo. Green = linked, grey = not.
+            val dotColour = if (connected) {
+                R.color.md_primary
+            } else {
+                R.color.md_outline
+            }
+            connectionDot.background?.mutate()?.setTint(getColor(dotColour))
         }
     }
 

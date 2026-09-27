@@ -39,12 +39,33 @@
     -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
+    <!--
+      Package visibility (Android 11+, API 30).
+
+      The Licences screen opens model and library source pages in a browser. Since API 30 the
+      system hides other packages by default, so an implicit http/https intent can resolve to
+      NOTHING unless the app declares what it is looking for. Without this block every "Open
+      source page" button on that screen silently does nothing on a modern device — the exact
+      failure this project keeps hitting elsewhere, so it is declared rather than discovered.
+    -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
+
+
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        android:theme="@style/Theme.iTantra">
 
         <activity
             android:name=".MainActivity"
@@ -56,6 +77,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--
+          About and Licences. NOT exported: nothing outside the app should be able to launch
+          them, and they are read-only informational pages. parentActivityName gives them a real
+          Up affordance in the system bar as well as the toolbar arrow.
+        -->
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".LicensesActivity"
+            android:exported="false"
+            android:parentActivityName=".AboutActivity" />
 
         <!--
           Lets the DEVICES screen share the log file out to mail / Drive / a file manager, so a

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Custom theme attributes.
+
+  `iTantraAlert` and friends exist so ALERT is visually distinct from ERROR. See the comment in
+  values/themes.xml: a mis-recognised segment is recoverable and must not look like a siren,
+  and conflating the two trains people to ignore red.
+-->
+<resources>
+    <attr name="iTantraAlert" format="color" />
+    <attr name="iTantraOnAlert" format="color" />
+    <attr name="iTantraAlertContainer" format="color" />
+    <attr name="iTantraOnAlertContainer" format="color" />
+</resources>

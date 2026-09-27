@@ -19,18 +19,24 @@ import com.k2fsa.sherpa.onnx.getOfflineModelConfig
 import com.k2fsa.sherpa.onnx.getVadModelConfig
 
 /**
- * Asset paths. These match the layout used by the reference APK exactly, so the same files can be
+ * Asset paths. These match the layout used by the reference APK, so the same files can be
  * dropped in without renaming anything:
  *
- *   assets/sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/model.int8.onnx
- *   assets/sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/tokens.txt
+ *   assets/sherpa-onnx-omnilingual-asr-10lang-300M-ctc-v2-int8/model.int8.onnx
+ *   assets/sherpa-onnx-omnilingual-asr-10lang-300M-ctc-v2-int8/tokens.txt
  *   assets/silero_vad.onnx
  *   assets/tts/hi_IN-pratham-medium.onnx
  *   assets/tts/hi_IN-pratham-medium.tokens
+ *   assets/tts/en_US-lessac-medium.onnx
+ *   assets/tts/en_US-lessac-medium.tokens
+ *   assets/tts/mr_IN-google-medium.onnx      (+ .tokens)
+ *   assets/tts/bn_BD-google-medium.onnx     (+ .tokens)
+ *   assets/tts/ml_IN-arjun-medium.onnx      (+ .tokens)
+ *   assets/tts/te_IN-venkatesh-medium.onnx  (+ .tokens)
  *   assets/tts/espeak-ng-data/...
  */
 object Assets {
-    const val ASR_DIR = "sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12"
+    const val ASR_DIR = "sherpa-onnx-omnilingual-asr-10lang-300M-ctc-v2-int8"
     const val ASR_MODEL = "$ASR_DIR/model.int8.onnx"
     const val ASR_TOKENS = "$ASR_DIR/tokens.txt"
     const val VAD_MODEL = "silero_vad.onnx"
@@ -276,15 +282,53 @@ class TtsEngine(
     companion object {
         private const val TAG = "iTantra/Tts"
 
-        /** Voices verified working. Names must match the files placed in assets/tts/. */
+        /**
+         * Bundled Piper VITS voices. Names must match the files in `assets/tts/`.
+         *
+         * Fetched and verified with `eval/fetch_tts_voices.py`; each one was synthesised and
+         * listened to before being added. All 22,050 Hz mono.
+         */
         const val HINDI = "hi_IN-pratham-medium"
         const val ENGLISH = "en_US-lessac-medium"
+        const val MARATHI = "mr_IN-google-medium"
+        const val BENGALI = "bn_BD-google-medium"
+        const val MALAYALAM = "ml_IN-arjun-medium"
+        const val TELUGU = "te_IN-venkatesh-medium"
 
+        /**
+         * The voice for a language tag, or null when we have none.
+         *
+         * Marathi previously fell back to the Hindi voice, which is wrong now that a real
+         * Marathi voice is bundled — Marathi and Hindi share the Devanagari script but not the
+         * pronunciation, and "emergency" read with Hindi phonetics in a Marathi message is
+         * exactly the kind of thing a native speaker notices immediately.
+         *
+         * Returns null for Bengali-adjacent... no: for Gujarati, Kannada, Tamil and Odia we
+         * still have no permissively-licensed voice. See docs/TTS_LICENCE_AUDIT.md for why
+         * (Piper and MMS-TTS have none; AI4Bharat Indic-TTS is BSD-2 but needs a PyTorch
+         * port). Those four receive text and stay silent — [MainActivity] logs that clearly
+         * rather than failing quietly.
+         */
         fun voiceFor(langTag: String): String? = when (langTag) {
-            Lang.HINDI, Lang.MARATHI -> HINDI
+            Lang.HINDI -> HINDI
+            Lang.MARATHI -> MARATHI
+            Lang.BENGALI -> BENGALI
+            Lang.MALAYALAM -> MALAYALAM
+            Lang.TELUGU -> TELUGU
             Lang.ENGLISH -> ENGLISH
-            else -> null // no bundled voice yet — see MODEL_AND_TTS_FINDINGS.md
+            else -> null
         }
+
+        /** True when we have a bundled voice for this language. */
+        fun hasVoice(langTag: String): Boolean = voiceFor(langTag) != null
+
+        /** Every language tag that will actually speak, for the UI. */
+        fun speakableLanguages(): List<String> = LANGUAGES_FOR_VOICE.filter { hasVoice(it) }
+
+        private val LANGUAGES_FOR_VOICE = listOf(
+            Lang.HINDI, Lang.MARATHI, Lang.BENGALI, Lang.MALAYALAM, Lang.TELUGU, Lang.ENGLISH,
+            Lang.GUJARATI, Lang.KANNADA, Lang.TAMIL, Lang.ODIA,
+        )
     }
 }
 

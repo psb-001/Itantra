@@ -29,10 +29,22 @@ import numpy as np
 import sherpa_onnx
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-M = os.path.join(BASE, "omni300m")
-D = os.path.join(BASE, "tts")
-OUT = os.path.join(D, "intelligibility")
+REPO = os.path.dirname(BASE)
+
+# The ASR model and the TTS voices now live in the repo-root model/ and tts/ layout, not in a
+# stale eval/ copy. Both are overridable so this can be pointed at a variant for comparison.
+M = os.environ.get(
+    "OMNI_DIR",
+    os.path.join(REPO, "models", "asr-v3-10lang",
+                 "sherpa-onnx-omnilingual-asr-10lang-300M-ctc-int8"),
+)
+# Where the VOICE MODELS live (TTS_DIR). Deliberately allowed to differ from where the output
+# wavs go: writing 80 test wavs into app/app/src/main/assets/tts/ silently added 8.5 MB of
+# evaluation output to the shipped APK, because anything under assets/ gets packaged.
+D = os.environ.get("TTS_DIR", os.path.join(REPO, "tts"))
+OUT = os.environ.get("WAV_OUT", os.path.join(REPO, "tts", "intelligibility"))
 ASR_SR = 16000
+TAG = os.environ.get("OMNI_TAG", "").strip()
 
 HINDI = [
     "बाढ़ की चेतावनी जारी की गई है, ऊपरी मंजिल पर रहें।",
@@ -55,6 +67,61 @@ HINDI = [
     "घायलों को प्राथमिक चिकित्सा दी जा रही है।",
     "अगले आदेश तक इंतजार करें।",
     "संपर्क नंबर एक दो तीन चार पांच है।",
+]
+
+# Added 27 Sep 2026 for the four newly bundled voices. Deliberately mirror the Hindi set:
+# emergency phrasing plus the hard cases (numbers, a proper noun, negation) that the Hindi
+# round trip turned out to fail on.
+MARATHI = [
+    "पुराव्याचा इशारा देण्यात आला आहे, वरच्या माळ्यावर रहा.",
+    "हा एक आणीबाणीचा संदेश आहे, सुरक्षित जागी जा.",
+    "भूकंपानंतर या भागात प्रवेश करू नका.",
+    "दोनशे लोक बेघर झाले आहेत.",
+    "पंधासा मिनिटांत मदत येईल.",
+    "गावाचं नाव रामपूर आहे.",
+    "कृपया शांतता पाळा.",
+    "पाणी उकळून प्या.",
+    "जखमींना प्रथमोपचार दिला जात आहे.",
+    "पुढील आदेशापर्यंत प्रतीक्षा करा.",
+]
+
+BENGALI = [
+    "বন্যার সতর্কতা জারি করা হয়েছে, উপরের তলায় থাকুন।",
+    "এটি একটি জরুরি বার্তা, নিরাপদ স্থানে যান।",
+    "ভূমিকম্পের পর এই এলাকায় প্রবেশ করবেন না।",
+    "দুইশো জন মানুষ উচ্ছবিচ্ছিন্ন হয়েছেন।",
+    "পনেরো মিনিটের মধ্যে সাহায্য পৌঁছে যাবে।",
+    "গ্রামের নাম রামপুর।",
+    "অনুগ্রহ করে শান্তি বজায় রাখুন।",
+    "জল ফুটিয়ে পান করুন।",
+    "আহতদের প্রাথমিক চিকিৎসা দেওয়া হচ্ছে।",
+    "পরবর্তী আদেশ পর্যন্ত অপেক্ষা করুন।",
+]
+
+MALAYALAM = [
+    "വെള്ളിയുടെ മുന്തറിയിപ്പിന് നിങ്ങൾ മുകളിൽ താഴേക്ക് സ്ഥിരതാംബനിച്ചു നിൽക്കുക.",
+    "ഇത് ഒരു അടിയന്തിര സന്ദേശമാണ്, സുരക്ഷിത സ്ഥലത്തേക്ക് പോകുക.",
+    "ഭൂമികമ്പിന് ശേഷം ഈ പ്രദേശത്ത് പ്രവേശിക്കരുത്.",
+    "ഇരുനൂറ് ആളുകൾ കുടിയേറ്റിരിക്കുന്നു.",
+    "പതിനഞ്ച് മിനിറ്റിനുള്ളിൽ സഹായം എത്തിച്ചേരും.",
+    "ഗ്രാമത്തിന്റെ പേര് രാമപ്പൂർ.",
+    "ദയചെയുമായി ശാന്തത നിലിർക്കുക.",
+    "വെള്ളി കാളിയാക്കി കുടിക്കുക.",
+    "പ്രദർശനക്കാർക്ക് പ്രഥമ സഹായം നൽകുന്നു.",
+    "അടുത്ത നിർദ്ദേശം വരുന്നതുവരെ കാത്തിരിക്കുക.",
+]
+
+TELUGU = [
+    "వర్షపాటు హెచ్చరిక ఇవ్వబడింది, పైన అంతస్తునికి వెళ్ళండి.",
+    "ఇది అత్యవసర సందేశం, క్షేమస్థలానికి వెళ్ళండి.",
+    "భూకంపం తర్వాత ఈ ప్రాంతంలోకి ప్రవేశించవద్దు.",
+    "రెండు వందల మంది ఇంట్లోకి వెళ్ళారు.",
+    "పదిహేను నిమిషాల్లో సహాయం చేరుతుంది.",
+    "గ్రామం పేరు రామపూర్.",
+    "దయచేసి శాంతిగా ఉండండి.",
+    "నీటిని మరిగించి తాగండి.",
+    "గాయాల ప్రాథమిక చికిత్స చేస్తున్నారు.",
+    "తదుపరి ఆర్డర్ వచ్చే వరకు వేచి ఉండండి.",
 ]
 
 ENGLISH = [
@@ -163,7 +230,7 @@ def load_tts(model, tokens):
 def main():
     os.makedirs(OUT, exist_ok=True)
 
-    print("Loading ASR + both TTS voices ...", flush=True)
+    print("Loading ASR + every bundled TTS voice ...", flush=True)
     asr = sherpa_onnx.OfflineRecognizer.from_omnilingual_asr_ctc(
         model=os.path.join(M, "model.int8.onnx"),
         tokens=os.path.join(M, "tokens.txt"),
@@ -171,11 +238,22 @@ def main():
         provider="cpu",
         debug=False,
     )
-    hi_tts = load_tts("hi_IN-pratham-medium.onnx", "hi_IN-pratham-medium.tokens")
-    en_tts = load_tts("en_US-lessac-medium.onnx", "en_US-lessac-medium.tokens")
+    # One entry per bundled voice. The four added on 27 Sep 2026 (mr, bn, ml, te) were each
+    # synthesised and listened to before being listed here; see eval/fetch_tts_voices.py.
+    VOICES = {
+        "hi": ("hi_IN-pratham-medium", HINDI),
+        "en": ("en_US-lessac-medium", ENGLISH),
+        "mr": ("mr_IN-google-medium", MARATHI),
+        "bn": ("bn_BD-google-medium", BENGALI),
+        "ml": ("ml_IN-arjun-medium", MALAYALAM),
+        "te": ("te_IN-venkatesh-medium", TELUGU),
+    }
+    tts_engines = {}
+    for tag, (voice, _sents) in VOICES.items():
+        tts_engines[tag] = load_tts(f"{voice}.onnx", f"{voice}.tokens")
 
     rss_all_models = peak_mb()
-    print(f"all three models loaded — peak RSS {rss_all_models:.0f} MiB\n", flush=True)
+    print(f"ASR + {len(tts_engines)} voices loaded — peak RSS {rss_all_models:.0f} MiB\n", flush=True)
 
     report = {
         "metric": "TTS intelligibility via ASR round-trip",
@@ -189,10 +267,11 @@ def main():
         "languages": {},
     }
 
-    for lang, sentences, tts, tag in (
-        ("Hindi", HINDI, hi_tts, "hi"),
-        ("English", ENGLISH, en_tts, "en"),
-    ):
+    LANG_NAME = {"hi": "Hindi", "en": "English", "mr": "Marathi",
+                 "bn": "Bengali", "ml": "Malayalam", "te": "Telugu"}
+    for tag, (voice, sentences) in VOICES.items():
+        lang = LANG_NAME[tag]
+        tts = tts_engines[tag]
         rows = []
         for i, text in enumerate(sentences):
             t0 = time.perf_counter()
@@ -262,10 +341,14 @@ def main():
             flush=True,
         )
 
-    with open(os.path.join(BASE, "tts_intelligibility.json"), "w") as f:
+    # Tag the output so a run against a different model/voice set does not silently overwrite
+    # the previous measurement.
+    name = f"tts_intelligibility_{TAG}.json" if TAG else "tts_intelligibility.json"
+    with open(os.path.join(BASE, name), "w") as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
 
-    print(f"\nWrote tts_intelligibility.json + {len(HINDI)+len(ENGLISH)} wavs to {OUT}")
+    n_wavs = sum(v["n_sentences"] for v in report["languages"].values())
+    print(f"\nWrote {name} + {n_wavs} wavs to {OUT}")
     print("Next step for the submission: have humans score these wavs.")
 
 
