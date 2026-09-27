@@ -31,7 +31,7 @@
 
     <string name="about_what_body">Two phones, no internet needed.\n\nYou hold the button and speak. This phone works out what you said and turns it into written words. It then sends just those words to the other phone, which reads them out loud.\n\nYour actual voice is never sent and never recorded. Only the written words travel — and written words are around 480 times smaller than speech, which is the whole point: a weak or damaged radio link can carry a sentence even when it could never carry a voice.</string>
 
-    <string name="about_langs_body">All ten required languages are understood. Six of them are also spoken aloud by this app; the other four show the words on screen but stay silent, and the app tells you so rather than pretending.</string>
+    <string name="about_langs_body">All ten required languages are understood. Seven of them are also spoken aloud by this app; the other three show the words on screen but stay silent, and the app tells you so rather than pretending.</string>
 
     <string name="about_good_body">We tested speech recognition on 2,000 real recordings of real people speaking — about 6 hours and 40 minutes of audio, the same set for every language.\n\nOn average, 9 out of every 100 letters came out wrong. That sounds alarming, but a mistake is usually one letter inside an otherwise correct word.\n\nEnglish and Hindi are the most accurate. Tamil and Odia are the weakest — roughly 1 word in 2 contains a mistake. If you try those, expect errors.</string>
 

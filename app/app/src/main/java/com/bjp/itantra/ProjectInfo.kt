@@ -49,9 +49,9 @@ object ProjectInfo {
     /**
      * The ten required languages, with an honest per-language split.
      *
-     * [speaks] is false for Gujarati, Kannada, Tamil and Odia: we recognise those languages but
-     * ship no voice for them, so a message in one arrives as text and stays silent. The app says
-     * so on screen rather than failing quietly, and this table says the same thing here.
+     * [speaks] is false for Gujarati, Kannada and Odia: we recognise those languages but ship no
+     * voice for them, so a message in one arrives as text and stays silent. The app says so on
+     * screen rather than failing quietly, and this table says the same thing here.
      */
     val LANGUAGES = listOf(
         Language("Hindi", speaks = true),
@@ -60,9 +60,9 @@ object ProjectInfo {
         Language("English", speaks = true),
         Language("Malayalam", speaks = true),
         Language("Telugu", speaks = true),
+        Language("Tamil", speaks = true),
         Language("Gujarati", speaks = false),
         Language("Kannada", speaks = false),
-        Language("Tamil", speaks = false),
         Language("Odia", speaks = false),
     )
 

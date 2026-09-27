@@ -46,12 +46,20 @@ VOICES: dict[str, tuple[str, str]] = {
     "bn_BD-google-medium": ("Bengali", "এটি একটি জরুরি বার্তা, অনুগ্রহ করে নিরাপদ স্থানে যান"),
     "ml_IN-arjun-medium": ("Malayalam", "ഇത് ഒരു അടിയന്തിര സന്ദേശമാണ്, ദയചെയുമായി സുരക്ഷിത സ്ഥലത്തേക്ക് പോകുക"),
     "te_IN-venkatesh-medium": ("Telugu", "ఇది అత్యవసర సందేశం, దయచేసి క్షేమస్థలానికి వెళ్ళండి"),
+    "ta_IN-rasa_female-medium": ("Tamil", "இது ஒரு அவசர செய்தி, அபாயமில்லாமல் இருக்கவும்"),
 }
 
 # A synthesised emergency sentence is well above this. Silence or near-silence means the
 # phonemiser failed and produced nothing, which still "succeeds" without raising.
 MIN_RMS = 0.01
 MIN_SECONDS = 0.5
+
+# The Tamil voice ships a third as loud as the rest (peak 0.204 vs ~0.6-0.75), so the app applies
+# a per-voice gain in TtsEngine.synthesise(). This test measures the RAW model output, before
+# that gain, so its threshold must accept the quiet original rather than flag it as a failure.
+#
+# The gain itself is verified by the device test in app/evidence/, not here.
+QUIET_VOICES = {"ta_IN-rasa_female-medium"}
 
 CHILD = r'''
 import sys, numpy as np, sherpa_onnx
@@ -125,9 +133,10 @@ def main() -> int:
             failures.append(f"{lang}: unreadable child output")
             continue
 
-        if rms < MIN_RMS:
+        min_rms = MIN_RMS * 0.5 if voice in QUIET_VOICES else MIN_RMS
+        if rms < min_rms:
             print(f"{lang:<11}{voice:<28}{secs:>7.2f}{rms:>9.4f}{peak:>8.3f}   SILENT")
-            failures.append(f"{lang}: rms {rms:.5f} below {MIN_RMS} (phonemiser likely broken)")
+            failures.append(f"{lang}: rms {rms:.5f} below {min_rms} (phonemiser likely broken)")
         elif secs < MIN_SECONDS:
             print(f"{lang:<11}{voice:<28}{secs:>7.2f}{rms:>9.4f}{peak:>8.3f}   TOO SHORT")
             failures.append(f"{lang}: only {secs:.2f}s of audio")

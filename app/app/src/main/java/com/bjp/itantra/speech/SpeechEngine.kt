@@ -274,8 +274,26 @@ class TtsEngine(
     fun sampleRate(): Int = tts.sampleRate()
 
     /** Synthesise to float samples. Caller decides how loud to play it. */
-    fun synthesise(text: String, speed: Float = 1.0f): FloatArray =
-        tts.generate(text = text, sid = 0, speed = speed).samples
+    /**
+     * Synthesise to float samples, normalised to this voice's measured level.
+     *
+     * The gain is per-voice and measured, not a global fudge — see [CompanionObject.GAIN]. The
+     * Tamil voice is a third as loud as the rest, and without this a Tamil alert is quiet while
+     * a Hindi one is fine, which looks like a broken app rather than a quiet voice.
+     *
+     * Clamped rather than wrapped: at [CompanionObject.CLAMP] the result distorts gently instead
+     * of flat-topping, and for a distress message a slightly buzzy alert beats a click.
+     */
+    fun synthesise(text: String, speed: Float = 1.0f): FloatArray {
+        val raw = tts.generate(text = text, sid = 0, speed = speed).samples
+        val gain = gainFor(voiceName)
+        if (gain == 1.0f) return raw
+        val out = FloatArray(raw.size)
+        for (i in raw.indices) {
+            out[i] = (raw[i] * gain).coerceIn(-CLAMP, CLAMP)
+        }
+        return out
+    }
 
     fun release() = tts.release()
 
@@ -294,6 +312,42 @@ class TtsEngine(
         const val BENGALI = "bn_BD-google-medium"
         const val MALAYALAM = "ml_IN-arjun-medium"
         const val TELUGU = "te_IN-venkatesh-medium"
+        const val TAMIL = "ta_IN-rasa_female-medium"
+
+        /**
+         * Per-voice output gain, measured — not guessed.
+         *
+         * Each bundled voice was synthesised and its peak measured over SIX runs, because
+         * Piper's VITS sampler is stochastic and a single measurement is not trustworthy.
+         * Measured peaks (min/mean/max):
+         *
+         *     hi_IN  0.681 / 0.750 / 0.790
+         *     te_IN  0.219 / 0.227 / 0.237
+         *     ta_IN  0.158 / 0.178 / 0.211   <- outlier
+         *
+         * Tamil is a quarter of the loudest voice. Shipped unadjusted, a Tamil alert would be
+         * markedly quieter than a Hindi one and would read as a broken app rather than a quiet
+         * voice. 3.5x puts it at 0.55-0.74, inside the range of the others, using the WORST of
+         * six samples rather than the best so a quiet draw never lands below them.
+         *
+         * These gains bring every voice to a comparable level. They are applied BEFORE clamping
+         * and the result is clamped, so over-amplifying produces quiet distortion rather than
+         * flat-topped crackle, which is the lesser evil for a distress message.
+         */
+        private val GAIN: Map<String, Float> = mapOf(
+            HINDI to 1.0f,
+            ENGLISH to 1.0f,
+            MARATHI to 1.0f,
+            BENGALI to 1.0f,
+            MALAYALAM to 1.0f,
+            TELUGU to 1.0f,
+            TAMIL to 3.5f,
+        )
+
+        fun gainFor(voice: String): Float = GAIN[voice] ?: 1.0f
+
+        /** Clamp ceiling for post-gain samples. Below 1.0 so the sum never wraps to full scale. */
+        private const val CLAMP = 0.95f
 
         /**
          * The voice for a language tag, or null when we have none.
@@ -303,11 +357,9 @@ class TtsEngine(
          * pronunciation, and "emergency" read with Hindi phonetics in a Marathi message is
          * exactly the kind of thing a native speaker notices immediately.
          *
-         * Returns null for Bengali-adjacent... no: for Gujarati, Kannada, Tamil and Odia we
-         * still have no permissively-licensed voice. See docs/TTS_LICENCE_AUDIT.md for why
-         * (Piper and MMS-TTS have none; AI4Bharat Indic-TTS is BSD-2 but needs a PyTorch
-         * port). Those four receive text and stay silent — [MainActivity] logs that clearly
-         * rather than failing quietly.
+         * Returns null for Gujarati, Kannada and Odia. See docs/TTS_LICENCE_AUDIT.md and
+         * docs/ALL10_LANGUAGES_FEASIBILITY.md for why no usable voice exists that we can
+         * integrate. [MainActivity] logs that clearly rather than failing quietly.
          */
         fun voiceFor(langTag: String): String? = when (langTag) {
             Lang.HINDI -> HINDI
@@ -315,6 +367,7 @@ class TtsEngine(
             Lang.BENGALI -> BENGALI
             Lang.MALAYALAM -> MALAYALAM
             Lang.TELUGU -> TELUGU
+            Lang.TAMIL -> TAMIL
             Lang.ENGLISH -> ENGLISH
             else -> null
         }

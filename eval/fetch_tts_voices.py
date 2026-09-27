@@ -63,12 +63,22 @@ except ImportError:  # pragma: no cover
 
 HF = "https://huggingface.co/rhasspy/piper-voices/resolve/main"
 
-# (voice key, path inside the Piper repo, dataset licence, what it is for)
+# (voice key, path inside the Piper repo OR a full URL, dataset licence, what it is for)
+#
+# NOTE ON SOURCES. The first four are from rhasspy/piper-voices and resolve as
+# "<path>/<key>.onnx". The Tamil voice is NOT upstream — rhasspy/piper-voices has no ta/kn/gu/or
+# at all (verified: 404 on all four, while control languages ne and ur return 200). It comes from
+# a community fork, so it is given as a full HuggingFace URL. Its graph signature is identical to
+# our working hi_IN voice (input/input_lengths/scales -> output), which is why the same token
+# derivation and metadata patch applies unchanged.
 VOICES: list[tuple[str, str, str, str]] = [
-    ("mr_IN-google-medium",     "mr/mr_IN/google/medium",     "CC-BY-SA 4.0 (OpenSLR 64)",        "Marathi"),
-    ("bn_BD-google-medium",     "bn/bn_BD/google/medium",     "CC-BY-SA 4.0 + CMU Indic",        "Bengali"),
-    ("ml_IN-arjun-medium",      "ml/ml_IN/arjun/medium",      "unclear (Kaggle corpus)",          "Malayalam"),
-    ("te_IN-venkatesh-medium",  "te/te_IN/venkatesh/medium",  "CC-BY-4.0 (indicvoices_r)",        "Telugu"),
+    ("mr_IN-google-medium",     f"{HF}/mr/mr_IN/google/medium",   "CC-BY-SA 4.0 (OpenSLR 64)",  "Marathi"),
+    ("bn_BD-google-medium",     f"{HF}/bn/bn_BD/google/medium",   "CC-BY-SA 4.0 + CMU Indic",   "Bengali"),
+    ("ml_IN-arjun-medium",      f"{HF}/ml/ml_IN/arjun/medium",    "unclear (Kaggle corpus)",    "Malayalam"),
+    ("te_IN-venkatesh-medium",  f"{HF}/te/te_IN/venkatesh/medium", "CC-BY-4.0 (indicvoices_r)", "Telugu"),
+    ("ta_IN-rasa_female-medium",
+     "https://huggingface.co/tinisoft/piper-ta_IN-rasa_female-medium/resolve/main",
+     "CC-BY-4.0", "Tamil"),
 ]
 
 
@@ -210,9 +220,9 @@ def main() -> int:
     ok = True
     for key, rel, lic, lang in wanted:
         print(f"{key}  ({lang}, {lic})")
-        got_onnx = download(f"{HF}/{rel}/{key}.onnx", dest / f"{key}.onnx", f"{key}.onnx")
+        got_onnx = download(f"{rel}/{key}.onnx", dest / f"{key}.onnx", f"{key}.onnx")
         got_json = download(
-            f"{HF}/{rel}/{key}.onnx.json", dest / f"{key}.onnx.json", f"{key}.onnx.json"
+            f"{rel}/{key}.onnx.json", dest / f"{key}.onnx.json", f"{key}.onnx.json"
         )
         if got_onnx and got_json:
             n = tokens_from_config(dest / f"{key}.onnx.json", dest / f"{key}.tokens")
