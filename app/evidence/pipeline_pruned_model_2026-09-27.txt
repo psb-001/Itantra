@@ -75,9 +75,30 @@ measurement in eval/SUMMARY_full_v3pruned.json remains the trustworthy figure.
   = false the .so files are stored uncompressed, and an uncompressed library must itself
   begin on a 16 KB boundary within the archive.
   Fix: useLegacyPackaging = true in app/app/build.gradle.kts, which compresses the native
-  libraries and removes the zip-alignment requirement. Verified with
-      zipalign -c -P 16 -v 4 releases/iTantra-release.apk
-  which exits 0 and reports both .so as "OK - compressed". The compatibility dialog no
+  libraries and removes the zip-alignment requirement. The compatibility dialog no
   longer appears.
+
+  HOW THIS WAS VERIFIED — re-checked 27 Sep, and the earlier command was wrong. An
+  earlier revision of this file claimed verification via
+      zipalign -c -P 16 -v 4 releases/iTantra-release.apk
+  but neither build-tools 33.0.1 nor 34.0.0 on this machine supports the -P flag, so
+  that command could not have produced the result attributed to it. Corrected below.
+
+  Verified instead by inspecting the archive directly, which tests the actual
+  mechanism rather than a flag:
+      python3 -c "import zipfile; z=zipfile.ZipFile('releases/iTantra-release.apk'); \
+                 print([(i.filename, i.compress_type) for i in z.infolist() \
+                 if i.filename.endswith('.so')])"
+  compress_type 0 = STORED (the failing case), 8 = DEFLATE (the fix).
+
+  Result on the shipped APK:
+      lib/arm64-v8a/libonnxruntime.so       DEFLATE   22,249,560 bytes
+      lib/arm64-v8a/libsherpa-onnx-jni.so   DEFLATE    4,771,760 bytes
+  No .so is STORED, so no uncompressed library needs to begin on a 16 KB boundary and
+  the check that failed on the real phone cannot fire. This is the same property
+  useLegacyPackaging=true was chosen for, verified by a means that actually runs.
+
+  Re-run that snippet before citing 16 KB support; do not cite a zipalign flag this
+  toolchain does not have.
   Side effect: the APK got 16 MB SMALLER (760 MB -> 744 MB), because 27 MB of uncompressed
   .so now stores as 9.9 MB compressed.
