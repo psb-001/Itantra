@@ -168,6 +168,34 @@ object LanguageFilter {
      */
 
     /**
+     * Share of the text's letters that are in the language's OWN script, excluding Latin.
+     *
+     * Added for [QualityGate]. [allowedFraction] cannot do this job: it deliberately counts Latin
+     * as allowed in every language, because numerals and loanwords are legitimate. That makes it
+     * useless as a diagnostic — a decode consisting entirely of Latin letters when Gujarati was
+     * selected still scores 1.0.
+     *
+     * This measures the expected script alone, so it actually falls when the decoder has wandered.
+     * Latin is not penalised here; it is simply not counted as evidence that we guessed right.
+     * The gate's threshold (0.75) was chosen against this measure, not against [allowedFraction].
+     */
+    fun expectedScriptPurity(text: String, langTag: String? = null): Float {
+        val expected = langTag?.let { EXPECTED[it] } ?: ALLOWED_RANGES
+        var total = 0
+        var right = 0
+        var i = 0
+        while (i < text.length) {
+            val cp = text.codePointAt(i)
+            if (isLetter(cp)) {
+                total++
+                if (inRanges(cp, expected)) right++
+            }
+            i += Character.charCount(cp)
+        }
+        return if (total == 0) 0f else right.toFloat() / total
+    }
+
+    /**
      * True when [ch] is a letter the given language is allowed to produce.
      *
      * Public so the UI can name the offending characters when it drops a segment. A drop

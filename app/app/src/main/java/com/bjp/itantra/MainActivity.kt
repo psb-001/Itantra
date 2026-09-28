@@ -772,7 +772,37 @@ class MainActivity : AppCompatActivity() {
             val t0 = System.currentTimeMillis()
             val raw = engine.transcribe(segment)
             val ms = System.currentTimeMillis() - t0
+            val seconds = segment.size / 16000f
+            val level = QualityGate.rms(segment)
             log("ASR ${ms}ms -> \"${raw.take(48)}\"")
+            log("  segment ${"%.2f".format(seconds)}s  rms ${"%.5f".format(level)}")
+
+            // Physical gates first, and before the ASR even matters: a 0.31 s breath or a door
+            // slam is not a sentence, and rejecting it here costs no decode and no user patience.
+            // Measured on this app's own VAD output, such segments arrive with an RMS as low as
+            // 0.00008 and decode to the empty string every time.
+            val gate = QualityGate.evaluate(
+                text = raw,
+                tokens = emptyList(),
+                audioSeconds = seconds,
+                rms = level,
+                langTag = langTag,
+                // Script purity is checked below by the zero-tolerance filter; letting the gate
+                // duplicate it here would only add a second, softer verdict on the same evidence.
+                strictScript = false,
+            )
+            when (gate.verdict) {
+                QualityGate.Verdict.SILENT -> {
+                    log("SILENT (${gate.reason}) — ${"%.2f".format(seconds)}s rms=${"%.5f".format(level)}")
+                    return@thread
+                }
+                QualityGate.Verdict.REPEAT -> {
+                    log("REPEAT (${gate.reason}) — asking the sender to say it again")
+                    runOnUiThread { setStatus(QualityGate.repeatPrompt()) }
+                    return@thread
+                }
+                QualityGate.Verdict.SEND -> Unit
+            }
 
             if (raw.isBlank()) {
                 log("ASR returned empty — nothing to send")
@@ -794,7 +824,7 @@ class MainActivity : AppCompatActivity() {
                         "[$culprits] fraction=${verdict.fraction}"
                 )
                 // Tell the sender to repeat. Silence with no explanation reads as a broken app.
-                runOnUiThread { setStatus("Not heard as $langTag — hold PTT and repeat") }
+                runOnUiThread { setStatus(QualityGate.repeatPrompt()) }
                 return@thread
             }
 

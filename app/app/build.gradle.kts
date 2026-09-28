@@ -89,6 +89,11 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
+    // Unit tests for the pure-Kotlin decision logic (QualityGate, LanguageFilter). These classes
+    // touch no Android API, so they run on the JVM via :app:testDebugUnitTest -- no device needed.
+    // JUnit 4 is resolved from the local Gradle cache; there is no network dependency.
+    testImplementation("junit:junit:4.13.2")
+
     // NOTE: there is no sherpa-onnx Maven dependency. The Kotlin API files are vendored into
     // app/src/main/java/com/k2fsa/sherpa/onnx/ and the native .so files go in
     // app/src/main/jniLibs/arm64-v8a/. See README.md.
