@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>iTantra — SIH26173 deck mock (6 slides)</title>
+<style>
+/* Palette and fonts lifted from SIH2026-IDEA-Presentation-Format.pptx:
+   #0070C0 blue rule, #1F497D navy, #F79646 orange accent, #C00000 risk red,
+   Times New Roman section titles, Arial body. */
+:root{
+  --blue:#0070C0; --navy:#1F497D; --orange:#F79646;
+  --red:#C00000; --red2:#C0504D; --ink:#111; --mut:#5a6472;
+  --line:#d5dbe3; --wash:#f4f7fa; --grey:#808080;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#e9edf2;font-family:Arial,Helvetica,sans-serif;color:var(--ink);
+  padding:26px 20px 60px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto}
+
+.ruler{max-width:1280px;margin:0 auto 22px;font-size:12.5px;color:var(--mut);line-height:1.6}
+.ruler b{color:var(--ink)}
+.tag{display:inline-block;background:var(--navy);color:#fff;padding:2px 9px;
+  border-radius:3px;font-size:11px;letter-spacing:.06em;vertical-align:2px}
+.tag.warn{background:var(--red)}
+
+/* ---------- slide frame: 1280x720 = 13.333in x 7.5in at 96dpi ---------- */
+.slide{width:1280px;height:720px;background:#fff;position:relative;margin:0 auto 34px;
+  box-shadow:0 2px 14px rgba(16,32,56,.16);overflow:hidden;display:flex;flex-direction:column}
+.pnum{position:absolute;right:0;bottom:14px;width:44px;height:30px;background:var(--blue);
+  color:#fff;font:700 15px Arial;display:grid;place-items:center}
+.foot{position:absolute;left:0;bottom:0;width:100%;height:3px;background:var(--blue)}
+.foot-txt{position:absolute;left:470px;bottom:10px;font:400 11px Arial;color:var(--mut)}
+.team{position:absolute;left:26px;top:14px;font:700 10.5px Arial;color:var(--mut);letter-spacing:.04em}
+
+/* ---------- headers ---------- */
+.hd{padding:30px 46px 0}
+h1.t{font:400 30px "Times New Roman",Times,serif;letter-spacing:.01em}
+h2.t{font:400 27px "Times New Roman",Times,serif}
+.rule{height:3px;background:var(--blue);margin:9px 0 0;width:100%}
+.sub{font:400 13.5px Arial;color:var(--mut);margin-top:7px}
+
+/* mandated italic pointer labels — DO NOT EDIT */
+.lab{font:italic 700 12px Arial;color:var(--navy);letter-spacing:.02em;
+  display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.lab::before{content:"";width:3px;height:12px;background:var(--orange);flex:none}
+.note{font:400 10px Arial;color:var(--grey)}
+
+.body{flex:1;padding:16px 46px 0;display:flex;flex-direction:column;gap:13px;min-height:0}
+.body.tight{gap:9px;padding-top:12px}
+.body.tight .card{padding:9px 12px}
+.body.tight li{margin-bottom:3.5px}
+.body.tight .lab{margin-bottom:3px}
+ul{list-style:none}
+li{font:400 14.5px/1.42 Arial;padding-left:15px;position:relative;margin-bottom:5px}
+li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;
+  background:var(--blue);border-radius:50%}
+li b{color:var(--navy)}
+li.r::before{background:var(--red2)}
+
+/* ---------- cards / grids ---------- */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.card{border:1px solid var(--line);border-radius:6px;padding:11px 13px;background:#fff}
+.card h4{font:700 12px Arial;color:var(--navy);letter-spacing:.03em;
+  text-transform:uppercase;margin-bottom:7px}
+.card.hero{border-color:var(--blue);border-width:2px;background:var(--wash)}
+.card.risk{border-color:var(--red2);border-width:2px}
+.big{font:700 30px Arial;color:var(--blue);line-height:1}
+.card.hero .big{color:var(--navy)}
+
+/* ---------- tables ---------- */
+table{width:100%;border-collapse:collapse;font:400 12.5px Arial}
+th{background:var(--navy);color:#fff;text-align:left;padding:6px 9px;font-weight:700;font-size:11.5px;
+  letter-spacing:.03em}
+td{padding:5.5px 9px;border-bottom:1px solid var(--line)}
+tr:nth-child(even) td{background:var(--wash)}
+td.r{color:var(--red);font-weight:700}
+code{font:400 11.5px Menlo,Consolas,monospace;color:var(--navy)}
+
+/* ---------- flow diagram ---------- */
+.flow{display:grid;grid-template-columns:1fr 34px 1fr 34px 1fr;align-items:stretch;gap:0}
+.fbox{border:2px solid var(--navy);border-radius:6px;padding:9px 11px;background:#fff}
+.fbox h5{font:700 11px Arial;color:var(--navy);letter-spacing:.05em;margin-bottom:6px}
+.fbox .st{font:400 12.5px/1.4 Arial;padding:2.5px 0;border-bottom:1px dotted #cfd6de}
+.fbox .st:last-child{border-bottom:0}
+.fmid{display:grid;place-items:center;font:700 20px Arial;color:var(--blue)}
+.flink{background:var(--wash);border:2px dashed var(--blue);border-radius:6px;
+  padding:9px 11px;text-align:center}
+.flink .n{font:700 22px Arial;color:var(--blue)}
+
+/* ---------- bar chart ---------- */
+.bars{display:flex;flex-direction:column;gap:3px}
+.bar{display:grid;grid-template-columns:94px 1fr 64px;align-items:center;gap:9px;font:400 12px Arial;white-space:nowrap}
+.bar .fill{height:15px;background:var(--blue);border-radius:2px;min-width:3px}
+.bar.hl .fill{background:var(--orange)}
+.bar .v{text-align:right;font-weight:700;color:var(--mut)}
+.bar.hl .v{color:var(--navy)}
+
+/* ---------- misc ---------- */
+.pill{display:inline-block;background:var(--blue);color:#fff;border-radius:11px;
+  padding:2.5px 11px;font:700 11.5px Arial;margin-right:6px}
+.pill.o{background:var(--orange)}
+.pill.n{background:var(--navy)}
+.pill.g{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+.arrowrow{display:flex;align-items:center;gap:7px;font:700 12.5px Arial;color:var(--navy)}
+.abox{border:2px solid var(--red2);border-radius:6px;background:#fdf3f3;padding:8px 11px;text-align:center}
+.abox.ok{border-color:#2e7d32;background:#f1f8f2}
+.bigfont{font:700 21px/1.25 "Times New Roman",Times,serif;color:var(--red)}
+.bigfont.ok{color:#2e7d32}
+
+/* slide 1 */
+.s1{display:grid;grid-template-columns:1.15fr .85fr;flex:1}
+.s1l{padding:40px 34px 0 52px;display:flex;flex-direction:column;justify-content:center}
+.s1r{background:linear-gradient(160deg,#1F497D,#0d2c4f);color:#fff;padding:40px 38px;
+  display:flex;flex-direction:column;justify-content:center;gap:13px}
+.wordmark{font:400 50px "Times New Roman",Times,serif;letter-spacing:.02em;line-height:1.05}
+.tagline{font:400 16.5px/1.45 Arial;color:#41546b;margin-top:9px}
+.fld{display:flex;gap:9px;font:400 12.5px Arial;padding:4.5px 0;border-bottom:1px solid rgba(255,255,255,.16)}
+.fld span:first-child{color:#9fc2e2;width:132px;flex:none}
+.fld span:last-child{font-weight:700;color:#fff}
+.tid{background:rgba(255,255,255,.1);border-radius:4px;padding:1px 7px}
+
+/* deleted slide 7 */
+.slide.gone{outline:3px dashed var(--red);outline-offset:-3px}
+.stamp{position:absolute;top:14px;right:16px;background:var(--red);color:#fff;
+  font:700 12px Arial;padding:4px 11px;border-radius:3px;z-index:5}
+
+@media print{
+  body{background:#fff;padding:0}
+  .ruler{display:none}
+  .slide{box-shadow:none;margin:0;page-break-after:always;break-after:page}
+  .slide.gone{display:none}
+  @page{size:1280px 720px;margin:0}
+}
+</style>
+</head>
+<body>
+<div class="ruler">
+  <span class="tag">6 SLIDES + 1 TO DELETE</span> &nbsp;
+  <b>How to use:</b> every box below is a real shape you can rebuild in PowerPoint or Canva. Slide size
+  <b>1280 × 720 px</b> = 13.333in × 7.5in. &nbsp;
+  <span class="tag warn">DELETE SLIDE 7 BEFORE UPLOADING</span> &nbsp;
+  <b>Export PDF only.</b> Colours and fonts are taken from the official template.
+  <span class="note">&nbsp;&nbsp;Print to PDF works — slide 7 is auto-hidden in print.</span>
+</div>
+
+<div class="wrap">
+
+<!-- ================= SLIDE 1 ================= -->
+<div class="slide">
+  <div class="foot"></div>
+  <div class="s1">
+    <div class="s1l">
+      <div style="font:400 12px Arial;letter-spacing:.22em;color:var(--blue);margin-bottom:16px">
+        SMART INDIA HACKATHON 2026</div>
+      <div class="wordmark">iTantra</div>
+      <div class="tagline">Speak on one phone. The words cross the link.
+        Speech comes out the other end.</div>
+      <div style="margin-top:26px">
+        <span class="pill">Works offline between two real phones</span><br><br>
+        <span class="pill o">10 of 10 languages recognised</span>
+        <span class="pill n">7 spoken aloud</span><br><br>
+        <span class="pill g">1 wrong letter in 11</span>
+      </div>
+    </div>
+    <div class="s1r">
+      <div class="fld"><span>Problem Statement ID</span><span>SIH26173</span></div>
+      <div class="fld"><span>Problem St. Title</span><span>Indian Multilingual TTS &amp; STT Aided Neural Transceiver Radio Access for low bitrate links</span></div>
+      <div class="fld"><span>Theme</span><span>Smart Automation</span></div>
+      <div class="fld"><span>PS Category</span><span>Software</span></div>
+      <div class="fld"><span>Team ID</span><span class="tid">[PORTAL TEAM ID]</span></div>
+      <div class="fld" style="border-bottom:0"><span>Team Name</span><span>B.J.P (Bug Janta Party)</span></div>
+      <div class="note" style="color:#9fc2e2;margin-top:9px">
+        Team ID and Team Name must match the SIH portal exactly.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SLIDE 2 ================= -->
+<div class="slide">
+  <div class="team">Your Team Name</div>
+  <div class="pnum">2</div><div class="foot"></div><div class="foot-txt">@SIH Idea submission- Template</div>
+  <div class="hd">
+    <h2 class="t">IDEA TITLE</h2><div class="rule"></div>
+    <div class="arrowrow" style="margin-top:11px">
+      <span class="pill">1 · YOU SPEAK</span>→<span class="pill">2 · PHONE WRITES IT DOWN</span>→
+      <span class="pill o">3 · 129–278 BYTES</span>→<span class="pill">4 · OTHER PHONE SPEAKS IT</span>
+      <span class="note">measured on a real phone — 6.94 seconds of talking → a 211-byte message</span>
+    </div>
+  </div>
+  <div class="body">
+    <div class="g2">
+      <div>
+        <div class="lab">Proposed Solution (Describe your Idea/Solution/Prototype)</div>
+        <div class="note" style="margin-bottom:5px">What we built</div>
+        <ul>
+          <li>Offline Android app — no internet, no cloud, no server</li>
+          <li>Speak → text on the phone → 129–278 bytes → spoken aloud on the other phone</li>
+          <li><b>Your voice is never sent and never recorded</b></li>
+          <li>Tested: works between two real Android phones</li>
+        </ul>
+      </div>
+      <div>
+        <div class="lab">Detailed explanation of the proposed solution</div>
+        <div class="note" style="margin-bottom:5px">How it actually works, step by step</div>
+        <ul>
+          <li>Hold the button and talk · a tiny <b>629 KB</b> listener waits for you to stop</li>
+          <li>A <b>340 MB</b> speech model on the phone works out what you said</li>
+          <li>Anything written in the wrong letters is thrown away</li>
+          <li>The other phone reads it aloud — loud, and repeats until heard</li>
+        </ul>
+      </div>
+    </div>
+    <div class="g2" style="flex:1">
+      <div>
+        <div class="lab">How it addresses the problem</div>
+        <div class="note" style="margin-bottom:5px">Why this solves the problem ISRO described</div>
+        <ul>
+          <li>Voice is too big to send over a damaged radio</li>
+          <li>The words arrive and are then <b>spoken aloud</b> — so it reaches people who cannot read</li>
+          <li>It needs no network — so it works at the moment the network is what broke</li>
+        </ul>
+        <div style="margin-top:9px;font:700 12px Arial;color:var(--navy)">ONE SENTENCE, THREE WAYS</div>
+        <div class="bars" style="margin-top:5px">
+          <div class="bar"><span>16 kbps voice</span>
+            <span class="fill" style="width:88%"></span><span class="v">14 000 B</span></div>
+          <div class="bar"><span>Raw mic audio</span>
+            <span class="fill" style="width:100%;background:#9bb4cc"></span><span class="v">222 000 B</span></div>
+          <div class="bar hl"><span>iTantra text</span>
+            <span class="fill" style="width:1.5%"></span><span class="v">211 B</span></div>
+        </div>
+        <div class="note" style="margin-top:4px">66× smaller than a voice call · 1 050× smaller than the raw audio a mic records</div>
+      </div>
+      <div>
+        <div class="lab">Innovation and uniqueness of the solution</div>
+        <div class="note" style="margin-bottom:5px">What is new here, and the bug we had to fix</div>
+        <div class="g2" style="gap:9px;margin-bottom:7px">
+          <div class="abox"><div class="bigfont">هello → ello</div>
+            <div class="note" style="color:var(--red)">the model wrote Hindi using Arabic letters; the filter deleted the odd one and sent the rest</div></div>
+          <div class="abox ok"><div class="bigfont ok">hello ✓</div>
+            <div class="note" style="color:#2e7d32">wrong letters made impossible — we deleted 9 286 of them</div></div>
+        </div>
+        <ul>
+          <li>We cut the list of letters down from <b>10 288 to 1 002</b> — only the letters our 10
+            languages need — so the wrong ones are <b>gone for good</b></li>
+          <li>Wrong letters appeared in <b>2 out of 19</b> test phrases → now <b>0</b> · Hindi went from
+            0.113 to <b>0.096</b></li>
+          <li>In background noise, Hindi came out in the right letters <b>40% → 78%</b> of the time</li>
+          <li>The other 9 languages came out <b>exactly the same</b> → the fix cost us nothing</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SLIDE 3 ================= -->
+<div class="slide">
+  <div class="team">Your Team Name</div>
+  <div class="pnum">3</div><div class="foot"></div><div class="foot-txt">@SIH Idea submission- Template</div>
+  <div class="hd"><h2 class="t">TECHNICAL APPROACH</h2><div class="rule"></div></div>
+  <div class="body">
+    <div>
+      <div class="lab">Technologies to be used (e.g. programming languages, frameworks, hardware)</div>
+      <div class="note" style="margin-bottom:5px">What it is made of, and whether we may use it</div>
+      <table>
+        <tr><th style="width:150px">What it does</th><th>What we use</th><th style="width:212px">Are we allowed to use it?</th></tr>
+        <tr><td><b>The app</b></td><td>Built for Android phones. Works on Android 5.0 and newer, including any modern 64-bit phone</td><td>—</td></tr>
+        <tr><td><b>Hearing speech</b></td><td>Meta's Omnilingual model · 340 MB · shrunk by cutting out words our languages never use</td><td class="r">Free to use and change.<br><b>Not for selling.</b></td></tr>
+        <tr><td><b>Speaking</b></td><td>Piper voices · 7 of them · 448 MB</td><td>Free to use, but each voice has its own terms</td></tr>
+        <tr><td><b>Knowing when you stop</b></td><td>Silero · only 629 KB · about 250&times; faster than real time</td><td>Free, no conditions</td></tr>
+        <tr><td><b>The engine</b></td><td>sherpa-onnx and ONNX Runtime — this is what runs the models on the phone</td><td>Free, no conditions</td></tr>
+        <tr><td><b>Connecting the phones</b></td><td>Bluetooth (main) · Wi-Fi Direct (backup)</td><td>—</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="lab">Methodology and process for implementation (Flow Charts/Images/ working prototype)</div>
+      <div class="note" style="margin-bottom:5px">The path from speaking to speaking — and it is a working app, not a plan</div>
+      <div class="flow">
+        <div class="fbox"><h5>PHONE A — THE TALKER</h5>
+          <div class="st">Microphone</div>
+          <div class="st">Waits for you to stop talking</div>
+          <div class="st">Turns speech into words</div>
+          <div class="st">Removes wrongly-written letters</div></div>
+        <div class="fmid">→</div>
+        <div class="flink"><div class="n">129–278 B</div>
+          <div style="font:700 11.5px Arial;color:var(--navy);margin-top:3px">ONLY THE WORDS</div>
+          <div class="note">not the sound — and wrapped so it can't arrive cut off</div></div>
+        <div class="fmid">→</div>
+        <div class="fbox"><h5>PHONE B — THE LISTENER</h5>
+          <div class="st">Ignores repeats and old messages</div>
+          <div class="st">Turns the words into a voice</div>
+          <div class="st">Plays it out loud</div>
+          <div class="st">Emergency alerts repeat</div></div>
+      </div>
+    </div>
+    <div class="g4">
+      <div class="card"><h4>Measured on the phone</h4><div class="big">1.02 s</div>
+        <div class="note">6.94 seconds of talking → a 211-byte message</div></div>
+      <div class="card"><h4>How fast it hears</h4><div class="big">25&times;</div>
+        <div class="note">faster than real time — 1 s of speech takes 0.03 s to read <span style="color:#808080">(RTF 0.032–0.039)</span></div></div>
+      <div class="card"><h4>When nobody is talking</h4><div class="big">629 KB</div>
+        <div class="note">the big models aren't even loaded yet</div></div>
+      <div class="card"><h4>Memory used</h4><div class="big">428 MB</div>
+        <div class="note">while the listening model is loaded <span style="color:#808080">(428 MB PSS / 535 MB RSS)</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SLIDE 4 ================= -->
+<div class="slide">
+  <div class="team">Your Team Name</div>
+  <div class="pnum">4</div><div class="foot"></div><div class="foot-txt">@SIH Idea submission- Template</div>
+  <div class="hd"><h2 class="t">FEASIBILITY AND VIABILITY</h2><div class="rule"></div>
+    <div class="sub">2 000 real recorded sentences · 6.72 hours of real human speech · all 10 languages · fewer wrong letters is better</div>
+  </div>
+  <div class="body">
+    <div class="g2" style="grid-template-columns:1.05fr .95fr">
+      <div>
+        <div class="lab">Analysis of the feasibility of the idea</div>
+        <div class="note" style="margin-bottom:5px">Proof this works — what we measured, and how</div>
+        <ul>
+          <li><b>It works on two real phones</b> — tested 27 Sep 2026. This had never worked before</li>
+          <li>Average <b>9 wrong letters in every 100</b> — 1 in 11 <span class="note">(CER 0.0918, word error 0.363)</span></li>
+          <li>Every language is under <b>14 wrong letters in 100</b> <span class="note">(all 10 under 0.14)</span> · best Kannada 0.053, worst Odia 0.134</li>
+          <li>No internet used at any point — nothing recorded, nothing sent anywhere</li>
+          <li class="r">Two parts are <b>free to use but not for selling</b>. We say so in plain
+            language inside the app — see slide 6</li>
+        </ul>
+      </div>
+      <div>
+        <div class="lab" style="margin-bottom:2px">Character error rate, per language</div>
+        <div class="note" style="margin-bottom:6px">This is wrong letters per 100 characters typed. Lower is better. 0.10 means 10 wrong letters in every 100.</div>
+        <div class="bars">
+          <div class="bar"><span>Kannada</span><span class="fill" style="width:38.1%"></span><span class="v">0.053</span></div>
+          <div class="bar"><span>Malayalam</span><span class="fill" style="width:42.0%"></span><span class="v">0.059</span></div>
+          <div class="bar"><span>English</span><span class="fill" style="width:47.7%"></span><span class="v">0.067</span></div>
+          <div class="bar"><span>Gujarati</span><span class="fill" style="width:50.9%"></span><span class="v">0.071</span></div>
+          <div class="bar hl"><span>Hindi</span><span class="fill" style="width:68.7%"></span><span class="v">0.096</span></div>
+          <div class="bar"><span>Bengali</span><span class="fill" style="width:71.1%"></span><span class="v">0.100</span></div>
+          <div class="bar"><span>Telugu</span><span class="fill" style="width:71.2%"></span><span class="v">0.100</span></div>
+          <div class="bar"><span>Marathi</span><span class="fill" style="width:77.2%"></span><span class="v">0.108</span></div>
+          <div class="bar"><span>Tamil</span><span class="fill" style="width:92.4%"></span><span class="v">0.129</span></div>
+          <div class="bar"><span>Odia</span><span class="fill" style="width:96.0%"></span><span class="v">0.134</span></div>
+        </div>
+        <div class="note" style="margin-top:5px">Hindi is highlighted because our fix moved it, from 0.113 to 0.096. The other nine did not change.</div>
+      </div>
+    </div>
+    <div class="g2" style="flex:1">
+      <div>
+        <div class="lab">Potential challenges and risks</div>
+        <div class="note" style="margin-bottom:5px">What is still weak. We list it so you do not have to find it</div>
+        <table>
+          <tr><th style="width:210px">What could go wrong</th><th>The honest position</th></tr>
+          <tr><td class="r">Nobody has listened to the voices</td><td>Every "how clear is it" number comes from a computer reading its own audio back — not a person listening</td></tr>
+          <tr><td class="r">Tamil &amp; Odia are weak</td><td>About 1 word in 2 is wrong <span class="note">(word error 0.501 / 0.509)</span></td></tr>
+          <tr><td class="r">3 of 10 languages stay silent</td><td>Gujarati, Kannada, Odia. We could not find a free, good-quality offline voice we were allowed to ship</td></tr>
+          <tr><td class="r">Speed tested on a computer, not a cheap phone</td><td>A budget handset will be slower, by an amount we have not measured</td></tr>
+          <tr><td class="r">Background noise was not real</td><td>We added noise to clean recordings afterwards — this is not a field test</td></tr>
+          <tr><td class="r">The app file is 804 MB</td><td>Installable by hand, too big for an app store</td></tr>
+          <tr><td class="r">Setting up two phones takes three manual steps</td><td>Too many for someone in a flood. Pairing happens at responder setup, not during the emergency; Wi-Fi Direct removes it for strangers; we are building in-app pairing to make it one tap</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="lab">Strategies for overcoming these challenges</div>
+        <div class="note" style="margin-bottom:5px">What we did about each one</div>
+        <ul>
+          <li>We removed the characters it was getting wrong, rather than adjusting the model — so the
+            mistake is now impossible, not just rarer</li>
+          <li>If a sentence is doubtful we drop the <b>whole thing</b> instead of sending a partly-fixed
+            message. Silence can be retried; a confident wrong message cannot</li>
+          <li>Demo in <b>English + Hindi</b>, our two most accurate languages</li>
+          <li>We report wrong-letters <b>and</b> wrong-words — counting words alone flatters languages with
+            long written words</li>
+          <li>Bluetooth first, Wi-Fi Direct as backup — we never rely on only one way of connecting</li>
+          <li>Only free open-source parts, and we say plainly what they do not allow</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SLIDE 5 ================= -->
+<div class="slide">
+  <div class="team">Your Team Name</div>
+  <div class="pnum">5</div><div class="foot"></div><div class="foot-txt">@SIH Idea submission- Template</div>
+  <div class="hd"><h2 class="t">IMPACT AND BENEFITS</h2><div class="rule"></div>
+    <div class="sub">The network carries words. The phone handles the voice.</div>
+  </div>
+  <div class="body">
+    <div>
+      <div class="lab">Potential impact on the target audience</div>
+      <div class="note" style="margin-bottom:5px">Who uses this, and in what moment</div>
+      <div class="g3">
+        <div class="card"><h4>Rescue teams</h4>
+          <ul style="margin-top:2px">
+            <li>NDRF and SDRF rescue teams, district officials, camp volunteers</li>
+            <li>Responder and affected person are rarely in the same place</li>
+            <li>Because phones are deliberately paired, you know who sent an alert</li></ul></div>
+        <div class="card"><h4>Relief camps</h4>
+          <ul style="margin-top:2px">
+            <li>Useful exactly when mobile data and internet are down</li>
+            <li>Runs on phones already in their pocket</li>
+            <li>No infrastructure to deploy</li></ul></div>
+        <div class="card hero"><h4>People who cannot read</h4>
+          <ul style="margin-top:2px">
+            <li><b>Every other alert system needs you to read text — ours speaks it aloud</b></li>
+            <li>Regional first languages, uneven literacy</li>
+            <li>The group almost every alert system leaves out</li></ul></div>
+      </div>
+    </div>
+    <div>
+      <div class="lab">Benefits of the solution (social, economic, environmental, etc.)</div>
+      <div class="note" style="margin-bottom:5px">Social, money, and battery — plus what we can and cannot claim yet</div>
+      <div class="g3">
+        <div class="card"><h4>Social</h4>
+          <ul style="margin-top:2px">
+            <li>Voice in, <b>voice out</b></li>
+            <li>Reaches people who cannot read or type</li>
+            <li>Inclusive by construction, not as an add-on</li></ul></div>
+        <div class="card"><h4>Economic</h4>
+          <ul style="margin-top:2px">
+            <li>Nothing to pay for — no monthly service, no rented software</li>
+            <li>Runs on phones people already own</li>
+            <li class="r">Two parts cannot be sold — fine for rescue use, not for a paid product</li></ul></div>
+        <div class="card"><h4>Environmental</h4>
+          <ul style="margin-top:2px">
+            <li>A 211-byte message instead of ~14 000 bytes → <b>66× less data</b></li>
+            <li>Less radio energy per message</li>
+            <li>Battery effect not yet measured</li></ul></div>
+      </div>
+    </div>
+    <div class="g2" style="margin-top:6px">
+      <div class="card"><h4 style="color:#2e7d32">✓ We have proved this</h4>
+        <div style="font:400 12.5px/1.5 Arial">Works between two real phones · 2 000 real sentences across
+          10 languages · 66× less data than sending voice · works with no internet at all</div></div>
+      <div class="card risk"><h4 style="color:var(--red)">✗ Not proved yet</h4>
+        <div style="font:400 12.5px/1.5 Arial">Whether a person can actually understand the voices ·
+          speed on a cheap phone · battery life · how it behaves in a real disaster</div></div>
+    </div>
+    <div class="note">Proposed outcomes, not proven results. We claim no lives saved and no
+      guaranteed delivery.</div>
+  </div>
+</div>
+
+<!-- ================= SLIDE 6 ================= -->
+<div class="slide">
+  <div class="team">Your Team Name</div>
+  <div class="pnum">6</div><div class="foot"></div><div class="foot-txt">@SIH Idea submission- Template</div>
+  <div class="hd"><h2 class="t">RESEARCH AND REFERENCES</h2><div class="rule"></div></div>
+  <div class="body tight">
+    <div>
+      <div class="lab">Details / Links of the reference and research work</div>
+      <div class="note" style="margin-bottom:5px">Where everything came from, and what each piece allows</div>
+      <table>
+        <tr><th style="width:176px">What we used</th><th>Where it is</th><th style="width:250px">Are we allowed to use it?</th></tr>
+        <tr><td>The research paper it comes from</td><td><code>arxiv.org/abs/2511.09690</code></td><td>—</td></tr>
+        <tr><td>Speech-recognition model — the one we use</td><td><code>github.com/k2-fsa/sherpa-onnx</code> → releases/asr-models</td><td class="r">CC-BY-NC-4.0 · 340 MB</td></tr>
+        <tr><td>Piper — the 7 voices</td><td><code>huggingface.co/rhasspy/piper-voices</code></td><td>MIT wrapper · mixed data terms · 448 MB</td></tr>
+        <tr><td>Silero — finds where you stop talking</td><td><code>github.com/snakers4/silero-vad</code></td><td>MIT · 629 KB</td></tr>
+        <tr><td>sherpa-onnx — the engine on the phone</tr><td><code>github.com/k2-fsa/sherpa-onnx</code></td><td>Apache-2.0</td></tr>
+        <tr><td>ONNX Runtime — does the actual maths</tr><td><code>github.com/microsoft/onnxruntime</code></td><td>MIT</td></tr>
+        <tr><td>espeak-ng — spelling dictionaries only</tr><td><code>github.com/espeak-ng/espeak-ng</code></td><td>GPL-3.0 — dictionaries only, not used for synthesis</td></tr>
+        <tr><td>Material Design 3</td><td><code>developer.android.com/jetpack/androidx/releases/material</code></td><td>Apache-2.0</td></tr>
+        <tr><td>FLEURS speech set — for testing only</tr><td><code>huggingface.co/datasets/google/fleurs</code></td><td>CC-BY-4.0 · not shipped</td></tr>
+      </table>
+    </div>
+    <div class="g2">
+      <div class="card"><h4>You can check our work</h4>
+        <div style="font:400 12px/1.55 Arial">
+          <code>eval/SUMMARY_full_v3pruned.json</code> — accuracy, 10 languages<br>
+          <code>eval/noise_robustness_v3pruned.json</code> — how it copes with noise<br>
+          <code>eval/prune_vocab.py</code> — how we cut 10 288 letters to 1 002<br>
+          <code>app/evidence/</code> — on-device logs, incl. the 211-byte packet</div></div>
+      <div class="card hero"><h4>What the licences allow</h4>
+        <div style="font:400 12.5px/1.5 Arial">Two parts are <b>free to use but not for selling</b>:
+          the speech-recognition model (CC-BY-NC-4.0) and the Hindi voice (CC-BY-NC-SA-4.0). We met
+          every condition they impose — including sharing our changes the same way — and we write all
+          of it in plain language inside the app.</div></div>
+    </div>
+    <div class="note">Check every link opens before you submit — a dead link in a references slide
+      costs more credibility than it looks like.</div>
+  </div>
+</div>
+
+<!-- ================= SLIDE 7 — DELETE ================= -->
+<div class="slide gone">
+  <div class="stamp">DELETE THIS SLIDE BEFORE UPLOADING</div>
+  <div class="pnum" style="background:var(--red)">7</div>
+  <div class="foot" style="background:var(--red)"></div>
+  <div class="foot-txt">@SIH Idea submission- Template</div>
+  <div class="hd">
+    <h2 class="t" style="color:var(--red)">IMPORTANT INSTRUCTIONS</h2><div class="rule" style="background:var(--red)"></div>
+    <div class="sub">From the official template — this page is not submitted</div>
+  </div>
+  <div class="body">
+    <ul style="max-width:900px">
+      <li>Kindly keep the maximum slides limit up to <b>six (6)</b>, including the title slide</li>
+      <li><b>Try to avoid paragraphs</b> and post your idea in points / diagrams / infographics / pictures</li>
+      <li>Keep your explanation precise and easy to understand</li>
+      <li>Idea should be unique and novel</li>
+      <li>You can only use the provided template <b>without changing the idea details pointers</b></li>
+      <li>You need to save the file in <b>PDF</b> and upload the same on the portal.
+        No PPT, Word doc or any other format will be supported</li>
+      <li>You can <b>delete this slide</b> when you upload the details of your idea on the SIH portal</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
