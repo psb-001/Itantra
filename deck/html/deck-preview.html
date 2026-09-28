@@ -71,12 +71,14 @@ li.r::before{background:var(--red2)}
 
 /* ---------- tables ---------- */
 table{width:100%;border-collapse:collapse;font:400 12.5px Arial}
+table.fixed{table-layout:fixed}
+table.fixed td{word-break:break-word}
 th{background:var(--navy);color:#fff;text-align:left;padding:6px 9px;font-weight:700;font-size:11.5px;
   letter-spacing:.03em}
 td{padding:5.5px 9px;border-bottom:1px solid var(--line)}
 tr:nth-child(even) td{background:var(--wash)}
 td.r{color:var(--red);font-weight:700}
-code{font:400 11.5px Menlo,Consolas,monospace;color:var(--navy)}
+code{font:400 10.5px Menlo,Consolas,monospace;color:var(--navy)}
 
 /* ---------- flow diagram ---------- */
 .flow{display:grid;grid-template-columns:1fr 34px 1fr 34px 1fr;align-items:stretch;gap:0}
@@ -453,26 +455,26 @@ code{font:400 11.5px Menlo,Consolas,monospace;color:var(--navy)}
       <div class="lab">Details / Links of the reference and research work</div>
       <div class="note" style="margin-bottom:5px">Where everything came from, and what each piece allows</div>
       <table>
-        <tr><th style="width:176px">What we used</th><th>Where it is</th><th style="width:250px">Are we allowed to use it?</th></tr>
-        <tr><td>The research paper it comes from</td><td><code>arxiv.org/abs/2511.09690</code></td><td>—</td></tr>
-        <tr><td>Speech-recognition model — the one we use</td><td><code>github.com/k2-fsa/sherpa-onnx</code> → releases/asr-models</td><td class="r">CC-BY-NC-4.0 · 340 MB</td></tr>
-        <tr><td>Piper — the 7 voices</td><td><code>huggingface.co/rhasspy/piper-voices</code></td><td>MIT wrapper · mixed data terms · 448 MB</td></tr>
-        <tr><td>Silero — finds where you stop talking</td><td><code>github.com/snakers4/silero-vad</code></td><td>MIT · 629 KB</td></tr>
-        <tr><td>sherpa-onnx — the engine on the phone</tr><td><code>github.com/k2-fsa/sherpa-onnx</code></td><td>Apache-2.0</td></tr>
-        <tr><td>ONNX Runtime — does the actual maths</tr><td><code>github.com/microsoft/onnxruntime</code></td><td>MIT</td></tr>
-        <tr><td>espeak-ng — spelling dictionaries only</tr><td><code>github.com/espeak-ng/espeak-ng</code></td><td>GPL-3.0 — dictionaries only, not used for synthesis</td></tr>
-        <tr><td>Material Design 3</td><td><code>developer.android.com/jetpack/androidx/releases/material</code></td><td>Apache-2.0</td></tr>
+        <tr><th style="width:170px">What we used</th><th>Where it is</th><th style="width:238px">Are we allowed to use it?</th></tr>
+        <tr><td>The research paper</td><td><code>arxiv.org/abs/2511.09690</code></td><td>—</td></tr>
+        <tr><td>Speech-recognition model</td><td><code>github.com/k2-fsa/sherpa-onnx</code> → releases/asr-models</td><td class="r">CC-BY-NC-4.0 · 340 MB</td></tr>
+        <tr><td>Piper — the 7 voices</td><td><code>huggingface.co/rhasspy/piper-voices</code></td><td>MIT wrapper · per-voice terms · 448 MB</td></tr>
+        <tr><td>Silero — finds where you stop</td><td><code>github.com/snakers4/silero-vad</code></td><td>MIT · 629 KB</td></tr>
+        <tr><td>Runtime — runs the models on the phone</td><td><code>github.com/k2-fsa/sherpa-onnx</code> · <code>onnxruntime</code></td><td>Apache-2.0 · MIT</td></tr>
+        <tr><td>espeak-ng — dictionaries only</td><td><code>github.com/espeak-ng/espeak-ng</code></td><td>GPL-3.0 · not used for sound</td></tr>
+        <tr><td>Material Design 3</td><td><code>developer.android.com → Material 3</code></td><td>Apache-2.0</td></tr>
         <tr><td>FLEURS speech set — for testing only</tr><td><code>huggingface.co/datasets/google/fleurs</code></td><td>CC-BY-4.0 · not shipped</td></tr>
       </table>
     </div>
     <div class="g2">
-      <div class="card"><h4>You can check our work</h4>
+      <div class="card hero"><h4>You can check our work</h4>
         <div style="font:400 12px/1.55 Arial">
+          <b>github.com/psb-001/iTantra-evidence</b><br>
           <code>eval/SUMMARY_full_v3pruned.json</code> — accuracy, 10 languages<br>
           <code>eval/noise_robustness_v3pruned.json</code> — how it copes with noise<br>
           <code>eval/prune_vocab.py</code> — how we cut 10 288 letters to 1 002<br>
           <code>app/evidence/</code> — on-device logs, incl. the 211-byte packet</div></div>
-      <div class="card hero"><h4>What the licences allow</h4>
+      <div class="card"><h4>What the licences allow</h4>
         <div style="font:400 12.5px/1.5 Arial">Two parts are <b>free to use but not for selling</b>:
           the speech-recognition model (CC-BY-NC-4.0) and the Hindi voice (CC-BY-NC-SA-4.0). We met
           every condition they impose — including sharing our changes the same way — and we write all
