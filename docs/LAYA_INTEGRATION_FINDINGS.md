@@ -191,3 +191,106 @@ Steps 1–3 are the ones that decide whether this is worth doing. Steps 4–6 ar
   extrapolation, not a measurement.
 - **Dependencies added for the export only** — torch, onnx, onnxscript, laya, safetensors,
   huggingface_hub. None of these ship in the APK. The app would depend only on onnxruntime.
+
+---
+
+# Addendum — vocabulary prune, 29 September 2026
+
+The vocab prune was implemented rather than left as an estimate. **It works, it halves the size,
+and it is not ready to ship.** Both halves measured.
+
+## Result
+
+| | fp32 |
+|---|---|
+| exported | **1 261 MB** |
+| vocab-sliced | **651 MB** |
+
+The token embedding went 750.0 MB → **163.3 MB** (4.6×). The encoder is 586.7 MB, the head 57.3 MB,
+the tokenizer 7.1 MB.
+
+**The sliced encoder is bit-exact against the original** on real text in six languages —
+`max abs difference 0.00e+00` for hi, ta, en, gu, kn, or. Slicing rows and remapping ids changed
+nothing numerically.
+
+**Out-of-vocabulary rate on the ten languages: 0.00%.** 7,264 FLEURS reference transcripts, every
+token covered.
+
+**Decisions: 8/12 unpruned → 7/12 pruned.** 155 ms median on this desktop, fp32.
+
+## The keep-set is 55,737 tokens, not the 6,459 it looks like it should be
+
+Tokenising the corpus directly touches only 5,946 distinct ids — 2.3%. That is not a shippable
+set, and the reason is a BPE detail that costs three attempts to find:
+
+> A BPE token is not atomic. The tokenizers library requires that **both merge inputs AND the
+> merge result** are present in the vocab, and that every kept token can be rebuilt from the
+> pieces below it. "कि" is `क` + `ि`; "▁the" is `▁` + `the`. Drop an intermediate and the
+> tokenizer fails to build — reported only as ``Token `\n` out of vocabulary``, with no hint
+> which token or why.
+
+Taking the closure over every producer grows 6,459 → 33,526 → **55,737** (21.8% of the original
+vocab). That is the honest floor for a buildable BPE, and it is why the embedding is 163 MB rather
+than the 19 MB a naive slice suggests. Any plan quoting "50–90 MB" for this is wrong.
+
+## A regression I introduced and nearly shipped
+
+After the slice, decisions collapsed from 8/12 to **2/12**, with every confidence bunched near 0.30
+and token counts inflating 3×. That looks like the prune destroyed the weights.
+
+It had not. When I rewrote the tokenizer rebuild I removed a block I had judged dead — the one
+copying the pipeline nodes from the original — and the **`pre_tokenizer` went with it**. Without it
+the space character never becomes the `▁` word-boundary marker, so spaces fall through to byte
+fallback:
+
+```
+original   ▁the ▁river ▁has ▁flooded                    9 pieces
+no pre-tok th <0x65> <0x20> r <0x69> <0x76> e r ...    42 pieces
+```
+
+The encoder was never wrong. The model was being shown text it was never shaped for. Restoring
+the four nodes returned it to 7/12.
+
+Recorded because the failure mode is genuinely deceptive: a tokenizer bug presents as a quantised
+model regression, and the numbers look like a slow drift rather than a missing pre_tokenizer.
+
+## Known defect, not fixed: English tokenization is still degraded
+
+| | original | sliced |
+|---|---|---|
+| hi | 14 | 14 ✓ |
+| ta | 23 | 23 ✓ |
+| gu | 18 | 18 ✓ |
+| or | 35 | 35 ✓ |
+| kn | 20 | 20 ✓ |
+| **en** | **9** | **39** ✗ |
+
+The nine Indic languages tokenize identically. **English does not** — `▁the`, `▁river` and the
+rest are present in the pruned vocab, but the merge chain that reconstructs them is incomplete, so
+the tokenizer falls back to bytes. The question and options are English, so every decision pays
+for it, which is most of the 8/12 → 7/12 loss.
+
+Not shipped, and should not be, until English round-trips. The next thing to try is preserving
+the full merge DAG for kept tokens rather than only the tokens themselves.
+
+## INT8 not yet applied
+
+651 MB fp32 is not final. `head.onnx` previously refused quantisation outright
+(`ShapeInferenceError: dim 0: 772 vs 256`); now that the encoder is a plain single-file graph it
+may go through, and the 163 MB embedding is a Gather table that needs `quantize_dynamic` to be
+pointed at Gather initializers rather than MatMul weights. Expect roughly 180–220 MB; unmeasured.
+
+## State of the integration
+
+| | |
+|---|---|
+| Exported and verified | yes, torch vs ONNX 2.1e-06 |
+| Vocab sliced | yes, 1 261 → 651 MB, bit-exact encoder |
+| OOV measured | yes, 0.00% |
+| Decisions preserved | 8/12 → 7/12, **English tokenizer defect outstanding** |
+| INT8 | not done |
+| **In the app** | **no** |
+
+Not wired in, deliberately. Shipping a known-degraded tokenizer into a disaster app because the
+size number looked good is the exact mistake this document keeps catching, and 7/12 with a known
+defect is not a state worth putting in front of a judge.
