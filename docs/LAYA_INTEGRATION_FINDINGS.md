@@ -702,5 +702,61 @@ expectation.
 | Android runtime | **resolved** — one ORT stays in the APK (1.28.2, byte-identical to the shipped lib); versioned-symbol constraint documented above |
 | In the app | **yes** — receive path, behind a Settings toggle, off by default |
 | Escalation policy | **implemented** — escalate only above 0.85, only for destructive labels; nothing is ever suppressed or downgraded |
-| Still not measured | labelled accuracy; on-phone latency; field behaviour of the escalation; Android-side memory profile of the copy |
+| Transcript-quality verifier | **probed and refused** — Addendum 5: 48–60% accuracy, answer flips with wording, and confidently wrong on corrupted Indic text |
+| Still not measured | labelled accuracy; on-phone latency; field behaviour of the escalation; Android-side memory profile of the copy; the `act_logits` head (never exercised) |
 | Unchanged by this work | ASR/TTS binary, models, and every number in Addendum 3 |
+
+---
+
+# Addendum 5 — what Laya was asked to also do, and why it does not
+
+A natural next request for a decision engine that is already in the app: use it to *check the
+transcript*. If ASR returns garbage — the "void error" case — have Laya look at the text, judge
+it, and repair it before the message is spoken. The head's shape makes this look easy: `logits`
+is `['batch', 'markers']`, one score per option, so *any* multiple-choice question is
+structurally legal, including a yes/no.
+
+Legal is not the same as trustworthy, so it was measured before it was promised
+(`eval/laya_verifier_probe.py`). 20 known-good sentences (the 12 bench sentences + 8 corpus
+transcripts) and 40 corrupted copies of them (truncated to 40%, or 30% of characters replaced
+with others from the same alphabet), asked three ways, int8 model:
+
+| Question phrasing | clean → clear | garbled → broken | at/above the 0.85 floor |
+|---|---|---|---|
+| "Is this message clear and readable?" | 16/20 | 19/40 | 3 right, **5 wrong** |
+| "Does this text read as a normal message?" | 14/20 | 15/40 | 2 right, **13 wrong** |
+| "Is this text written naturally?" | 8/20 | 28/40 | 2 right, **5 wrong** |
+
+Three findings, each one fatal on its own for this use:
+
+- **Accuracy is a coin flip** (48–60%). It is not reading quality, it is guessing.
+- **It is confident about being wrong.** Corrupted Telugu, Bengali and Gujarati came back as
+  "yes, it reads as a clear message" with confidence 0.91–1.00. A gate built on this would pass
+  garbage as clean *at full confidence* — the one failure mode worse than not having the gate.
+- **The answer depends on the wording.** Only 29 of 60 texts got the same verdict from all three
+  phrasings of the same question. A verifier that changes its mind when the question is
+  paraphrased is not a verifier.
+
+Why: this checkpoint was trained on *decision* tasks (choose an option about a message). Judging
+whether text is well-formed is a different task, and being multilingual makes it worse, not
+better — corrupted Indic text is still recognisably Telugu or Bengali, so it reads as plausible.
+
+Two things follow, and both were already true:
+
+- **The repair that works is a re-ask, not a guess.** `QualityGate.kt` already returns a third
+  verdict for exactly this case — `REPEAT`, "I could not read that clearly — hold and say it
+  again" — and its rejected-ideas list has the numbers for every post-hoc filter that lost. The
+  ASR vocabulary is also pruned to the nine target scripts, so the decoder *cannot* emit the
+  scripts that garbled it in the first place. Do not replace either with a model's opinion.
+- **Never let a model silently rewrite an emergency message.** "Flood rising, move to the school"
+  rewritten one word wrong inverts its meaning. When we do not know what was said, say that.
+
+The same request pointed at speech output — "verify the generated speech" — is real, but not
+Laya's job: it reads text, it cannot hear. The app already has both engines, so the honest check
+is a loopback (synthesise, recognise with our own ASR, compare), once per voice at load rather
+than once per message. Not built.
+
+If more is wanted from Laya later, the trained outputs are the place to look, not invented
+questions: the head also emits `act_logits` (`['batch', 2]`, with `act_costs`/`cost_wrong_act`
+in `rl_agent_config.json`) — a signal that was trained, and that nothing in this app has ever
+exercised.
