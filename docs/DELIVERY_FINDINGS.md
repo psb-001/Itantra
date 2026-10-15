@@ -129,6 +129,13 @@ last hole is closed:
   "✓ delivered … confirmed by the other phone" (a receipt came back — the only proof of arrival
   this app can have). Settings shows awaiting/confirmed/abandoned counts.
 
+One order edge this does not chase: if a write succeeds into a socket that is already dying and
+the *next* sentence does reach the far side, the first sentence's retry can land after the
+second. A holdback ("do not send sentence N+1 until N is confirmed") would delay every sentence
+on every link to cover a case that needs loss and recovery to happen inside a 3 s window — the
+wrong trade here. The outbox still guarantees order whenever the link is known down, which is
+the common case.
+
 ## What was deliberately NOT done
 
 - **Wi-Fi Direct group re-formation** depends on the other phone re-inviting, and the vendor
