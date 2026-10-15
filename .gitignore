@@ -32,6 +32,11 @@ models/reference-apk/
 app/app/src/main/assets/sherpa-onnx-*/
 app/app/src/main/assets/tts/*.onnx
 
+# Laya triage: the int8 encoder (118 MB) and head (25 MB), staged into app assets by
+# app/setup-project.sh. The compact tokenizer it reads beside them (vocab.b64, merges.b64,
+# config.json — 530 KB of text) IS committed: the JVM parity test and the app both depend on it.
+models/laya-int8/
+
 # ---------- Compiled release artifacts (~1.0 GB) ----------
 # Ship these as GitHub Release assets, not in git history.
 releases/

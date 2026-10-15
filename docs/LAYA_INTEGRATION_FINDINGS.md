@@ -518,3 +518,151 @@ python eval/laya_onnx.py bench       --model /tmp/laya_int8
 | Fallbacks | `--no-embed` measured (9/12, +27 MB); `--no-per-channel` written, not measured |
 | Still not measured | labelled accuracy; on-phone latency; Android ORT opset-18 coverage; Kotlin tokenizer byte-parity |
 | **In the app** | **no** — next: Kotlin ONNX session + BPE reader behind a toggle |
+
+---
+
+# Addendum 4 — in the app: tokenizer port, the right ONNX Runtime, and a toggle
+
+Addendum 3 ended with "next: Kotlin ONNX session + BPE reader behind a toggle". This is that
+work, plus the one finding that changed the plan: the ONNX Runtime that ASR and TTS already run
+on could not be swapped without breaking them.
+
+## What went into the app
+
+| Piece | Where | Notes |
+|---|---|---|
+| Kotlin BPE port | `app/.../laya/LayaBpe.kt` | Metaspace + byte-fallback BPE, hand-rolled base64 (needs no API 26, works in JVM tests) |
+| Parity gate | `app/.../laya/LayaBpeTest.kt` + `app/src/test/resources/laya_tokenizer_cases.txt` | 75 cases, 2,970 ids, vocab 12,454 and merges 30,829 pinned |
+| Fixture/staging generator | `eval/laya_mobile_assets.py` | cross-checks the Python port against `tokenizers` before writing anything |
+| Triage engine | `app/.../laya/LayaTriage.kt` | ORT sessions, asset copy, prompt, softmax, escalation policy |
+| Receive-path hook | `MainActivity.onPacket` | behind the Settings toggle; runs on the `tts` worker thread |
+| Runtime | `jniLibs/arm64-v8a/libonnxruntime4j_jni.so` + `app/libs/onnxruntime-android-1.28.2.jar` | 114 KB + 119 KB, from csukuangfj's v1.28.2 release |
+
+The fixture is generated only *after* the pure-Python port matches the real `tokenizers` library
+on every case — the 12 bench sentences, whitespace and script edge cases, and a deterministic
+sample of the 3,776-transcript corpus. The Kotlin test then replays those recorded ids and
+pieces on the JVM: no model, no device, no Python in the loop.
+
+That gate earned its keep on the first run. The emoji case failed:
+
+```
+case '😀': ids expected:<[11883, 395, 314, 307, 283]> but was:<[11883, 218, 218]>
+```
+
+A Python or Rust "char" is one code point; a Kotlin `Char` is one UTF-16 unit, so 😀 arrived as
+two unpaired surrogates, each of which encodes to a replacement byte and degrades to `<unk>` —
+two tokens instead of four `<0x…>` byte tokens. Iterating code points fixes it. Nothing about
+the model would have made that visible; it was the fixture, on the JVM, in 10 seconds.
+
+## The runtime, and why the obvious plan was wrong
+
+The Laya model needs an ONNX Runtime **Java API**; the app ships sherpa-onnx's JNI, which only
+speaks the C API. The obvious move — add Maven's `onnxruntime-android` AAR — turns out to be a
+trap that would have broken the speech path at runtime, with nothing to see at build time:
+
+```
+$ nm -D --defined-only libonnxruntime.so          # the library already in jniLibs
+   T OrtGetApiBase@@VERS_1.28.2
+   T OrtSessionOptionsAppendExecutionProvider_CPU@@VERS_1.28.2
+$ nm -D --undefined-only libonnxruntime4j_jni.so  # Maven 1.28.0's JNI
+   U OrtGetApiBase@VERS_1.28.0
+$ nm -D --undefined-only libonnxruntime4j_jni.so  # Maven 1.29.0's JNI
+   U OrtGetApiBase@VERS_1.29.0
+```
+
+Android's linker matches **versioned symbols exactly**. sherpa's JNI requires
+`OrtGetApiBase@VERS_1.28.2`; neither Maven library defines that version. Copying either over the
+shipped `libonnxruntime.so` — the plan standing at the end of Addendum 3 — would have produced a
+`dlopen` failure (or an unresolved symbol) on the *ASR/TTS* path, not on the new one.
+
+The way out is the source of the shipped binary: csukuangfj publishes the whole Android package
+for the same release. `onnxruntime-android-1.28.2.zip` contains `classes.jar`,
+`libonnxruntime4j_jni.so`, and a `libonnxruntime.so` whose sha256 is
+`33847ad4…2ffcf2da1` — **byte-identical to the one in `jniLibs`**. So the app takes only the Java
+side (jar + 114 KB JNI) and keeps exactly one ONNX Runtime, the one every measurement in this
+document was taken with. `setup-project.sh` verifies that hash and refuses the download if it
+ever differs.
+
+Two secondary questions, settled before writing the code:
+
+- **Is the release a full build?** Yes. Its workflow builds with `--android --android_api 27
+  --config Release` and no `--minimal_build`, so the op registrations are the full set. The 42
+  ops the int8 model uses are a subset; VITS TTS already exercises the unusual ones
+  (`Expand`, `GatherND`, `ScatterND`, `Where`, `Equal`, `ConstantOfShape`, `RandomNormalLike`) on
+  this exact binary on a phone.
+- **Is the AAR's manifest a problem?** It is two lines: `package="ai.onnxruntime"` and
+  `minSdkVersion 24`. Consuming the jar directly means no manifest merge at all; the app's
+  `minSdk` stays 21 and the triage layer itself is gated at 24.
+
+**A method that does not work, recorded so it is not tried again:** grepping op names out of the
+binary. NUL-bounded counts were **0 for every op** in all three libraries — `Conv`, `Erf` and
+`MatMul` included, all of which provably run on these devices — because op names are not stored
+as standalone NUL-terminated strings. Absence of an op name in `strings` output is not evidence
+of anything.
+
+## The policy the app implements
+
+`LayaTriage` reads the message once and returns the option the head prefers. It can only
+**escalate**:
+
+| Read | What the app does |
+|---|---|
+| label is `evacuation order` / `medical emergency`, confidence ≥ **0.85** | announcement is upgraded to ALERT (loud, loops) |
+| anything else, any confidence | message is spoken normally, and the read is printed: `[safety warning 62%]` |
+| layer not ready, empty text, any exception | message is spoken normally; nothing is logged as a decision |
+
+The 0.85 floor is not a round number picked for comfort: Addendum 3 measured every int8-vs-fp32
+flip between 0.36 and 0.80, and **nothing at or above 0.87 changed its argmax**. The floor sits
+above the band where the model is known to wobble. Below-floor reads are shown rather than
+hidden, because that band is exactly where the layer is least trustworthy — and there is no code
+path in which Laya suppresses, edits, downgrades, or delays a message.
+
+Mechanically: the header asset copy lands on a `.part` name and is verified against the asset's
+`openFd` length (both `.onnx` files are stored uncompressed), so a process death mid-copy cannot
+leave a truncated model that a later run trusts; sessions run on 2 intra-op threads, the same
+budget ASR uses; all tensor buffers are direct buffers in native byte order; the prompt is built
+byte-for-byte as `eval/laya_onnx.py` builds it
+(`<bos> question <eos> (<mask> option)* <eos> state <eos>`), because that format is part of the
+model's training, not a UI string.
+
+## What is still not measured
+
+- **On-phone latency.** Desktop is 31 ms per decision (26 encoder + 4 head, Apple Silicon, 2
+  threads). Android is expected 3–5x slower: 100–200 ms, paid once per received message, off the
+  audio thread. Unmeasured until it runs on a phone.
+- **Labelled accuracy of the decisions.** The 12-sentence bench and the 10/12 result are not an
+  accuracy estimate; the escalation threshold is a *safety* choice informed by measured variance,
+  not a calibrated operating point.
+- **Cost.** +142.8 MB of assets (118 MB encoder, 25 MB head, 530 KB tokenizer), +233 KB of native
+  code and jar; ~150 MB resident while the layer is on. The assets are copied into app storage on
+  first enable (~10 s on a mid-range phone, once).
+- **That the escalation behaviour is right in the field.** Twelve sentences cannot settle it.
+
+## Reproduce / verify
+
+```bash
+# 1. JVM parity gate — 75 cases, no model, no device
+cd app && ./build.sh testDebugUnitTest
+
+# 2. stage the runtime + model and build (fetches the 1.28.2 Java API, verifies the lib hash)
+app/setup-project.sh
+cd app && ./build.sh assembleDebug
+
+# 3. the expectation the phone's log should match
+python eval/laya_onnx.py bench --model models/laya-int8
+```
+
+On the phone: Settings → "Triage received messages (Laya, experimental)", then send the bench
+sentences from the other phone. The receiving log shows one `triage <id>: <label> <p>%` line per
+message, with "(below the 85% floor — the band where int8 flips)" on anything under it.
+
+## State of the integration (updated)
+
+| | |
+|---|---|
+| Tokenizer parity | **done** — Kotlin port matches the reference on all 75 fixture cases (one surrogate-pair bug found and fixed) |
+| Android runtime | **resolved** — one ORT stays in the APK (1.28.2, byte-identical to the shipped lib); versioned-symbol constraint documented above |
+| In the app | **yes** — receive path, behind a Settings toggle, off by default |
+| Escalation policy | **implemented** — escalate only above 0.85, only for destructive labels; nothing is ever suppressed or downgraded |
+| Still not measured | labelled accuracy; on-phone latency; field behaviour of the escalation; Android-side memory profile of the copy |
+| Unchanged by this work | ASR/TTS binary, models, and every number in Addendum 3 |

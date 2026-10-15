@@ -89,6 +89,21 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
+    // ONNX Runtime for the optional Laya triage layer (app/src/main/java/com/bjp/itantra/laya/).
+    //
+    // Vendored as a jar + one thin JNI library instead of a Maven AAR, and taken from
+    // csukuangfj's 1.28.2 release — the *same* release the libonnxruntime.so in jniLibs comes
+    // from. setup-project.sh verifies the two files are byte-identical (sha256), so this adds a
+    // Java API and nothing else: ONE ONNX Runtime stays in the APK.
+    //
+    // Why not the Maven AAR (1.28.0 or 1.29.0)? Its libonnxruntime.so exports OrtGetApiBase with
+    // version tag VERS_1.28.0 / VERS_1.29.0, and Android's linker matches versioned symbols
+    // exactly — sherpa's JNI requires OrtGetApiBase@VERS_1.28.2. Swapping that library in would
+    // have made ASR and TTS fail to load, at runtime, with no build warning. The matched jar
+    // keeps the speech path on exactly the binary it was measured with. See Addendum 4 of
+    // docs/LAYA_INTEGRATION_FINDINGS.md.
+    implementation(files("libs/onnxruntime-android-1.28.2.jar"))
+
     // Unit tests for the pure-Kotlin decision logic (QualityGate, LanguageFilter). These classes
     // touch no Android API, so they run on the JVM via :app:testDebugUnitTest -- no device needed.
     // JUnit 4 is resolved from the local Gradle cache; there is no network dependency.

@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.bjp.itantra.laya.LayaTriage
 import com.bjp.itantra.speech.AsrEngine
 import com.bjp.itantra.speech.Lang
 import com.bjp.itantra.speech.Speaker
@@ -55,6 +56,12 @@ class MainActivity : AppCompatActivity() {
         /** Where the chosen role is remembered between launches. */
         private const val PREFS = "itantra"
         private const val KEY_IS_SPEAKER = "is_speaker"
+
+        /**
+         * The optional Laya triage layer. Off by default: it is ~143 MB of assets and an
+         * experimental decision path, so it stays a deliberate choice, not a surprise.
+         */
+        private const val KEY_LAYA_TRIAGE = "laya_triage"
 
         /** How many lines the Settings log keeps in memory. */
         private const val LIVE_LOG_MAX = 400
@@ -103,6 +110,13 @@ class MainActivity : AppCompatActivity() {
     private var tts: TtsEngine? = null
     private val speaker = Speaker()
 
+    // --- optional triage (Laya) ---
+    /** Built only when the Settings toggle is on. Never on the audio thread. */
+    private var laya: LayaTriage? = null
+
+    @Volatile
+    private var triageEnabled = false
+
     // --- audio capture ---
     private var audioRecord: AudioRecord? = null
     private var captureThread: Thread? = null
@@ -149,6 +163,11 @@ class MainActivity : AppCompatActivity() {
 
         log("app started")
         log("permissions: mic=${granted(Manifest.permission.RECORD_AUDIO)}")
+
+        // The optional triage layer. prepare() only starts a background thread; it copies nothing
+        // and loads nothing unless the toggle below is on.
+        triageEnabled = getSharedPreferences(PREFS, MODE_PRIVATE).getBoolean(KEY_LAYA_TRIAGE, false)
+        if (triageEnabled) ensureTriage()
 
         requestPermissions()
 
@@ -627,6 +646,11 @@ class MainActivity : AppCompatActivity() {
         } else {
             tts = TtsEngine(this@MainActivity, voice, numThreads = 2)
         }
+
+        // Laya is optional and warms up in the background: a 143 MB asset copy must never delay
+        // speech, and if it fails, the models that actually matter keep working.
+        if (triageEnabled) ensureTriage()
+
         true
     } catch (e: Throwable) {
         Log.e(TAG, "model load failed", e)
@@ -640,6 +664,7 @@ class MainActivity : AppCompatActivity() {
         runCatching { asr?.release() }; asr = null
         runCatching { tts?.release() }; tts = null
         runCatching { vad?.release() }; vad = null
+        runCatching { laya?.close() }; laya = null
     }
 
     // ------------------------------------------------------------------ capture
@@ -868,11 +893,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         thread(name = "tts") {
+            // The optional triage read happens here — on the worker that is about to speak, never
+            // on the audio thread. It cannot suppress or edit the message; the text is spoken
+            // either way. Its only power is to raise a NORMAL announcement to an ALERT, and only
+            // above the measured confidence floor (see LayaTriage).
+            val triage = if (triageEnabled) laya?.decide(msg.text) else null
+            val escalate = triage?.escalate == true
+            if (triage != null) log("triage ${msg.id.take(8)}: ${triage.describe()}")
+
             val samples = engine.synthesise(msg.text)
-            val mode = if (msg.type == Message.Type.ALERT) Speaker.Mode.ALERT else Speaker.Mode.NORMAL
+            val mode =
+                if (msg.type == Message.Type.ALERT || escalate) Speaker.Mode.ALERT else Speaker.Mode.NORMAL
             runOnUiThread {
-                append(if (mode == Speaker.Mode.ALERT) "🔴 ${msg.text}" else "▸ ${msg.text}")
-                setStatus("Speaking (${msg.type})")
+                val note = if (triage == null) "" else
+                    "   [${triage.label} ${(triage.confidence * 100).toInt()}%]"
+                append((if (mode == Speaker.Mode.ALERT) "🔴 " else "▸ ") + msg.text + note)
+                setStatus(
+                    if (escalate && msg.type != Message.Type.ALERT) "Speaking (ALERT — triage)"
+                    else "Speaking (${msg.type})",
+                )
                 speaker.play(samples, engine.sampleRate(), mode)
             }
             ledger.markPlayed(msg)
@@ -900,9 +939,14 @@ class MainActivity : AppCompatActivity() {
             append("\nTransport:  ${kind.displayName}")
             append("\nThis phone: ${Build.MANUFACTURER} ${Build.MODEL} (API ${Build.VERSION.SDK_INT})")
             append("\nLog file:   ${FileLogger.path() ?: "not initialised"}")
+            append("\nTriage:     ")
+            append(if (triageEnabled) "on — ${laya?.state ?: "idle"} (Laya, experimental)" else "off")
         }
 
         val body = android.widget.ScrollView(this).apply {
+            val column = android.widget.LinearLayout(this@MainActivity).apply {
+                orientation = android.widget.LinearLayout.VERTICAL
+            }
             val tv = android.widget.TextView(this@MainActivity).apply {
                 text = liveLog.joinToString("\n")
                 textSize = 9f
@@ -910,7 +954,17 @@ class MainActivity : AppCompatActivity() {
                 setPadding(28, 28, 28, 28)
                 setTextIsSelectable(true)
             }
-            addView(tv)
+            column.addView(tv)
+            // The triage switch lives here rather than in its own screen: it is one decision, and
+            // the state it produces is already printed above it.
+            column.addView(android.widget.CheckBox(this@MainActivity).apply {
+                text = "Triage received messages (Laya, experimental)"
+                isChecked = triageEnabled
+                textSize = 12f
+                setPadding(28, 10, 28, 28)
+                setOnCheckedChangeListener { _, on -> setTriage(on) }
+            })
+            addView(column)
         }
 
         androidx.appcompat.app.AlertDialog.Builder(this)
@@ -925,6 +979,36 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton("Close", null)
             .show()
+    }
+
+    /**
+     * The triage layer, created on first need. `prepare()` never blocks: it starts a background
+     * thread that copies the model out of the APK (once) and opens both ORT sessions, so the
+     * first received message is already served by a warm layer.
+     */
+    private fun ensureTriage(): LayaTriage {
+        val existing = laya
+        val t = if (existing != null && !existing.isClosed) existing
+        else LayaTriage(applicationContext) { s -> log("triage: $s") }.also { laya = it }
+        t.prepare()
+        return t
+    }
+
+    /**
+     * The Settings toggle, persisted — re-enabling it after every restart during a test session
+     * is a nuisance, and the state is visible in the same dialog.
+     */
+    private fun setTriage(enabled: Boolean) {
+        triageEnabled = enabled
+        getSharedPreferences(PREFS, MODE_PRIVATE).edit().putBoolean(KEY_LAYA_TRIAGE, enabled).apply()
+        if (enabled) {
+            ensureTriage()
+            log("triage: on — 143 MB of assets are copied to app storage on first use")
+        } else {
+            runCatching { laya?.close() }
+            laya = null
+            log("triage: off")
+        }
     }
 
     /**

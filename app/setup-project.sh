@@ -134,6 +134,61 @@ if [ -d "$TTS_SRC/espeak-ng-data" ]; then
 fi
 
 echo
+echo "=== 4. ONNX Runtime Java API (for the optional Laya triage layer) ==="
+# The app already ships libonnxruntime.so for sherpa-onnx. Laya needs the Java API on top of
+# that same library, so take classes.jar + libonnxruntime4j_jni.so from csukuangfj's release of
+# the SAME version — and only those two files.
+#
+# The obvious alternative, Maven's onnxruntime-android AAR, is a trap: its libonnxruntime.so
+# exports OrtGetApiBase with version tag VERS_1.28.0 (or VERS_1.29.0), and Android's linker
+# matches versioned symbols exactly, while sherpa's JNI requires OrtGetApiBase@VERS_1.28.2.
+# Copying that library in makes the SPEECH path fail to load, at runtime, with no build warning.
+# See Addendum 4 of docs/LAYA_INTEGRATION_FINDINGS.md.
+ORT_ZIP="onnxruntime-android-1.28.2.zip"
+ORT_URL="https://github.com/csukuangfj/onnxruntime-libs/releases/download/v1.28.2/$ORT_ZIP"
+ORT_SHA_LIB="33847ad43bffe204699fd4a27f7f3603452a8cdaf2f9a44983a0bc31ffcf2da1"
+
+if [ -f "$SRC_JNI/libonnxruntime4j_jni.so" ] && [ -f "$PROJ/app/libs/onnxruntime-android-1.28.2.jar" ]; then
+  echo "  Java API already present, skipping"
+else
+  if [ ! -f "/tmp/$ORT_ZIP" ]; then
+    echo "  fetching $ORT_ZIP (32 MB)"
+    curl -L --max-time 900 "$ORT_URL" -o "/tmp/$ORT_ZIP" || echo "  download failed"
+  fi
+  if [ -f "/tmp/$ORT_ZIP" ]; then
+    rm -rf /tmp/ort1282 && mkdir -p /tmp/ort1282
+    unzip -q "/tmp/$ORT_ZIP" -d /tmp/ort1282
+    got=$(shasum -a 256 /tmp/ort1282/jni/arm64-v8a/libonnxruntime.so | awk '{print $1}')
+    if [ "$got" != "$ORT_SHA_LIB" ]; then
+      echo "  !! that release's libonnxruntime.so is not the binary this app ships." >&2
+      echo "     expected $ORT_SHA_LIB" >&2
+      echo "     got      $got" >&2
+      echo "     Refusing it — ASR and TTS must keep running on the shipped binary." >&2
+    else
+      echo "  release library is byte-identical to the shipped one — taking only the Java side"
+      mkdir -p "$PROJ/app/libs"
+      cp -v /tmp/ort1282/jni/arm64-v8a/libonnxruntime4j_jni.so "$SRC_JNI/"
+      cp -v /tmp/ort1282/classes.jar "$PROJ/app/libs/onnxruntime-android-1.28.2.jar"
+    fi
+  fi
+fi
+
+echo
+echo "=== 5. Laya triage assets (optional layer, off by default) ==="
+# 143 MB of int8 encoder + head, built by eval/laya_quantize.py and not committed. The compact
+# tokenizer beside them (vocab.b64, merges.b64, config.json) IS committed, so a clone that has
+# not built the model yet still builds and tests fine — the toggle just reports a failure.
+LAYA_SRC="$REPO/models/laya-int8"
+if [ -f "$LAYA_SRC/encoder.onnx" ] && [ -f "$LAYA_SRC/head.onnx" ]; then
+  mkdir -p "$SRC_ASSETS/laya"
+  cp -v "$LAYA_SRC/encoder.onnx" "$SRC_ASSETS/laya/"
+  cp -v "$LAYA_SRC/head.onnx"    "$SRC_ASSETS/laya/"
+else
+  echo "  models/laya-int8/ not found — skipping."
+  echo "  Build it with eval/laya_quantize.py (see docs/LAYA_INTEGRATION_FINDINGS.md)."
+fi
+
+echo
 echo "=== done. project state: ==="
 echo "  kotlin API : $(ls -1 "$SRC_JAVA" 2>/dev/null | wc -l | tr -d ' ') files"
 echo "  jniLibs    : $(ls -1 "$SRC_JNI" 2>/dev/null | wc -l | tr -d ' ') files"
