@@ -147,8 +147,9 @@ the common case.
   `Outbox`, 3 for the gate fix, 6 for `Heartbeat` (fake-clock cadence, timeout, liveness cases),
   3 for `Framing` (pins the wire format), 8 for `DeliveryTracker` (schedule, receipts, deadlines,
   capacity), 2 for the ACK envelope. The debug variant compiles cleanly in the same run.
-- Build: the next on-phone `app-debug.apk` will be rebuilt when the hand-over build is asked
-  for; the previous APK predates the heartbeat work.
+- Build: `app-debug.apk` rebuilt from this tree (16 Oct 00:05, sha256 `7d3c7c57…`). **Both
+  phones must be reinstalled with this build** — the frame format and the receipt envelope
+  changed, and a mixed old/new pair would garble each other's packets.
 
 ## Phone checklist (two phones, debug APK)
 
