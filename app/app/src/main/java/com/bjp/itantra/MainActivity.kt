@@ -26,12 +26,14 @@ import com.bjp.itantra.speech.Lang
 import com.bjp.itantra.speech.Speaker
 import com.bjp.itantra.speech.TtsEngine
 import com.bjp.itantra.speech.VadEngine
+import com.bjp.itantra.transport.Outbox
 import com.bjp.itantra.transport.Transport
 import com.bjp.itantra.transport.TransportKind
 import com.k2fsa.sherpa.onnx.WaveReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
 
@@ -145,6 +147,41 @@ class MainActivity : AppCompatActivity() {
     private var kind = TransportKind.BLUETOOTH
     private val ledger = MessageLedger()
     private val seq = AtomicInteger(0)
+
+    /**
+     * Packets that could not go out because the link was down, in order, sent when it returns.
+     * See [Outbox]: `send()` used to drop silently, which is how a speaker could see "Sent" on
+     * their screen while the other phone heard nothing. Flushed from the CONNECTED callback.
+     */
+    private val outbox = Outbox(capacity = 64) { bytes -> transport?.send(bytes) == true }
+
+    /** The peer this phone dialled last; null when it has only ever listened. Auto-reconnect target. */
+    @Volatile
+    private var lastDialedPeerId: String? = null
+
+    /** True once any session has existed — automatic reconnection only chases a link that existed. */
+    @Volatile
+    private var everConnected = false
+
+    private var reconnectAttempts = 0
+    private val reconnectHandler = android.os.Handler(android.os.Looper.getMainLooper())
+
+    @Volatile
+    private var destroyed = false
+
+    /**
+     * Speech-out, one message at a time, in arrival order. Per-message threads used to synthesise
+     * and play in parallel, and Speaker.play() stops whatever is playing — so the burst of
+     * segments a long hold produces cut each other off into fragments on the other phone.
+     */
+    private val speechQueue = LinkedBlockingQueue<Message>()
+    @Volatile
+    private var speechWorker: Thread? = null
+
+    /** Speech-in: VAD segments decoded one at a time, in the order they were spoken. */
+    private val asrQueue = LinkedBlockingQueue<FloatArray>()
+    @Volatile
+    private var asrWorker: Thread? = null
 
     /** SPEAKER = this phone listens and sends. LISTENER = this phone receives and speaks. */
     @Volatile
@@ -564,7 +601,10 @@ class MainActivity : AppCompatActivity() {
                 android.bluetooth.BluetoothAdapter.STATE_ON -> {
                     log("Bluetooth switched ON — reopening the link")
                     if (transport?.isConnected != true) {
-                        connectTransport(null)
+                        // Re-dial the peer we knew, if there was one: this phone may have been
+                        // mid-conversation when Bluetooth went off. connectTransport() starts
+                        // listening again either way.
+                        connectTransport(lastDialedPeerId)
                     }
                 }
                 android.bluetooth.BluetoothAdapter.STATE_OFF -> {
@@ -830,106 +870,150 @@ class MainActivity : AppCompatActivity() {
     private fun onSentence(segment: FloatArray) {
         segmentsThisHold++
         val n = segmentsThisHold
+        log("segment $n: ${segment.size} samples = ${"%.2f".format(segment.size / 16000.0)}s -> queued for recognition")
+        asrQueue.offer(segment)
+        ensureAsrWorker()
+    }
+
+    /**
+     * THE SINGLE DECODE WORKER.
+     *
+     * A segment used to spawn its own "asr" thread. A long hold emits several segments in quick
+     * succession, so several decodes ran at once on the same recogniser, finished in an order
+     * decided by the scheduler, and the packets went out in that order too — a five-sentence
+     * monologue could reach the other phone shuffled. One queue, one worker: decodes and packets
+     * follow the order the sentences were spoken, and the CPU only ever runs one decode.
+     */
+    private fun ensureAsrWorker() {
+        if (asrWorker?.isAlive == true) return
+        synchronized(this) {
+            if (asrWorker?.isAlive == true) return
+            asrWorker = thread(name = "asr") {
+                while (true) {
+                    val segment = try {
+                        asrQueue.take()
+                    } catch (e: InterruptedException) {
+                        return@thread
+                    }
+                    runCatching { recogniseAndSend(segment) }
+                        .onFailure { log("ASR worker error: ${it::class.simpleName}: ${it.message}") }
+                }
+            }
+        }
+    }
+
+    /** One segment, start to finish: recognise, gate, filter, hand to the outbox. */
+    private fun recogniseAndSend(segment: FloatArray) {
         val engine = asr
         if (engine == null) {
-            log("segment $n (${segment.size} samples) but ASR not loaded — is this phone in LISTENER mode?")
+            log("segment (${segment.size} samples) but ASR not loaded yet — discarding")
             return
         }
-        log("segment $n: ${segment.size} samples = ${"%.2f".format(segment.size / 16000.0)}s -> recognising")
+        val t0 = System.currentTimeMillis()
+        val raw = engine.transcribe(segment)
+        val ms = System.currentTimeMillis() - t0
+        val seconds = segment.size / 16000f
+        val level = QualityGate.rms(segment)
+        log("ASR ${ms}ms -> \"${raw.take(48)}\"")
+        log("  segment ${"%.2f".format(seconds)}s  rms ${"%.5f".format(level)}")
 
-        thread(name = "asr") {
-            val t0 = System.currentTimeMillis()
-            val raw = engine.transcribe(segment)
-            val ms = System.currentTimeMillis() - t0
-            val seconds = segment.size / 16000f
-            val level = QualityGate.rms(segment)
-            log("ASR ${ms}ms -> \"${raw.take(48)}\"")
-            log("  segment ${"%.2f".format(seconds)}s  rms ${"%.5f".format(level)}")
-
-            // Physical gates first, and before the ASR even matters: a 0.31 s breath or a door
-            // slam is not a sentence, and rejecting it here costs no decode and no user patience.
-            // Measured on this app's own VAD output, such segments arrive with an RMS as low as
-            // 0.00008 and decode to the empty string every time.
-            val gate = QualityGate.evaluate(
-                text = raw,
-                tokens = emptyList(),
-                audioSeconds = seconds,
-                rms = level,
-                langTag = langTag,
-                // Script purity is checked below by the zero-tolerance filter; letting the gate
-                // duplicate it here would only add a second, softer verdict on the same evidence.
-                strictScript = false,
-            )
-            when (gate.verdict) {
-                QualityGate.Verdict.SILENT -> {
-                    log("SILENT (${gate.reason}) — ${"%.2f".format(seconds)}s rms=${"%.5f".format(level)}")
-                    return@thread
-                }
-                QualityGate.Verdict.REPEAT -> {
-                    log("REPEAT (${gate.reason}) — asking the sender to say it again")
-                    runOnUiThread { setStatus(QualityGate.repeatPrompt()) }
-                    return@thread
-                }
-                QualityGate.Verdict.SEND -> Unit
+        // Physical gates first, and before the ASR even matters: a 0.31 s breath or a door
+        // slam is not a sentence, and rejecting it here costs no decode and no user patience.
+        // Measured on this app's own VAD output, such segments arrive with an RMS as low as
+        // 0.00008 and decode to the empty string every time.
+        //
+        // langTag = null IS THE FIX OF 15 OCT 2026. This used to pass the phone's default
+        // tag (hin_Deva), and that made the purity check reject every Latin-English
+        // transcript — expectedScriptPurity(English, hin_Deva) is 0.0, below the 0.75 floor —
+        // so English speech was answered with "say it again" and never sent at all. With null,
+        // purity asks the same question the filter below asks: is every letter inside one of
+        // the nine allowed scripts. Pinned by tests in QualityGateTest.
+        val gate = QualityGate.evaluate(
+            text = raw,
+            tokens = emptyList(),
+            audioSeconds = seconds,
+            rms = level,
+            langTag = null,
+            // Script purity is checked below by the zero-tolerance filter; letting the gate
+            // duplicate it here would only add a second, softer verdict on the same evidence.
+            strictScript = false,
+        )
+        when (gate.verdict) {
+            QualityGate.Verdict.SILENT -> {
+                log("SILENT (${gate.reason}) — ${"%.2f".format(seconds)}s rms=${"%.5f".format(level)}")
+                return
             }
-
-            if (raw.isBlank()) {
-                log("ASR returned empty — nothing to send")
-                return@thread
-            }
-
-            // THE LANGUAGE OF THIS SEGMENT, inferred instead of assumed.
-            //
-            // There is no language selector in this build, and `langTag` is only the phone's
-            // default. It used to be the language of every message: Latin-English passed the
-            // filter anyway (Latin is allowed for loanwords), was sent tagged hin_Deva, and was
-            // read aloud by the HINDI voice on the other phone — the "broken English" report.
-            //
-            // Measured 15 Oct 2026 with the shipped pruned model: English speech is transcribed
-            // Latin 22/22 clips and Hindi speech Devanagari 6/6 (eval/probe_en_script.py), so the
-            // transcript's own script is a reliable signal for which voice should speak it.
-            val spoken = LanguageFilter.tagForScript(raw) ?: langTag
-            if (spoken != langTag) log("language $langTag -> $spoken (inferred from the transcript)")
-
-            // The filter no longer enforces one expected alphabet: without a selector there is no
-            // honest expectation to enforce, and enforcing Hindi is what silently mislabelled
-            // every other language. It still drops a segment whole when a letter falls outside
-            // all nine scripts, which is the leak it was built for ("help مe" and friends).
-            // TRADE-OFF, deliberate and recorded in docs/MODEL_AND_TTS_FINDINGS.md: a Hindi
-            // segment that a noisy decode flips into another Indic script is no longer dropped
-            // by the sender — it travels tagged with the script it came back in.
-            val verdict = LanguageFilter.filter(raw, null)
-            if (!verdict.send) {
-                // Name the offending characters. Without them this is unactionable: "dropped"
-                // alone does not distinguish a model failure from a filter bug, and the whole
-                // "hello -> هello" class of problem was invisible for exactly that reason.
-                val culprits = LanguageFilter.foreignLetters(raw, null)
-                    .map { "%s(U+%04X)".format(it, it.code) }
-                    .joinToString(" ")
-                log(
-                    "DROPPED whole segment: ${verdict.removed} foreign char(s) " +
-                        "[$culprits] fraction=${verdict.fraction}"
-                )
-                // Tell the sender to repeat. Silence with no explanation reads as a broken app.
+            QualityGate.Verdict.REPEAT -> {
+                log("REPEAT (${gate.reason}) — asking the sender to say it again")
                 runOnUiThread { setStatus(QualityGate.repeatPrompt()) }
-                return@thread
+                return
             }
+            QualityGate.Verdict.SEND -> Unit
+        }
 
-            val msg = Message(
-                // The inferred language, not the phone's default — this field is what picks the
-                // voice (and the script check) on the receiving side.
-                lang = spoken,
-                type = Message.Type.MSG,
-                seq = seq.getAndIncrement(),
-                text = verdict.text,
+        if (raw.isBlank()) {
+            log("ASR returned empty — nothing to send")
+            return
+        }
+
+        // THE LANGUAGE OF THIS SEGMENT, inferred instead of assumed.
+        //
+        // There is no language selector in this build, and `langTag` is only the phone's
+        // default. It used to be the language of every message: Latin-English passed the
+        // filter anyway (Latin is allowed for loanwords), was sent tagged hin_Deva, and was
+        // read aloud by the HINDI voice on the other phone — the "broken English" report.
+        //
+        // Measured 15 Oct 2026 with the shipped pruned model: English speech is transcribed
+        // Latin 22/22 clips and Hindi speech Devanagari 6/6 (eval/probe_en_script.py), so the
+        // transcript's own script is a reliable signal for which voice should speak it.
+        val spoken = LanguageFilter.tagForScript(raw) ?: langTag
+        if (spoken != langTag) log("language $langTag -> $spoken (inferred from the transcript)")
+
+        // The filter no longer enforces one expected alphabet: without a selector there is no
+        // honest expectation to enforce, and enforcing Hindi is what silently mislabelled
+        // every other language. It still drops a segment whole when a letter falls outside
+        // all nine scripts, which is the leak it was built for ("help مe" and friends).
+        // TRADE-OFF, deliberate and recorded in docs/MODEL_AND_TTS_FINDINGS.md: a Hindi
+        // segment that a noisy decode flips into another Indic script is no longer dropped
+        // by the sender — it travels tagged with the script it came back in.
+        val verdict = LanguageFilter.filter(raw, null)
+        if (!verdict.send) {
+            // Name the offending characters. Without them this is unactionable: "dropped"
+            // alone does not distinguish a model failure from a filter bug, and the whole
+            // "hello -> هello" class of problem was invisible for exactly that reason.
+            val culprits = LanguageFilter.foreignLetters(raw, null)
+                .map { "%s(U+%04X)".format(it, it.code) }
+                .joinToString(" ")
+            log(
+                "DROPPED whole segment: ${verdict.removed} foreign char(s) " +
+                    "[$culprits] fraction=${verdict.fraction}"
             )
-            val bytes = msg.toBytes()
-            log("packet ${bytes.size} B -> transport")
-            runOnUiThread {
-                append("▸ ${verdict.text}")
-                setStatus("Sent ${bytes.size} B")
-            }
-            transport?.send(bytes)
+            // Tell the sender to repeat. Silence with no explanation reads as a broken app.
+            runOnUiThread { setStatus(QualityGate.repeatPrompt()) }
+            return
+        }
+
+        val msg = Message(
+            // The inferred language, not the phone's default — this field is what picks the
+            // voice (and the script check) on the receiving side.
+            lang = spoken,
+            type = Message.Type.MSG,
+            seq = seq.getAndIncrement(),
+            text = verdict.text,
+        )
+        val bytes = msg.toBytes()
+
+        // NOT send(): the outbox sends when the link is up and BUFFERS in order when it is
+        // down, and the transport's CONNECTED callback flushes the backlog. This is what makes
+        // "it should not drop" true — the sentence survives a walk out of range.
+        val sentNow = outbox.enqueue(bytes)
+        log("packet ${bytes.size} B — ${if (sentNow) "sent" else "link down, buffered ($outbox)"}")
+        runOnUiThread {
+            append("▸ ${verdict.text}")
+            setStatus(
+                if (sentNow) "Sent ${bytes.size} B"
+                else "Buffered ${bytes.size} B — link down; sends when the other phone is back"
+            )
         }
     }
 
@@ -950,6 +1034,51 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        // AN EXPLICIT ALERT TAKES THE SPEAKER IMMEDIATELY.
+        //
+        // Normal messages no longer interrupt one another — the worker below speaks them to
+        // completion, in arrival order — but an alert is the one message type allowed to cut in,
+        // exactly as before this change. (Triage escalations are decided on the worker, after
+        // this check, and wait their turn.)
+        if (msg.type == Message.Type.ALERT && speaker.isPlaying()) {
+            log("ALERT ${msg.id.take(8)} — preempts current playback")
+            speaker.stop()
+        }
+        speechQueue.offer(msg)
+        ensureSpeechWorker()
+    }
+
+    /**
+     * THE SINGLE SPEECH WORKER.
+     *
+     * Every received packet used to spawn its own "tts" thread: two messages arriving close
+     * together synthesised concurrently, played concurrently, and Speaker.play() stops whatever
+     * is playing — so the second sentence cut off the first mid-word, and the playback order
+     * depended on which thread won the synthesis lock. That is what "I spoke a lot and it does
+     * not travel" was on the receiving end: the segments of one long hold arrived as a burst and
+     * the phone spoke fragments over each other. One queue, one worker, arrival order, and a
+     * normal message is heard to its end before the next one starts.
+     */
+    private fun ensureSpeechWorker() {
+        if (speechWorker?.isAlive == true) return
+        synchronized(this) {
+            if (speechWorker?.isAlive == true) return
+            speechWorker = thread(name = "tts") {
+                while (true) {
+                    val msg = try {
+                        speechQueue.take()
+                    } catch (e: InterruptedException) {
+                        return@thread
+                    }
+                    runCatching { speakOne(msg) }
+                        .onFailure { log("speech worker error: ${it::class.simpleName}: ${it.message}") }
+                }
+            }
+        }
+    }
+
+    /** Synthesise and play one message. Runs on the single "tts" worker thread. */
+    private fun speakOne(msg: Message) {
         // WHICH VOICE SPEAKS THIS MESSAGE.
         //
         // Until 15 Oct 2026 the answer was "whatever voice this phone loaded at startup" — its
@@ -959,54 +1088,73 @@ class MainActivity : AppCompatActivity() {
         // through our own ASR as "अबिद्ज हज कलापस तपली संडहल्पतर सकूल". The message now chooses
         // the voice. [LanguageFilter.voiceTagFor] keeps the sender's tag when the text agrees
         // with it (a mar_Deva tag on Devanagari text stays Marathi) and follows the text's own
-        // script when it does not. The engine is swapped on the worker below, never here.
+        // script when it does not. The engine is swapped on this worker, never on the UI thread.
         val spokenTag = LanguageFilter.voiceTagFor(msg.lang, msg.text)
         if (spokenTag != msg.lang) log("voice ${msg.lang} -> $spokenTag (from the message script)")
         val wantVoice = TtsEngine.voiceFor(spokenTag)
 
-        thread(name = "tts") {
-            // The optional triage read happens here — on the worker that is about to speak, never
-            // on the audio thread. It cannot suppress or edit the message; the text is spoken
-            // either way. Its only power is to raise a NORMAL announcement to an ALERT, and only
-            // above the measured confidence floor (see LayaTriage).
-            val triage = if (triageEnabled) laya?.decide(msg.text) else null
-            val escalate = triage?.escalate == true
-            if (triage != null) log("triage ${msg.id.take(8)}: ${triage.describe()}")
+        // The optional triage read happens here — on the worker that is about to speak, never
+        // on the audio thread. It cannot suppress or edit the message; the text is spoken
+        // either way. Its only power is to raise a NORMAL announcement to an ALERT, and only
+        // above the measured confidence floor (see LayaTriage).
+        val triage = if (triageEnabled) laya?.decide(msg.text) else null
+        val escalate = triage?.escalate == true
+        if (triage != null) log("triage ${msg.id.take(8)}: ${triage.describe()}")
 
-            // Load (if needed) and synthesise under one lock. A language change between two
-            // quick messages must not release the engine another thread is mid-synthesis on.
-            val spoken = synchronized(voiceLock) {
-                val engine = wantVoice?.let { ensureVoiceLocked(it) }
-                if (engine == null) null
-                else Pair(engine.synthesise(msg.text), engine.sampleRate())
-            }
-            if (spoken == null) {
-                // No bundled voice, or the load failed. Text is still shown, and never read by an
-                // unrelated voice just because one happens to be loaded.
-                val why =
-                    if (wantVoice == null) "no bundled voice for $spokenTag"
-                    else "voice $wantVoice failed to load"
-                log("receive ${msg.id.take(8)}: $why — text only")
-                runOnUiThread { append("▸ ${msg.text}   ($why)") }
-                ledger.markPlayed(msg)
-                return@thread
-            }
-            val (samples, sampleRate) = spoken
-
-            val mode =
-                if (msg.type == Message.Type.ALERT || escalate) Speaker.Mode.ALERT else Speaker.Mode.NORMAL
-            runOnUiThread {
-                val note = if (triage == null) "" else
-                    "   [${triage.label} ${(triage.confidence * 100).toInt()}%]"
-                append((if (mode == Speaker.Mode.ALERT) "🔴 " else "▸ ") + msg.text + note)
-                setStatus(
-                    if (escalate && msg.type != Message.Type.ALERT) "Speaking (ALERT — triage)"
-                    else "Speaking (${msg.type})",
-                )
-                speaker.play(samples, sampleRate, mode)
-            }
-            ledger.markPlayed(msg)
+        // Load (if needed) and synthesise under one lock. A language change between two quick
+        // messages must not release the engine another path is mid-synthesis on.
+        val spoken = synchronized(voiceLock) {
+            val engine = wantVoice?.let { ensureVoiceLocked(it) }
+            if (engine == null) null
+            else Pair(engine.synthesise(msg.text), engine.sampleRate())
         }
+        if (spoken == null) {
+            // No bundled voice, or the load failed. Text is still shown, and never read by an
+            // unrelated voice just because one happens to be loaded.
+            val why =
+                if (wantVoice == null) "no bundled voice for $spokenTag"
+                else "voice $wantVoice failed to load"
+            log("receive ${msg.id.take(8)}: $why — text only")
+            runOnUiThread { append("▸ ${msg.text}   ($why)") }
+            ledger.markPlayed(msg)
+            return
+        }
+        val (samples, sampleRate) = spoken
+
+        val mode =
+            if (msg.type == Message.Type.ALERT || escalate) Speaker.Mode.ALERT else Speaker.Mode.NORMAL
+        runOnUiThread {
+            val note = if (triage == null) "" else
+                "   [${triage.label} ${(triage.confidence * 100).toInt()}%]"
+            append((if (mode == Speaker.Mode.ALERT) "🔴 " else "▸ ") + msg.text + note)
+            setStatus(
+                if (escalate && msg.type != Message.Type.ALERT) "Speaking (ALERT — triage)"
+                else "Speaking (${msg.type})",
+            )
+        }
+        // Play from here, not from the UI thread: AudioTrack's blocking write holds its thread
+        // for the length of the clip, and that has no business on the main thread.
+        speaker.play(samples, sampleRate, mode)
+
+        // WAIT UNTIL THE MESSAGE HAS BEEN HEARD.
+        //
+        // This is the actual fix for the cut-off: the next queued sentence starts only after
+        // this clip has finished playing. An alert loops on purpose, so it is deliberately NOT
+        // waited for — the next message may replace it (existing behaviour, kept). The cap
+        // protects the queue if the track's playState ever sticks: clip length + 2 s, then move
+        // on. A preempting alert calls speaker.stop() and this loop simply sees it.
+        if (mode == Speaker.Mode.NORMAL) {
+            val maxWaitMs = samples.size * 1000L / sampleRate + 2_000L
+            val started = SystemClock.elapsedRealtime()
+            while (speaker.isPlaying() && SystemClock.elapsedRealtime() - started < maxWaitMs) {
+                try {
+                    Thread.sleep(40)
+                } catch (e: InterruptedException) {
+                    return
+                }
+            }
+        }
+        ledger.markPlayed(msg)
     }
 
     // ------------------------------------------------------------------ controls
@@ -1032,6 +1180,8 @@ class MainActivity : AppCompatActivity() {
             append("\nLog file:   ${FileLogger.path() ?: "not initialised"}")
             append("\nTriage:     ")
             append(if (triageEnabled) "on — ${laya?.state ?: "idle"} (Laya, experimental)" else "off")
+            append("\nOutbox:     ")
+            append("${outbox.depth} waiting, ${outbox.dropped} dropped")
         }
 
         val logView = android.widget.TextView(this).apply {
@@ -1217,12 +1367,15 @@ class MainActivity : AppCompatActivity() {
         // one transport listening and another connecting, and the stale one was never cleaned up.
         runCatching { transport?.stop() }
         transport = null
+        reconnectAttempts = 0
+        reconnectHandler.removeCallbacksAndMessages(null)
 
         val t = kind.create(applicationContext).also { transport = it }
         t.onMessage = { bytes -> onPacket(bytes) }
         t.onStateChange = { state, detail ->
             runOnUiThread { setStatus("$state — $detail") }
             updateConnectionIndicator()
+            onTransportState(t, state)
         }
         // ALWAYS LISTEN, AND ALSO DIAL IF ASKED.
         //
@@ -1235,10 +1388,70 @@ class MainActivity : AppCompatActivity() {
         log("listening for the other phone")
         t.startListening()
         if (peerId != null) {
+            lastDialedPeerId = peerId
             log("also dialling the chosen device")
             t.connectToPeer(peerId)
         }
         updateConnectionIndicator()
+    }
+
+    /**
+     * One place where link state turns into behaviour.
+     *
+     * CONNECTED: flush the outbox — every sentence spoken while the link was down goes out now,
+     * in order — and reset the reconnect backoff.
+     *
+     * IDLE/ERROR: schedule a reconnect if this link is worth chasing (it existed before, or the
+     * user explicitly dialled this peer). The listener side also heals itself inside the
+     * transport (the accept loop restarts the moment a session drops), so whichever side knows
+     * the peer address drives the recovery.
+     */
+    private fun onTransportState(t: Transport, state: Transport.State) {
+        when (state) {
+            Transport.State.CONNECTED -> {
+                everConnected = true
+                reconnectAttempts = 0
+                reconnectHandler.removeCallbacksAndMessages(null)
+                val flushed = outbox.flush()
+                if (flushed > 0) log("link up — flushed $flushed packet(s) buffered while down")
+            }
+            Transport.State.IDLE, Transport.State.ERROR -> scheduleReconnect(t, state)
+            else -> Unit
+        }
+    }
+
+    /**
+     * Reconnect with backoff: 2 s, 5 s, 10 s, then every 15 s, reset on success.
+     *
+     * WHY: a dropped link used to be terminal. The transport reported IDLE and nothing ever
+     * touched it again — the only way back was the human tapping DEVICES and choosing the phone
+     * by hand, mid-emergency. It is also why a message spoken while walking out of range simply
+     * vanished: send() had nowhere to go. The outbox holds those sentences; this brings the link
+     * back so they can actually arrive.
+     */
+    private fun scheduleReconnect(t: Transport, state: Transport.State) {
+        if (destroyed) return
+        val peer = lastDialedPeerId
+        if (peer == null && !everConnected) return
+        val delayMs = when (reconnectAttempts) {
+            0 -> 2_000L
+            1 -> 5_000L
+            2 -> 10_000L
+            else -> 15_000L
+        }
+        reconnectAttempts++
+        log("link $state — reconnect attempt $reconnectAttempts in ${delayMs / 1000}s")
+        reconnectHandler.removeCallbacksAndMessages(null)
+        reconnectHandler.postDelayed({
+            if (destroyed || transport !== t || t.isConnected) return@postDelayed
+            if (peer != null) {
+                log("reconnecting to $peer")
+                t.connectToPeer(peer)
+            }
+            // peer == null: this phone only ever listened. The Bluetooth transport restarts its
+            // accept loop by itself; Wi-Fi Direct needs the far side to re-invite, so both
+            // paths are covered without a dial here.
+        }, delayMs)
     }
 
     // ------------------------------------------------------------------ UI helpers
@@ -1263,11 +1476,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        destroyed = true
+        reconnectHandler.removeCallbacksAndMessages(null)
         runCatching { unregisterReceiver(bluetoothStateReceiver) }
         super.onDestroy()
         stopCapture()
         transport?.stop()
         releaseModels()
         speaker.stop()
+        // The queue workers exit on interrupt; anything still queued goes with the process,
+        // which is what closing the app means.
+        asrWorker?.interrupt()
+        speechWorker?.interrupt()
     }
 }

@@ -411,6 +411,12 @@ class Speaker {
 
     private var track: AudioTrack? = null
 
+    /**
+     * @Synchronized on purpose: play, stop and isPlaying are called from different threads —
+     * the receive worker plays, an incoming ALERT may stop playback to preempt — and the
+     * AudioTrack field cannot tolerate two writers.
+     */
+    @Synchronized
     fun play(samples: FloatArray, sampleRate: Int, mode: Mode = Mode.NORMAL) {
         stop()
 
@@ -448,8 +454,10 @@ class Speaker {
     }
 
     /** True while audio is still coming out. */
+    @Synchronized
     fun isPlaying(): Boolean = track?.playState == AudioTrack.PLAYSTATE_PLAYING
 
+    @Synchronized
     fun stop() {
         track?.let {
             runCatching { it.stop() }

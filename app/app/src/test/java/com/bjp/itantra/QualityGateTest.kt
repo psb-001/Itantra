@@ -165,4 +165,51 @@ class QualityGateTest {
         assertTrue(QualityGate.MAX_ADJACENT_REPEAT >= 4)
         assertTrue(QualityGate.MIN_RMS < 0.02f)
     }
+
+    // -----------------------------------------------------------------------------------------
+    // THE LIVE SENDER'S CONTRACT (fixed 15 Oct 2026)
+    //
+    // MainActivity's live path passes langTag = null on purpose. This is not a style choice —
+    // passing the phone's default tag ("hin_Deva") made the purity check reject EVERY
+    // Latin-English transcript: expectedScriptPurity("the bridge has collapsed...", "hin_Deva")
+    // = 0.0, under the 0.75 floor, so English speech was answered with "say it again" and never
+    // sent at all. These tests pin both the measurement and the fixed call.
+    // -----------------------------------------------------------------------------------------
+
+    @Test
+    fun `the old default tag rejected every English transcript`() {
+        val purity = LanguageFilter.expectedScriptPurity(
+            "the bridge has collapsed please send help to the school",
+            hiTags,
+        )
+        assertEquals(0f, purity, 0.0001f)
+    }
+
+    @Test
+    fun `with no expected script, English is sendable`() {
+        val d = QualityGate.evaluate(
+            text = "the bridge has collapsed please send help to the school",
+            tokens = emptyList(),
+            audioSeconds = 4f,
+            rms = 0.05f,
+            langTag = null,
+            strictScript = false,
+        )
+        assertEquals(QualityGate.Verdict.SEND, d.verdict)
+        assertEquals(1f, d.scriptPurity, 0.0001f)
+    }
+
+    @Test
+    fun `with no expected script, hinglish is sendable`() {
+        // The Hinglish sentence the routing fix exists for: Devanagari and Latin in one message.
+        val d = QualityGate.evaluate(
+            text = "स्कूल में emergency alert भेजो",
+            tokens = emptyList(),
+            audioSeconds = 4f,
+            rms = 0.05f,
+            langTag = null,
+            strictScript = false,
+        )
+        assertEquals(QualityGate.Verdict.SEND, d.verdict)
+    }
 }
