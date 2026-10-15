@@ -166,6 +166,15 @@ class MainActivity : AppCompatActivity() {
     private var reconnectAttempts = 0
     private val reconnectHandler = android.os.Handler(android.os.Looper.getMainLooper())
 
+    /**
+     * True while a reconnect is already scheduled. One physical link death reports twice — ERROR
+     * from the heartbeat or the failing write, then IDLE from the reader unwinding — and without
+     * this the second report cancelled the first timer and burned a backoff step, turning a 2 s
+     * recovery into a 5 s one for no reason.
+     */
+    @Volatile
+    private var reconnectPending = false
+
     @Volatile
     private var destroyed = false
 
@@ -1368,6 +1377,7 @@ class MainActivity : AppCompatActivity() {
         runCatching { transport?.stop() }
         transport = null
         reconnectAttempts = 0
+        reconnectPending = false
         reconnectHandler.removeCallbacksAndMessages(null)
 
         val t = kind.create(applicationContext).also { transport = it }
@@ -1411,6 +1421,7 @@ class MainActivity : AppCompatActivity() {
             Transport.State.CONNECTED -> {
                 everConnected = true
                 reconnectAttempts = 0
+                reconnectPending = false
                 reconnectHandler.removeCallbacksAndMessages(null)
                 val flushed = outbox.flush()
                 if (flushed > 0) log("link up — flushed $flushed packet(s) buffered while down")
@@ -1431,6 +1442,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun scheduleReconnect(t: Transport, state: Transport.State) {
         if (destroyed) return
+        // One pending reconnect at a time: a single link death can report ERROR (heartbeat or
+        // write failure) and then IDLE (reader unwind) milliseconds apart, and without this the
+        // second report cancelled the first timer and burned a backoff step.
+        if (reconnectPending) return
         val peer = lastDialedPeerId
         if (peer == null && !everConnected) return
         val delayMs = when (reconnectAttempts) {
@@ -1440,9 +1455,11 @@ class MainActivity : AppCompatActivity() {
             else -> 15_000L
         }
         reconnectAttempts++
+        reconnectPending = true
         log("link $state — reconnect attempt $reconnectAttempts in ${delayMs / 1000}s")
         reconnectHandler.removeCallbacksAndMessages(null)
         reconnectHandler.postDelayed({
+            reconnectPending = false
             if (destroyed || transport !== t || t.isConnected) return@postDelayed
             if (peer != null) {
                 log("reconnecting to $peer")
@@ -1477,6 +1494,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         destroyed = true
+        reconnectPending = false
         reconnectHandler.removeCallbacksAndMessages(null)
         runCatching { unregisterReceiver(bluetoothStateReceiver) }
         super.onDestroy()

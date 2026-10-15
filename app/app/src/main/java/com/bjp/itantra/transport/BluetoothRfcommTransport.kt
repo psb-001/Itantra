@@ -16,6 +16,7 @@ import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.IOException
 import java.util.UUID
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
 
 /**
@@ -31,8 +32,15 @@ import kotlin.concurrent.thread
  *  4. Wi-Fi Direct needs ACCESS_FINE_LOCATION on Android 10+ just to *discover* peers.
  *
  * FRAMING: RFCOMM is a byte stream with no message boundaries, so every packet is sent as a
- * 4-byte big-endian length followed by that many bytes. Without this, two messages sent close
- * together arrive glued into one.
+ * 4-byte big-endian length followed by that many bytes, whose first byte is a frame type (see
+ * [Framing]): app data, or a heartbeat ping/pong. Without the length prefix, two messages sent
+ * close together arrive glued into one.
+ *
+ * DEAD-LINK DETECTION: a Bluetooth link that dies silently — the peer walks out of range, the
+ * phone sleeps — looks exactly like an idle one: read() just blocks and isConnected stays true.
+ * [Heartbeat] pings when the link has been quiet and declares it dead after 12 s without any
+ * frame; the transport then closes the socket, which unblocks the reader and lets the normal
+ * reconnect take over.
  *
  * PERMISSIONS: on API 31+ (Android 12) the old BLUETOOTH / BLUETOOTH_ADMIN permissions are
  * ignored — you need BLUETOOTH_CONNECT and BLUETOOTH_SCAN. Getting this wrong is a classic
@@ -115,9 +123,39 @@ class BluetoothRfcommTransport(
     private var reader: Thread? = null
     private var acceptor: Thread? = null
     private var watchdog: Thread? = null
+    private var heartbeatThread: Thread? = null
 
     @Volatile
     private var running = false
+
+    /**
+     * Session numbers. attach() can be reached twice in a crossed-connect race (both phones
+     * dialling at once), and the losing socket's reader unwinds seconds after the winning link
+     * is already up. Only the newest session may touch shared connection state or announce a
+     * disconnection — otherwise an old reader would mark a healthy link dead.
+     */
+    private val sessionCounter = AtomicInteger(0)
+
+    @Volatile
+    private var currentSession = 0
+
+    /** The raw RFCOMM channel that worked last time, so a reconnect dials it first. */
+    @Volatile
+    private var lastRawChannel = 0
+
+    /** Shared empty body for control frames. */
+    private val emptyPayload = ByteArray(0)
+
+    private val heartbeat = Heartbeat(
+        clock = { android.os.SystemClock.elapsedRealtime() },
+        sendPing = { writeFrame(Framing.PING, emptyPayload) },
+        onDead = { why ->
+            state(Transport.State.ERROR, "heartbeat: $why")
+            // Closing the socket unblocks the reader (and any write stuck in flow control), so
+            // the read loop unwinds and the app-level reconnect takes over from a clean slate.
+            runCatching { socket?.close() }
+        },
+    )
 
     private fun state(s: Transport.State, msg: String) {
         Log.i(TAG, "$s — $msg")
@@ -188,13 +226,27 @@ class BluetoothRfcommTransport(
                 // Keep accepting until we get a connection or are told to stop. A single accept()
                 // would leave the listener dead the moment one connect attempt failed, and the
                 // speaker phone retries — so the listener must keep the door open.
+                var consecutiveFailures = 0
                 while (running && !isConnected) {
                     val accepted = try {
                         server.accept()
-                    } catch (e: IOException) {
-                        if (running) Log.w(TAG, "accept threw: ${e.message}")
-                        break
+                    } catch (e: Exception) {
+                        if (!running) break
+                        // accept() throwing once does not mean the listener is dead: the stack
+                        // sometimes reaps the pending connection and surfaces it from accept
+                        // itself. Retry quickly for a moment before giving up — the watchdog
+                        // remains the backstop that restarts the loop from outside.
+                        consecutiveFailures++
+                        Log.w(TAG, "accept threw ($consecutiveFailures/3): ${e.message}")
+                        if (consecutiveFailures >= 3) break
+                        try {
+                            Thread.sleep(RETRY_PAUSE_MS)
+                        } catch (ie: InterruptedException) {
+                            break
+                        }
+                        continue
                     }
+                    consecutiveFailures = 0
                     if (accepted != null) {
                         Log.i(TAG, "accepted an incoming connection")
                         val who = runCatching { accepted.remoteDevice?.name }.getOrNull()
@@ -205,8 +257,10 @@ class BluetoothRfcommTransport(
                     }
                 }
                 runCatching { server.close() }
-                serverSocket = null
-            } catch (e: IOException) {
+                // Only clear the field if it is still this loop's socket — the reader's restart
+                // or the watchdog may already have installed a fresh server socket.
+                if (serverSocket === server) serverSocket = null
+            } catch (e: Exception) {
                 if (running) Log.w(TAG, "listen failed: ${e.message}")
             }
         }
@@ -310,7 +364,7 @@ class BluetoothRfcommTransport(
                     // so a long sleep on top was pure dead time — up to 10 s of the total wait.
                     // A short pause only avoids hammering the stack back-to-back.
                     try {
-                        Thread.sleep(300)
+                        Thread.sleep(RETRY_PAUSE_MS)
                     } catch (e: InterruptedException) {
                         return@thread
                     }
@@ -327,15 +381,20 @@ class BluetoothRfcommTransport(
     }
 
     /**
-     * Cancel discovery and give the stack a moment to actually stop.
+     * Cancel discovery and give the stack a moment to actually stop — but only when discovery is
+     * actually running.
      *
      * `cancelDiscovery()` is asynchronous — it returns before discovery has really stopped.
      * Starting a connect while the stack is still tearing discovery down is a documented cause of
      * instant connect failures. BlueComm (the reference implementation of the SDP fallback) sleeps
-     * 300 ms here, and so do we. This is cheap insurance against a race that costs a whole retry.
+     * 300 ms here, and so do we — but only when there is something to cancel. `cancelDiscovery()`
+     * is a no-op when discovery is off, and this transport never starts discovery itself, so the
+     * old unconditional sleep was paid on every one of the 17 connect paths per attempt (2 SDP +
+     * 15 raw channels): several seconds of pure dead time in every connection round.
      */
     @SuppressLint("MissingPermission")
     private fun settleDiscovery(adapter: BluetoothAdapter) {
+        if (!adapter.isDiscovering) return
         runCatching { adapter.cancelDiscovery() }
         try {
             Thread.sleep(DISCOVERY_SETTLE_MS)
@@ -390,9 +449,11 @@ class BluetoothRfcommTransport(
             }
         }
 
-        // 3: raw RFCOMM channel, bypassing SDP. Channel 1 first — that is what the first SPP
-        // service normally lands on — then a short sweep in case the remote picked another.
-        for (channel in listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)) {
+        // 3: raw RFCOMM channel, bypassing SDP. The channel that worked last time goes first —
+        // after a drop that reconnects in one shot — then the conventional channel 1, then a
+        // short sweep in case the remote picked another channel.
+        val triedFirst = if (lastRawChannel in 1..15) lastRawChannel else 1
+        for (channel in listOf(triedFirst) + (1..15).filter { it != triedFirst }) {
             val s = try {
                 device.javaClass
                     .getMethod("createRfcommSocket", Int::class.javaPrimitiveType)
@@ -406,7 +467,9 @@ class BluetoothRfcommTransport(
             try {
                 settleDiscovery(adapter)
                 s.connect()
-                Log.i(TAG, "  raw channel $channel: connected")
+                // Remember it: the next reconnect dials this channel before trying anything else.
+                lastRawChannel = channel
+                Log.i(TAG, "  raw channel $channel: connected (remembered for reconnects)")
                 return s
             } catch (e: Throwable) {
                 runCatching { s.close() }
@@ -417,68 +480,115 @@ class BluetoothRfcommTransport(
     }
 
     /** Wire up an established socket and start the read loop. */
+    @Synchronized
     private fun attach(s: BluetoothSocket, peerName: String) {
+        if (!running) {
+            // stop() ran while a connect/accept was in flight: never adopt a socket into a
+            // stopped transport.
+            runCatching { s.close() }
+            return
+        }
+        // Never leak a socket: attach can be reached twice in a crossed-connect race (both
+        // phones dialling at once). The newest wins, the old one is closed — and the session
+        // counter below keeps the old reader from reporting a disconnection that never happened.
+        runCatching { socket?.close() }
         socket = s
         isConnected = true
         connectedPeerName = peerName
         connectedAddress = runCatching { s.remoteDevice?.address }.getOrNull()
+        val session = sessionCounter.incrementAndGet()
+        currentSession = session
+        heartbeat.reset()
+        startHeartbeat()
         state(Transport.State.CONNECTED, "connected to $peerName")
 
         reader = thread(name = "bt-read") {
             try {
                 val input = DataInputStream(s.inputStream)
                 while (running) {
-                    // length-prefixed framing
+                    // length-prefixed framing; the body starts with a 1-byte frame type
                     val len = input.readInt()
-                    if (len <= 0 || len > 64 * 1024) {
+                    if (len <= 0 || len > Framing.MAX_FRAME) {
                         state(Transport.State.ERROR, "bad frame length $len")
                         break
                     }
                     val buf = ByteArray(len)
                     input.readFully(buf)
-                    onMessage?.invoke(buf)
+                    when (buf[0].toInt()) {
+                        Framing.DATA -> {
+                            heartbeat.noteAlive()
+                            onMessage?.invoke(buf.copyOfRange(1, buf.size))
+                        }
+                        Framing.PING -> {
+                            // Answer straight away from this thread: a pong is one byte of body.
+                            heartbeat.noteAlive()
+                            writeFrame(Framing.PONG, emptyPayload)
+                        }
+                        Framing.PONG -> {
+                            val rtt = heartbeat.notePong()
+                            if (rtt > 0) Log.i(TAG, "heartbeat pong — round trip ${rtt} ms")
+                        }
+                        else -> Log.w(TAG, "unknown frame type ${buf[0]} (${buf.size} B) — ignored")
+                    }
                 }
-            } catch (e: IOException) {
-                if (running) state(Transport.State.ERROR, "link closed: ${e.message}")
+            } catch (e: Exception) {
+                if (running && currentSession == session) {
+                    state(Transport.State.ERROR, "link closed: ${e.message}")
+                }
             } finally {
-                isConnected = false
-                connectedPeerName = null
-                connectedAddress = null
-                if (running) {
-                    state(Transport.State.IDLE, "disconnected")
-                    // THE LISTENER SIDE COMES BACK IMMEDIATELY.
-                    //
-                    // The accept loop exits as soon as one connection is made, so before this a
-                    // dropped session left the listener phone accepting nothing until the
-                    // watchdog noticed — up to 15 s in which every reconnect attempt from the
-                    // other phone was refused instantly. Now both sides settle back into
-                    // listening the moment the session drops, which is what lets the other
-                    // phone's automatic redial land on a live socket.
-                    startAcceptLoop()
+                // Only the newest session may touch shared state and restart the listener: in a
+                // crossed-connect race an old reader unwinds after a newer link is already up,
+                // and it must not announce a disconnection that did not happen.
+                if (currentSession == session) {
+                    isConnected = false
+                    connectedPeerName = null
+                    connectedAddress = null
+                    if (running) {
+                        state(Transport.State.IDLE, "disconnected")
+                        // THE LISTENER SIDE COMES BACK IMMEDIATELY.
+                        //
+                        // The accept loop exits as soon as one connection is made, so before
+                        // this a dropped session left the listener phone accepting nothing
+                        // until the watchdog noticed — up to 15 s in which every reconnect
+                        // attempt from the other phone was refused instantly. Now both sides
+                        // settle back into listening the moment the session drops, which is
+                        // what lets the other phone's automatic redial land on a live socket.
+                        startAcceptLoop()
+                    }
                 }
             }
         }
     }
 
+    /**
+     * Write one frame under the send monitor — used by [send] for data and by the heartbeat and
+     * reader for pings/pongs, so two frames can never interleave on the wire.
+     */
     @Synchronized
-    override fun send(payload: ByteArray): Boolean {
+    private fun writeFrame(type: Int, payload: ByteArray): Boolean {
         val s = socket
-        if (s == null || !isConnected) {
-            Log.w(TAG, "send() while not connected — not sent (${payload.size} B)")
-            return false
-        }
+        if (s == null || !isConnected) return false
         return try {
-            val out = DataOutputStream(s.outputStream)
-            out.writeInt(payload.size)   // length prefix
-            out.write(payload)
-            out.flush()
-            Log.i(TAG, "sent ${payload.size} B")
+            Framing.write(DataOutputStream(s.outputStream), type, payload)
             true
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             isConnected = false
-            state(Transport.State.ERROR, "send failed: ${e.message}")
+            state(Transport.State.ERROR, "write failed: ${e.message}")
+            // Closing unblocks the reader at once instead of leaving it waiting on a socket that
+            // just proved it cannot carry data.
+            runCatching { s.close() }
             false
         }
+    }
+
+    override fun send(payload: ByteArray): Boolean {
+        val ok = writeFrame(Framing.DATA, payload)
+        if (ok) {
+            Log.i(TAG, "sent ${payload.size} B")
+        } else {
+            Log.w(TAG, "send did not write ${payload.size} B (not connected or write failed)")
+        }
+        return ok
     }
 
     override fun stop() {
@@ -488,6 +598,8 @@ class BluetoothRfcommTransport(
         connectedAddress = null
         watchdog?.interrupt()
         watchdog = null
+        heartbeatThread?.interrupt()
+        heartbeatThread = null
         runCatching { serverSocket?.close() }
         runCatching { socket?.close() }
         serverSocket = null
@@ -523,6 +635,25 @@ class BluetoothRfcommTransport(
                     serverSocket = null
                     startAcceptLoop()
                 }
+            }
+        }
+    }
+
+    /**
+     * Ask [Heartbeat] to tick about once a second while a socket is attached. Started from
+     * [attach]; stops with the transport.
+     */
+    @Synchronized
+    private fun startHeartbeat() {
+        if (heartbeatThread?.isAlive == true) return
+        heartbeatThread = thread(name = "bt-heartbeat") {
+            while (running) {
+                try {
+                    Thread.sleep(1_000L)
+                } catch (e: InterruptedException) {
+                    return@thread
+                }
+                if (isConnected) heartbeat.tick()
             }
         }
     }

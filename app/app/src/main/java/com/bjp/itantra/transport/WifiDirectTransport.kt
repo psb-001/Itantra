@@ -21,6 +21,7 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
 
 /**
@@ -41,6 +42,11 @@ import kotlin.concurrent.thread
  * "Wi-Fi Direct with Bluetooth fallback" honestly and demonstrate the fallback live.
  *
  * SOCKET PORT: 8988, chosen arbitrarily but fixed on both sides.
+ *
+ * FRAMING & HEARTBEAT: identical to the Bluetooth transport — 4-byte length, then a body whose
+ * first byte is a frame type (see [Framing]). Sharing the format is what lets [Heartbeat] pings
+ * travel on the same stream as messages, so a silently dead link is detected in ~12 s instead of
+ * whenever the next write happens to fail.
  */
 class WifiDirectTransport(
     private val appContext: Context? = null,
@@ -83,9 +89,31 @@ class WifiDirectTransport(
     private var serverSocket: ServerSocket? = null
     private var socket: Socket? = null
     private var receiver: BroadcastReceiver? = null
+    private var heartbeatThread: Thread? = null
 
     @Volatile
     private var running = false
+
+    /**
+     * Session numbers — same idea as the Bluetooth transport: an old reader unwinding after a
+     * newer link is already up must not touch shared state or announce a false disconnection.
+     */
+    private val sessionCounter = AtomicInteger(0)
+
+    @Volatile
+    private var currentSession = 0
+
+    /** Shared empty body for control frames. */
+    private val emptyPayload = ByteArray(0)
+
+    private val heartbeat = Heartbeat(
+        clock = { android.os.SystemClock.elapsedRealtime() },
+        sendPing = { writeFrame(Framing.PING, emptyPayload) },
+        onDead = { why ->
+            state(Transport.State.ERROR, "heartbeat: $why")
+            runCatching { socket?.close() }
+        },
+    )
 
     /** Set true when this device is the group owner (host). */
     @Volatile
@@ -354,69 +382,120 @@ class WifiDirectTransport(
         }
     }
 
+    @Synchronized
     private fun attach(s: Socket) {
+        if (!running) {
+            // stop() ran while this connect/host was in flight: never adopt a socket into a
+            // stopped transport.
+            runCatching { s.close() }
+            return
+        }
+        // The newest socket wins; closing the old one prevents leaks in a crossed/duplicate
+        // attach race, and the session counter keeps the old reader from reporting a
+        // disconnection that never happened.
+        runCatching { socket?.close() }
         socket = s
         isConnected = true
         connectedPeerName = s.inetAddress?.hostAddress ?: "peer"
+        val session = sessionCounter.incrementAndGet()
+        currentSession = session
+        heartbeat.reset()
+        startHeartbeat()
         state(Transport.State.CONNECTED, "socket open to ${s.inetAddress?.hostAddress}")
 
         thread(name = "p2p-read") {
             try {
                 val input = DataInputStream(s.getInputStream())
                 while (running) {
-                    val len = input.readInt()          // same length-prefix framing as Bluetooth
-                    if (len <= 0 || len > 64 * 1024) break
+                    // Same length-prefixed framing as Bluetooth; the body starts with a type byte.
+                    val len = input.readInt()
+                    if (len <= 0 || len > Framing.MAX_FRAME) {
+                        state(Transport.State.ERROR, "bad frame length $len")
+                        break
+                    }
                     val buf = ByteArray(len)
                     input.readFully(buf)
-                    onMessage?.invoke(buf)
+                    when (buf[0].toInt()) {
+                        Framing.DATA -> {
+                            heartbeat.noteAlive()
+                            onMessage?.invoke(buf.copyOfRange(1, buf.size))
+                        }
+                        Framing.PING -> {
+                            heartbeat.noteAlive()
+                            writeFrame(Framing.PONG, emptyPayload)
+                        }
+                        Framing.PONG -> {
+                            val rtt = heartbeat.notePong()
+                            if (rtt > 0) Log.i(TAG, "heartbeat pong — round trip ${rtt} ms")
+                        }
+                        else -> Log.w(TAG, "unknown frame type ${buf[0]} (${buf.size} B) — ignored")
+                    }
                 }
-            } catch (e: IOException) {
-                if (running) state(Transport.State.ERROR, "link closed: ${e.message}")
+            } catch (e: Exception) {
+                if (running && currentSession == session) {
+                    state(Transport.State.ERROR, "link closed: ${e.message}")
+                }
             } finally {
-                isConnected = false
-                connectedPeerName = null
-                runCatching { socket?.close() }
-                socket = null
-                if (running) {
-                    state(Transport.State.IDLE, "disconnected")
-                    // BEST-EFFORT SELF-HEAL from the role this device already knows: the owner
-                    // re-hosts on the same port (startHostSocket closes the stale socket first),
-                    // the client redials the host it was just talking to. If the whole group
-                    // dissolved, the connection-changed broadcast reports it and the app-level
-                    // reconnect re-invites.
-                    when {
-                        isGroupOwner -> startHostSocket()
-                        lastHostAddress != null -> connectClientSocket(lastHostAddress)
+                runCatching { s.close() }
+                // Only the newest session may touch shared state and self-heal: an old reader
+                // unwinding after a newer link is up must not announce a false disconnection.
+                if (currentSession == session) {
+                    isConnected = false
+                    connectedPeerName = null
+                    if (socket === s) socket = null
+                    if (running) {
+                        state(Transport.State.IDLE, "disconnected")
+                        // BEST-EFFORT SELF-HEAL from the role this device already knows: the
+                        // owner re-hosts on the same port (startHostSocket closes the stale
+                        // socket first), the client redials the host it was just talking to. If
+                        // the whole group dissolved, the connection-changed broadcast reports it
+                        // and the app-level reconnect re-invites.
+                        when {
+                            isGroupOwner -> startHostSocket()
+                            lastHostAddress != null -> connectClientSocket(lastHostAddress)
+                        }
                     }
                 }
             }
         }
     }
 
+    /**
+     * Write one frame under the send monitor — used by [send] for data and by the heartbeat and
+     * reader for pings/pongs, so two frames can never interleave on the wire.
+     */
     @Synchronized
-    override fun send(payload: ByteArray): Boolean {
+    private fun writeFrame(type: Int, payload: ByteArray): Boolean {
         val s = socket
-        if (s == null || !isConnected) {
-            Log.w(TAG, "send() while not connected — not sent (${payload.size} B)")
-            return false
-        }
+        if (s == null || !isConnected) return false
         return try {
-            val out = DataOutputStream(s.getOutputStream())
-            out.writeInt(payload.size)
-            out.write(payload)
-            out.flush()
-            Log.i(TAG, "sent ${payload.size} B")
+            Framing.write(DataOutputStream(s.getOutputStream()), type, payload)
             true
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             isConnected = false
-            state(Transport.State.ERROR, "send failed: ${e.message}")
+            state(Transport.State.ERROR, "write failed: ${e.message}")
+            // Closing unblocks the reader at once instead of leaving it waiting on a socket that
+            // just proved it cannot carry data.
+            runCatching { s.close() }
             false
         }
+    }
+
+    override fun send(payload: ByteArray): Boolean {
+        val ok = writeFrame(Framing.DATA, payload)
+        if (ok) {
+            Log.i(TAG, "sent ${payload.size} B")
+        } else {
+            Log.w(TAG, "send did not write ${payload.size} B (not connected or write failed)")
+        }
+        return ok
     }
 
     override fun stop() {
         running = false
         isConnected = false
+        heartbeatThread?.interrupt()
+        heartbeatThread = null
         runCatching { serverSocket?.close() }
         runCatching { socket?.close() }
         runCatching {
@@ -426,5 +505,24 @@ class WifiDirectTransport(
         socket = null
         receiver = null
         state(Transport.State.IDLE, "stopped")
+    }
+
+    /**
+     * Ask [Heartbeat] to tick about once a second while a socket is attached. Started from
+     * [attach]; stops with the transport.
+     */
+    @Synchronized
+    private fun startHeartbeat() {
+        if (heartbeatThread?.isAlive == true) return
+        heartbeatThread = thread(name = "p2p-heartbeat") {
+            while (running) {
+                try {
+                    Thread.sleep(1_000L)
+                } catch (e: InterruptedException) {
+                    return@thread
+                }
+                if (isConnected) heartbeat.tick()
+            }
+        }
     }
 }

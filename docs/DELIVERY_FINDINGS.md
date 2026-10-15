@@ -76,22 +76,55 @@ spoken.
 - Bluetooth switched off→on re-opened only the listening side. **Fix.** It now also re-dials the
   last peer.
 
+## Bluetooth deep-tune (the "it should not drop" follow-up)
+
+Four more weaknesses in the link itself, found by re-reading the transports with reliability as
+the only goal:
+
+- **A silently dead link looked identical to an idle one.** If the other phone walked out of
+  range or slept, `read()` just kept blocking, `isConnected` stayed true, and the next messages
+  were written into a socket that reached nobody — while the screen said "Sent". **Fix.** A
+  transport-level heartbeat: every frame now carries a 1-byte type (`Framing`), and when the link
+  has been quiet for 4 s each side sends a ping; any inbound frame — data, ping or pong — is
+  proof of life. After 12 s with no frame at all the link is declared dead, the socket is closed
+  (which unblocks the reader *and* any write stuck in flow control), and the existing reconnect
+  takes over. A live link costs two bytes every few seconds; a dead one is detected in ~12 s
+  instead of "whenever the user next speaks". The ping's round-trip time is logged
+  ("heartbeat pong — round trip N ms") — free link-quality telemetry for the demo.
+- **Every connect attempt wasted ~5 s of pure sleeps.** `cancelDiscovery()` + a 300 ms settle was
+  paid on all 17 connect paths per attempt (2 SDP + 15 raw channels) even though
+  `cancelDiscovery()` is a no-op when discovery is not running — and this transport never starts
+  discovery itself. **Fix.** The settle only happens when `isDiscovering` is actually true.
+- **Reconnects forgot what worked.** The raw-channel fallback always swept from channel 1.
+  **Fix.** The channel that last produced a connection is remembered and tried first; channel 1
+  and the rest of the sweep follow only if it fails.
+- **Two sockets could race into one transport.** `attach()` could be reached twice in a
+  crossed-connect race; the loser's reader would later flip `isConnected` off on a healthy link,
+  and a failed write left its socket unclosed. **Fix.** Sockets are closed before being replaced,
+  sessions are numbered so only the newest reader may touch connection state, a write failure
+  closes its socket immediately, `stop()` during a connect no longer adopts a socket, and the
+  accept loop retries a transient `accept()` failure a few times before the watchdog backstop
+  restarts it.
+
+Wi-Fi Direct received the same framing and heartbeat, so both links now detect and recover the
+same way.
+
 ## What was deliberately NOT done
 
 - **No application-level ACK/retransmit.** The outbox covers "link went down while speaking"; it
   cannot *prove* the far end received a flushed packet. The UUID dedupe in `MessageLedger` already
   makes a future ACK/retry safe to add — that is the natural next step if delivery receipts are
   wanted.
-- **No RFCOMM keepalive.** A silently dead link is noticed on the next read/write failure (link
-  supervision, typically seconds), not instantly.
 - **Wi-Fi Direct group re-formation** depends on the other phone re-inviting, and the vendor
   quirks documented in that class header still apply. Bluetooth remains the primary transport.
 
 ## Evidence
 
-- Unit tests: 57 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
-  `Outbox`, 3 for the gate fix.
-- Build: `app-debug.apk` rebuilt from this tree.
+- Unit tests: 66 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
+  `Outbox`, 3 for the gate fix, 6 for `Heartbeat` (fake-clock cadence, timeout, liveness cases),
+  3 for `Framing` (pins the wire format). The debug variant compiles cleanly in the same run.
+- Build: the next on-phone `app-debug.apk` will be rebuilt when the hand-over build is asked
+  for; the previous APK predates the heartbeat work.
 
 ## Phone checklist (two phones, debug APK)
 
@@ -103,10 +136,14 @@ spoken.
    "queued for recognition" per segment.
 5. **Link drop:** walk out of range while it plays. Sender log: "link IDLE — reconnect attempt N in
    …s", then "Buffered … B". Walk back: "link up — flushed N packet(s) buffered while down", and
-   the buffered sentence arrives **in order**.
+   the buffered sentence arrives **in order**. With the heartbeat, a *silent* death (no FIN) shows
+   as "heartbeat: no frame from the peer for 12 s — the link is dead" followed by the same
+   reconnect line, about 12 s after the other phone goes away.
 6. **English (Finding 1 regression):** say an English sentence → it must send (no "say it again"),
    and the other phone speaks it with the English voice.
 7. Hinglish mixed sentence → travels; see Addenda 1–2 of `MODEL_AND_TTS_FINDINGS.md`.
 8. Toggle Bluetooth off/on on one phone → the link returns without touching DEVICES.
 9. Log lines to watch: "sent N B", "link down, buffered (Outbox…)", "flushed N packet(s)",
-   "reconnect attempt N", "ALERT … preempts playback", "speech worker error", "ASR worker error".
+   "reconnect attempt N", "ALERT … preempts playback", "speech worker error", "ASR worker error",
+   plus the heartbeat's "heartbeat pong — round trip N ms" on a healthy idle link, and
+   "heartbeat: no frame from the peer for N s — the link is dead" for a silent death.
