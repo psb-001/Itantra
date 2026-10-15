@@ -109,6 +109,15 @@ dependencies {
     // JUnit 4 is resolved from the local Gradle cache; there is no network dependency.
     testImplementation("junit:junit:4.13.2")
 
+    // org.json for the unit tests, and ONLY for the unit tests.
+    //
+    // In an Android unit test every org.json method comes from the android.jar stub and throws
+    // "not mocked" — so Message.toJson/fromJson (the delivery-receipt envelope) could not be
+    // round-tripped on the JVM. This puts the real library on the test classpath; the app itself
+    // keeps using the platform's org.json and the APK is unchanged. Version 20180813 matches what
+    // is already in the local Gradle cache, so tests still need no network.
+    testImplementation("org.json:json:20180813")
+
     // NOTE: there is no sherpa-onnx Maven dependency. The Kotlin API files are vendored into
     // app/src/main/java/com/k2fsa/sherpa/onnx/ and the native .so files go in
     // app/src/main/jniLibs/arm64-v8a/. See README.md.

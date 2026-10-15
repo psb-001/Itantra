@@ -109,20 +109,37 @@ the only goal:
 Wi-Fi Direct received the same framing and heartbeat, so both links now detect and recover the
 same way.
 
+## Delivery receipts — proof the words arrived
+
+The transports can tell a dead link from an idle one, and the outbox covers a link that is
+*known* to be down. Neither could prove that a packet written into a socket that was already
+dying ever arrived — a write can "succeed" into the RFCOMM buffer while the radio is gone. That
+last hole is closed:
+
+- The receiving phone answers every message with a one-line receipt (`Message.Type.ACK`, carrying
+  the sender's message id) **before** the duplicate/expiry checks and before playback — a receipt
+  is about arrival, and even a duplicate is re-confirmed on purpose so a lost receipt cannot make
+  the sender retry forever.
+- The sender tracks every message (`DeliveryTracker`, 8 unit tests) and resends through the same
+  ordered outbox until a receipt returns: after 3 s, then 6 s, 12 s, and every 15 s after that,
+  up to 10 resends — never past the message's own TTL. Abandoned messages are logged loudly
+  ("✗ no receipt for …"), never silently dropped. On reconnect, retries are held back one interval
+  so they cannot race the outbox flush.
+- The log now separates the two honest states: "sent N B" (handed to the link) and
+  "✓ delivered … confirmed by the other phone" (a receipt came back — the only proof of arrival
+  this app can have). Settings shows awaiting/confirmed/abandoned counts.
+
 ## What was deliberately NOT done
 
-- **No application-level ACK/retransmit.** The outbox covers "link went down while speaking"; it
-  cannot *prove* the far end received a flushed packet. The UUID dedupe in `MessageLedger` already
-  makes a future ACK/retry safe to add — that is the natural next step if delivery receipts are
-  wanted.
 - **Wi-Fi Direct group re-formation** depends on the other phone re-inviting, and the vendor
   quirks documented in that class header still apply. Bluetooth remains the primary transport.
 
 ## Evidence
 
-- Unit tests: 66 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
+- Unit tests: 76 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
   `Outbox`, 3 for the gate fix, 6 for `Heartbeat` (fake-clock cadence, timeout, liveness cases),
-  3 for `Framing` (pins the wire format). The debug variant compiles cleanly in the same run.
+  3 for `Framing` (pins the wire format), 8 for `DeliveryTracker` (schedule, receipts, deadlines,
+  capacity), 2 for the ACK envelope. The debug variant compiles cleanly in the same run.
 - Build: the next on-phone `app-debug.apk` will be rebuilt when the hand-over build is asked
   for; the previous APK predates the heartbeat work.
 
@@ -143,7 +160,14 @@ same way.
    and the other phone speaks it with the English voice.
 7. Hinglish mixed sentence → travels; see Addenda 1–2 of `MODEL_AND_TTS_FINDINGS.md`.
 8. Toggle Bluetooth off/on on one phone → the link returns without touching DEVICES.
-9. Log lines to watch: "sent N B", "link down, buffered (Outbox…)", "flushed N packet(s)",
-   "reconnect attempt N", "ALERT … preempts playback", "speech worker error", "ASR worker error",
-   plus the heartbeat's "heartbeat pong — round trip N ms" on a healthy idle link, and
-   "heartbeat: no frame from the peer for N s — the link is dead" for a silent death.
+9. Log lines to watch: "sent N B", "✓ delivered … confirmed by the other phone", "no receipt for
+   … resend N/10", "✗ no receipt for … abandoned", "link down, buffered (Outbox…)", "flushed N
+   packet(s)", "reconnect attempt N", "ALERT … preempts playback", "speech worker error",
+   "ASR worker error", plus the heartbeat's "heartbeat pong — round trip N ms" on a healthy idle
+   link, and "heartbeat: no frame from the peer for N s — the link is dead" for a silent death.
+10. **Delivery receipt:** speak a sentence → sender log shows "✓ delivered <id> confirmed by the
+    other phone". Then close the app on the *other* phone: speak two short sentences → "Buffered
+    … link down"; reopen the other phone's app → "link up — flushed N packet(s)" followed by one
+    "✓ delivered …" per sentence. A receipt that only arrives after retries is marked "(after N
+    resend(s))", and an abandoned message shows "✗ no receipt for …" — nothing is ever dropped
+    silently.

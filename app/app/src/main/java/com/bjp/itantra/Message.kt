@@ -20,7 +20,10 @@ data class Message(
     /** BCP-47-ish language tag matching the ASR model's IDs, e.g. "hin_Deva", "eng_Latn". */
     val lang: String,
 
-    /** ALERT plays at maximum volume, loops, and cannot be interrupted. MSG does not. */
+    /**
+     * ALERT plays at maximum volume, loops, and cannot be interrupted. MSG does not. ACK is a
+     * one-line delivery receipt: it carries [ackFor] and nothing worth speaking.
+     */
     val type: Type,
 
     /** Monotonic per-sender sequence number, for ordering. */
@@ -34,8 +37,14 @@ data class Message(
 
     /** The recognised sentence. UTF-8 on the wire. */
     val text: String,
+
+    /**
+     * For [Type.ACK] packets: the [id] of the message whose arrival is being confirmed. Null on
+     * everything else. A receipt answers "did the words arrive", nothing more.
+     */
+    val ackFor: String? = null,
 ) {
-    enum class Type { ALERT, MSG }
+    enum class Type { ALERT, MSG, ACK }
 
     /** True when this should no longer be played as a live alert. */
     fun isExpired(now: Long = System.currentTimeMillis() / 1000): Boolean =
@@ -49,6 +58,8 @@ data class Message(
         put("ts", ts)
         put("ttl", ttl)
         put("text", text)
+        // Only present on receipts, so every other packet stays exactly as small as before.
+        ackFor?.let { put("ackFor", it) }
     }.toString()
 
     /** UTF-8 bytes ready for the transport. */
@@ -72,6 +83,7 @@ data class Message(
                 ts = o.optLong("ts", System.currentTimeMillis() / 1000),
                 ttl = o.optInt("ttl", 300),
                 text = o.optString("text", ""),
+                ackFor = o.optString("ackFor", "").ifEmpty { null },
             )
         }
     }

@@ -67,6 +67,9 @@ class MainActivity : AppCompatActivity() {
 
         /** How many lines the Settings log keeps in memory. */
         private const val LIVE_LOG_MAX = 400
+
+        /** How often the delivery ticker checks for unconfirmed messages to resend. */
+        private const val DELIVERY_TICK_MS = 2_000L
     }
 
     // --- UI ---
@@ -155,6 +158,29 @@ class MainActivity : AppCompatActivity() {
      */
     private val outbox = Outbox(capacity = 64) { bytes -> transport?.send(bytes) == true }
 
+    /**
+     * Every message this phone sent, until the other phone confirms it arrived.
+     *
+     * The outbox covers "the link is down"; this covers "the link *looked* up and the packet
+     * still never made it" — a write into a socket that was already dead. The receiving phone
+     * answers each message with a receipt ([Message.Type.ACK]); resends are scheduled here and
+     * stop the moment a receipt returns. See [DeliveryTracker].
+     */
+    private val delivery = DeliveryTracker(clock = { SystemClock.elapsedRealtime() })
+
+    private val deliveryHandler = android.os.Handler(android.os.Looper.getMainLooper())
+
+    /**
+     * The resend ticker. One ticker on the main looper; resends go through the same ordered
+     * outbox as first sends, so a resend can never overtake a sentence still waiting to go out.
+     */
+    private val deliveryTicker = object : Runnable {
+        override fun run() {
+            tickDeliveries()
+            if (!destroyed) deliveryHandler.postDelayed(this, DELIVERY_TICK_MS)
+        }
+    }
+
     /** The peer this phone dialled last; null when it has only ever listened. Auto-reconnect target. */
     @Volatile
     private var lastDialedPeerId: String? = null
@@ -221,6 +247,10 @@ class MainActivity : AppCompatActivity() {
 
         log("app started")
         log("permissions: mic=${granted(Manifest.permission.RECORD_AUDIO)}")
+
+        // Receipts and resends run from app start; the ticker idles while there is nothing to
+        // confirm or no link.
+        deliveryHandler.postDelayed(deliveryTicker, DELIVERY_TICK_MS)
 
         // The optional triage layer. prepare() only starts a background thread; it copies nothing
         // and loads nothing unless the toggle below is on.
@@ -1016,6 +1046,12 @@ class MainActivity : AppCompatActivity() {
         // down, and the transport's CONNECTED callback flushes the backlog. This is what makes
         // "it should not drop" true — the sentence survives a walk out of range.
         val sentNow = outbox.enqueue(bytes)
+        // NOW KEEP ASKING UNTIL THE OTHER PHONE CONFIRMS.
+        // The outbox covers a link that is down. This covers the quieter failure: a write that
+        // "succeeded" into a socket that was already dying. The message is resent (bounded,
+        // inside its TTL) until a receipt comes back, and the receiving phone speaks a duplicate
+        // at most once — its UUID ledger.
+        delivery.track(msg.id, bytes, deliveryDeadline(msg))
         log("packet ${bytes.size} B — ${if (sentNow) "sent" else "link down, buffered ($outbox)"}")
         runOnUiThread {
             append("▸ ${verdict.text}")
@@ -1026,12 +1062,95 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Monotonic-clock value after which [msg]'s receipt is no longer worth chasing. The message's
+     * TTL is wall-clock seconds; retries run on the monotonic clock, so the remaining TTL is
+     * converted here, once.
+     */
+    private fun deliveryDeadline(msg: Message): Long {
+        if (msg.ttl <= 0) return Long.MAX_VALUE
+        val ageSeconds = System.currentTimeMillis() / 1000 - msg.ts
+        val remainingSeconds = msg.ttl - ageSeconds
+        return if (remainingSeconds <= 0) SystemClock.elapsedRealtime()
+        else SystemClock.elapsedRealtime() + remainingSeconds * 1000
+    }
+
+    /**
+     * One tick of the delivery ticker. Resends unconfirmed messages through the outbox — ordered,
+     * exactly like first sends — and abandons (loudly) the ones whose TTL or attempt budget ran
+     * out. Does nothing while the link is down: the outbox's flush covers reconnects.
+     */
+    private fun tickDeliveries() {
+        if (destroyed) return
+        val t = transport ?: return
+        if (!t.isConnected) return
+        val due = delivery.collectDue()
+        for (id in due.gaveUp) {
+            log(
+                "✗ no receipt for ${id.take(8)} after ${DeliveryTracker.MAX_ATTEMPTS} tries — " +
+                    "abandoned (the other phone never confirmed)"
+            )
+        }
+        for (o in due.outgoing) {
+            val sent = outbox.enqueue(o.bytes)
+            log(
+                "no receipt for ${o.id.take(8)} yet — resend ${o.attempt}/" +
+                    "${DeliveryTracker.MAX_ATTEMPTS}" +
+                    if (sent) "" else " (buffered — link dropped again)"
+            )
+        }
+    }
+
+    /**
+     * Tell the sender this message arrived — sent straight away, before the duplicate and expiry
+     * checks: those decide whether to *speak*, and a receipt is about arrival. A duplicate is
+     * confirmed again on purpose, because the sender may be retrying precisely because the first
+     * receipt was lost.
+     */
+    private fun sendReceipt(id: String) {
+        val receipt = Message(
+            lang = "und",
+            type = Message.Type.ACK,
+            seq = 0,
+            ttl = 0,
+            text = "",
+            ackFor = id,
+        )
+        if (transport?.send(receipt.toBytes()) != true) {
+            Log.w(TAG, "receipt for ${id.take(8)} could not be sent — the sender will retry")
+        }
+    }
+
     /** Called by the transport when a packet arrives on the LISTENER phone. */
     private fun onPacket(bytes: ByteArray) {
         val msg = Message.fromBytes(bytes) ?: run {
             Log.w(TAG, "dropped malformed packet")
             return
         }
+
+        // RECEIPTS ARE LINK HOUSEKEEPING, NOT SPEECH. Handle and return before the ledger,
+        // before expiry, before the speech queue.
+        if (msg.type == Message.Type.ACK) {
+            val id = msg.ackFor
+            if (id == null) {
+                Log.w(TAG, "receipt without ackFor — ignored")
+                return
+            }
+            val resends = delivery.ack(id)
+            if (resends >= 0) {
+                log(
+                    "✓ delivered ${id.take(8)} confirmed by the other phone" +
+                        if (resends > 0) " (after $resends resend(s))" else ""
+                )
+            }
+            return
+        }
+
+        // CONFIRM ARRIVAL BEFORE ANYTHING ELSE. This is the proof the sender is waiting for. It
+        // says nothing about comprehension — the transcript still distinguishes the two — which
+        // is exactly why it is sent before playback rather than after it.
+        sendReceipt(msg.id)
+
         if (!ledger.accept(msg)) {
             Log.i(TAG, "duplicate ${msg.id} — not replaying")
             return
@@ -1191,6 +1310,11 @@ class MainActivity : AppCompatActivity() {
             append(if (triageEnabled) "on — ${laya?.state ?: "idle"} (Laya, experimental)" else "off")
             append("\nOutbox:     ")
             append("${outbox.depth} waiting, ${outbox.dropped} dropped")
+            append("\nDelivery:   ")
+            append(
+                "${delivery.waiting} awaiting receipt, ${delivery.delivered} confirmed, " +
+                    "${delivery.gaveUp} abandoned"
+            )
         }
 
         val logView = android.widget.TextView(this).apply {
@@ -1425,6 +1549,10 @@ class MainActivity : AppCompatActivity() {
                 reconnectHandler.removeCallbacksAndMessages(null)
                 val flushed = outbox.flush()
                 if (flushed > 0) log("link up — flushed $flushed packet(s) buffered while down")
+                // Give the flush's packets one retry interval before the ticker may resend
+                // anything; without this the first tick after a reconnect would duplicate
+                // everything the flush has this instant put on the wire.
+                delivery.onTransportUp()
             }
             Transport.State.IDLE, Transport.State.ERROR -> scheduleReconnect(t, state)
             else -> Unit
@@ -1496,6 +1624,7 @@ class MainActivity : AppCompatActivity() {
         destroyed = true
         reconnectPending = false
         reconnectHandler.removeCallbacksAndMessages(null)
+        deliveryHandler.removeCallbacksAndMessages(null)
         runCatching { unregisterReceiver(bluetoothStateReceiver) }
         super.onDestroy()
         stopCapture()
