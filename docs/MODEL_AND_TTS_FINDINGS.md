@@ -134,3 +134,66 @@ That is a stronger position than pretending all ten are equal, and stronger than
 | `build_deck.py` | slide 4 accuracy strip → v2 numbers; slide 6 → name the TTS gap |
 | `ARCHITECTURE.md` | §7 known coverage gap — update with the resolution |
 | `DECISION_SIH26173.md` | record the v2 decision and the TTS resolution |
+
+---
+
+## Addendum — 15 October 2026: the "broken English" cause, measured and fixed
+
+**Symptom.** "When the user speaks English, sometimes the English on the other phone is broken."
+
+**Cause — two faults, either one sufficient.** The live path had no language at all:
+
+1. The sender fixed `langTag = hin_Deva` (`MainActivity.kt:140`, no UI ever changes it) and
+   filtered every transcript against Hindi. That did **not** drop English: `rangesFor("hin_Deva")`
+   adds Latin "for numerals and loanwords", so whole Latin-English sentences passed the filter and
+   travelled tagged `hin_Deva`.
+2. The receiver's live path never consulted the message's `lang` field: `onPacket` spoke with
+   whatever voice was loaded at startup — the phone's own default, Hindi. The only place
+   `received.lang` was used was the unused loopback path.
+
+**Measured with the shipped models** (`eval/probe_en_script.py`, `eval/probe_voice_mismatch.py`,
+macOS arm64; scripts committed):
+
+| Probe | Result |
+|---|---|
+| English speech → script: `bench_00_en`, `bench_01_en`, 20×FLEURS en_us | **Latin 22/22** |
+| Hindi speech → script: `bench_02_hi`, 5×FLEURS hi_in | **Devanagari 6/6** |
+| Hindi voice reads "hello i am fine how are you" | ASR hears "halua yam fine how a yu" — similarity 0.76 |
+| English voice reads the same | similarity 0.96 |
+| Hindi voice reads "the bridge has collapsed please send help to the school" | ASR hears "अबिद्ज हज कलापस तपली संडहल्पतर सकूल" — unrecognisable |
+| English voice reads the same | similarity **1.00** |
+| Hindi voice reads Devanagari-transliterated English ("हैलो आई एम फाइन") | ASR hears "hluim pin" |
+
+The script is a reliable signal for the spoken language here, and the cost of getting the voice
+wrong is not subtle: a whole sentence dissolves.
+
+**Fix (same day).**
+
+- `LanguageFilter.tagForScript` — the language the text's own characters say it is (Latin →
+  `eng_Latn`, Devanagari → `hin_Deva`, each Indic script its own tag; ties go to Latin). Sender
+  now infers `spoken` from the transcript, sends it as `lang`, and runs `filter(raw, null)` (the
+  nine-script check).
+- `LanguageFilter.voiceTagFor` — receiver picks the voice from the message: keeps the sender's tag
+  when the text agrees (a `mar_Deva` tag stays Marathi), follows the text's script when it
+  contradicts. `onPacket` loads the needed voice on demand (`ensureVoiceLocked`; one voice
+  resident, load+synthesis under one lock) and shows text-only when there is no voice.
+- 15 JVM tests in `LanguageRoutingTest` + the Python twin in `eval/language_filter.py` pin it.
+
+**Deliberate trade-off, recorded.** Enforcing one expected alphabet protected against noisy
+Indic→Indic script flips (Hindi coming back in Gujarati — the case `LanguageFilter`'s own doc
+comment was written for). Without a language selector there is no honest expected alphabet, so the
+sender now drops only letters outside all nine scripts. A flipped segment therefore travels tagged
+with the script it came back in — visible to the receiver as wrong-script text or text-only, never
+silently mis-pronounced. If field logs show this happening, the next step is a language selector
+(the `LanguageFilter` doc comment already assumed one exists) or a per-push-to-talk lock.
+
+**On-phone check (two phones, 2 minutes).**
+
+1. Phone A — speak the English bench sentences. Log must show
+   `language hin_Deva -> eng_Latn (inferred from the transcript)` then `packet … B -> transport`,
+   with no `DROPPED whole segment` line.
+2. Phone B — first English message must log
+   `voice hin_Deva -> eng_Latn (from the message script)` and `TTS voice -> en_US-lessac-medium`
+   (one-time reload; ~0.2–0.5 s before that message speaks), then plain playback. Speech must be
+   English, not the old Hindi-voice reading.
+3. Speak Hindi from phone A — no `voice …` swap line; the Hindi voice is already resident.

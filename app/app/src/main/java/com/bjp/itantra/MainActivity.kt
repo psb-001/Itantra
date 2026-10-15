@@ -108,6 +108,18 @@ class MainActivity : AppCompatActivity() {
     private var vad: VadEngine? = null
     private var asr: AsrEngine? = null
     private var tts: TtsEngine? = null
+
+    /**
+     * Name of the voice currently resident in [tts]. Exactly one is kept in memory — each Piper
+     * voice is ~60 MB and the ten would cost 600 MB — and it is swapped on demand when a received
+     * message is in a different language than the one loaded. [voiceLock] guards the pair across
+     * load, swap and synthesis: releasing an engine mid-synthesis is a native use-after-free, and
+     * two quick messages in different languages is exactly how that race would be reached.
+     */
+    @Volatile
+    private var loadedVoice: String? = null
+    private val voiceLock = Any()
+
     private val speaker = Speaker()
 
     // --- optional triage (Laya) ---
@@ -477,9 +489,12 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         // ---- TTS + playback ----
-                        val voice = TtsEngine.voiceFor(received.lang)
+                        // Same rule as the live receive path: the text's own script decides the
+                        // voice when it contradicts the tag.
+                        val wantTag = LanguageFilter.voiceTagFor(received.lang, received.text)
+                        val voice = TtsEngine.voiceFor(wantTag)
                         if (voice == null) {
-                            Log.i(TAG, "LOOP   no bundled voice for ${received.lang}")
+                            Log.i(TAG, "LOOP   no bundled voice for $wantTag")
                             continue
                         }
                         val tts = TtsEngine(applicationContext, voice, numThreads = 2)
@@ -644,7 +659,10 @@ class MainActivity : AppCompatActivity() {
                 append("   Voices bundled for: $spoken")
             }
         } else {
-            tts = TtsEngine(this@MainActivity, voice, numThreads = 2)
+            synchronized(voiceLock) {
+                tts = TtsEngine(this@MainActivity, voice, numThreads = 2)
+                loadedVoice = voice
+            }
         }
 
         // Laya is optional and warms up in the background: a 143 MB asset copy must never delay
@@ -662,9 +680,35 @@ class MainActivity : AppCompatActivity() {
     /** Free every native engine. Safe to call when some are already null. */
     private fun releaseModels() {
         runCatching { asr?.release() }; asr = null
-        runCatching { tts?.release() }; tts = null
+        synchronized(voiceLock) {
+            runCatching { tts?.release() }; tts = null; loadedVoice = null
+        }
         runCatching { vad?.release() }; vad = null
         runCatching { laya?.close() }; laya = null
+    }
+
+    /**
+     * The engine for [voiceName], loading it if a different voice is currently resident.
+     * Caller must hold [voiceLock] — see the field comment for why the lock spans synthesis.
+     *
+     * Returns null when the voice cannot be loaded; the caller still shows the text.
+     */
+    private fun ensureVoiceLocked(voiceName: String): TtsEngine? {
+        val current = tts
+        if (current != null && loadedVoice == voiceName) return current
+        runCatching { current?.release() }
+        tts = null
+        loadedVoice = null
+        return try {
+            val engine = TtsEngine(this, voiceName, numThreads = 2)
+            tts = engine
+            loadedVoice = voiceName
+            log("TTS voice -> $voiceName")
+            engine
+        } catch (e: Throwable) {
+            log("FAIL: TTS voice $voiceName did not load: ${e.message}")
+            null
+        }
     }
 
     // ------------------------------------------------------------------ capture
@@ -834,14 +878,32 @@ class MainActivity : AppCompatActivity() {
                 return@thread
             }
 
-            // Pass the selected language so the filter enforces THAT script. Without it, a
-            // Hindi→Gujarati script flip (common under mild noise) would pass as valid text.
-            val verdict = LanguageFilter.filter(raw, langTag)
+            // THE LANGUAGE OF THIS SEGMENT, inferred instead of assumed.
+            //
+            // There is no language selector in this build, and `langTag` is only the phone's
+            // default. It used to be the language of every message: Latin-English passed the
+            // filter anyway (Latin is allowed for loanwords), was sent tagged hin_Deva, and was
+            // read aloud by the HINDI voice on the other phone — the "broken English" report.
+            //
+            // Measured 15 Oct 2026 with the shipped pruned model: English speech is transcribed
+            // Latin 22/22 clips and Hindi speech Devanagari 6/6 (eval/probe_en_script.py), so the
+            // transcript's own script is a reliable signal for which voice should speak it.
+            val spoken = LanguageFilter.tagForScript(raw) ?: langTag
+            if (spoken != langTag) log("language $langTag -> $spoken (inferred from the transcript)")
+
+            // The filter no longer enforces one expected alphabet: without a selector there is no
+            // honest expectation to enforce, and enforcing Hindi is what silently mislabelled
+            // every other language. It still drops a segment whole when a letter falls outside
+            // all nine scripts, which is the leak it was built for ("help مe" and friends).
+            // TRADE-OFF, deliberate and recorded in docs/MODEL_AND_TTS_FINDINGS.md: a Hindi
+            // segment that a noisy decode flips into another Indic script is no longer dropped
+            // by the sender — it travels tagged with the script it came back in.
+            val verdict = LanguageFilter.filter(raw, null)
             if (!verdict.send) {
                 // Name the offending characters. Without them this is unactionable: "dropped"
                 // alone does not distinguish a model failure from a filter bug, and the whole
                 // "hello -> هello" class of problem was invisible for exactly that reason.
-                val culprits = LanguageFilter.foreignLetters(raw, langTag)
+                val culprits = LanguageFilter.foreignLetters(raw, null)
                     .map { "%s(U+%04X)".format(it, it.code) }
                     .joinToString(" ")
                 log(
@@ -854,7 +916,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             val msg = Message(
-                lang = langTag,
+                // The inferred language, not the phone's default — this field is what picks the
+                // voice (and the script check) on the receiving side.
+                lang = spoken,
                 type = Message.Type.MSG,
                 seq = seq.getAndIncrement(),
                 text = verdict.text,
@@ -880,17 +944,25 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val engine = tts
-        if (engine == null) {
-            runOnUiThread { append("▸ ${msg.text}   (no voice loaded)") }
-            return
-        }
-
         // A stale message must not be announced as a live alert.
         if (!ledger.isFresh(msg)) {
             runOnUiThread { append("▸ ${msg.text}   (stale, not announced)") }
             return
         }
+
+        // WHICH VOICE SPEAKS THIS MESSAGE.
+        //
+        // Until 15 Oct 2026 the answer was "whatever voice this phone loaded at startup" — its
+        // own default language — and the message's `lang` field was never consulted here. English
+        // text was therefore read by the Hindi voice: measured similarity 0.76 on a short
+        // sentence, and "the bridge has collapsed please send help to the school" came back
+        // through our own ASR as "अबिद्ज हज कलापस तपली संडहल्पतर सकूल". The message now chooses
+        // the voice. [LanguageFilter.voiceTagFor] keeps the sender's tag when the text agrees
+        // with it (a mar_Deva tag on Devanagari text stays Marathi) and follows the text's own
+        // script when it does not. The engine is swapped on the worker below, never here.
+        val spokenTag = LanguageFilter.voiceTagFor(msg.lang, msg.text)
+        if (spokenTag != msg.lang) log("voice ${msg.lang} -> $spokenTag (from the message script)")
+        val wantVoice = TtsEngine.voiceFor(spokenTag)
 
         thread(name = "tts") {
             // The optional triage read happens here — on the worker that is about to speak, never
@@ -901,7 +973,26 @@ class MainActivity : AppCompatActivity() {
             val escalate = triage?.escalate == true
             if (triage != null) log("triage ${msg.id.take(8)}: ${triage.describe()}")
 
-            val samples = engine.synthesise(msg.text)
+            // Load (if needed) and synthesise under one lock. A language change between two
+            // quick messages must not release the engine another thread is mid-synthesis on.
+            val spoken = synchronized(voiceLock) {
+                val engine = wantVoice?.let { ensureVoiceLocked(it) }
+                if (engine == null) null
+                else Pair(engine.synthesise(msg.text), engine.sampleRate())
+            }
+            if (spoken == null) {
+                // No bundled voice, or the load failed. Text is still shown, and never read by an
+                // unrelated voice just because one happens to be loaded.
+                val why =
+                    if (wantVoice == null) "no bundled voice for $spokenTag"
+                    else "voice $wantVoice failed to load"
+                log("receive ${msg.id.take(8)}: $why — text only")
+                runOnUiThread { append("▸ ${msg.text}   ($why)") }
+                ledger.markPlayed(msg)
+                return@thread
+            }
+            val (samples, sampleRate) = spoken
+
             val mode =
                 if (msg.type == Message.Type.ALERT || escalate) Speaker.Mode.ALERT else Speaker.Mode.NORMAL
             runOnUiThread {
@@ -912,7 +1003,7 @@ class MainActivity : AppCompatActivity() {
                     if (escalate && msg.type != Message.Type.ALERT) "Speaking (ALERT — triage)"
                     else "Speaking (${msg.type})",
                 )
-                speaker.play(samples, engine.sampleRate(), mode)
+                speaker.play(samples, sampleRate, mode)
             }
             ledger.markPlayed(msg)
         }

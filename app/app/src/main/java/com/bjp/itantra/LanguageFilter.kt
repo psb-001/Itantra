@@ -120,6 +120,83 @@ object LanguageFilter {
         return expected + LATIN_RANGES
     }
 
+    /**
+     * The nine scripts as script -> representative tag, the inverse view of [EXPECTED].
+     *
+     * [EXPECTED] cannot answer "what does this text say it is": two tags can share one script
+     * (Hindi and Marathi are both Devanagari), and text can arrive in a script no one selected.
+     * This list names the script itself. Order is the tie-break order — Latin first.
+     */
+    private val SCRIPTS: Array<Pair<String, Array<IntRange>>> = arrayOf(
+        "eng_Latn" to LATIN_RANGES,
+        "hin_Deva" to arrayOf(0x0900..0x097F, 0xA8E0..0xA8FF),
+        "ben_Beng" to arrayOf(0x0980..0x09FF),
+        "guj_Gujr" to arrayOf(0x0A80..0x0AFF),
+        "ory_Orya" to arrayOf(0x0B00..0x0B7F),
+        "tam_Taml" to arrayOf(0x0B80..0x0BFF),
+        "tel_Telu" to arrayOf(0x0C00..0x0C7F),
+        "kan_Knda" to arrayOf(0x0C80..0x0CFF),
+        "mal_Mlym" to arrayOf(0x0D00..0x0D7F),
+    )
+
+    /** The script most of [text]'s letters belong to, as (representative tag, ranges). */
+    private fun dominantScript(text: String): Pair<String, Array<IntRange>>? {
+        val counts = IntArray(SCRIPTS.size)
+        var i = 0
+        while (i < text.length) {
+            val cp = text.codePointAt(i)
+            if (isLetter(cp)) {
+                for (s in SCRIPTS.indices) {
+                    if (inRanges(cp, SCRIPTS[s].second)) {
+                        counts[s]++
+                        break
+                    }
+                }
+            }
+            i += Character.charCount(cp)
+        }
+        var best = -1
+        for (s in SCRIPTS.indices) {
+            if (counts[s] > 0 && (best < 0 || counts[s] > counts[best])) best = s
+        }
+        return if (best < 0) null else SCRIPTS[best]
+    }
+
+    /**
+     * The language tag the characters of [text] say the text is in, or null when it contains no
+     * letters in any of the nine scripts (digits, punctuation, emoji, or an unsupported script).
+     *
+     * This is a *script* judgement, not language identification: Devanagari returns "hin_Deva"
+     * and cannot separate Hindi from Marathi (that needs a language selector, which this build
+     * does not have). It exists because the live path had no language at all — every transcript
+     * was offered to [filter] as Hindi, so Latin-English passed anyway (Latin is allowed for
+     * loanwords), was sent tagged `hin_Deva`, and was then read aloud by the Hindi voice. That is
+     * the "broken English" report: measured 15 Oct 2026, "the bridge has collapsed please send
+     * help to the school" spoken by the Hindi voice came back through our own ASR as
+     * "अबिद्ज हज कलापस तपली संडहल्पतर सकूल".
+     *
+     * The model's own script choice is a reliable proxy for what was spoken: English speech was
+     * transcribed Latin 22/22 clips, Hindi speech Devanagari 6/6 (eval/probe_en_script.py).
+     *
+     * Ties go to Latin (SCRIPTS order); a tie is a real possibility in Hinglish.
+     */
+    fun tagForScript(text: String): String? = dominantScript(text)?.first
+
+    /**
+     * The tag that should choose the TTS voice for a message whose sender declared [langTag].
+     *
+     * The sender's tag is kept when the text agrees with it — including the case where two tags
+     * share one script, so a Marathi tag on Devanagari text stays Marathi. When the text's own
+     * script contradicts the tag (the common case being `hin_Deva` on Latin-English text, which
+     * used to be every English message), the text wins: a phone speaks what the message says,
+     * not what it was labelled.
+     */
+    fun voiceTagFor(langTag: String, text: String): String {
+        val spoken = dominantScript(text) ?: return langTag
+        val expected = EXPECTED[langTag] ?: return spoken.first
+        return if (expected.contentEquals(spoken.second)) langTag else spoken.first
+    }
+
     data class Result(
         val send: Boolean,
         val text: String,

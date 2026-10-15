@@ -163,6 +163,65 @@ def tidy(text: str) -> str:
     return re.sub(r"\s{2,}", " ", text).strip()
 
 
+# --- script -> language tag ---------------------------------------------------------------
+# Twin of the Kotlin LanguageFilter.tagForScript / voiceTagFor added on 15 Oct 2026. The app
+# infers a message's language from the script the recogniser actually used (no language selector
+# exists) and picks the TTS voice from that. Kept here so evaluation scripts reproduce the app's
+# live behaviour instead of the old "everything is Hindi" behaviour.
+#
+# Order is the tie-break order, Latin first - identical to the Kotlin SCRIPTS list.
+
+SCRIPT_ORDER = ["LATIN", "DEVANAGARI", "BENGALI", "GUJARATI", "ORIYA", "TAMIL", "TELUGU",
+                "KANNADA", "MALAYALAM"]
+
+SCRIPT_TAG = {
+    "LATIN": "eng_Latn",
+    "DEVANAGARI": "hin_Deva",
+    "BENGALI": "ben_Beng",
+    "GUJARATI": "guj_Gujr",
+    "ORIYA": "ory_Orya",
+    "TAMIL": "tam_Taml",
+    "TELUGU": "tel_Telu",
+    "KANNADA": "kan_Knda",
+    "MALAYALAM": "mal_Mlym",
+}
+TAG_SCRIPT = {v: k for k, v in SCRIPT_TAG.items()}
+
+# Every tag the app can transmit, including the second tag on one script. [SCRIPT_TAG] only has
+# one representative per script; a Marathi tag must still keep itself when the text is Devanagari.
+TAG_EXPECTED_SCRIPT = dict(TAG_SCRIPT)
+TAG_EXPECTED_SCRIPT["mar_Deva"] = "DEVANAGARI"
+
+
+def tag_for_script(text: str) -> str | None:
+    """The language tag the characters of `text` say it is, or None when no letters or none of
+    the nine scripts. Devanagari cannot separate Hindi from Marathi - it returns hin_Deva."""
+    counts = {s: 0 for s in SCRIPT_ORDER}
+    for ch in text:
+        s = script_of(ch)
+        if s in counts:
+            counts[s] += 1
+    if not any(counts.values()):
+        return None
+    # max() keeps the first maximal element, which is the Kotlin tie-break (Latin first).
+    return SCRIPT_TAG[max(SCRIPT_ORDER, key=lambda s: counts[s])]
+
+
+def voice_tag_for(lang_tag: str, text: str) -> str:
+    """Twin of LanguageFilter.voiceTagFor: the tag that should pick the TTS voice.
+
+    The sender's tag is kept when the text agrees with it (including two tags on one script,
+    e.g. mar_Deva on Devanagari text); otherwise the text's own script wins.
+    """
+    spoken = tag_for_script(text)
+    if spoken is None:
+        return lang_tag
+    expected = TAG_EXPECTED_SCRIPT.get(lang_tag)
+    if expected is None:
+        return spoken
+    return lang_tag if expected == TAG_SCRIPT[spoken] else spoken
+
+
 def main():
     # (label, text, should_be_sent)
     cases = [
