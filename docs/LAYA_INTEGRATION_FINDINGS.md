@@ -533,8 +533,11 @@ on could not be swapped without breaking them.
 |---|---|---|
 | Kotlin BPE port | `app/.../laya/LayaBpe.kt` | Metaspace + byte-fallback BPE, hand-rolled base64 (needs no API 26, works in JVM tests) |
 | Parity gate | `app/.../laya/LayaBpeTest.kt` + `app/src/test/resources/laya_tokenizer_cases.txt` | 75 cases, 2,970 ids, vocab 12,454 and merges 30,829 pinned |
-| Fixture/staging generator | `eval/laya_mobile_assets.py` | cross-checks the Python port against `tokenizers` before writing anything |
-| Triage engine | `app/.../laya/LayaTriage.kt` | ORT sessions, asset copy, prompt, softmax, escalation policy |
+| Prompt builder | `app/.../laya/LayaPrompt.kt` | pure Kotlin (no Android, no ORT); `<bos> question <eos> (<mask> option)* <eos> state <eos>` |
+| Prompt gate | `app/.../laya/LayaPromptTest.kt` + `app/src/test/resources/laya_prompt_cases.txt` | 18 prompts from the harness's own `build()`: ids, marker positions, the truncation edge, and the runtime `config.json` |
+| Shared fixture readers | `app/.../laya/LayaFixtures.kt` (test sources) | line-oriented, base64 fields, no JSON parser |
+| Fixture/staging generator | `eval/laya_mobile_assets.py` | cross-checks the Python port against `tokenizers` (and the portable prompt assembly against `LayaOnnx.build`) before writing anything |
+| Triage engine | `app/.../laya/LayaTriage.kt` | ORT sessions, asset copy, softmax, escalation policy |
 | Receive-path hook | `MainActivity.onPacket` | behind the Settings toggle; runs on the `tts` worker thread |
 | Runtime | `jniLibs/arm64-v8a/libonnxruntime4j_jni.so` + `app/libs/onnxruntime-android-1.28.2.jar` | 114 KB + 119 KB, from csukuangfj's v1.28.2 release |
 
@@ -620,10 +623,34 @@ path in which Laya suppresses, edits, downgrades, or delays a message.
 Mechanically: the header asset copy lands on a `.part` name and is verified against the asset's
 `openFd` length (both `.onnx` files are stored uncompressed), so a process death mid-copy cannot
 leave a truncated model that a later run trusts; sessions run on 2 intra-op threads, the same
-budget ASR uses; all tensor buffers are direct buffers in native byte order; the prompt is built
+budget ASR uses; the `SessionOptions` object is closed as soon as both sessions have copied what
+they need; all tensor buffers are direct buffers in native byte order; the prompt is built
 byte-for-byte as `eval/laya_onnx.py` builds it
 (`<bos> question <eos> (<mask> option)* <eos> state <eos>`), because that format is part of the
 model's training, not a UI string.
+
+### The prompt format is gated like data, not trusted
+
+The prompt is the quietest place for this layer to be wrong. Special ids from the wrong
+vocabulary (`[CLS]`/`[SEP]` instead of this model's 2/1/4) raise nothing and log nothing — the
+head simply returns a uniform distribution — and a marker one token off re-scores every option
+from the wrong position with no shape change anywhere. So the assembly is not merely mirrored in
+Kotlin (`LayaPrompt`, pure Kotlin, no Android, no ORT); it is gated against the harness's own
+`LayaOnnx.build`.
+
+`eval/laya_mobile_assets.py --out-prompt-fixture` writes
+`app/src/test/resources/laya_prompt_cases.txt` from that function: 18 prompts covering the 12
+bench sentences, empty and whitespace-run states, an astral character, a Devanagari state, and
+one state long enough to hit the window (1 prompt at exactly 1024 tokens, so truncation is
+*checked*, not assumed). While writing the fixture the script also re-runs the portable assembly
+and aborts unless it agrees with the harness on every prompt, so the fixture can never describe
+ids the port cannot produce. `LayaPromptTest` replays all 18 id-for-id with their marker
+positions, checks every marker points at a `<mask>` token, and checks the fixture's `SPEC`
+against the `config.json` the app reads at runtime.
+
+The gate is falsifiable and was falsified once on purpose: changing `max_len` in
+`app/src/main/assets/laya/config.json` from 1024 to 512 makes `the runtime config matches the
+fixture's spec` fail. The suite is now 18 tests (12 QualityGate + 2 tokenizer + 4 prompt).
 
 ## What is still not measured
 
@@ -641,26 +668,37 @@ model's training, not a UI string.
 ## Reproduce / verify
 
 ```bash
-# 1. JVM parity gate — 75 cases, no model, no device
+# 1. JVM parity gate — 75 tokenizer cases + 18 prompts, no model, no device
 cd app && ./build.sh testDebugUnitTest
 
-# 2. stage the runtime + model and build (fetches the 1.28.2 Java API, verifies the lib hash)
+# 2. regenerate either fixture from the harness (aborts unless the port agrees with it)
+T=/tmp/laya                                    # wherever the venv + models live
+"$T/laya-venv/bin/python" eval/laya_mobile_assets.py \
+    --tokenizer "$T/laya_sliced/tokenizer.json" --model-dir "$T/laya_int8" \
+    --out-fixture app/app/src/test/resources/laya_tokenizer_cases.txt \
+    --out-prompt-fixture app/app/src/test/resources/laya_prompt_cases.txt
+
+# 3. stage the runtime + model and build (fetches the 1.28.2 Java API, verifies the lib hash)
 app/setup-project.sh
 cd app && ./build.sh assembleDebug
 
-# 3. the expectation the phone's log should match
+# 4. the expectation the phone's log should match
 python eval/laya_onnx.py bench --model models/laya-int8
 ```
 
-On the phone: Settings → "Triage received messages (Laya, experimental)", then send the bench
-sentences from the other phone. The receiving log shows one `triage <id>: <label> <p>%` line per
-message, with "(below the 85% floor — the band where int8 flips)" on anything under it.
+On the phone: Settings → "Triage received messages (Laya, experimental)" (the toggle sits above
+the log, not at the bottom of it), then send the bench sentences from the other phone. The
+receiving log shows one `triage <id>: <label> <p>%` line per message, with
+"(below the 85% floor — the band where int8 flips)" on anything under it. `app/pull_logs.sh`
+pulls the log and prints those lines together with the command that produced the desktop
+expectation.
 
 ## State of the integration (updated)
 
 | | |
 |---|---|
 | Tokenizer parity | **done** — Kotlin port matches the reference on all 75 fixture cases (one surrogate-pair bug found and fixed) |
+| Prompt format | **done** — `LayaPrompt` is gated against the harness's own `build()` on 18 prompts (ids + marker positions + truncation edge + runtime config), falsified once on purpose |
 | Android runtime | **resolved** — one ORT stays in the APK (1.28.2, byte-identical to the shipped lib); versioned-symbol constraint documented above |
 | In the app | **yes** — receive path, behind a Settings toggle, off by default |
 | Escalation policy | **implemented** — escalate only above 0.85, only for destructive labels; nothing is ever suppressed or downgraded |

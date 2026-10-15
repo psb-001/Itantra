@@ -1,7 +1,5 @@
 package com.bjp.itantra.laya
 
-import java.io.BufferedReader
-import java.io.StringReader
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -20,70 +18,25 @@ import org.junit.Test
  */
 class LayaBpeTest {
 
-    private class Case(val text: String, val ids: List<Int>, val tokens: List<String>)
-
     @Test
     fun `vocab and merges are the pruned tokenizer's dimensions`() {
-        val (bpe, _, _) = loadFixture()
+        val fx = LayaFixtures.tokenizer()
         // The 12,454-token keep-set and its 30,829 merges are the measured result of the prune
         // (docs/LAYA_INTEGRATION_FINDINGS.md, Addendum 2). A fixture generated from a different
         // tokenizer would still be self-consistent, so the dimensions are pinned here.
-        assertEquals(12454, bpe.vocabSize)
-        assertEquals(30829, bpe.mergeCount)
+        assertEquals(12454, fx.bpe.vocabSize)
+        assertEquals(30829, fx.bpe.mergeCount)
     }
 
     @Test
     fun `every fixture case encodes to the reference ids and pieces`() {
-        val (bpe, cases, _) = loadFixture()
-        assertTrue("fixture only carries ${cases.size} cases", cases.size >= 70)
-        for (c in cases) {
-            val enc = bpe.encodeDetailed(c.text)
+        val fx = LayaFixtures.tokenizer()
+        assertTrue("fixture only carries ${fx.cases.size} cases", fx.cases.size >= 70)
+        for (c in fx.cases) {
+            val enc = fx.bpe.encodeDetailed(c.text)
             val label = "case '${c.text.take(40).replace("\n", "\\n")}'"
             assertEquals("$label: ids", c.ids, enc.ids.toList())
             assertEquals("$label: pieces", c.tokens, enc.tokens)
         }
     }
-
-    private fun loadFixture(): Triple<LayaBpe, List<Case>, Int> {
-        val stream = javaClass.getResourceAsStream("/laya_tokenizer_cases.txt")
-            ?: error("laya_tokenizer_cases.txt is missing from test resources")
-        val vocabLines = StringBuilder()
-        val mergeLines = StringBuilder()
-        val cases = ArrayList<Case>()
-        var lineNo = 0
-        stream.bufferedReader(Charsets.UTF_8).forEachLine { raw ->
-            lineNo++
-            if (raw.isNotEmpty() && raw[0] != '#') {
-                val sp = raw.indexOf(' ')
-                if (sp <= 0) error("line $lineNo: malformed record '$raw'")
-                val rest = raw.substring(sp + 1)
-                when (raw.substring(0, sp)) {
-                    "VOCAB" -> vocabLines.append(rest).append('\n')
-                    "MERGES" -> mergeLines.append(rest).append('\n')
-                    "CASE" -> {
-                        val parts = rest.split(' ')
-                        assertEquals("line $lineNo: a CASE record has 3 fields", 3, parts.size)
-                        cases.add(
-                            Case(
-                                text = field(parts[0]),
-                                ids = if (parts[1] == "-") emptyList()
-                                else parts[1].split(',').map { it.toInt() },
-                                tokens = if (parts[2] == "-") emptyList()
-                                else field(parts[2]).split('\u0001'),
-                            )
-                        )
-                    }
-                    else -> error("line $lineNo: unknown record type")
-                }
-            }
-        }
-        val bpe = LayaBpe.fromReaders(
-            BufferedReader(StringReader(vocabLines.toString())),
-            BufferedReader(StringReader(mergeLines.toString())),
-        )
-        return Triple(bpe, cases, lineNo)
-    }
-
-    /** A fixture field; "-" is the writer's marker for the empty string. */
-    private fun field(s: String): String = if (s == "-") "" else LayaBpe.decodeBase64Utf8(s)
 }

@@ -60,7 +60,7 @@ import org.json.JSONObject
  */
 class LayaTriage(private val context: Context, private val onState: ((String) -> Unit)? = null) {
 
-    /** One read of the head. Probabilities sum to 1 over [OPTIONS]. */
+    /** One read of the head. Probabilities sum to 1 over [LayaPrompt.OPTIONS]. */
     class Decision internal constructor(private val options: List<String>, val probs: FloatArray) {
 
         val index: Int = run {
@@ -106,15 +106,6 @@ class LayaTriage(private val context: Context, private val onState: ((String) ->
         /** Asset folder staged by app/setup-project.sh. */
         private const val ASSETS = "laya"
 
-        /**
-         * The prompt is English on purpose: the model is zero-shot over the message text, so the
-         * question is fixed and only the state changes language. Copied verbatim from
-         * eval/laya_onnx.py — it is part of the model's training format, not a UI string.
-         */
-        const val QUESTION = "What kind of message is this?"
-
-        val OPTIONS = listOf("routine message", "safety warning", "evacuation order", "medical emergency")
-
         /** Labels that may raise an ALERT. "safety warning" does not: it is not an order. */
         private val ESCALATING = setOf("evacuation order", "medical emergency")
 
@@ -136,10 +127,8 @@ class LayaTriage(private val context: Context, private val onState: ((String) ->
     private var head: OrtSession? = null
     private var env: OrtEnvironment? = null
 
-    private var bos = 2
-    private var eos = 1
-    private var maskId = 4
-    private var maxLen = 1024
+    /** Special ids and window size, from `assets/laya/config.json`; published by [ready]. */
+    private var spec: LayaPrompt.Spec? = null
 
     val isReady: Boolean get() = ready.get()
 
@@ -183,31 +172,15 @@ class LayaTriage(private val context: Context, private val onState: ((String) ->
         val encoder = this.encoder ?: return null
         val head = this.head ?: return null
         val env = this.env ?: return null
+        val spec = this.spec ?: return null
 
-        // The prompt, byte-for-byte as eval/laya_onnx.py builds it:
-        //   <bos> question <eos> (<mask> option)* <eos> state <eos>
-        // The head scores each option from the hidden state at that option's <mask> position.
-        val ids = ArrayList<Int>(64)
-        ids.add(bos)
-        appendTokens(bpe, QUESTION, ids)
-        ids.add(eos)
-        val markers = IntArray(OPTIONS.size)
-        for (i in OPTIONS.indices) {
-            markers[i] = ids.size
-            ids.add(maskId)
-            appendTokens(bpe, OPTIONS[i], ids)
-        }
-        ids.add(eos)
-        appendTokens(bpe, text, ids)
-        ids.add(eos)
+        // The prompt, byte-for-byte as eval/laya_onnx.py builds it. LayaPrompt is the pure
+        // builder; its ids and marker positions are gated against the harness in LayaPromptTest.
+        val prompt = LayaPrompt.build(bpe, text, spec) ?: return null
+        val seq = prompt.ids
+        val markers = prompt.markers
 
-        // Truncation is the harness's too: the prompt is at the front, so every marker survives
-        // and only the tail of a very long message is lost. If a marker did not survive, this is
-        // not a reading worth acting on.
-        val n = minOf(ids.size, maxLen)
-        for (m in markers) if (m >= n) return null
-        val seq = IntArray(n) { ids[it] }
-
+        val n = seq.size
         val shapeSeq = longArrayOf(1, n.toLong())
         val shapeMarkers = longArrayOf(1, markers.size.toLong())
         val tensors = ArrayList<OnnxTensor>(6)
@@ -246,11 +219,11 @@ class LayaTriage(private val context: Context, private val onState: ((String) ->
                 ),
             ).use { out -> floats(out) }
 
-            if (logits.size != OPTIONS.size) {
-                Log.w(TAG, "expected ${OPTIONS.size} logits, got ${logits.size}")
+            if (logits.size != LayaPrompt.OPTIONS.size) {
+                Log.w(TAG, "expected ${LayaPrompt.OPTIONS.size} logits, got ${logits.size}")
                 return null
             }
-            return Decision(OPTIONS, softmax(logits))
+            return Decision(LayaPrompt.OPTIONS, softmax(logits))
         } catch (t: Throwable) {
             // An optional layer that takes the app down with it would be worse than no layer.
             Log.w(TAG, "triage run failed: ${t.message}")
@@ -290,10 +263,12 @@ class LayaTriage(private val context: Context, private val onState: ((String) ->
         val cfg = JSONObject(
             context.assets.open("$ASSETS/config.json").use { it.readBytes().toString(Charsets.UTF_8) },
         )
-        bos = cfg.optInt("bos", 2)
-        eos = cfg.optInt("eos", 1)
-        maskId = cfg.optInt("mask", 4)
-        maxLen = cfg.optInt("max_len", 1024)
+        spec = LayaPrompt.Spec(
+            bos = cfg.optInt("bos", 2),
+            eos = cfg.optInt("eos", 1),
+            mask = cfg.optInt("mask", 4),
+            maxLen = cfg.optInt("max_len", 1024),
+        )
 
         // The tokenizer is small (530 KB) and read straight from the APK: no reason to copy it.
         bpe = context.assets.open("$ASSETS/vocab.b64").use { vocab ->
@@ -308,12 +283,15 @@ class LayaTriage(private val context: Context, private val onState: ((String) ->
         val encPath = copyAsset("encoder.onnx", dir)
         val headPath = copyAsset("head.onnx", dir)
 
-        val opts = OrtSession.SessionOptions()
-        opts.setIntraOpNumThreads(2)   // the same budget the ASR engine uses
-        opts.setInterOpNumThreads(1)
+        // One SessionOptions for both sessions, closed once they have copied what they need;
+        // leaving it open would hold a native struct alive for the process lifetime.
         val e = OrtEnvironment.getEnvironment()
-        encoder = e.createSession(encPath.absolutePath, opts)
-        head = e.createSession(headPath.absolutePath, opts)
+        OrtSession.SessionOptions().use { opts ->
+            opts.setIntraOpNumThreads(2)   // the same budget the ASR engine uses
+            opts.setInterOpNumThreads(1)
+            encoder = e.createSession(encPath.absolutePath, opts)
+            head = e.createSession(headPath.absolutePath, opts)
+        }
         env = e
     }
 
@@ -385,10 +363,6 @@ class LayaTriage(private val context: Context, private val onState: ((String) ->
     private fun floats(out: OrtSession.Result): FloatArray {
         val buf = (out.get(0) as OnnxTensor).floatBuffer
         return FloatArray(buf.remaining()).also { buf.get(it) }
-    }
-
-    private fun appendTokens(bpe: LayaBpe, text: String, into: MutableList<Int>) {
-        for (id in bpe.encode(text)) into.add(id)
     }
 
     /** Numerically stable softmax, matching the harness: max is subtracted before exp. */

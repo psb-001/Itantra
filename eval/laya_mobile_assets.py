@@ -24,12 +24,25 @@ WHAT THIS DOES
        MERGES <b64 a> <b64 b>             one line per rank, best rank first
        CASE   <b64 text> <ids csv> <b64 of pieces joined by 0x01>
 
+4. The prompt-format fixture, written with `--out-prompt-fixture`. The prompt
+   (`<bos> question <eos> (<mask> option)* <eos> state <eos>`) is part of the model's training,
+   not a UI string, and the answer ids are only meaningful if the prompt ids are right; a prompt
+   built with the wrong specials returns a uniform distribution with no error anywhere. Every
+   line here is produced by the harness's own `LayaOnnx.build`, and this script aborts unless the
+   portable re-implementation of the same assembly agrees with it.
+
+       SPEC     <bos> <eos> <mask> <max_len>
+       QUESTION <b64>
+       OPTION   <b64>                     one line per option, in order
+       PROMPT   <b64 state> <ids csv> <markers csv>
+
 Usage:
     python eval/laya_mobile_assets.py \
         --tokenizer /tmp/laya_sliced/tokenizer.json \
         --model-dir /tmp/laya_int8 \
         --out-assets app/app/src/main/assets/laya \
-        --out-fixture app/app/src/test/resources/laya_tokenizer_cases.txt
+        --out-fixture app/app/src/test/resources/laya_tokenizer_cases.txt \
+        --out-prompt-fixture app/app/src/test/resources/laya_prompt_cases.txt
 """
 
 import argparse
@@ -133,10 +146,38 @@ def edge_cases():
     ]
 
 
-def bench_cases(repo):
+def laya_module(repo):
+    """Import eval/laya_onnx.py: the constants and the prompt assembly live there, not here."""
     sys.path.insert(0, os.path.join(repo, "eval"))
     import laya_onnx                                        # noqa: E402
-    return [text for _, text, _ in laya_onnx.CASES]
+    return laya_onnx
+
+
+def bench_cases(repo):
+    return [text for _, text, _ in laya_module(repo).CASES]
+
+
+def load_spec(repo, model_dir, tokenizer_path, unk_id):
+    """Special ids and window size, from the same places the harness reads them."""
+    laya = laya_module(repo)
+    max_len = 1024
+    if model_dir:
+        cfg_path = os.path.join(model_dir, "rl_agent_config.json")
+        if os.path.exists(cfg_path):
+            with open(cfg_path) as f:
+                max_len = int(json.load(f).get("max_len", 1024))
+        # A prompt fixture is only evidence if the tokens that built it are the tokens the app
+        # ships, so refuse a model dir whose tokenizer.json differs from --tokenizer.
+        tok = os.path.join(model_dir, "tokenizer.json")
+        if os.path.exists(tok):
+            with open(tok, "rb") as f:
+                other = f.read()
+            with open(tokenizer_path, "rb") as f:
+                ours = f.read()
+            if other != ours:
+                sys.exit(f"{tok} differs from {tokenizer_path}; the fixture would describe a "
+                         f"tokenizer the app does not ship.")
+    return {"bos": laya.BOS, "eos": laya.EOS, "unk": unk_id, "mask": laya.MASK, "max_len": max_len}
 
 
 def corpus_cases(repo):
@@ -154,6 +195,39 @@ def corpus_cases(repo):
     return rng.sample(rows, min(CORPUS_SAMPLE, len(rows)))
 
 
+# ---------------------------------------------------------------- the prompt, ported
+
+def build_prompt_port(state, vocab, merges, spec, question, options):
+    """The same assembly as LayaOnnx.build, on the portable encoder that LayaBpe.kt mirrors."""
+    def enc(text):
+        return reference_encode(text, vocab, merges)[0]
+
+    ids = [spec["bos"]] + enc(question) + [spec["eos"]]
+    markers = []
+    for o in options:
+        markers.append(len(ids))
+        ids.append(spec["mask"])
+        ids += enc(o)
+    ids.append(spec["eos"])
+    ids += enc(state)
+    ids.append(spec["eos"])
+    return ids[: spec["max_len"]], [m for m in markers if m < spec["max_len"]]
+
+
+def prompt_states(lib, spec, bench):
+    """The bench sentences plus the inputs that make assembly bugs visible: empty, whitespace
+    runs (the normalizer's job), an astral character, and one state long enough to be
+    truncated at the window edge (so truncation is checked, not assumed)."""
+    states = list(bench)
+    states += ["", " ", "▁ mixed ▁ spacing  ", "😀", "  दो  स्‍पेस  "]
+    base = "बाढ़ आ गई है, पुलिस को तुरंत सूचित करें"
+    long_state = base
+    while len(lib.encode(long_state, add_special_tokens=False).ids) <= spec["max_len"]:
+        long_state += " " + base
+    states.append(long_state)
+    return list(dict.fromkeys(states))
+
+
 # ---------------------------------------------------------------- output
 
 def b64(s):
@@ -167,6 +241,41 @@ def write_compact(path_vocab, path_merges, vocab_r, merges):
     with open(path_merges, "w") as f:
         for (a, b) in sorted(merges, key=merges.get):
             f.write(f"{b64(a)} {b64(b)}\n")
+
+
+def write_prompt_fixture(path, harness_build, vocab, merges, spec, question, options, states):
+    """Write the prompt fixture, from the harness's own build() but with the portable assembly
+    cross-checked against it for every case -- the fixture is what the Kotlin test compares to,
+    so it must not be buildable from a tokenizer the port disagrees with."""
+    prompts, n_markers, n_truncated = [], 0, 0
+    for state in states:
+        ids_ref, marks_ref = harness_build(state, question, options)
+        ids_port, marks_port = build_prompt_port(state, vocab, merges, spec, question, options)
+        if (ids_ref, marks_ref) != (ids_port, marks_port):
+            sys.exit(f"prompt assembly mismatch for {state[:60]!r}\n"
+                     f"  harness: {ids_ref[:40]}\n"
+                     f"  port   : {ids_port[:40]}")
+        if len(marks_ref) != len(options):
+            sys.exit(f"prompt for {state[:60]!r} lost a marker in a {spec['max_len']}-token window")
+        if len(ids_ref) == spec["max_len"]:
+            n_truncated += 1
+        prompts.append((state, ids_ref, marks_ref))
+        n_markers += len(marks_ref)
+
+    with open(path, "w") as f:
+        f.write("# Laya prompt-format parity fixture -- generated by eval/laya_mobile_assets.py\n")
+        f.write("# line types: SPEC <bos> <eos> <mask> <max_len> | QUESTION <b64>\n")
+        f.write("#             OPTION <b64> | PROMPT <b64 state> <ids csv> <markers csv>\n")
+        f.write("# '-' is an empty field (base64 of '' is '').\n")
+        f.write(f"SPEC {spec['bos']} {spec['eos']} {spec['mask']} {spec['max_len']}\n")
+        f.write(f"QUESTION {b64(question)}\n")
+        for o in options:
+            f.write(f"OPTION {b64(o)}\n")
+        for state, ids, marks in prompts:
+            f.write(f"PROMPT {b64(state) or '-'} {','.join(map(str, ids))} "
+                    f"{','.join(map(str, marks))}\n")
+    print(f"  prompts: {path} ({len(prompts)} prompts, {n_markers} markers, "
+          f"{n_truncated} at the window edge, longest {max(len(i) for _, i, _ in prompts)} tokens)")
 
 
 def write_fixture(path, vocab_r, merges, cases, encoded):
@@ -195,13 +304,17 @@ def main():
     ap.add_argument("--model-dir", help="dir with encoder.onnx/head.onnx to stage (optional)")
     ap.add_argument("--out-assets", help="app assets dir; gets the compact tokenizer + models")
     ap.add_argument("--out-fixture", help="JVM parity fixture to write")
+    ap.add_argument("--out-prompt-fixture", help="JVM prompt-format fixture to write")
     ap.add_argument("--repo", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     args = ap.parse_args()
 
     vocab, vocab_r, merges = load_tokenizer(args.tokenizer)
     print(f"tokenizer: {len(vocab_r)} tokens, {len(merges)} merges")
+    spec = load_spec(args.repo, args.model_dir, args.tokenizer, unk_id=vocab["<unk>"])
+    print(f"spec: {spec}")
 
-    cases = bench_cases(args.repo) + edge_cases() + corpus_cases(args.repo)
+    bench = bench_cases(args.repo)
+    cases = bench + edge_cases() + corpus_cases(args.repo)
     cases = list(dict.fromkeys(cases))                      # dedupe, keep order
     print(f"cases: {len(cases)} strings")
 
@@ -237,7 +350,8 @@ def main():
             for f in os.listdir(args.model_dir):            # .onnx.data siblings, if any
                 if f.endswith(".onnx.data"):
                     shutil.copy(os.path.join(args.model_dir, f), os.path.join(args.out_assets, f))
-        cfg = {"bos": 2, "eos": 1, "unk": 3, "mask": 4, "max_len": 1024}
+        cfg = {"bos": spec["bos"], "eos": spec["eos"], "unk": spec["unk"],
+               "mask": spec["mask"], "max_len": spec["max_len"]}
         with open(os.path.join(args.out_assets, "config.json"), "w") as f:
             json.dump(cfg, f, indent=1)
         total = sum(os.path.getsize(os.path.join(args.out_assets, f))
@@ -247,6 +361,17 @@ def main():
     if args.out_fixture:
         os.makedirs(os.path.dirname(args.out_fixture), exist_ok=True)
         write_fixture(args.out_fixture, vocab_r, merges, cases, encoded)
+
+    if args.out_prompt_fixture:
+        laya = laya_module(args.repo)
+        # The harness's real build(), without paying for its __init__: loading 143 MB of int8
+        # sessions would buy this script nothing, build() needs only the tokenizer and max_len.
+        harness = laya.LayaOnnx.__new__(laya.LayaOnnx)
+        harness.tok = lib
+        harness.max_len = spec["max_len"]
+        os.makedirs(os.path.dirname(args.out_prompt_fixture), exist_ok=True)
+        write_prompt_fixture(args.out_prompt_fixture, harness.build, vocab, merges, spec,
+                             laya.QUESTION, laya.URGENCY, prompt_states(lib, spec, bench))
 
 
 if __name__ == "__main__":

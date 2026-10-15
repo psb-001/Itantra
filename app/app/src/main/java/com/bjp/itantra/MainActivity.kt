@@ -943,28 +943,30 @@ class MainActivity : AppCompatActivity() {
             append(if (triageEnabled) "on — ${laya?.state ?: "idle"} (Laya, experimental)" else "off")
         }
 
-        val body = android.widget.ScrollView(this).apply {
-            val column = android.widget.LinearLayout(this@MainActivity).apply {
-                orientation = android.widget.LinearLayout.VERTICAL
-            }
-            val tv = android.widget.TextView(this@MainActivity).apply {
-                text = liveLog.joinToString("\n")
-                textSize = 9f
-                typeface = android.graphics.Typeface.MONOSPACE
-                setPadding(28, 28, 28, 28)
-                setTextIsSelectable(true)
-            }
-            column.addView(tv)
-            // The triage switch lives here rather than in its own screen: it is one decision, and
-            // the state it produces is already printed above it.
-            column.addView(android.widget.CheckBox(this@MainActivity).apply {
-                text = "Triage received messages (Laya, experimental)"
-                isChecked = triageEnabled
-                textSize = 12f
-                setPadding(28, 10, 28, 28)
-                setOnCheckedChangeListener { _, on -> setTriage(on) }
-            })
-            addView(column)
+        val logView = android.widget.TextView(this).apply {
+            text = liveLog.joinToString("\n")
+            textSize = 9f
+            typeface = android.graphics.Typeface.MONOSPACE
+            setPadding(28, 28, 28, 28)
+            setTextIsSelectable(true)
+        }
+        val scroll = android.widget.ScrollView(this).apply { addView(logView) }
+
+        // The triage switch lives here rather than in its own screen: it is one decision, and the
+        // state it produces is printed in the status above it. It sits *outside* the ScrollView,
+        // so it stays reachable whatever the log length (up to LIVE_LOG_MAX lines).
+        val toggle = android.widget.CheckBox(this).apply {
+            text = "Triage received messages (Laya, experimental)"
+            isChecked = triageEnabled
+            textSize = 12f
+            setPadding(28, 10, 28, 10)
+            setOnCheckedChangeListener { _, on -> setTriage(on) }
+        }
+
+        val body = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            addView(toggle)
+            addView(scroll)
         }
 
         androidx.appcompat.app.AlertDialog.Builder(this)

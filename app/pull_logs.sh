@@ -87,6 +87,27 @@ fi
 
 echo
 echo "=============================================================="
+echo " Laya triage reads (off unless the Settings toggle is on)"
+echo "=============================================================="
+# The layer logs three kinds of line: "triage: <state>" from the loader, "triage <id8>: <label>
+# <p>%" for one read of the head, and a note when a read lands below the 85% floor. The floor note
+# is the interesting one: it is exactly the band where the int8 model is known to wobble.
+if [ -f "$APP_LOG" ]; then
+  if grep -q "triage" "$APP_LOG"; then
+    grep "triage" "$APP_LOG" | tail -40
+    echo
+    echo "  $(grep -c "triage" "$APP_LOG") triage line(s)."
+  else
+    echo "  (no triage lines: the toggle is off by default, or the layer failed to load)"
+  fi
+fi
+echo
+echo "  compare against the desktop, same weights, same 12 sentences:"
+echo "    python3 eval/laya_onnx.py bench --model models/laya-int8"
+echo "  (31 ms/message there with 2 intra-op threads; a phone will be slower.)"
+
+echo
+echo "=============================================================="
 echo " errors worth reading"
 echo "=============================================================="
 # Only OUR app and the Bluetooth/Wi-Fi stacks. An unfiltered error grep returns Google service
