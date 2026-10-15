@@ -261,3 +261,56 @@ shipped voice, so digits are left alone everywhere.
    `voice … -> eng_Latn (from the message script)` and speaks English.
 3. Say a number ("500 लोग", "108"). The app does not touch digits; if one sounds wrong it is voice
    quality, not conditioning — re-check with `.venv/bin/python eval/probe_normaliser_roundtrip.py`.
+
+---
+
+## Addendum 3 — 15 October 2026: English voice audition — tied on intelligibility, not on cost
+
+The team's complaint ("English pronunciation is not good enough") doesn't name a voice, so three
+candidate upgrades were downloaded and auditioned against the shipped voice on a 4-sentence English
+bench, 2 runs each, ASR-back through the same model the app ships (`eval/probe_voice_audition.py`;
+macOS arm64, CPU, 2 threads — phone numbers will differ, the ranking is the point).
+
+| voice | mean sim | synth s | RTF | size MB | load s |
+|---|---|---|---|---|---|
+| lessac-medium (shipped) | 0.920 | 0.14 | **0.05** | 63 | 0.5 |
+| lessac-high | 0.919 | 1.06 | 0.39 | 114 | 0.7 |
+| ryan-high | **0.929** | 0.94 | 0.36 | 121 | 0.4 |
+| Kokoro v1.0 int8 (af_alloy) | 0.917 | 2.31 | 0.73 | 142 (+6 lexicon) | 0.7 |
+
+What the table says, and does not:
+
+- **Intelligibility is a tie** (0.92 ± 0.01). The 0.72-0.80 digit rows are an artifact: our ASR
+  writes numbers as words ("one hundred eight") while the target carries digits ("108"). Every
+  voice read them correctly.
+- **Cost is not a tie.** High-tier Piper is ~8x the compute of medium here (RTF 0.36-0.39 vs
+  0.05), Kokoro ~15x (0.73). RTF is synth wall-time per second of audio; a phone core is several
+  times slower than an M1 Pro core, so none of the three should be packaged before the on-device
+  BENCH run (it logs TTS timings; `MainActivity.kt`, BENCH TTS section).
+- Measured sizes (HF byte counts): ryan-high is **121 MB** (an earlier note said 89 MB — that was
+  a truncated download, not this voice), lessac-high 114 MB, Kokoro 114 (model) + 28.2 (voices,
+  all languages in one file) + 6 (en lexicon) ≈ 148 MB.
+- Kokoro bundles **Hindi** voices. Single-run probe, the app's mapped sentence
+  "स्कूल में इमरजेंसी अलर्ट भेजो": sids 31/32 → 0.98/0.95 (pratham measured 0.93 over 3 runs after
+  the same map). Indicative only — single runs are leads — but if Kokoro is chosen for English,
+  usable Hindi appears to come free. Kokoro's other languages (fr/es/it/pt/ja/zh) do not cover our
+  remaining Indic set; those stay Piper regardless.
+- Kokoro's English speaker trial (6 sids, one sentence): every English sid scored 0.96-0.99. The
+  v1.0 English sids behave as the model card order says (0-3 female af_*, 11/16 male am_*).
+
+**The ear decides.** Same sentence, loudness as emitted: `docs/voice_samples/r2-lessac-medium__bridge.wav`
+→ `r2-lessac-high__bridge.wav` → `r2-ryan-high__bridge.wav` → `r2-kokoro-v1.0-af_alloy__bridge.wav`
+(or `...-am_michael__bridge.wav`). The 27 September set (`docs/voice_samples/README.md`) still
+covers amy/kristin/cori and the v0.19 Kokoro.
+
+Working through it:
+
+1. Listen first. A 0.01 similarity gap decides nothing; the complaint is perceptual.
+2. If a Piper high wins: the app change is one asset + one constant (same VITS path), then BENCH on
+   the target phone. RTF ≥ 1 on-device means the alert starts speaking late — a safety cost.
+3. If Kokoro wins: same swap plus a config branch (`OfflineTtsKokoroModelConfig`, already vendored
+   in `app/src/main/java/com/k2fsa/sherpa/onnx/Tts.kt`, and present in the shipped
+   `libsherpa-onnx-jni.so`), ~148 MB, ~15x Piper-medium compute, Hindi likely included.
+4. If nothing beats lessac-medium by ear, keep 63 MB / 0.05 RTF — and the "not good enough" is then
+   a text or phonemisation problem (which this batch of work has already been fixing), not a voice
+   problem.

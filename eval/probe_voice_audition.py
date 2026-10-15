@@ -7,16 +7,24 @@ ONNX, auditioned against the baseline on the same bench:
 
     en_US-lessac-high       ~114 MB   same speaker as the baseline, "high" quality — safest swap
     en_US-ryan-high          ~89 MB   different (male) speaker, "high" quality
-    Kokoro int8              ~59 MB   model ~30 MB + voices ~28 MB + tokens/lexicon, many voices
-                                      in one file, Apache-2.0, 24 kHz
+    Kokoro int8             ~148 MB   model 114 MB (int8) + voices 28 MB + lexicon 6 MB,
+                                      Apache-2.0, 24 kHz, 53 voices in one file — the largest
+                                      candidate, auditioned because it is the most modern
 
 This probe synthesises a small English bench with each voice (RUNS times each), transcribes it back
 with the same ASR the app uses, and reports mean similarity + synthesis wall time + real-time
 factor. Measured on this machine (macOS arm64, CPU); a phone will be slower — the ranking and the
 gap to the baseline are the point, not the absolute seconds.
 
-Kokoro holds many speakers in one voices.bin. Speaker ids are trialled on one sentence first and
-the best English sid (by ASR-back similarity) carries into the bench; all trials are printed.
+ASR-back similarity measures INTELLIGIBILITY, not naturalness. On clean text all candidates sit at
+the ceiling (0.92-0.93, where the digit line scores lower purely because our ASR writes "one
+hundred eight" for "108"). The tie-breaker is a human ear: this probe dumps WAVs next to the
+models for that. Human ears in this repo live in docs/voice_samples/ (git-ignored).
+
+Kokoro holds many speakers in one voices.bin (Kokoro v1.0 card order: af_* 0-10, am_* 11-19,
+bf_* 20-23, bm_* 24-27, then other languages). The trial spots the English sids and prints both
+the expected name and what the ASR heard, so a wrong order is visible, not silent. The bench then
+runs the single best-scoring sid; WAVs are dumped for the best female and the best male too.
 
 Run:
     .venv/bin/python eval/probe_voice_audition.py
@@ -25,6 +33,7 @@ Run:
 import difflib
 import os
 import time
+import wave
 
 import numpy as np
 import sherpa_onnx
@@ -44,7 +53,11 @@ BENCH = [
     "the river water is rising send a rescue team to the village",
 ]
 RUNS = 2
-KOKORO_SID_TRIAL = [0, 1, 2, 3]
+
+# Kokoro v1.0 card order. 0-3 are English female (af_*), 11/16 English male (am_*).
+KOKORO_SID_TRIAL = [0, 1, 2, 3, 11, 16]
+KOKORO_VOICE_NAMES = {0: "af_alloy", 1: "af_aoede", 2: "af_bella", 3: "af_heart",
+                      11: "am_adam", 16: "am_michael"}
 KOKORO_SID_SENTENCE = "the bridge has collapsed please send help to the school"
 
 
@@ -131,6 +144,17 @@ def sim(a, b):
     return difflib.SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 
+def save_wav(path, samples, sample_rate):
+    """16-bit mono WAV so a human can judge the voice itself, not just its ASR score."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    pcm = (np.clip(samples, -1.0, 1.0) * 32767.0).astype(np.int16)
+    with wave.open(path, "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(sample_rate)
+        w.writeframes(pcm.tobytes())
+
+
 def main():
     asr = make_asr()
 
@@ -138,14 +162,20 @@ def main():
     print("KOKORO SPEAKER TRIAL — which sid is English and intelligible")
     print("=" * 78)
     kokoro, kokoro_size, kokoro_load = build("kokoro")
-    best_sid, best_sim = 0, -1.0
+    trials = []
     for sid in KOKORO_SID_TRIAL:
         back, dt, secs = hear(asr, kokoro, KOKORO_SID_SENTENCE, sid=sid)
         s = sim(KOKORO_SID_SENTENCE, back)
-        print(f"  sid {sid}: {s:.2f}  ({dt:.2f}s synth)  heard: {back}")
-        if s > best_sim:
-            best_sid, best_sim = sid, s
-    print(f"  -> sid {best_sid} carries into the bench")
+        name = KOKORO_VOICE_NAMES.get(sid, str(sid))
+        trials.append((sid, s))
+        print(f"  sid {sid:>2} ({name:<11}): {s:.2f}  ({dt:.2f}s synth)  heard: {back}")
+    best_sid = max(trials, key=lambda t: t[1])[0]
+    demo_sids = {best_sid}
+    for group in ([t for t in trials if t[0] < 11], [t for t in trials if t[0] >= 11]):
+        if group:
+            demo_sids.add(max(group, key=lambda t: t[1])[0])
+    demo_sids = sorted(demo_sids)
+    print(f"  -> bench sid {best_sid}; demo wavs for sids {demo_sids}")
 
     voices = ["lessac-medium", "lessac-high", "ryan-high", "kokoro"]
     results = {}
@@ -178,6 +208,16 @@ def main():
             sims.append(mean)
             for b in backs:
                 print(f"  [{mean:.2f}] {b}")
+
+        # WAVs for human ears: ASR-back similarity measures intelligibility, not naturalness.
+        wav_sids = demo_sids if name == "kokoro" else [0]
+        for wsid in wav_sids:
+            audio = tts.generate(KOKORO_SID_SENTENCE, sid=wsid, speed=1.0)
+            tag = f"-{KOKORO_VOICE_NAMES.get(wsid, wsid)}" if name == "kokoro" else ""
+            wav_path = os.path.join(AUDITION_DIR, "wavs", f"{name}{tag}.wav")
+            save_wav(wav_path, np.asarray(audio.samples, dtype=np.float32), audio.sample_rate)
+            print(f"  demo wav: {wav_path}")
+
         result = (sum(sims) / len(sims), sum(dts) / len(dts), sum(rts) / len(rts), size_mb, load_s)
         results[name] = result
         print(f"  -> mean similarity {result[0]:.3f}   mean synth {result[1]:.2f}s   "

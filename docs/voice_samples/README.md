@@ -230,3 +230,22 @@ for gain in the app.
 cd /tmp/voice_samples && /Users/prathameshbhujbal/iTantra-SIH26173/.venv/bin/python make_samples.py
 /Users/prathameshbhujbal/iTantra-SIH26173/.venv/bin/python make_listen_md.py
 ```
+
+---
+
+## Round 2 — 15 October 2026: high-tier Piper and Kokoro v1.0
+
+Five more files, same sentence, loudness as each model emits it (not normalised):
+
+| file | voice | why it's here |
+|---|---|---|
+| `r2-lessac-medium__bridge.wav` | Piper `en_US-lessac-medium` | the shipped voice, re-taken for this sentence |
+| `r2-lessac-high__bridge.wav` | Piper `en_US-lessac-high` | same speaker, high tier — the safest quality upgrade |
+| `r2-ryan-high__bridge.wav` | Piper `en_US-ryan-high` | male, high tier |
+| `r2-kokoro-v1.0-af_alloy__bridge.wav` | Kokoro v1.0 int8, `af_alloy` | modern Kokoro, 53 voices in one file |
+| `r2-kokoro-v1.0-am_michael__bridge.wav` | Kokoro v1.0 int8, `am_michael` | male Kokoro option |
+
+Sentence: *"The bridge has collapsed. Please send help to the school."* Intelligibility numbers
+(all tied, ±0.01) and cost numbers (not tied at all: RTF 0.05 / 0.39 / 0.36 / 0.73) are in
+`docs/MODEL_AND_TTS_FINDINGS.md`, Addendum 3. Reproduce with
+`/Users/prathameshbhujbal/iTantra-SIH26173/.venv/bin/python /Users/prathameshbhujbal/iTantra-SIH26173/eval/probe_voice_audition.py`.
