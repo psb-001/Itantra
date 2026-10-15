@@ -117,4 +117,29 @@ class LanguageRoutingTest {
     fun `messages with no letters keep their tag`() {
         assertEquals("hin_Deva", LanguageFilter.voiceTagFor("hin_Deva", "12345"))
     }
+
+    @Test
+    fun `hinglish with two devanagari words goes to the devanagari voice`() {
+        // Measured 15 Oct 2026 (eval/probe_hinglish_routing.py, 3 runs each): the Devanagari
+        // voice + the SpeechText loanword map reads this sentence at similarity 0.93 (0.77 raw);
+        // the English voice produces "woolman wil emergency aleart be able" — Hindi words gone.
+        assertEquals("hin_Deva", LanguageFilter.tagForScript("स्कूल में emergency alert भेजो"))
+        assertEquals("hin_Deva", LanguageFilter.voiceTagFor("eng_Latn", "स्कूल में emergency alert भेजो"))
+    }
+
+    @Test
+    fun `one devanagari word does not flip an english sentence`() {
+        // Measured too: the English voice reads this correctly ("...went to school"); the
+        // Devanagari voice destroys it ("pplis వంt to స్కూल").
+        assertEquals("eng_Latn", LanguageFilter.tagForScript("the police went to स्कूल"))
+        assertEquals("eng_Latn", LanguageFilter.voiceTagFor("eng_Latn", "the police went to स्कूल"))
+    }
+
+    @Test
+    fun `devanagari vowel marks do not split a word`() {
+        // "स्कूल" is four code points but ONE Devanagari word, so it must not trip the two-word
+        // rule; add a second word and the rule fires even though Latin letters outnumber them.
+        assertEquals("eng_Latn", LanguageFilter.tagForScript("please send help to स्कूल"))
+        assertEquals("hin_Deva", LanguageFilter.tagForScript("please send help to स्कूल चलो"))
+    }
 }

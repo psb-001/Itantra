@@ -7,6 +7,7 @@ import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
 import android.util.Log
+import com.bjp.itantra.SpeechText
 import com.k2fsa.sherpa.onnx.OfflineRecognizer
 import com.k2fsa.sherpa.onnx.OfflineRecognizerConfig
 import com.k2fsa.sherpa.onnx.OfflineTts
@@ -285,7 +286,10 @@ class TtsEngine(
      * of flat-topping, and for a distress message a slightly buzzy alert beats a click.
      */
     fun synthesise(text: String, speed: Float = 1.0f): FloatArray {
-        val raw = tts.generate(text = text, sid = 0, speed = speed).samples
+        // Speech conditioning only — the message shown to the human is untouched. See [SpeechText]
+        // for the three measured failures each rule fixes, and for why the gate is this voice.
+        val spoken = SpeechText.forSynthesis(text, devanagariVoice = isDevanagariVoice(voiceName))
+        val raw = tts.generate(text = spoken, sid = 0, speed = speed).samples
         val gain = gainFor(voiceName)
         if (gain == 1.0f) return raw
         val out = FloatArray(raw.size)
@@ -345,6 +349,15 @@ class TtsEngine(
         )
 
         fun gainFor(voice: String): Float = GAIN[voice] ?: 1.0f
+
+        /**
+         * True for the bundled voices that read Devanagari: Hindi and Marathi.
+         *
+         * The gate for [SpeechText]: digits and Latin words are measured broken under a
+         * Devanagari voice, and the loanword map's output is Devanagari, so it must only ever be
+         * handed to a voice that can pronounce it.
+         */
+        fun isDevanagariVoice(voice: String): Boolean = voice == HINDI || voice == MARATHI
 
         /** Clamp ceiling for post-gain samples. Below 1.0 so the sum never wraps to full scale. */
         private const val CLAMP = 0.95f

@@ -197,3 +197,67 @@ silently mis-pronounced. If field logs show this happening, the next step is a l
    (one-time reload; ~0.2–0.5 s before that message speaks), then plain playback. Speech must be
    English, not the old Hindi-voice reading.
 3. Speak Hindi from phone A — no `voice …` swap line; the Hindi voice is already resident.
+
+---
+
+## Addendum 2 — 15 October 2026: Hinglish routing, speech conditioning, one rule removed by measurement
+
+Addendum 1 fixed **which voice** speaks a message. This one fixes **what it reads** when the text
+mixes scripts, and re-measures what the voices actually mispronounce — with repeats, after a
+single-run reading nearly shipped a rule that does nothing.
+
+### 1. Hinglish goes to the Devanagari voice when the sentence is really Hindi
+
+`dominantScript` counted letters, so "स्कूल में emergency alert भेजो" (14 Latin vs 6 Devanagari
+letters) routed to the **English** voice, which dissolves the Hindi words (`eval/probe_hinglish_routing.py`,
+each sentence through each candidate voice, back through our own ASR):
+
+| Text | English voice | Devanagari voice |
+|---|---|---|
+| "स्कूल में emergency alert भेजो" — 3 Devanagari words | "woolman wil emergency aleart be able" — Hindi words gone | "स्कूल में मजजोन सी इल्लवत भीजो" (0.71 raw → **0.93** with the loanword map) |
+| "the police went to स्कूल" — ONE Devanagari word | "the police went to school" — correct | "pplis వంt to స్కూల్" — destroyed, even the script |
+
+**Rule:** two or more Devanagari words → Devanagari wins, even against a Latin letter majority
+(`LanguageFilter.dominantScript`; its KDoc carries both measured cases). One Devanagari word does
+not flip an English sentence. The sender's inferred tag and the receiver's voice choice both
+inherit it; the Python twin matches across the parity cases.
+
+### 2. SpeechText — speech-only conditioning at the TTS call site
+
+New `SpeechText.kt`, applied inside `TtsEngine.synthesise`, never to the displayed message, gated
+on the **speaking voice** (the map's output is Devanagari; only Hindi/Marathi voices receive it).
+Two rules survive repeats, 3 runs each, `eval/probe_normaliser_roundtrip.py`:
+
+| Rule | Raw | Conditioned | Heard (conditioned) |
+|---|---|---|---|
+| Latin words in Devanagari text → Devanagari (closed 39-entry emergency map) | 0.77 | **0.93** | "स्कूल में इमेर्जेंसी अलर्ट भीजो" |
+| lowercase acronyms → letter-spaced (sos, fir, ndrf, sdrf, cbi) | 0.79 | **0.90** | "send sauce" → "sends os" (the letters) |
+
+Controls (identical text on both sides) bounce ≤0.03, so the table is signal, not noise.
+
+### 3. A rule that measurement removed — number-to-words
+
+A single early run made Hindi digits look broken ("500" heard as "5ा00"). On that reading a full
+expander was built — Hindi 0–99 words, lakh/crore, "9+ digits read one by one", ~100 lines and 10
+tests. Then `eval/probe_hindi_numbers.py` re-ran with repeats: the Hindi voice reads "108"
+correctly ("ek so art" = एक सौ आठ) and an identical-text control scored 0.94 vs 0.85. The expander
+solved a non-problem and was **deleted before commit**; the probe stays as the record. Lesson:
+single-run VITS sampling plus a digit-happy ASR is not evidence.
+
+### 4. Digits through every voiced language — nothing to fix
+
+Raw "108 और 500" spoken by each voice, ASR back: hi "एक सौ आठ और पांच" · mr "એકશે આઠ અर પાશે" ·
+te "ఒకవంద ఎనిమిది, అిదువందలు" · ml "നൂറ്റി എട്ത്, അഞ്യൂര്" · ta "നൂറ്ചി െട്ടു, ഐനൂര്" ·
+bn "axo aodpaco". Hindi and Marathi come back clean; the other four are loose, sometimes
+cross-script renderings of their own number words. espeak converts digits natively in every
+shipped voice, so digits are left alone everywhere.
+
+### 5. Phone check (extends Addendum 1's)
+
+1. Phone A — say "स्कूल में emergency alert भेजो". The sender infers Hindi (two Devanagari words);
+   phone B keeps the Hindi voice (no swap line) and **speaks** "स्कूल में इमरजेंसी अलर्ट भेजो"
+   while the screen still shows "emergency alert". That difference is the feature.
+2. Phone A — say an English sentence containing one Hindi word. Phone B logs
+   `voice … -> eng_Latn (from the message script)` and speaks English.
+3. Say a number ("500 लोग", "108"). The app does not touch digits; if one sounds wrong it is voice
+   quality, not conditioning — re-check with `.venv/bin/python eval/probe_normaliser_roundtrip.py`.

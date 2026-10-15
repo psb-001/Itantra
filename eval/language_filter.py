@@ -192,10 +192,35 @@ TAG_SCRIPT = {v: k for k, v in SCRIPT_TAG.items()}
 TAG_EXPECTED_SCRIPT = dict(TAG_SCRIPT)
 TAG_EXPECTED_SCRIPT["mar_Deva"] = "DEVANAGARI"
 
+# Devanagari code points - letters AND the vowel marks inside a word, so "स्कूल" counts as ONE
+# word below, not three. Twin of the Kotlin DEVANAGARI_RANGES.
+_DEVANAGARI_RANGES = ((0x0900, 0x097F), (0xA8E0, 0xA8FF))
+
+
+def devanagari_words(text: str) -> int:
+    """Runs of Devanagari code points bounded by anything else. Twin of the Kotlin helper."""
+    words = 0
+    in_run = False
+    for ch in text:
+        cp = ord(ch)
+        deva = any(lo <= cp <= hi for lo, hi in _DEVANAGARI_RANGES)
+        if deva and not in_run:
+            words += 1
+        in_run = deva
+    return words
+
 
 def tag_for_script(text: str) -> str | None:
     """The language tag the characters of `text` say it is, or None when no letters or none of
-    the nine scripts. Devanagari cannot separate Hindi from Marathi - it returns hin_Deva."""
+    the nine scripts. Devanagari cannot separate Hindi from Marathi - it returns hin_Deva.
+
+    Carries the Hinglish rule (twin of the Kotlin dominantScript): two or more Devanagari words
+    win even when Latin letters outnumber them. Measured 15 Oct 2026
+    (eval/probe_hinglish_routing.py): "स्कूल में emergency alert भेजो" (3 Devanagari words, 6
+    Devanagari letters vs 14 Latin) survives the Devanagari voice at similarity 0.90 and loses
+    its Hindi words under the English voice, while "the police went to स्कूल" (ONE Devanagari
+    word) reads correctly under the English voice and is destroyed by the Devanagari voice.
+    """
     counts = {s: 0 for s in SCRIPT_ORDER}
     for ch in text:
         s = script_of(ch)
@@ -204,7 +229,10 @@ def tag_for_script(text: str) -> str | None:
     if not any(counts.values()):
         return None
     # max() keeps the first maximal element, which is the Kotlin tie-break (Latin first).
-    return SCRIPT_TAG[max(SCRIPT_ORDER, key=lambda s: counts[s])]
+    best = max(SCRIPT_ORDER, key=lambda s: counts[s])
+    if best != "DEVANAGARI" and devanagari_words(text) >= 2:
+        best = "DEVANAGARI"
+    return SCRIPT_TAG[best]
 
 
 def voice_tag_for(lang_tag: str, text: str) -> str:

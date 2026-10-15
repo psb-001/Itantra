@@ -92,6 +92,13 @@ object LanguageFilter {
     )
 
     /**
+     * Devanagari code points — letters AND the vowel marks that sit inside a word. The marks
+     * matter: "स्कूल" is four code points, not all of them letters, and the Hinglish word count
+     * in [dominantScript] must count it as ONE word.
+     */
+    private val DEVANAGARI_RANGES: Array<IntRange> = arrayOf(0x0900..0x097F, 0xA8E0..0xA8FF)
+
+    /**
      * The script each language MUST produce, keyed by the ASR model's own language tags.
      *
      * THIS IS THE IMPORTANT PART. Measured on 20 Sep 2026 (see NOISE_ROBUSTNESS_FINDINGS.md):
@@ -139,7 +146,25 @@ object LanguageFilter {
         "mal_Mlym" to arrayOf(0x0D00..0x0D7F),
     )
 
-    /** The script most of [text]'s letters belong to, as (representative tag, ranges). */
+    /**
+     * The script most of [text]'s letters belong to, as (representative tag, ranges).
+     *
+     * ONE SPECIAL CASE over pure letter counting — the HINGLISH RULE. When the text contains two
+     * or more Devanagari words, Devanagari wins even if Latin letters outnumber them. Measured
+     * 15 Oct 2026 (`eval/probe_hinglish_routing.py`, voice in -> our own ASR back):
+     *
+     *     "स्कूल में emergency alert भेजो"          14 Latin letters vs 6 Devanagari, 3 Deva words
+     *         English voice -> "woolman wil emergency aleart be able"   the Hindi words are gone
+     *         Devanagari voice + SpeechText -> similarity 0.93 (0.77 raw)  the sentence survives
+     *
+     *     "the police went to स्कूल"                15 Latin letters vs 3 Devanagari, ONE word
+     *         English voice -> "the police went to school"              correct
+     *         Devanagari voice -> "pplis వంt to స్కూल"                  destroyed, even the script
+     *
+     * Two Devanagari words is the measured separator between a Hindi sentence that borrows English
+     * words and an English sentence carrying one Hindi word. It is a heuristic, not a language ID,
+     * and it cannot see an English sentence with two Hindi words in it.
+     */
     private fun dominantScript(text: String): Pair<String, Array<IntRange>>? {
         val counts = IntArray(SCRIPTS.size)
         var i = 0
@@ -159,7 +184,29 @@ object LanguageFilter {
         for (s in SCRIPTS.indices) {
             if (counts[s] > 0 && (best < 0 || counts[s] > counts[best])) best = s
         }
-        return if (best < 0) null else SCRIPTS[best]
+        if (best < 0) return null
+        if (SCRIPTS[best].first != "hin_Deva" && devanagariWords(text) >= 2) {
+            best = SCRIPTS.indexOfFirst { it.first == "hin_Deva" }
+        }
+        return SCRIPTS[best]
+    }
+
+    /**
+     * The number of Devanagari words in [text]: runs of Devanagari code points — letters AND the
+     * vowel marks inside them, so "स्कूल" counts as one word, not three — bounded by anything else.
+     */
+    private fun devanagariWords(text: String): Int {
+        var words = 0
+        var inRun = false
+        var i = 0
+        while (i < text.length) {
+            val cp = text.codePointAt(i)
+            val deva = inRanges(cp, DEVANAGARI_RANGES)
+            if (deva && !inRun) words++
+            inRun = deva
+            i += Character.charCount(cp)
+        }
+        return words
     }
 
     /**
