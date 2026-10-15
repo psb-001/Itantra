@@ -400,3 +400,121 @@ export.
 | Decisions | 8/12 pre-prune reference; post-fix re-measurement pending the export |
 | INT8 | not done; quantizer script written and probe-tested on a synthetic Gather→MatMul graph |
 | **In the app** | **no** |
+
+# Addendum 3 — export re-run, INT8 measured, and what the numbers can actually support
+
+**15 October 2026.** The full pipeline was re-run end to end after the tokenizer fix: export →
+prune → slice → int8 → bench. Everything below is measured on this machine (Apple Silicon, CPU
+execution provider, 2 intra-op threads to match the app) unless marked otherwise.
+
+## The headline numbers
+
+| variant | size | encoder / head / total | 12-case smoke |
+|---|---|---|---|
+| fp32 sliced (reference) | 518.9 MB | 66 / 9 / **75 ms** | 8/12 |
+| **int8** (embedding + body + head) | **143.9 MB** | 26 / 4 / **31 ms** | 10/12 |
+| int8 body+head, embedding kept fp32 (`--no-embed`) | 171.2 MB | 27 / 5 / 32 ms | 9/12 |
+
+3.6x smaller and 2.4x faster than the fp32 slice, from one quantize step. The phone is expected
+to be 3-5x slower: **100-200 ms per decision**, which is nothing for a message that arrived as a
+129-byte packet and is allowed to sit in a queue.
+
+## What was re-verified, in order
+
+- **Export** — re-run against the current checkpoint: torch vs ONNX 2.1e-06, identical to the
+  29 September run.
+- **Prune** — 12,454 tokens (4.9%), **0.00% OOV** on all 3,776 corpus transcripts.
+- **Slice** — embedding 750.0 → 36.5 MB; the sliced encoder matches the original **bit-exactly
+  (0.00e+00) on all six verify languages, English included**. Addendum 2 could not say that about
+  English; this is the first end-to-end confirmation that the tokenizer fix survives slicing.
+- **Quantize** — encoder 459.9 → 117.5 MB (3.9x), head 57.3 → 24.7 MB (2.3x, see below), the
+  embedding folded into its consuming matmul by onnxruntime's Gather support.
+
+## Two defects found during the run, both fixed in the scripts
+
+**1. The embedding shape lives in three places, not two.** `laya_slice_onnx.py` rewrote the
+initializer and any hard-coded `256000` node attributes, but not the initializer's `value_info`
+entry. onnxruntime tolerates the stale `[256000, 768]`; `onnx.shape_inference` — which
+`quantize_dynamic` calls on load — does not: *"Inferred shape and existing shape differ in
+dimension 0: (12454) vs (256000)"*. That is the failure that killed the September quantization
+attempt. Fix: rewrite the matching `value_info` dims during the slice. The slice stays bit-exact.
+
+**2. The head has its own stale `value_info`.** The exported head declares a `cat` tensor
+`[batch, 772]` where inference derives `[batch, 256]` (the marker count) — a second, unrelated
+shape-inference failure. `value_info` is advisory metadata, so the quantizer now strips it from a
+scratch copy of the head before quantizing: 57.3 → 24.7 MB, and a decision-parity check (same
+hidden states into both heads, six real sentences) is **6/6 same argmax, confidence within 3e-3**.
+While here, two false friends were removed: on a fallback copy the quantizer now copies
+`head.onnx.data` too (it used to copy only the 0.2 MB graph and leave the 57 MB of weights
+behind), and it wipes stale model files from the output directory so a re-run cannot pair a fresh
+single-file head with an old `.data`.
+
+## The metric lesson: max-abs drift lies, cosine at the markers doesn't
+
+The first int8 drift check compared max absolute difference of hidden states and read "LARGE"
+(rel 0.3-1.2) in every language — useless. Hidden states are dominated by a few outlier channels
+(hundreds in magnitude); their movement swamps the metric while the decision-relevant signal is
+intact. What is checked now:
+
+- **cos@markers** — per-position cosine at the `<mask>` marker positions, the only positions the
+  decision head reads. Measured: 0.76-0.94 for int8. (The whole-sequence minimum drops to 0.014 on
+  one Hindi case — invisible to the head, and uninformative.)
+- **Decision parity, deployed vs reference** — int8 encoder+head vs fp32 encoder+head on the same
+  real input: 4/6 same on the six-sentence verify set, the two flips being the `hi` and `or` rows
+  below.
+
+This is the drift check that can go red meaningfully; the bench remains the arbiter of decisions.
+
+## What the flips mean (and what 8 vs 9 vs 10 is worth)
+
+Every decision that moved, moved in the 0.36-0.80 confidence band:
+
+| case | fp32 | int8 | truth |
+|---|---|---|---|
+| hi evacuation | medical emergency 0.824 | evacuation order 0.489 | evacuation |
+| or evacuation | safety warning 0.800 | evacuation order 0.797 | evacuation |
+| en routine | evacuation order 0.385 | medical emergency 0.541 | routine |
+| hi routine | evacuation order 0.412 | medical emergency 0.400 | routine |
+
+Nothing at ≥0.87 confidence flipped in any variant: ta 0.976→0.955, mr 0.965→0.950,
+bn 0.981→0.938, en evacuation 0.994→0.972 all hold their argmax. So the honest reading of
+8/12 (fp32) vs 10/12 (int8) is **not** "int8 is more accurate" — it is twelve sentences, and both
+variants share the same zero-shot over-trigger weakness recorded in Addendum 1. What the
+measurements support is a policy, not an accuracy claim:
+
+- escalate (ALERT) only above a confidence floor, and never invert an escalation from the low band;
+- treat 0.4-0.8 as "repeat the question / ask a human", not as a decision;
+- never let Laya alone make a destructive decision. This is a 0.6B decision model, not a
+  classifier with a validation set.
+
+A labelled evaluation is still the prerequisite for shipping decisions; this run changes what is
+available to evaluate, not that requirement.
+
+## Reproduce
+
+```bash
+# scratch venv (torch is needed only by the export)
+uv pip install --python /tmp/laya-venv/bin/python torch transformers safetensors \
+    huggingface_hub onnxscript onnx onnxruntime tokenizers
+# the vendored exporter imports laya.common.build_model: pip install laya, or PYTHONPATH a clone
+python eval/laya_onnx.py export      --out /tmp/laya_onnx
+python eval/laya_prune_vocab.py      --onnx /tmp/laya_onnx --out /tmp/laya_pruned \
+                                     --corpus-text eval/corpus_transcripts.json
+python eval/laya_slice_onnx.py       --onnx /tmp/laya_onnx --pruned /tmp/laya_pruned \
+                                     --out /tmp/laya_sliced
+python eval/laya_quantize.py         --sliced /tmp/laya_sliced --out /tmp/laya_int8
+python eval/laya_onnx.py bench       --model /tmp/laya_int8
+```
+
+## State of the integration (updated)
+
+| | |
+|---|---|
+| Exported and verified | yes — 2.1e-06; re-run 15 Oct identical |
+| Vocab sliced | yes — bit-exact incl. English, 0.00e+00 |
+| Tokenizer | 12,454 tokens; 100% piece-identical on 3,776 transcripts + 13 inference strings |
+| Decisions | fp32 8/12 · int8 10/12 · int8 no-embed 9/12 — differences are low-band noise, see above |
+| INT8 model | **done — 143.9 MB**; embedding folded; head quantized after the `value_info` strip |
+| Fallbacks | `--no-embed` measured (9/12, +27 MB); `--no-per-channel` written, not measured |
+| Still not measured | labelled accuracy; on-phone latency; Android ORT opset-18 coverage; Kotlin tokenizer byte-parity |
+| **In the app** | **no** — next: Kotlin ONNX session + BPE reader behind a toggle |

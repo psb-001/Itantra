@@ -170,6 +170,20 @@ def main():
                 fixed += 1
     print(f"  rewrote {fixed} hard-coded {old_n} attribute(s) in the graph")
 
+    # The initializer's own value_info entry is a third copy of the shape. onnxruntime ignores
+    # it, but onnx.shape_inference -- and therefore onnxruntime.quantization -- does not:
+    #   InferenceError: Inferred shape and existing shape differ in dimension 0: (12454) vs (256000)
+    # This is why the quantizer used to die on the head graph too.
+    fixed_vi = 0
+    for vi in enc.graph.value_info:
+        if vi.name == target.name:
+            dims = vi.type.tensor_type.shape.dim
+            if dims and dims[0].HasField("dim_value") and dims[0].dim_value == old_n:
+                dims[0].dim_value = len(keep)
+                fixed_vi += 1
+    if fixed_vi:
+        print(f"  rewrote {fixed_vi} value_info shape(s) for {target.name}")
+
     enc_path = os.path.join(args.out, "encoder.onnx")
     # The sliced graph is under the 2 GB protobuf limit, so save it self-contained. Any .data
     # left from a previous run is the old 1.2 GB blob and must not survive alongside it.
