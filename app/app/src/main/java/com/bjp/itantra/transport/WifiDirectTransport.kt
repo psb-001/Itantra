@@ -91,6 +91,13 @@ class WifiDirectTransport(
     @Volatile
     private var isGroupOwner = false
 
+    /**
+     * The host address this device last connected to as a client. Kept so a dropped socket can be
+     * re-dialled without waiting for the whole group to re-form.
+     */
+    @Volatile
+    private var lastHostAddress: String? = null
+
     private fun state(s: Transport.State, msg: String) {
         Log.i(TAG, "$s — $msg")
         onStateChange?.invoke(s, msg)
@@ -306,6 +313,11 @@ class WifiDirectTransport(
     private fun startHostSocket() {
         thread(name = "p2p-host") {
             try {
+                // Close any previous server socket first: after accept() returns, the old one is
+                // still bound to the port, and re-hosting on it fails with EADDRINUSE — which
+                // would make every reconnect attempt after a drop look impossible.
+                runCatching { serverSocket?.close() }
+                serverSocket = null
                 val ss = ServerSocket(PORT)
                 serverSocket = ss
                 Log.i(TAG, "hosting on port $PORT")
@@ -323,6 +335,7 @@ class WifiDirectTransport(
             state(Transport.State.ERROR, "group owner address unavailable")
             return
         }
+        lastHostAddress = host
         thread(name = "p2p-client") {
             var attempts = 0
             while (running && attempts < 10) {
@@ -361,27 +374,43 @@ class WifiDirectTransport(
                 if (running) state(Transport.State.ERROR, "link closed: ${e.message}")
             } finally {
                 isConnected = false
-                if (running) state(Transport.State.IDLE, "disconnected")
+                connectedPeerName = null
+                runCatching { socket?.close() }
+                socket = null
+                if (running) {
+                    state(Transport.State.IDLE, "disconnected")
+                    // BEST-EFFORT SELF-HEAL from the role this device already knows: the owner
+                    // re-hosts on the same port (startHostSocket closes the stale socket first),
+                    // the client redials the host it was just talking to. If the whole group
+                    // dissolved, the connection-changed broadcast reports it and the app-level
+                    // reconnect re-invites.
+                    when {
+                        isGroupOwner -> startHostSocket()
+                        lastHostAddress != null -> connectClientSocket(lastHostAddress)
+                    }
+                }
             }
         }
     }
 
     @Synchronized
-    override fun send(payload: ByteArray) {
+    override fun send(payload: ByteArray): Boolean {
         val s = socket
         if (s == null || !isConnected) {
-            Log.w(TAG, "send() while not connected — dropping ${payload.size} B")
-            return
+            Log.w(TAG, "send() while not connected — not sent (${payload.size} B)")
+            return false
         }
-        try {
+        return try {
             val out = DataOutputStream(s.getOutputStream())
             out.writeInt(payload.size)
             out.write(payload)
             out.flush()
             Log.i(TAG, "sent ${payload.size} B")
+            true
         } catch (e: IOException) {
             isConnected = false
             state(Transport.State.ERROR, "send failed: ${e.message}")
+            false
         }
     }
 

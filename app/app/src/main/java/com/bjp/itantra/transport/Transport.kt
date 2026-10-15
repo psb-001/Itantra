@@ -52,8 +52,15 @@ interface Transport {
      */
     fun connectToPeer(peerId: String? = null)
 
-    /** Send one framed message. No-op if not connected. */
-    fun send(payload: ByteArray)
+    /**
+     * Send one framed message.
+     *
+     * @return true when the packet was handed to a connected socket; false when it was NOT sent
+     *         (no link, or the write failed). Callers must buffer and retry — see [Outbox]. The
+     *         old signature returned Unit and dropped silently, so the speaker's screen said
+     *         "Sent" while the other phone heard nothing.
+     */
+    fun send(payload: ByteArray): Boolean
 
     /** Stop everything and release sockets. Safe to call twice. */
     fun stop()

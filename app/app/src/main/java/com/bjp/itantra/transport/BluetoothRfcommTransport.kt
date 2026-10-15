@@ -46,8 +46,14 @@ class BluetoothRfcommTransport(
         private const val TAG = "iTantra/BT"
         private const val SPP_NAME = "iTantra"
 
-        /** How often to check that the accept loop is still alive. */
-        private const val WATCHDOG_INTERVAL_MS = 15_000L
+        /**
+         * How often to check that the accept loop is still alive.
+         *
+         * 5 s, down from 15 s: this is the worst-case delay before a dropped session's listener
+         * side is accepting again, if the direct restart in the reader's finally block ever
+         * fails. The check itself is two volatile reads; it costs nothing to run often.
+         */
+        private const val WATCHDOG_INTERVAL_MS = 5_000L
 
         /** Pause between connect attempts. connect() blocks for its own timeout, so keep it short. */
         private const val RETRY_PAUSE_MS = 300L
@@ -161,7 +167,13 @@ class BluetoothRfcommTransport(
     }
 
     /** The accept loop, extracted so the watchdog can restart it if it dies. */
+    @Synchronized
     private fun startAcceptLoop() {
+        // Idempotent on purpose: three callers can ask for this — startListening, the watchdog,
+        // and the post-session restart in the reader — and two live accept loops on one UUID is
+        // a mess (the second listenUsingRfcommWithServiceRecord throws immediately and kills
+        // whichever thread ran it).
+        if (acceptor?.isAlive == true) return
         val adapter = adapter() ?: return
         acceptor = thread(name = "bt-accept") {
             try {
@@ -432,27 +444,40 @@ class BluetoothRfcommTransport(
                 isConnected = false
                 connectedPeerName = null
                 connectedAddress = null
-                if (running) state(Transport.State.IDLE, "disconnected")
+                if (running) {
+                    state(Transport.State.IDLE, "disconnected")
+                    // THE LISTENER SIDE COMES BACK IMMEDIATELY.
+                    //
+                    // The accept loop exits as soon as one connection is made, so before this a
+                    // dropped session left the listener phone accepting nothing until the
+                    // watchdog noticed — up to 15 s in which every reconnect attempt from the
+                    // other phone was refused instantly. Now both sides settle back into
+                    // listening the moment the session drops, which is what lets the other
+                    // phone's automatic redial land on a live socket.
+                    startAcceptLoop()
+                }
             }
         }
     }
 
     @Synchronized
-    override fun send(payload: ByteArray) {
+    override fun send(payload: ByteArray): Boolean {
         val s = socket
         if (s == null || !isConnected) {
-            Log.w(TAG, "send() while not connected — dropping ${payload.size} B")
-            return
+            Log.w(TAG, "send() while not connected — not sent (${payload.size} B)")
+            return false
         }
-        try {
+        return try {
             val out = DataOutputStream(s.outputStream)
             out.writeInt(payload.size)   // length prefix
             out.write(payload)
             out.flush()
             Log.i(TAG, "sent ${payload.size} B")
+            true
         } catch (e: IOException) {
             isConnected = false
             state(Transport.State.ERROR, "send failed: ${e.message}")
+            false
         }
     }
 
@@ -483,6 +508,7 @@ class BluetoothRfcommTransport(
      * over its scanner.
      */
     private fun startWatchdog() {
+        if (watchdog?.isAlive == true) return
         watchdog = thread(name = "bt-watchdog") {
             while (running) {
                 try {
