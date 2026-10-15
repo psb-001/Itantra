@@ -173,35 +173,36 @@ def build_keep_set(tokenizer, corpus_tokens, cfg_merges=(), verbose=True):
     # A BPE token is not atomic: "कि" is built from "क" + "ि" via a merge, and the merge list
     # must be able to rebuild every kept token from the pieces below it. The tokenizers library
     # enforces this twice over -- both merge INPUTS must be in the vocab, AND so must the merge
-    # RESULT. Dropping an intermediate therefore breaks tokenisation for every token above it,
-    # and the failure is reported only as "Token `\n` out of vocabulary" with no hint which one.
+    # RESULT. Dropping an intermediate therefore breaks tokenisation for every token above it.
     #
-    # So: walk each merge, record what it produces, and iteratively pull in every intermediate
-    # until nothing new appears. This grows the set, which is why it has to be a fixed point and
-    # not a single pass.
-    # A token can be produced by SEVERAL merges; recording only one of them leaves the others'
-    # inputs out of the closure and the BPE then fails on whichever token those inputs build.
-    # BFS over every producer, not one arbitrary one.
+    # The walk must go BOTTOM-UP: for every kept token, pull in the inputs of every merge that
+    # produces it, recursively. The earlier top-down walk (if both inputs survive, pull in the
+    # result) does not achieve this: for English it kept the final token "▁the" but not the
+    # intermediate "▁th", so every space-prefixed word fell back to bytes (9 pieces became 53
+    # on the calibration sentence). Bottom-up handles all producers, not one arbitrary one --
+    # picking a single producer still left "▁immediately" and one Marathi token split.
+    #
+    # Do NOT also run a top-down closure: once the reverse walk has pulled in base letters,
+    # "both inputs kept -> keep the result" fans out across scores of thousands of merge pairs
+    # that cross scripts (measured: 833 ids -> 170,888, two thirds of the vocabulary).
     producers = {}
     for m in cfg_merges:
         if isinstance(m, list) and len(m) == 2:
             producers.setdefault(m[0] + m[1], []).append((m[0], m[1]))
 
     before = len(keep)
-    changed = True
-    while changed:
-        changed = False
-        for tok_str, tid in list(vocab.items()):
-            if tid in keep:
-                continue
-            for a, b in producers.get(tok_str, ()):
-                if vocab.get(a) in keep and vocab.get(b) in keep:
-                    keep.add(tid)
-                    changed = True
-                    break
+    stack = [tok_str for tok_str in producers if vocab.get(tok_str) in keep]
+    while stack:
+        tok_str = stack.pop()
+        for a, b in producers.get(tok_str, ()):
+            for piece in (a, b):
+                pid = vocab.get(piece)
+                if pid is not None and pid not in keep:
+                    keep.add(pid)
+                    stack.append(piece)
     intermediates = len(keep) - before
     if verbose and intermediates:
-        print(f"  merge closure      {intermediates:>7}  (intermediates pulled in to keep BPE buildable)")
+        print(f"  merge closure      {intermediates:>7}  (producers of kept tokens, so BPE can rebuild them)")
 
     if verbose:
         print(f"  specials           {len([t for t in keep if t < 5000]):>7}")

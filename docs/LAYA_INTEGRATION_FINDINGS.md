@@ -254,7 +254,7 @@ the four nodes returned it to 7/12.
 Recorded because the failure mode is genuinely deceptive: a tokenizer bug presents as a quantised
 model regression, and the numbers look like a slow drift rather than a missing pre_tokenizer.
 
-## Known defect, not fixed: English tokenization is still degraded
+## Known defect, not fixed: English tokenization is still degraded **(fixed 15 Oct — see Addendum 2)**
 
 | | original | sliced |
 |---|---|---|
@@ -294,3 +294,90 @@ pointed at Gather initializers rather than MatMul weights. Expect roughly 180–
 Not wired in, deliberately. Shipping a known-degraded tokenizer into a disaster app because the
 size number looked good is the exact mistake this document keeps catching, and 7/12 with a known
 defect is not a state worth putting in front of a judge.
+
+---
+
+# Addendum 2 — the English defect is fixed, and 55,737 was the wrong floor
+
+**15 October 2026.** The defect recorded above is closed, and the "honest floor" claimed for the
+keep-set was wrong by a factor of four. Measured, not estimated, except where marked.
+
+## Root cause: the merge closure walked the wrong way
+
+The closure was top-down: *if both merge inputs survive, keep the result*. That guarantees a
+token is buildable from kept pieces. It says nothing about the reverse — that a kept token's own
+producer chain survives. For English, `▁the` was kept but its input `▁th` was not (the bare
+characters below `▁th` never got pulled in either), so every space-prefixed English word fell
+back to byte tokens. The Indic scripts survived because their corpus tokens are dense syllables
+whose pieces also appear in the corpus.
+
+The walk has to go bottom-up: **for every kept token, pull in the inputs of every merge that
+produces it, recursively.** Two details cost a measurement each:
+
+- *Every* producer, not one. Following only the earliest-ranked merge that produces each token
+  still left `▁immediately` and one Marathi token split — 2 of 12 samples.
+- Do **not** keep the old top-down closure as well. Once the bottom-up walk pulls in base
+  letters, "both inputs kept → keep the result" fans out to **170,888** tokens, two thirds of the
+  vocabulary, for no correctness gain.
+
+The merge filter needed the symmetric condition too: keep a merge only if **both inputs and the
+result** are in the pruned vocab. It previously checked the inputs only.
+
+## Measured result
+
+| | before | after |
+|---|---|---|
+| keep-set | 55,737 (7,264-transcript corpus) | **12,467** (4.9%, 3,776-transcript corpus) |
+| embedding | 163.3 MB fp32 | **36.5 MB fp32 / 9.1 MB int8** |
+| English calibration sentence | 9 → 39 pieces, byte fallback | **identical pieces** |
+| corpus round-trip | measured only as token coverage | **100% of 3,776 transcripts, piece-identical** |
+
+The 55,737 was not the buildable floor. It was the floor *plus* roughly 43,000 tokens the
+top-down closure added — while still not fixing English. Redo any size plan based on it: the
+sliced encoder should land near **573 MB fp32** (was 651), and INT8 should now be dominated by
+the encoder body, not the embedding.
+
+## Reproduced against the real pipeline functions
+
+`eval/laya_tokenizer_check.py` imports `build_keep_set` and `rebuild_tokenizer` from the two
+pipeline scripts — no copies to drift — and rebuilds the tokenizer against the unpruned
+`tokenizer.json`. Only `tokenizers` is needed; no torch, no ONNX, no checkpoint:
+
+```bash
+uv venv --python 3.12 /tmp/laya-venv
+uv pip install --python /tmp/laya-venv/bin/python tokenizers
+/tmp/laya-venv/bin/python eval/laya_tokenizer_check.py \
+    --tokenizer ~/.cache/huggingface/.../multilingual/tokenizer/tokenizer.json \
+    --corpus eval/corpus_transcripts.json
+```
+
+It also asserts the remap invariant the embedding slice depends on: **new id i must be old id
+`keep[i]`**, which is the row order `laya_slice_onnx.py` slices to. A silent mismatch here is the
+failure mode that produces fluent nonsense with no error.
+
+The corpus itself is now reproducible: `eval/fleurs_transcripts.py` pins the source (FLEURS
+validation/test via the HF rows API, text only; `mr_in`/`ml_in` fall back to a temp parquet
+download because their files exceed the API's 300 MB scan cap) and commits
+`eval/corpus_transcripts.json`, 3,776 transcripts. The September corpus was built ad hoc and its
+keep-set lived in `/tmp` — that is why the defect could not be rechecked without redoing the
+export.
+
+## Still not measured
+
+- **Decisions after the fix.** The 7/12 was measured with the degraded English tokenizer; the
+  pre-prune reference is 8/12. With tokenization now identical and the slice bit-exact, 8/12 is
+  the expected number — an expectation, not a measurement, until the ONNX export is re-run.
+- **INT8.** Still not applied. That is where the accuracy risk actually lives now.
+- **In the app.** Unchanged.
+
+## State of the integration (updated)
+
+| | |
+|---|---|
+| Exported and verified | yes — torch vs ONNX 2.1e-06 (29 Sep) |
+| Vocab sliced | yes — encoder bit-exact (29 Sep) |
+| Tokenizer | **fixed: 12,467 tokens, 100% piece-identical on 3,776 transcripts** |
+| OOV | none by construction on the measured corpus; whole corpus round-trips |
+| Decisions | 8/12 pre-prune reference; post-fix re-measurement pending the export |
+| INT8 | not done |
+| **In the app** | **no** |

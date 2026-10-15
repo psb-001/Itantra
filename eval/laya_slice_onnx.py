@@ -27,8 +27,6 @@ import os
 import shutil
 import sys
 
-import numpy as np
-
 
 def load_graph(path):
     import onnx
@@ -36,6 +34,77 @@ def load_graph(path):
     m = onnx.load(path, load_external_data=True)
     external_data_helper.load_external_data_for_model(m, os.path.dirname(path))
     return m
+
+
+def rebuild_tokenizer(tok_src, keep, out_path):
+    """Rebuild tokenizer.json for the sliced vocab.
+
+    New ids are assigned by position in ``keep`` -- the same order the embedding rows are sliced
+    -- so new id i is old id keep[i]. Anything outside the keep-set becomes <unk>. Returns
+    (n_vocab, n_merges).
+    """
+    from tokenizers import Tokenizer as _Tok
+    from tokenizers.models import BPE
+
+    old_cfg = json.load(open(tok_src))
+    old_vocab = old_cfg["model"]["vocab"]
+    inv = {v: k for k, v in old_vocab.items()}
+
+    new_vocab, seen = {}, set()
+    for new_id, old_id in enumerate(keep):
+        tok_str = inv.get(old_id)
+        if tok_str is None or tok_str in seen:
+            continue
+        seen.add(tok_str)
+        new_vocab[tok_str] = new_id
+    # the BPE refuses to build if the unk token is absent
+    unk_str = old_cfg["model"].get("unk_token", "<unk>")
+    if unk_str not in new_vocab:
+        raise ValueError(f"unk token {unk_str!r} is not in the keep-set -- "
+                         "the BPE cannot be built, and every fallback would be undefined")
+
+    # Both merge INPUTS and the merge RESULT must survive. Dropping the result leaves the
+    # intermediate unreachable and the tokens above it degrade to byte fallback.
+    merges = [tuple(m) for m in old_cfg["model"].get("merges", [])
+              if isinstance(m, list) and len(m) == 2
+              and m[0] in new_vocab and m[1] in new_vocab and (m[0] + m[1]) in new_vocab]
+
+    m = old_cfg["model"]
+    # Pass only the parameters that are actually set. The BPE constructor is typed for str on
+    # the optional prefix fields and rejects an explicit None, which is what the original file
+    # stores for both of them.
+    kw = dict(
+        vocab=new_vocab,
+        merges=merges,
+        fuse_unk=bool(m.get("fuse_unk", True)),
+        byte_fallback=bool(m.get("byte_fallback", False)),
+    )
+    for key in ("unk_token", "continuing_subword_prefix", "end_of_word_suffix"):
+        if m.get(key):
+            kw[key] = m[key]
+    if m.get("dropout") is not None:
+        kw["dropout"] = m["dropout"]
+    bpe = BPE(**kw)
+
+    out_tok = _Tok(bpe)
+
+    # The pipeline nodes MUST be carried over. Without the pre_tokenizer the space character is
+    # never turned into the U+2581 word-boundary marker, so every space falls through to byte
+    # fallback and "the river has flooded" tokenises as
+    #     th <0x65> <0x20> r <0x69> <0x76> e r ...
+    # instead of
+    #     \u2581the \u2581river \u2581has \u2581flooded
+    # 9 pieces become 42, the model sees text it was never shaped for, and decisions collapse
+    # from 8/12 to 2/12 with confidence bunched near 0.30. It looks like the prune damaged the
+    # weights. It damaged nothing -- the tokenizer simply had no pre_tokenizer.
+    src_tok = _Tok.from_file(tok_src)
+    out_tok.normalizer = src_tok.normalizer
+    out_tok.pre_tokenizer = src_tok.pre_tokenizer
+    out_tok.post_processor = src_tok.post_processor
+    out_tok.decoder = src_tok.decoder
+    out_tok.save(out_path)
+    _Tok.from_file(out_path)             # must load, or this whole file is worthless
+    return len(new_vocab), len(merges)
 
 
 def main():
@@ -48,6 +117,7 @@ def main():
     args = ap.parse_args()
 
     import onnx
+    import numpy as np
     from onnx import numpy_helper
 
     keep = sorted(json.load(open(os.path.join(args.pruned, "keep_ids.json"))))
@@ -115,69 +185,12 @@ def main():
     # still refused to load with "Token `\n` out of vocabulary" -- the loader cross-checks the
     # vocab, the merges, the added_tokens AND the decoder against each other, and a hand-written
     # subset does not satisfy it. Constructing it through the library guarantees consistency.
-    from tokenizers import Tokenizer as _Tok
-    from tokenizers.models import BPE
-
     tok_src = os.path.join(args.onnx, "tokenizer.json")
-    src_tok = _Tok.from_file(tok_src) if os.path.exists(tok_src) else None
-    old_cfg = json.load(open(tok_src))
-    old_vocab = old_cfg["model"]["vocab"]
-    inv = {v: k for k, v in old_vocab.items()}
-
-    new_vocab, seen = {}, set()
-    for new_id, old_id in enumerate(keep):
-        tok_str = inv.get(old_id)
-        if tok_str is None or tok_str in seen:
-            continue
-        seen.add(tok_str)
-        new_vocab[tok_str] = new_id
-    # the BPE refuses to build if the unk token is absent
-    unk_str = old_cfg["model"].get("unk_token", "<unk>")
-    if unk_str not in new_vocab:
-        new_vocab[unk_str] = unk_new
-
-    merges = [tuple(m) for m in old_cfg["model"].get("merges", [])
-              if isinstance(m, list) and len(m) == 2
-              and m[0] in new_vocab and m[1] in new_vocab]
-    print(f"  vocab    : {len(old_vocab)} -> {len(new_vocab)}")
-    print(f"  merges   : {len(old_cfg['model'].get('merges', []))} -> {len(merges)}")
-
-    m = old_cfg["model"]
-    # Pass only the parameters that are actually set. The BPE constructor is typed for str on
-    # the optional prefix fields and rejects an explicit None, which is what the original file
-    # stores for both of them.
-    kw = dict(
-        vocab=new_vocab,
-        merges=merges,
-        fuse_unk=bool(m.get("fuse_unk", True)),
-        byte_fallback=bool(m.get("byte_fallback", False)),
-    )
-    for key in ("unk_token", "continuing_subword_prefix", "end_of_word_suffix"):
-        if m.get(key):
-            kw[key] = m[key]
-    if m.get("dropout") is not None:
-        kw["dropout"] = m["dropout"]
-    bpe = BPE(**kw)
-
-    out_tok = _Tok(bpe)
-
-    # The pipeline nodes MUST be carried over. Without the pre_tokenizer the space character is
-    # never turned into the U+2581 word-boundary marker, so every space falls through to byte
-    # fallback and "the river has flooded" tokenises as
-    #     th <0x65> <0x20> r <0x69> <0x76> e r ...
-    # instead of
-    #     \u2581the \u2581river \u2581has \u2581flooded
-    # 9 pieces become 42, the model sees text it was never shaped for, and decisions collapse
-    # from 8/12 to 2/12 with confidence bunched near 0.30. It looks like the prune damaged the
-    # weights. It damaged nothing -- the tokenizer simply had no pre_tokenizer.
-    if src_tok is not None:
-        out_tok.normalizer = src_tok.normalizer
-        out_tok.pre_tokenizer = src_tok.pre_tokenizer
-        out_tok.post_processor = src_tok.post_processor
-        out_tok.decoder = src_tok.decoder
     tok_out = os.path.join(args.out, "tokenizer.json")
-    out_tok.save(tok_out)
-    check = _Tok.from_file(tok_out)      # must load, or this whole file is worthless
+    n_vocab, n_merges = rebuild_tokenizer(tok_src, keep, tok_out)
+    old_merges = len(json.load(open(tok_src))["model"].get("merges", []))
+    print(f"  vocab    : {old_n} -> {n_vocab}")
+    print(f"  merges   : {old_merges} -> {n_merges}")
     print(f"  tokenizer rebuilt and reloads cleanly: {tok_out} "
           f"({os.path.getsize(tok_out)/1048576:.1f} MB)")
 
