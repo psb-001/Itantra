@@ -19,6 +19,8 @@ same number.
 External data note: the exported encoder.onnx is >2 GB with weights in encoder.onnx.data, so it
 must be loaded with load_external_data=True and re-saved with the same convention or the .data
 file and the graph will disagree.
+
+Next step after this one: eval/laya_quantize.py turns the fp32 slice into int8 weights.
 """
 
 import argparse
@@ -113,7 +115,6 @@ def main():
     ap.add_argument("--onnx", default="/tmp/laya_onnx")
     ap.add_argument("--pruned", default="/tmp/laya_pruned")
     ap.add_argument("--out", default="/tmp/laya_sliced")
-    ap.add_argument("--quantize", action="store_true", help="also write int8 encoder+head")
     args = ap.parse_args()
 
     import onnx

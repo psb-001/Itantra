@@ -327,15 +327,31 @@ result** are in the pruned vocab. It previously checked the inputs only.
 
 | | before | after |
 |---|---|---|
-| keep-set | 55,737 (7,264-transcript corpus) | **12,467** (4.9%, 3,776-transcript corpus) |
+| keep-set | 55,737 (7,264-transcript corpus) | **12,454** (4.9%, 3,776-transcript corpus) |
 | embedding | 163.3 MB fp32 | **36.5 MB fp32 / 9.1 MB int8** |
-| English calibration sentence | 9 → 39 pieces, byte fallback | **identical pieces** |
+| English calibration sentence | 9 → 39 pieces, byte fallback | **identical pieces when corpus-covered** |
 | corpus round-trip | measured only as token coverage | **100% of 3,776 transcripts, piece-identical** |
+| inference strings (question + options) | not checked | **13/13 identical** |
 
 The 55,737 was not the buildable floor. It was the floor *plus* roughly 43,000 tokens the
 top-down closure added — while still not fixing English. Redo any size plan based on it: the
-sliced encoder should land near **573 MB fp32** (was 651), and INT8 should now be dominated by
-the encoder body, not the embedding.
+sliced build should land near **520 MB fp32** (was 651) — 420.9 MB encoder body + 36.5 MB
+embedding + 57.3 MB head + 1.6 MB tokenizer — and INT8 should now take the encoder body to
+roughly 110 MB, with the embedding at 9.1 MB no longer a factor.
+
+## What a pruned tokenizer still changes, by design
+
+Held-out text is *not* the original tokenizer. A word whose full-token id never appeared in the
+corpus can split into finer known pieces — `▁flooded` → `▁flo` + `oded` — because the full-word
+merge result is not in the kept vocab. That is the price of a 4.9% vocabulary, and it is
+bounded: base characters, the byte-fallback alphabet and the full Latin+digit range survive, so
+held-out text degrades to finer *known* pieces, never to raw bytes. Of the 12 held-out sample
+sentences, 3 split finer and **0 fall back**.
+
+`eval/laya_tokenizer_check.py` encodes that policy: corpus and inference strings are hard gates
+(must be piece-identical), held-out text is a byte-fallback gate plus a reported drift count.
+The rescue phrase list is the lever for domain text — if the bench shows a word class regressing,
+add that class there first.
 
 ## Reproduced against the real pipeline functions
 
@@ -365,9 +381,12 @@ export.
 ## Still not measured
 
 - **Decisions after the fix.** The 7/12 was measured with the degraded English tokenizer; the
-  pre-prune reference is 8/12. With tokenization now identical and the slice bit-exact, 8/12 is
-  the expected number — an expectation, not a measurement, until the ONNX export is re-run.
-- **INT8.** Still not applied. That is where the accuracy risk actually lives now.
+  pre-prune reference is 8/12. With tokenization now identical on everything the model is
+  prompted with and the slice bit-exact, 8/12 is the expected number — an expectation, not a
+  measurement, until the ONNX export is re-run.
+- **INT8.** Still not applied. `eval/laya_quantize.py` now exists — dynamic int8 for the
+  encoder body and the embedding Gather, best-effort head, with an encoder drift check — but it
+  cannot be run until the model is re-exported. Accuracy risk lives there now.
 - **In the app.** Unchanged.
 
 ## State of the integration (updated)
@@ -376,8 +395,8 @@ export.
 |---|---|
 | Exported and verified | yes — torch vs ONNX 2.1e-06 (29 Sep) |
 | Vocab sliced | yes — encoder bit-exact (29 Sep) |
-| Tokenizer | **fixed: 12,467 tokens, 100% piece-identical on 3,776 transcripts** |
-| OOV | none by construction on the measured corpus; whole corpus round-trips |
+| Tokenizer | **fixed: 12,454 tokens, 100% piece-identical on 3,776 transcripts + 13 inference strings** |
+| Held-out text | splits finer on unseen full-word tokens, no byte fallback |
 | Decisions | 8/12 pre-prune reference; post-fix re-measurement pending the export |
-| INT8 | not done |
+| INT8 | not done; quantizer script written and probe-tested on a synthetic Gather→MatMul graph |
 | **In the app** | **no** |

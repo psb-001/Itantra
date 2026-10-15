@@ -219,13 +219,26 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--onnx", default="/tmp/laya_onnx", help="exported laya_onnx dir")
     ap.add_argument("--out", default="/tmp/laya_pruned")
-    ap.add_argument("--corpus", default="", help="keep-set json from the measurement step")
+    ap.add_argument("--corpus", default="", help="keep-set json of corpus token ids")
+    ap.add_argument("--corpus-text", default="",
+                    help="JSON {lang: [texts]} as written by eval/fleurs_transcripts.py; "
+                         "tokenized here so the run is one command")
     args = ap.parse_args()
 
     from tokenizers import Tokenizer
 
     tok = Tokenizer.from_file(os.path.join(args.onnx, "tokenizer.json"))
     corpus = set(json.load(open(args.corpus))) if args.corpus else set()
+    if args.corpus_text:
+        texts = json.load(open(args.corpus_text))
+        for lang, ts in texts.items():
+            ids = set()
+            for t in ts:
+                ids |= set(tok.encode(t, add_special_tokens=False).ids)
+            corpus |= ids
+            print(f"  corpus {lang:>7}  {len(ts):>5} transcripts  {len(ids):>6} distinct ids")
+        print(f"  corpus total   {sum(len(v) for v in texts.values()):>5} transcripts  "
+              f"{len(corpus):>6} distinct ids")
 
     print("building keep-set")
     cfg_merges = json.load(open(os.path.join(args.onnx, "tokenizer.json")))["model"].get("merges", [])
