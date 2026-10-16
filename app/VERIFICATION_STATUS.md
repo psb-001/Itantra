@@ -1,9 +1,9 @@
 # Verification status — what is actually proven
 
 **Date:** 20 September 2026 · Android 34 arm64 emulator (Apple Silicon host)
-**Evidence:** every row below cites a file in `app/evidence/`
+**Evidence:** every row below names its evidence file.
 
-> **Why this file exists.** Six bugs were found in this app, and *every one of them compiled
+> **Why this file exists.** Fifteen bugs were found in this app, and *every one of them compiled
 > cleanly*. A green build proves nothing. This is the honest ledger of what has been executed
 > versus what is still just code.
 
@@ -58,9 +58,10 @@
 
 ## THE DEMO NOW EXISTS — 27 September 2026
 
-**This was the single largest open risk in the project and it is now closed.** The team ran the
-built release APK on **two physical Android phones** and the two-phone walkie-talkie loop worked:
-speech on one phone was recognised, sent as text over the radio, and spoken aloud on the other.
+**This was the single largest open risk in the project. It is now closed.** The team ran the
+built release APK on **two physical Android phones**, and the two-phone walkie-talkie loop
+worked. Speech on one phone was recognised, sent as text over the radio, and spoken aloud on
+the other.
 
 Before this, the Bluetooth RFCOMM socket had **never once connected, by anyone**, in the whole
 life of the project. The transport code had been read, not run. It ran, and it worked.
@@ -81,8 +82,9 @@ questioning, attach:
 - [ ] Wall-clock from releasing the button on A to audio starting on B
 - [ ] A short video of the whole exchange, if the submission format allows it
 
-The logs already print what is needed: `"CONNECTED to <name> in N ms"`, `"sent N B"`, and on the
-receive side the rendered text plus TTS synthesis time. Log tags `iTantra/BT` and `iTantra/LOOP`.
+The logs already print what is needed: `"CONNECTED to <name> in N ms"` and `"sent N B"`. The
+receive side logs the rendered text plus TTS synthesis time. Log tags: `iTantra/BT` and
+`iTantra/LOOP`.
 
 ## Still not verified
 
@@ -154,10 +156,10 @@ adb logcat -d | grep -E "BENCH|PIPE|LOOP"
 ## Bottom line
 
 **The app works — the radio included.** Speech recognition, language filtering, packet handling,
-speech synthesis, playback and alert mode have all been executed and observed, and on
-27 September 2026 the two-phone Bluetooth loop ran end-to-end on two physical phones.
+speech synthesis, playback and alert mode have all been executed and observed. On
+27 September 2026, the two-phone Bluetooth loop ran end-to-end on two physical phones.
 
-What remains is not code. The evidence capture listed above for that demo is still outstanding,
-and the two-phone checklist (`docs/DELIVERY_FINDINGS.md`) must be re-run on the current build —
-the delivery layer grew receipts, reconnects and kill-survival after the demo, and the signing
-key was rotated.
+What remains is not code. The evidence capture listed above for that demo is still outstanding.
+The two-phone checklist (`docs/DELIVERY_FINDINGS.md`) must be re-run on the current build. The
+delivery layer grew receipts, reconnects and kill-survival after the demo, and the signing key
+was rotated.

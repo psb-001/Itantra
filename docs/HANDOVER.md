@@ -285,3 +285,45 @@ Found and fixed while you were away:
 
 The Odia and Marathi corrections from 19 Sep still stand (Odia was optimistic at 6 clips; Marathi
 was wrongly written off).
+
+---
+
+## Session record — 16 October 2026 (release day)
+
+**Purpose.** Publish v1.0.0 to GitHub and leave the repository clean.
+
+**Decisions.**
+
+1. Release identity: `versionName 1.0.0`, `versionCode 2`. Debug builds carry the `.debug`
+   package suffix.
+2. Key rotation: the first key was committed to git with its password, so it counts as
+   compromised. We rotated it on 16 Oct 2026. Older installs must be uninstalled first.
+3. History cleanup, not a merge: four local deck commits duplicated content already on
+   `origin/main`. We replayed the 30 app commits onto `origin/main` with `git rebase --onto` and
+   dropped the duplicates. The keystore file was parked outside the repository during the rebase.
+4. Distribution stays sideload-only. No Google Play.
+
+**Completed work.**
+
+1. Fixed the launch crash. Rebuilt and re-signed the release APK: 993,362,447 bytes, sha256
+   `0b46aeffa5a39e506340632c16d125c6787a4cc13cbfbb10d79b35f0cae26b48`.
+2. Ran the release APK on an Android 34 emulator (arm64). Every screen opened. Three self-tests
+   passed. No crashes.
+3. Corrected the two-phone claims in 7 files. The 27 Sep 2026 demo ran on the earlier build.
+4. Rebased 30 commits onto `origin/main` (zero conflicts). The tree stayed byte-identical.
+5. Pushed `main` and tag `v1.0.0`. Published GitHub Release `v1.0.0` with 43 assets.
+6. Verified the release APK byte-for-byte: GitHub's digest matches the local SHA-256 exactly.
+7. Added the full team (6 members) to the README, with LinkedIn links.
+8. Backed up the signing files to `~/itantra-signing-backup/`: the new key, the superseded key,
+   `keystore.properties`, and restore instructions.
+9. Rewrote the README and the current-facing docs in simpler English: shorter sentences, active
+   voice, no semicolons.
+
+**Open items.**
+
+1. **WARNING: the signing backup sits on one machine only.** Copy `~/itantra-signing-backup/` off
+   the Mac. A disk failure would end the update path.
+2. Re-run the 12-item two-phone checklist on v1.0.0 (`docs/DELIVERY_FINDINGS.md`). Install the
+   new APK fresh on both phones first.
+3. Decisions pending: foreground service for long holds, Laya voice assets, APK size trimming,
+   and the English voice verdict.

@@ -127,8 +127,8 @@ Add a line to the **challenges and risks** box, so the judge finds our answer be
 
 > **Setting two phones up takes three manual steps, including one inside Android Settings.** That
 > is too many for someone in a flood. Our answer: pairing happens at responder setup, not during
-> the emergency; Wi-Fi Direct removes pairing entirely for strangers; and we are building in-app
-> pairing so it becomes one tap.
+> the emergency. Wi-Fi Direct removes pairing entirely for strangers. We are also building in-app
+> pairing, so it becomes one tap.
 
 Putting the weakness on the slide, with the fix next to it, is worth more than being asked and
 defending it. It is the same move as the licence disclosure — and it worked there.

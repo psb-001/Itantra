@@ -24,7 +24,7 @@ and sends nothing. Every Latin transcript was rejected this way, so English spee
 mostly-English Hinglish — could not be transmitted at all.
 
 **Fix.** The live path passes `langTag = null`. There is no language selector in this build, so
-there is no honest expected script to enforce; with `null`, purity asks the same question
+there is no honest expected script to enforce. With `null`, purity asks the same question
 `LanguageFilter.filter(raw, null)` already asks — "is every letter inside one of the nine allowed
 scripts" — which is the only accusation that can be substantiated on-device after the vocabulary
 prune. Pinned by three new tests in `QualityGateTest`: the 0.0 measurement, English sendable, and
@@ -33,7 +33,7 @@ the measured Hinglish sentence sendable.
 ## Finding 2 — the receiver spoke fragments over each other (playback cut-off)
 
 Every received packet spawned its own `tts` thread, and `Speaker.play()` starts with `stop()`.
-A long hold produces a burst of segments; the second message's playback therefore cut the first
+A long hold produces a burst of segments. The second message's playback therefore cut the first
 one off mid-word, and the *order* of playback depended on which thread won the synthesis lock.
 On the receiving phone, "I spoke a lot" was heard as fragments in unstable order.
 
@@ -59,19 +59,19 @@ spoken.
 
 - `Transport.send()` while disconnected logged a warning and **silently dropped** the packet — the
   speaker's screen still said "Sent".
-  **Fix.** `send()` now returns `Boolean`; a new `Outbox` (unit-tested, 6 cases) sends when the
+  **Fix.** `send()` now returns `Boolean`. A new `Outbox` (unit-tested, 6 cases) sends when the
   link is up and buffers *in order* when it is down (cap 64, oldest dropped and counted), and the
   transport's CONNECTED callback flushes it. Buffered packets keep their TTL, so a very old one is
   shown as text but never announced as live.
 - The sender never re-dialled after a drop. **Fix.** Automatic reconnect with backoff
-  (2 s → 5 s → 10 s → 15 s, reset on CONNECTED), dialling the peer last chosen in DEVICES; it is
+  (2 s → 5 s → 10 s → 15 s, reset on CONNECTED), dialling the peer last chosen in DEVICES. It is
   guarded against fighting a manual reconnect or a rebuilt transport.
 - The Bluetooth **listener** accept loop exits after the first connection and was only restarted
-  by the 15 s watchdog. **Fix.** The accept loop restarts the moment a session drops; the watchdog
+  by the 15 s watchdog. **Fix.** The accept loop restarts the moment a session drops. The watchdog
   is now 5 s as backup, `startAcceptLoop` is idempotent, and the watchdog cannot be duplicated.
 - Wi-Fi Direct: a dropped socket was terminal (and re-hosting would have failed with `EADDRINUSE`
   because the old server socket stayed bound). **Fix.** The socket owner closes the stale server
-  socket and re-hosts; the client re-dials the host address it already knew; a group dissolve is
+  socket and re-hosts. The client re-dials the host address it already knew. A group dissolve is
   reported and the dialer side re-invites through the automatic reconnect.
 - Bluetooth switched off→on re-opened only the listening side. **Fix.** It now also re-dials the
   last peer.
@@ -85,10 +85,10 @@ the only goal:
   range or slept, `read()` just kept blocking, `isConnected` stayed true, and the next messages
   were written into a socket that reached nobody — while the screen said "Sent". **Fix.** A
   transport-level heartbeat: every frame now carries a 1-byte type (`Framing`), and when the link
-  has been quiet for 4 s each side sends a ping; any inbound frame — data, ping or pong — is
+  has been quiet for 4 s each side sends a ping. Any inbound frame — data, ping or pong — is
   proof of life. After 12 s with no frame at all the link is declared dead, the socket is closed
   (which unblocks the reader *and* any write stuck in flow control), and the existing reconnect
-  takes over. A live link costs two bytes every few seconds; a dead one is detected in ~12 s
+  takes over. A live link costs two bytes every few seconds. A dead one is detected in ~12 s
   instead of "whenever the user next speaks". The ping's round-trip time is logged
   ("heartbeat pong — round trip N ms") — free link-quality telemetry for the demo.
 - **Every connect attempt wasted ~5 s of pure sleeps.** `cancelDiscovery()` + a 300 ms settle was
@@ -96,10 +96,10 @@ the only goal:
   `cancelDiscovery()` is a no-op when discovery is not running — and this transport never starts
   discovery itself. **Fix.** The settle only happens when `isDiscovering` is actually true.
 - **Reconnects forgot what worked.** The raw-channel fallback always swept from channel 1.
-  **Fix.** The channel that last produced a connection is remembered and tried first; channel 1
+  **Fix.** The channel that last produced a connection is remembered and tried first. Channel 1
   and the rest of the sweep follow only if it fails.
 - **Two sockets could race into one transport.** `attach()` could be reached twice in a
-  crossed-connect race; the loser's reader would later flip `isConnected` off on a healthy link,
+  crossed-connect race. The loser's reader would later flip `isConnected` off on a healthy link,
   and a failed write left its socket unclosed. **Fix.** Sockets are closed before being replaced,
   sessions are numbered so only the newest reader may touch connection state, a write failure
   closes its socket immediately, `stop()` during a connect no longer adopts a socket, and the
@@ -151,14 +151,14 @@ the common case.
 
 - **An ALERT now jumps the head of the speech queue.** Stopping the current track was never the
   whole story: the queue could already hold several unspoken sentences, and the distress message
-  waited behind every one of them. The queue is a deque now; an explicit ALERT is `offerFirst`ed,
+  waited behind every one of them. The queue is a deque now. An explicit ALERT is `offerFirst`ed,
   speaks next, and the queued sentences continue in their original order afterwards.
 - **An alert that arrives while the message before it is still SYNTHESISING goes first too.**
   Stopping playback covered an alert that lands mid-audio. Voice loading and synthesis take
   seconds with nothing audible — and there the alert had no way in: the worker would play the
   message it was preparing IN FULL first, then the alert. Alerts enter at the head and the worker
   is the only consumer, so an alert found waiting ahead right after a synthesis must have arrived
-  during it; the in-flight message — nothing of it heard yet — re-queues directly behind the
+  during it. The in-flight message — nothing of it heard yet — re-queues directly behind the
   alerts, ahead of every later normal message, and the alert speaks next. `SpeechQueueOrder`,
   6 unit tests.
 - **Long clips can no longer fail to play.** A 30 s VAD segment at 22 kHz float is ~2.6 MB, and
@@ -174,14 +174,14 @@ the common case.
 Android Lint over the whole app: **0 errors now (was 32)**. Every fix below is behavior, not style:
 
 - **API floor raised to 23.** The app's own calls — `AudioTrack.Builder` (all speech playback),
-  `Context.getColor`, `TextView.setTextAppearance(int)`, `getSystemService(Class)` — are API 23;
+  `Context.getColor`, `TextView.setTextAppearance(int)`, `getSystemService(Class)` — are API 23.
   with the old `minSdk = 21` they would crash on Android 5.x. Compatibility shims for 0.1% of
   devices would be untested paths, so the floor moved to where the code actually runs.
 - **`ACCESS_COARSE_LOCATION` added** (manifest, same `maxSdkVersion="32"` cap) and requested as a
   pair with FINE on Android 10+. Android 12+ ignores a request for FINE location alone — the
   Wi-Fi Direct discovery path would have silently never received it.
 - **Permission guards made explicit.** The Bluetooth accept loop and `AudioRecord` creation carry
-  `@SuppressLint("MissingPermission")` with the in-place check documented; the Wi-Fi Direct
+  `@SuppressLint("MissingPermission")` with the in-place check documented. The Wi-Fi Direct
   broadcast receiver and connect calls now *catch* `SecurityException` — permission revoked
   mid-session by the privacy dashboard used to be an uncaught crash from a receiver.
 - **Backup rules for Android 12+.** `dataExtractionRules` + `fullBackupContent="false"`: nothing
@@ -217,9 +217,9 @@ model, FLEURS clips, the Kotlin algorithm ported exactly):
 
 The rule is now live (`AsrEngine.transcribeWithTokens` → `QualityGate.evaluate(tokens = …)`) with
 one measured exemption: a SINGLE digit token never counts as a loop at the 1-token level, so
-numbers pass. Two-token digit runs are still counted ("10 10 10 10" is a stuck decoder); the
+numbers pass. Two-token digit runs are still counted ("10 10 10 10" is a stuck decoder). The
 accepted cost is that a number with eight consecutive zeros reaches the threshold — vanishingly
-rare, and the sender is merely asked to repeat. `QualityGateTest` pins both halves; the probe and
+rare, and the sender is merely asked to repeat. `QualityGateTest` pins both halves. The probe and
 its JSON are committed under `eval/`.
 
 ## Production pass — survive a kill, speak without gaps, mind the room, yield memory
@@ -230,38 +230,38 @@ A deliberate audit of "what still breaks a demo" produced the changes below, all
   heard-ids ledger lived only in RAM, so Android killing the app in the background (low RAM, a
   swipe, a crash) erased sentences the sender had already been shown as "Sent" or "Buffered" —
   the last silent-drop path. `PendingStore` writes all three to one small JSON file on every
-  change (hex packets; temp-file+rename, so a kill mid-write cannot tear it) and
+  change (hex packets, temp-file+rename — a kill mid-write cannot tear it) and
   `restorePending()` puts it back at startup. Nothing is sent from the restore — the packets wait
   in the outbox and flush, in order, when a link comes up. Deadlines convert honestly (RAM runs
-  on the monotonic clock, disk stores wall-clock epochs), so a restart cannot grant a fresh TTL;
-  a restored message whose time ran out is abandoned LOUDLY on the first tick, exactly as if the
+  on the monotonic clock, disk stores wall-clock epochs), so a restart cannot grant a fresh TTL.
+  A restored message whose time ran out is abandoned LOUDLY on the first tick, exactly as if the
   app had stayed alive. Log: "restored from the last session: N buffered packet(s), M awaiting
   receipt, K id(s) remembered".
 - **A long hold no longer has a synthesis-shaped pause between its sentences.** While a message
   is being heard, the worker synthesises the next queued one and plays it straight away when its
-  turn comes. One slot, keyed by message id and voice, worker-thread only; an ALERT is never
+  turn comes. One slot, keyed by message id and voice, worker-thread only. An ALERT is never
   delayed for it, never prefetched, and a message that is no longer next is dropped, not spoken.
   Log: "speech: pre-synthesised <id> while the previous message plays" / "speech <id>: already
   synthesised — playing immediately".
 - **The speaker now asks for audio focus** — what the `Speaker` class comment always claimed.
   A normal announcement requests `TRANSIENT_MAY_DUCK` (music lowers itself for the sentence and
-  comes back after); an ALERT requests `TRANSIENT` without the duck (an emergency is heard over
+  comes back after). An ALERT requests `TRANSIENT` without the duck (an emergency is heard over
   music, not mixed under it). Focus is handed back when a normal message has been heard to its
   end, which also releases the AudioTrack buffer. A refused or failed request changes nothing
   about whether the message plays.
 - **An ALERT buzzes when it lands** — two pulses and a long one. Wire-typed ALERTs buzz at
   receive time, after the duplicate and freshness gates (a resend of something already felt does
   not buzz again) and before the speaker (a phone in a pocket feels it while other audio is
-  still talking); a message that TRIAGE escalates buzzes when it starts speaking as an alert.
+  still talking). A message that TRIAGE escalates buzzes when it starts speaking as an alert.
   With no ALERT-send UI on the phone, the escalation path is the alert a real user produces —
-  both are covered. VIBRATE permission added; any failure is logged and changes nothing else.
+  both are covered. VIBRATE permission added. Any failure is logged and changes nothing else.
 - **Low memory is given back, never at the cost of work in flight.** `onTrimMemory` at
-  RUNNING_LOW releases the idle TTS voice (~60 MB, ~1 s to reload); at RUNNING_CRITICAL it also
+  RUNNING_LOW releases the idle TTS voice (~60 MB, ~1 s to reload). At RUNNING_CRITICAL it also
   releases the ASR recogniser (~340 MB, rebuilt on demand). Recording, playback and both queues
   are checked first, and a new `asrLock` — a decode holds it for its whole duration, trims
   `tryLock` — closes the use-after-free that a release under a running decode would otherwise be.
 - **The last silent discard is gone.** A segment that arrived while the recogniser was not
-  resident used to be dropped with a log line; it now triggers a reload and decodes it, and if
+  resident used to be dropped with a log line. It now triggers a reload and decodes it, and if
   the reload fails the transcript says what was lost and that nothing was sent.
 - **Smaller things:** the capture thread runs at `THREAD_PRIORITY_URGENT_AUDIO` (a starved
   `AudioRecord` loses words before any gate can see them), and the status line shows
@@ -270,7 +270,7 @@ A deliberate audit of "what still breaks a demo" produced the changes below, all
 
 ## Release pass — the app gets its name, number, and key (16 Oct)
 
-Not about the message pipeline; about the thing you hand to a phone.
+This pass is not about the message pipeline. It is about the thing you hand to a phone.
 
 - **Version 1.0.0 (versionCode 2)**, up from the never-released 0.1.0 line. About and Settings
   read the version from the installed package instead of a hardcoded string, so what they show
@@ -281,10 +281,10 @@ Not about the message pipeline; about the thing you hand to a phone.
 - **Debug and release coexist.** Debug builds carry the `.debug` package suffix
   (`com.bjp.itantra.debug`), so they no longer fight the release over one package name.
   `pull_logs.sh` pulls from whichever is installed.
-- **Signing done properly.** The first keystore was committed together with its password; a
+- **Signing done properly.** The first keystore was committed together with its password. A
   key whose secrets are in git history is not a key. It is retired and replaced by a fresh
   RSA-4096 key (CN `iTantra`, OU `Team BJP`, valid to 2054), credentials in an untracked
-  `keystore.properties`. Two files must be backed up; bumping `versionCode` on every
+  `keystore.properties`. Two files must be backed up. Bumping `versionCode` on every
   release is not optional. Both rules, plus the verification commands, are `docs/RELEASE.md`.
 - **The artifact is a signed release**: `releases/iTantra-1.0.0-release.apk`,
   993,362,447 B, sha256 `0b46aeffa5a39e506340632c16d125c6787a4cc13cbfbb10d79b35f0cae26b48`,
@@ -340,42 +340,42 @@ the first one in `releases/` under the same version number.
   order), 2 for the now-live loop check, 5 for `PendingStore` (byte-exact round trip including
   binary-unsafe bytes, missing/torn/future-version files, no temp file left behind, concurrent
   saves never leave an unreadable file), 2 for `MessageLedger` (a heard id cannot replay after a
-  restart; the restore bound holds). The debug variant compiles cleanly in the same run.
+  restart, and the restore bound holds). The debug variant compiles cleanly in the same run.
 - Lint: 0 errors / 16 accepted warnings, unchanged by this pass (the SDK-gated focus and vibrator
   calls raised no new API warnings).
 - Build: the runnable artifact is now the **signed release**
   `releases/iTantra-1.0.0-release.apk` (16 Oct, 993,362,447 B, sha256
-  `0b46aeffa5a39e506340632c16d125c6787a4cc13cbfbb10d79b35f0cae26b48`; the 16 Oct 09:57 build
+  `0b46aeffa5a39e506340632c16d125c6787a4cc13cbfbb10d79b35f0cae26b48`. The 16 Oct 09:57 build
   under the old hash crashed at launch and is superseded). The release pass above
-  replaced the debug APK as the phone build; the debug variant still compiles cleanly and now
+  replaced the debug APK as the phone build. The debug variant still compiles cleanly and now
   installs alongside as `com.bjp.itantra.debug`. **Both phones must be reinstalled with the
   release build** — the wire format and receipt envelope changed earlier in the project and
   everything in these passes lives inside the APK — and any older iTantra must be uninstalled
-  first (the key rotation changed the signature; see the release pass above).
+  first (the key rotation changed the signature — see the release pass above).
 - **First run on a device runtime** (Android 34 emulator, arm64-v8a, the fixed release APK):
-  launched clean and stayed up; every screen opened with no fault — About (version line
+  launched clean and stayed up. Every screen opened with no fault — About (version line
   "1.0.0 (release)", read from the installed package), Settings with live counters, Devices,
   open-source credits. The app's own test modes, each a full pass:
   - *Pipeline* (`--ez pipeline true`): English clip → 3 segments, all sent, script 1.00,
-    packets 129–211 B; Hindi clip → **0 segments before flush, 1 after** — the VAD-flush fix
+    packets 129–211 B. Hindi clip → **0 segments before flush, 1 after** — the VAD-flush fix
     working, the exact bug this test exists to catch. ASR compute 143–1134 ms per segment.
-  - *Loopback* (`--ez loopback true`): every segment SENT → TTS → played → COMPLETE;
-    synthesis 50–566 ms per sentence at 22050 Hz; playback exercised both NORMAL and ALERT
+  - *Loopback* (`--ez loopback true`): every segment SENT → TTS → played → COMPLETE.
+    Synthesis 50–566 ms per sentence at 22050 Hz. Playback exercised both NORMAL and ALERT
     modes of the audio-focus `Speaker` — the class from the crash fix — with no fault.
   - *Benchmark* (`--ez benchmark true`): ASR load 2215 ms, ASR RTF **0.156** over 29.9 s of
-    audio; TTS voice load 924 ms, TTS RTF **0.078**; native heap 6 → 24 MB. Emulator numbers;
-    a real phone is still what the checklist below measures.
+    audio. TTS voice load 924 ms, TTS RTF **0.078**. Native heap 6 → 24 MB. Emulator numbers.
+    A real phone is still what the checklist below measures.
   - *Triage toggle*: switching Laya on copied its assets (143 MB, first use) and reported
-    "triage ready — vocab 12454, merges 30829"; switching back off was clean.
+    "triage ready — vocab 12454, merges 30829". Switching back off was clean.
 
 ## Phone checklist (two phones, release APK)
 
-1. Pair once in Android Settings. Open the app on both; wait for "Ready — hold to talk".
+1. Pair once in Android Settings. Open the app on both. Wait for "Ready — hold to talk".
 2. One phone: DEVICES → tap the other. Both banners show "connected to …".
 3. Short burst: one sentence → the other phone speaks it fully.
 4. **Long speech (the reported bug):** hold ~20–30 s, 4–5 sentences with short pauses, release →
    the other phone must speak ALL sentences, in order, none cut off. Sender log shows one
-   "queued for recognition" per segment; the listener log shows "pre-synthesised … while the
+   "queued for recognition" per segment. The listener log shows "pre-synthesised … while the
    previous message plays" and the sentences should run on with no silence between them — that
    is the prefetch (see the production pass above).
 5. **Link drop:** walk out of range while it plays. Sender log: "link IDLE — reconnect attempt N in
@@ -385,7 +385,7 @@ the first one in `releases/` under the same version number.
    reconnect line, about 12 s after the other phone goes away.
 6. **English (Finding 1 regression):** say an English sentence → it must send (no "say it again"),
    and the other phone speaks it with the English voice.
-7. Hinglish mixed sentence → travels; see Addenda 1–2 of `MODEL_AND_TTS_FINDINGS.md`.
+7. Hinglish mixed sentence → travels. See Addenda 1–2 of `MODEL_AND_TTS_FINDINGS.md`.
 8. Toggle Bluetooth off/on on one phone → the link returns without touching DEVICES.
 9. Log lines to watch: "sent N B", "✓ delivered … confirmed by the other phone", "no receipt for
    … resend N/10", "✗ no receipt for … abandoned", "link down, buffered (Outbox…)", "flushed N
@@ -400,12 +400,12 @@ the first one in `releases/` under the same version number.
 10. **Delivery receipt:** speak a sentence → sender log shows "✓ delivered <id> confirmed by the
     other phone", and the banner flips to "✓ Delivered". Then close the app on the *other*
     phone: speak two short sentences → "Buffered
-    … link down"; reopen the other phone's app → "link up — flushed N packet(s)" followed by one
+    … link down". Reopen the other phone's app → "link up — flushed N packet(s)" followed by one
     "✓ delivered …" per sentence. A receipt that only arrives after retries is marked "(after N
     resend(s))", and an abandoned message shows "✗ no receipt for …" — nothing is ever dropped
     silently.
 11. **Process-kill survival (new):** close the app on the receiving phone. On the sender, speak a
-    sentence → "link down, buffered". Swipe the sender's app away from recents; reopen it →
+    sentence → "link down, buffered". Swipe the sender's app away from recents. Reopen it →
     "restored from the last session: 1 buffered packet(s), N awaiting receipt…". Reopen the other
     phone's app → "link up — flushed 1 packet(s) buffered while down", the sentence is spoken,
     and "✓ delivered … confirmed by the other phone" appears. Nobody killed the sentence. Same
@@ -417,4 +417,4 @@ the first one in `releases/` under the same version number.
     collapsed, please send help to the school") → the listener shows 🔴, buzzes twice and then
     long, is heard at emergency volume over the music, and loops until the next message replaces
     it. (No phone UI SENDS a wire-typed ALERT — the triage escalation is a real user's alert
-    path; the receive-time buzz covers a wire ALERT if a test harness ever sends one.)
+    path. The receive-time buzz covers a wire ALERT if a test harness ever sends one.)

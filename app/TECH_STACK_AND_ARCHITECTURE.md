@@ -24,7 +24,7 @@ Generated 21 September 2026 from the actual build files and a built APK — not 
 | **Java / Kotlin target** | 17 | |
 
 `androidResources.noCompress += listOf("onnx", "txt", "bin")` — the model files are already
-compressed; re-compressing them bloats the APK and slows every build.
+compressed. Re-compressing them bloats the APK and slows every build.
 
 ---
 
@@ -166,7 +166,7 @@ transmit.
 }
 ```
 
-Measured payload: **49–111 bytes** of raw text; **128–275 bytes** with the envelope. The equivalent
+Measured payload: **49–111 bytes** of raw text, or **128–275 bytes** with the envelope. The equivalent
 audio is roughly **1,000× larger**. That ratio is the entire argument for the project.
 
 ### 5.3 Transport framing
@@ -204,9 +204,9 @@ Three details that are load-bearing:
 1. **Flush on release.** The VAD emits a segment only after ~0.25 s of trailing silence. A user who
    speaks and immediately releases never triggers it, so the utterance must be flushed explicitly.
    Without this, speech-to-text produced literally nothing.
-2. **0.2 s of leading silence before ASR.** The VAD cuts exactly at speech onset; with no run-up the
-   model's script decision is unstable and Hindi comes back in Arabic or Tamil script. Measured
-   threshold: 0.05 s fixes it; 0.2 s gives margin.
+2. **0.2 s of leading silence before ASR.** The VAD cuts exactly at speech onset. With no run-up,
+   the model's script decision is unstable, and Hindi comes back in Arabic or Tamil script.
+   Measured threshold: 0.05 s fixes it. 0.2 s gives margin.
 3. **Filter after ASR, before send.** The model is a 1,600-language character-level CTC model with
    no language parameter. The filter enforces the *selected* language's script — not merely "one of
    the ten", which would let a Hindi→Gujarati flip through as unreadable text.

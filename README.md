@@ -12,23 +12,23 @@ SIH 2026 · Organisation **ISRO, Department of Space** · Category **Software** 
 
 ## What this is
 
-Voice is too data-heavy for a low-bitrate link, but in a distress scenario people still need
-voice — it reaches everyone, literate or not. So this app does the voice part **on the phone**:
-speech recognition runs offline, the recognised **text** (a few hundred bytes) goes over
-Bluetooth or Wi-Fi Direct, and the other phone speaks it out loud. Two phones behave like a
+Voice is too data-heavy for a low-bitrate link. But in a distress scenario, people still need
+voice — it reaches everyone, literate or not. So this app does the voice part **on the phone**.
+Speech recognition runs offline. Only the recognised **text** (a few hundred bytes) goes over
+Bluetooth or Wi-Fi Direct. The other phone speaks that text out loud. Two phones behave like a
 push-to-talk walkie-talkie — one that never needs a network.
 
 **Nothing leaves the devices. No cloud, no accounts — the app does not even request the
 `INTERNET` permission.**
 
 - **Listens in 10 languages** — Hindi, Marathi, Bengali, Gujarati, Kannada, Malayalam, Odia,
-  Tamil, Telugu, English. One 349 MB int8 model with its output vocabulary pruned to the
-  scripts these languages need, so it *cannot* emit Arabic, CJK or Hangul noise.
+  Tamil, Telugu, English. One 349 MB int8 model carries an output vocabulary pruned to the
+  scripts these languages need. It *cannot* emit Arabic, CJK or Hangul noise.
 - **Speaks 7 of them aloud** — Hindi, Marathi, Bengali, Tamil, Telugu, Malayalam, English. The
-  other three show correct text and say so on screen; no permissively-licensed offline voice
+  other three show correct text and say so on screen. No permissively-licensed offline voice
   exists for them yet.
 - **Built for a bad link** — receipts, ordered resends, reconnects, alert escalation. That is
-  most of the engineering, and it is below.
+  most of the engineering. The section below explains it.
 
 ## Screens
 
@@ -42,50 +42,51 @@ push-to-talk walkie-talkie — one that never needs a network.
 
 ## The link will drop. The message must not.
 
-The problem statement is not "make a voice call" — it is "make a call that survives a bad
-radio". Every item below began as a logged failure and has a finding entry with evidence in
-[`docs/DELIVERY_FINDINGS.md`](docs/DELIVERY_FINDINGS.md):
+The problem statement is not "make a voice call". It is "make a call that survives a bad
+radio". Every item below started as a logged failure. Each one has a finding entry with
+evidence in [`docs/DELIVERY_FINDINGS.md`](docs/DELIVERY_FINDINGS.md):
 
 - **Only text travels.** 7 seconds of speech become ~200 bytes — around 65× smaller than a
   voice call carrying the same 7 seconds.
-- **The link is babysat.** 4-second heartbeats; a peer is declared gone at 12 seconds; both
-  sides re-dial on their own, including after Bluetooth is toggled off and back on.
+- **The link is babysat.** Heartbeats run every 4 seconds. A peer is declared gone at 12
+  seconds. Both sides re-dial on their own, including after Bluetooth is toggled off and back
+  on.
 - **Every segment is ACKed, or resent.** The outbox resends on a 3/6/12 s → 15 s backoff (max
-  10 tries) until the other phone acknowledges — order preserved, duplicates suppressed by a
-  persistent ledger. An emergency alert jumps to the head of the queue.
-- **Receipts are proof, not vibes.** The listener ACKs *before* it plays; the sender's banner
-  shows "✓ Delivered" only once the words are provably on the other phone.
-- **Speech arrives whole and in order.** A long hold queues every segment; an alert that
-  arrives mid-speech yields and plays first; a message already heard cannot replay after a
+  10 tries) until the other phone acknowledges. Order is preserved. A persistent ledger
+  suppresses duplicates. An emergency alert jumps to the head of the queue.
+- **Receipts are proof, not vibes.** The listener ACKs *before* it plays. The sender's banner
+  shows "✓ Delivered" only when the words are provably on the other phone.
+- **Speech arrives whole and in order.** A long hold queues every segment. An alert that
+  arrives mid-speech yields and plays first. A message already heard cannot replay after a
   restart.
 - **A process kill is survivable.** Pending work (outbox, receipts, ledger) is written through
-  a temp-file + rename store and restored on launch. One documented gap stays honest: a kill
-  between "delivered" and "spoken" loses the unspoken tail — it is logged, never silent.
+  a temp-file + rename store and restored on launch. One gap is documented: a kill between
+  "delivered" and "spoken" loses the unspoken tail. The app logs it. Nothing is hidden.
 - **Memory is given back, never mid-work.** Low memory releases the idle voice (~60 MB) or the
   ASR model (~340 MB) only when nothing is recording, decoding, or playing.
-- **It minds the room.** Audio focus ducks other audio instead of fighting it; escalations
-  buzz; none of this machinery sits on the thread that plays the message.
+- **It minds the room.** Audio focus ducks other audio instead of fighting it. Escalations
+  buzz. This machinery never blocks the thread that plays the message.
 - **Optional triage** (Laya, experimental, off by default) flags destructive-language
-  messages, so they arrive as buzzing alerts that jump the queue.
+  messages. These arrive as buzzing alerts that jump the queue.
 
 ## Current status
 
-*Last device passes: 27 Sep 2026 — the two-phone loop on two physical phones, on the earlier
-build; 16 Oct 2026 — release APK v1.0.0 on an Android 34 emulator (arm64), every screen and
+*Last device passes: 27 Sep 2026 — the two-phone loop on two physical phones (earlier build).
+16 Oct 2026 — release APK v1.0.0 on an Android 34 emulator (arm64), every screen and
 self-test. Next step: re-run the two-phone checklist on v1.0.0 (`docs/DELIVERY_FINDINGS.md`).*
 
 ### Proven
 
 | Thing | Evidence |
 |---|---|
-| App builds, installs, runs | **Signed release APK v1.0.0** (993 MB, sha256 `0b46aeff…`), sideloadable. Launched and stayed up on Android 34 — every screen exercised, three on-device self-tests passed, zero crashes; signature, alignment and badging verified (`docs/RELEASE.md`; screenshots `app/evidence/ui/`) |
+| App builds, installs, runs | **Signed release APK v1.0.0** (993 MB, sha256 `0b46aeff…`), sideloadable. It launched on Android 34 and stayed up. We exercised every screen, three on-device self-tests passed, and there were zero crashes. Signature, alignment and badging are verified (`docs/RELEASE.md`; screenshots `app/evidence/ui/`) |
 | **Two-phone loop** | 27 Sep 2026: two physical phones, no internet — speech recognised on one, sent as text over Bluetooth RFCOMM, spoken aloud on the other. Recorded in `app/VERIFICATION_STATUS.md`; the About screen states it |
 | Model runs on Android | Loaded on device, **428 MB PSS / 535 MB RSS** with the model resident |
 | ASR accuracy | Mean CER **0.0918** across 200 clips × 10 languages — 2,000 clips, 6.7 h of real speech (`eval/SUMMARY_full_v3pruned.json`) |
-| **Out-of-script output** | **Zero, and structurally impossible.** CTC vocabulary pruned 10,288 → 1,002 tokens, so Arabic/CJK/Hangul cannot be emitted. Previously "hello" came back as `هello` (`docs/VOCAB_PRUNE_FINDINGS.md`) |
-| **Hindi under noise** | Script retention 40% → **78%** at pink 15 dB SNR; clean 94% → **100%** (was the project's largest weakness) |
-| Language filter | **25/25** cases — a segment containing a foreign-script letter is dropped whole, never partially edited |
-| TTS voices | **7 of 10** speak aloud (hi, mr, bn, ta, te, ml, en); each bundled voice was pronunciation-audited against the ASR (`research/tts/language_normalisers.md`) |
+| **Out-of-script output** | **Zero, and structurally impossible.** The CTC vocabulary is pruned 10,288 → 1,002 tokens, so Arabic/CJK/Hangul cannot be emitted. Previously "hello" came back as `هello` (`docs/VOCAB_PRUNE_FINDINGS.md`) |
+| **Hindi under noise** | Script retention 40% → **78%** at pink 15 dB SNR, and clean 94% → **100%**. This was the project's largest weakness |
+| Language filter | **25/25** cases — a segment with a foreign-script letter is dropped whole. It is never partially edited |
+| TTS voices | **7 of 10** speak aloud (hi, mr, bn, ta, te, ml, en). Each bundled voice was pronunciation-audited against the ASR (`research/tts/language_normalisers.md`) |
 | TTS intelligibility | Hindi round-trip CER **0.339 → 0.102** |
 | Delivery machinery | Ordered ACKed outbox, receipts, kill-survival: 96 unit tests green, plus the on-device loopback (every segment SENT → synthesised → played → COMPLETE, NORMAL and ALERT modes) |
 | On-device latency | ASR RTF **0.12–0.16**, TTS RTF **0.055–0.08** (Android 34 emulator, arm64) → **≈ 1 s mouth-to-ear** |
@@ -97,27 +98,27 @@ self-test. Next step: re-run the two-phone checklist on v1.0.0 (`docs/DELIVERY_F
 |---|---|
 | **Two-phone pass on v1.0.0** | The 27 Sep demo used the earlier build — receipts, reconnects and kill-survival landed after it, and the signing key rotated. The 12-item checklist (`docs/DELIVERY_FINDINGS.md`) must be re-run on this APK, with both phones freshly installed |
 | **Real low-end phone** | Latency and RAM are emulator numbers, not a budget handset |
-| **Human TTS panel** | Every intelligibility number is an ASR round-trip proxy. Ear files are in `docs/voice_samples/` (written comparison in its README; audio attached to the release) — a human hasn't scored them yet |
-| **3 of 10 languages are text-only** | Gujarati, Kannada, Odia display correct text and stay silent; the UI labels them ([licence audit](docs/TTS_LICENCE_AUDIT.md)) |
+| **Human TTS panel** | Every intelligibility number is an ASR round-trip proxy. Ear files are in `docs/voice_samples/` (written comparison in its README, audio attached to the release). A human has not scored them yet |
+| **3 of 10 languages are text-only** | Gujarati, Kannada, Odia display correct text and stay silent. The UI labels them ([licence audit](docs/TTS_LICENCE_AUDIT.md)) |
 | **Battery drain** | Never measured |
 
 ### Known risks
 
 **16 KB page size — fixed 27 Sep, worth knowing why.** Real phones showed a "This app isn't
 16 KB compatible" dialog. The libraries were never the problem: every `PT_LOAD` segment in both
-`.so` files was already aligned to 16384 bytes. The fault was their *position inside the APK
-zip* — with `useLegacyPackaging = false` they were stored uncompressed, and an uncompressed
-library must itself begin on a 16 KB boundary. Fixed by compressing the native libraries
-(`zipalign -c -P 16` exits 0), and the APK got smaller as a side effect.
+`.so` files was already aligned to 16384 bytes. The problem was their *position inside the APK
+zip*. With `useLegacyPackaging = false`, the build stores the libraries uncompressed, and an
+uncompressed library must itself begin on a 16 KB boundary. We compressed the native libraries
+(`zipalign -c -P 16` exits 0). The APK also got smaller.
 
 **Tamil still collapses at 0 dB SNR** — 44% script retention. Vocabulary pruning changed
-nothing there: Tamil fails by dropping syllables, not by switching script.
+nothing here. Tamil fails by dropping syllables, not by switching script.
 
-**Wrong language, right script, still passes.** Hindi cannot be told from Marathi, nor Bengali
-from Assamese. Fixing that needs a language-ID model, which is out of scope here.
+**Wrong language, right script, still passes.** Hindi cannot be told from Marathi, and Bengali
+cannot be told from Assamese. A language-ID model would fix that. It is out of scope here.
 
 **Noise is synthetic.** White and pink noise measure *sensitivity*, not field accuracy in a
-disaster zone. Still unmeasured.
+disaster zone. Field accuracy is still unmeasured.
 
 **Licences are CC, and we say so** — the model is non-commercial and the voices are a mix.
 See [Licences](#licences) for exactly what is allowed.
@@ -130,20 +131,20 @@ See [Licences](#licences) for exactly what is allowed.
 ## Install (sideload)
 
 Get `iTantra-1.0.0-release.apk` from the [Releases page](https://github.com/psb-001/Itantra/releases)
-(~1 GB — download over Wi-Fi), then either copy it to the phone and open it ("install unknown
-apps" must be allowed) or:
+(~1 GB — download over Wi-Fi). Then copy it to the phone and open it ("install unknown apps"
+must be allowed), or run:
 
 ```bash
 adb install -r iTantra-1.0.0-release.apk
 ```
 
 - **Requires:** Android 6.0+ (API 23), an **arm64-v8a** phone, and ~2 GB free space.
-- **Uninstall any older iTantra first.** The signing key was rotated on 16 Oct 2026; an install
+- **Uninstall any older iTantra first.** The signing key was rotated on 16 Oct 2026. An install
   over an older build fails with "App not installed" (`docs/RELEASE.md`).
-- Debug builds install alongside as `com.bjp.itantra.debug`; About and Settings always show
-  which version and build kind you are running.
-- **Pair the two phones in Android Settings first.** Bluetooth pairing is manual by design — it
-  is what authenticates the sender of an emergency alert.
+- Debug builds install alongside as `com.bjp.itantra.debug`. About and Settings always show
+  which version and build kind you run.
+- **Pair the two phones in Android Settings first.** Bluetooth pairing is manual by design.
+  Pairing authenticates the sender of an emergency alert.
 
 ## Build from source
 
@@ -157,7 +158,7 @@ cd app
 ```
 
 Toolchain: JDK 17 + Android SDK (`compileSdk 34`, `targetSdk 33`, `minSdk 23`). The release
-build needs `app/keystore.properties` and the keystore — both untracked by design; key
+build needs `app/keystore.properties` and the keystore. Both are untracked by design. Key
 handling, version policy (`versionCode` bumps every release) and the full verification
 checklist are in [`docs/RELEASE.md`](docs/RELEASE.md).
 
@@ -169,7 +170,7 @@ app/pull_logs.sh    # pulls the app's on-phone log (release or debug package) ov
 
 ### On-device self-tests
 
-The app carries its own test modes — the results land in logcat and in the pullable log:
+The app carries its own test modes. The results land in logcat and in the pullable log:
 
 ```bash
 adb shell am start -n com.bjp.itantra/.MainActivity --ez pipeline true   # WAV → VAD → ASR → packet
@@ -186,7 +187,7 @@ adb shell am start -n com.bjp.itantra/.MainActivity --ez benchmark true  # ASR/T
 | `models/` | ASR: `asr-v3-10lang/` (**current**, pruned), `asr-v2/`, `asr-v1/`; `vad/` (Silero); `laya-int8/` (triage). Large files are gitignored and fetched by script. |
 | `tts/` | Voice working files and the intelligibility test wavs (`English_*.wav`, `Hindi_*.wav`). The voices that ship live in `app/app/src/main/assets/tts/` (fetched). |
 | `eval/` | Every benchmark and eval script — ASR, TTS, VAD, RAM, noise robustness, language filter, FLEURS harness, plus `prune_vocab.py` and `fetch_tts_voices.py`. |
-| `results/`, `logs/` | Measured output as JSON; run logs including `device/` logcat captures. |
+| `results/`, `logs/` | Measured output as JSON. Run logs include the `device/` logcat captures. |
 | `dataset/` | FLEURS evaluation audio (7.1 GB) — re-fetchable with `eval/fetch_missing_langs.sh`. |
 | `deck/` | The submission deck (`.pptx`/`.pdf`) and its editable sources. |
 | `research/` | Prior art, offline-build facts, the model survey, TTS research (`research/tts/` holds the per-language pronunciation audit). |
@@ -194,18 +195,18 @@ adb shell am start -n com.bjp.itantra/.MainActivity --ez benchmark true  # ASR/T
 
 ## Licences
 
-This is a hackathon/research project — please read the licences before reusing anything,
+This is a hackathon/research project. Please read the licences before you reuse anything,
 because the models are stricter than the code:
 
 - **ASR model** — Meta OmniLingual, **CC-BY-NC-4.0** (non-commercial).
-- **Voices** — mixed, and the app's credits screen spells out each one: Hindi `pratham`
-  **CC-BY-NC-SA 4.0**; Marathi & Bengali **CC-BY-SA 4.0** (+ CMU for Bengali); Telugu & Tamil
-  **CC-BY-4.0**; Malayalam's source-corpus terms are unclear; English `lessac` is trained on a
-  custom, non-transferable corpus.
-- **App code** — written by the team; no open-source licence has been declared on it yet.
+- **Voices** — mixed, and the app's credits screen spells out each one. Hindi `pratham` is
+  **CC-BY-NC-SA 4.0**. Marathi and Bengali are **CC-BY-SA 4.0** (plus CMU for Bengali).
+  Telugu and Tamil are **CC-BY-4.0**. Malayalam's source-corpus terms are unclear. English
+  `lessac` is trained on a custom, non-transferable corpus.
+- **App code** — written by the team. No open-source licence is declared on it yet.
 
 Full table, attribution text and reasoning: [`docs/TTS_LICENCE_AUDIT.md`](docs/TTS_LICENCE_AUDIT.md).
-Short version: fine for a competition entry or research; not fine to turn into a product as-is.
+Short version: fine for a competition entry or research. Not fine to turn into a product as-is.
 
 ## Team
 

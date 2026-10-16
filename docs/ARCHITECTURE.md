@@ -137,7 +137,7 @@ IDLE ◀──playback done── SPEAKING ◀──text received ◀── RECE
 Recorded → Recognised → Queued → Transmitted → Received → Played → Acknowledged
 ```
 
-**"Received" is not the same as "a human heard it."** A packet checksum proves the bytes arrived; it
+**"Received" is not the same as "a human heard it."** A packet checksum proves the bytes arrived. It
 does not prove comprehension. The UI must never collapse these into one tick mark.
 
 ---
@@ -207,9 +207,11 @@ Screenshots in `android/evidence/`. The PTT capture path runs and stops cleanly.
 > to fork when building our own app.
 
 ### Known coverage gap — resolved 20 Sep
-**7 of 10 languages have a neural voice** (Piper for Hindi, Marathi, Malayalam, Telugu, Bengali,
-English; Mimic3 for Gujarati). **Kannada, Tamil and Odia do not** — the only options are MMS-TTS
-(`cc-by-nc-4.0`) or espeak-ng (GPL, robotic). **Decision: ship espeak-ng and declare it.**
+**7 of 10 languages have a neural voice** (Piper for Hindi, Marathi, Malayalam, Telugu, Bengali
+and English, plus Mimic3 for Gujarati). **Kannada, Tamil and Odia do not** — the only options were
+MMS-TTS (`cc-by-nc-4.0`) or espeak-ng (GPL, robotic). **Decision: ship espeak-ng and declare it.**
+**Superseded 27 Sep** — espeak-ng is a phonemiser, not a standalone voice, so these three stay
+text-only and the UI labels them (`TTS_LICENCE_AUDIT.md`).
 See `MODEL_AND_TTS_FINDINGS.md`.
 
 ---

@@ -3,9 +3,11 @@
 Offline voice transceiver. Speech in on phone A, **text** over Bluetooth or Wi-Fi Direct,
 speech out on phone B. No network call is made at any point.
 
-> **Status: BUILDS SUCCESSFULLY.** A 521 MB debug APK was produced on 20 September 2026 and its
-> contents verified. It has **not yet been installed on a device or run** — that is the next step.
-> Everything marked ✅ is real; everything else is written-but-untested.
+> **Status: BUILDS AND RUNS.** The tree builds a signed 993 MB release APK (v1.0.0) and a debug
+> APK. The release APK launched on an Android 34 emulator, ran every screen and passed the three
+> on-device self-tests (16 Oct 2026). The two-phone Bluetooth loop ran on two physical phones on
+> 27 Sep 2026, on the earlier build; the v1.0.0 pass is pending (`VERIFICATION_STATUS.md`).
+> Everything marked ✅ is real. Everything else is written-but-untested.
 
 ---
 
@@ -77,7 +79,7 @@ Homebrew is not installed on this machine, so everything was fetched directly (n
 | **Gradle 8.2** | `~/android-dev/gradle-8.2` | 130 MB |
 | cmdline-tools 13114758 | `~/android-dev/android-sdk/cmdline-tools/latest` | 137 MB |
 
-**JDK 17 is required and is NOT the system JDK.** This machine has JDK 26 and JDK 11; AGP 8.1.4
+**JDK 17 is required and is NOT the system JDK.** This machine has JDK 26 and JDK 11. AGP 8.1.4
 works with neither. `build.sh` sets `JAVA_HOME` correctly, so you never have to think about it.
 
 ### Build

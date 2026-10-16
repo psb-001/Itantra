@@ -1,10 +1,10 @@
 # Release process — how iTantra becomes an installable APK
 
-**Scope: sideload only.** iTantra is a hackathon project for SIH26173. It will never be
-uploaded to Google Play, so this document covers what actually applies to us: one signed
-APK, installable by hand on a test phone — plus the bookkeeping that keeps that possible
-a second time. Everything Play-specific (App Bundle, Play App Signing, targetSdk policy,
-privacy forms) is deliberately out of scope and marked as such where it comes up.
+**Scope: sideload only.** iTantra is a hackathon project for SIH26173. We will never upload
+it to Google Play. This document covers what applies to us: one signed APK, installable by
+hand on a test phone. It also covers the bookkeeping that keeps a second build possible.
+Everything Play-specific (App Bundle, Play App Signing, targetSdk policy, privacy forms) is
+out of scope by design and marked as such where it comes up.
 
 ---
 
@@ -20,18 +20,17 @@ privacy forms) is deliberately out of scope and marked as such where it comes up
 | About-screen version | read from the installed package at runtime | `AboutActivity.installedVersion()` |
 
 The debug suffix is not cosmetic. It lets a debug APK and the sideloaded release sit on
-the same phone at the same time; without it, installing one over the other fails on the
-signature check and the only fix is uninstalling, which deletes the app's logs and
-pending-message state. The trade-off is that the two builds keep **separate** log files
-and separate `/sdcard/Android/data/<package>/` folders — `app/pull_logs.sh` tries the
-release package first, then the debug one, so pulling logs does not need you to remember
-which build a phone is running.
+the same phone at the same time. Without it, an install over the other build fails on the
+signature check. The only fix is uninstalling, which deletes the app's logs and
+pending-message state. The trade-off: the two builds keep **separate** log files and
+separate `/sdcard/Android/data/<package>/` folders. `app/pull_logs.sh` tries the release
+package first, then the debug one, so you do not need to remember which build a phone runs.
 
-**Version policy.** `versionName` is what humans see; `versionCode` is what Android
-compares when deciding whether one APK may update another. **Bump `versionCode` by one
-on every build that goes onto a phone**, even a one-line fix; reuse it and update
+**Version policy.** `versionName` is what humans see. `versionCode` is what Android
+compares when it decides whether one APK may update another. **Bump `versionCode` by one
+on every build that goes onto a phone**, even a one-line fix. If you reuse it, update
 installs silently fail on some devices. `versionName` follows the usual major.minor.patch
-reading. The first proper release is `1.0.0` / code `2` — code `1` was the unreleased
+reading. The first proper release is `1.0.0` / code `2`. Code `1` was the unreleased
 0.1.0 development line, so the release is always "newer than anything that was installed
 before it".
 
@@ -46,20 +45,20 @@ Two files carry the app's identity, and **neither is in git**:
 | `app/app/keystore/itantra-release.jks` | the RSA 4096-bit key (valid to 2054) |
 | `app/keystore.properties` | the password to that key + the path to it (referenced from `build.gradle.kts`) |
 
-**Back both of them up somewhere that is not this laptop.** Losing them means no build
-you ever make again can update an installed iTantra — Android will refuse every install
-over it with "App not installed", and the only path forward is uninstall-and-reinstall,
-which wipes the phone's log files and pending messages. This is not a hypothetical: it
-is the most common self-inflicted wound in Android release engineering.
+**Back both of them up somewhere that is not this laptop.** Losing them means no future
+build can update an installed iTantra. Android refuses every install over it with
+"App not installed". The only path forward is uninstall-and-reinstall, which wipes the
+phone's log files and pending messages. This is not a hypothetical. It is the most common
+self-inflicted wound in Android release engineering.
 
 **History, so nobody trips over it later.** The first keystore (Sep 2026) was committed
 to git along with its password in `build.gradle.kts`. That key was rotated out on
-16 Oct 2026, before any build signed with it had been distributed beyond local testing;
-it is archived beside the new one as `itantra-2026-09-superseded.jks` and its password
-remains in git history. It must not be used again — and the `.gitignore` now refuses
-`*.jks` and `keystore.properties` so this cannot repeat. If you ever need to *rotate*
-again (e.g. before any public distribution), generate a new key, keep the old file under
-a dated name, and accept that every phone must uninstall once.
+16 Oct 2026, before any build signed with it had been distributed beyond local testing.
+It is archived beside the new one as `itantra-2026-09-superseded.jks`, and its password
+remains in git history. It must not be used again. The `.gitignore` now refuses `*.jks`
+and `keystore.properties`, so this cannot repeat. If you ever need to *rotate* again
+(e.g. before any public distribution), generate a new key and keep the old file under a
+dated name. Accept that every phone must then uninstall once.
 
 Inspect the current key without opening the keystore file:
 
@@ -95,18 +94,18 @@ under `~/android-dev/`) and forwards the first argument to Gradle. The signed AP
 at `app/app/build/outputs/apk/release/app-release.apk`.
 
 If the build fails with *"keystore.properties is missing — release builds cannot be
-signed"*, you are missing one of the two backup files from the section above. Restore it;
-do not "fix" it by generating a new key.
+signed"*, you are missing one of the two backup files from the section above. Restore it.
+Do not "fix" it by generating a new key.
 
 Two deliberate choices in `build.gradle.kts`, both with their reasoning in-file:
 
 - **R8/ProGuard minification stays off.** The sherpa-onnx JNI layer loads Java classes by
   name, and shrinking is exactly the tool that renames them. The APK is a gigabyte of
-  model binaries; minifying the ~500 KB of Kotlin in it saves nothing worth an untested
+  model binaries. Minifying the ~500 KB of Kotlin in it saves nothing worth an untested
   runtime path.
-- **`targetSdk` stays 33.** Play would require current-SDK targeting; sideload does not.
+- **`targetSdk` stays 33.** Play would require current-SDK targeting. Sideload does not.
   The upgrade is a real task with real behaviour changes (foreground-service types,
-  exact-alarm rules) and it gets done as its own *tested* change, not as a footnote to a
+  exact-alarm rules). It gets done as its own *tested* change, not as a footnote to a
   release.
 
 ---
@@ -145,7 +144,7 @@ shasum -a 256 releases/*.apk > releases/SHA256SUMS.txt
 
 `releases/` is gitignored — the binaries are shipped as GitHub Release assets, never
 pushed into history. The checksum of the current release is also recorded in
-`docs/DELIVERY_FINDINGS.md`, which is committed; that is how a hash becomes part of the
+`docs/DELIVERY_FINDINGS.md`, which is committed. That is how a hash becomes part of the
 project record.
 
 ---
