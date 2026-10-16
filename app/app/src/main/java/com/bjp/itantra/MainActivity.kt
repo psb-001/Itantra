@@ -1678,6 +1678,16 @@ class MainActivity : AppCompatActivity() {
      * The on-screen strip is capped at 14 lines and cannot be scrolled, which is fine for glancing
      * at and useless for diagnosing. This is the version you can actually read.
      */
+    /** "1.0.0 (release)" — read from the installed package so it always matches the APK. */
+    @Suppress("DEPRECATION")    // getPackageInfo(String, Int); minSdk is 23, the flags overload is 33+
+    private fun appVersionLine(): String = try {
+        val v = packageManager.getPackageInfo(packageName, 0).versionName ?: "?"
+        val debug = (applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0
+        "$v (${if (debug) "debug" else "release"})"
+    } catch (e: Exception) {
+        "unknown"
+    }
+
     private fun showSettings() {
         val t = transport
         val status = buildString {
@@ -1689,6 +1699,7 @@ class MainActivity : AppCompatActivity() {
             }
             append("\nTransport:  ${kind.displayName}")
             append("\nThis phone: ${Build.MANUFACTURER} ${Build.MODEL} (API ${Build.VERSION.SDK_INT})")
+            append("\nApp:        ${appVersionLine()}")
             append("\nLog file:   ${FileLogger.path() ?: "not initialised"}")
             append("\nTriage:     ")
             append(if (triageEnabled) "on — ${laya?.state ?: "idle"} (Laya, experimental)" else "off")

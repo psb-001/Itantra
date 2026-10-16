@@ -16,10 +16,11 @@ import java.util.Locale
  * it after the fact, not while staring at a 4-inch screen.
  *
  * WHERE IT LANDS.
- *   /sdcard/Android/data/com.bjp.itantra/files/logs/itantra.log
+ *   /sdcard/Android/data/com.bjp.itantra/files/logs/itantra.log          (release build)
+ *   /sdcard/Android/data/com.bjp.itantra.debug/files/logs/itantra.log    (debug build)
  *
  * Pull it with:
- *   ./pull_logs.sh              (from output/option_a_stt/android/)
+ *   ./pull_logs.sh              (from app/; it tries the release package first, then debug)
  *
  * The file is capped at [MAX_BYTES]; when it grows past that it is rotated to `itantra.log.1` and
  * a fresh file is started. Two files maximum, so this can never fill the phone.

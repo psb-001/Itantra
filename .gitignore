@@ -43,6 +43,13 @@ releases/
 *.apk
 *.aab
 
+# ---------- Release signing (never in git) ----------
+# keystore.properties holds the store/key password; *.jks is the key itself.
+# The Sep 2026 keystore was committed before this rule existed and was retired on
+# 16 Oct 2026 because of it (see docs/RELEASE.md) — nothing may add a key back here.
+keystore.properties
+*.jks
+
 # ---------- Datasets (7.1 GB) ----------
 # Re-fetchable: eval/fetch_missing_langs.sh
 dataset/

@@ -268,6 +268,30 @@ A deliberate audit of "what still breaks a demo" produced the changes below, all
   "Transcribing N more…" while segments wait, so the last words of a long hold never look
   abandoned.
 
+## Release pass — the app gets its name, number, and key (16 Oct)
+
+Not about the message pipeline; about the thing you hand to a phone.
+
+- **Version 1.0.0 (versionCode 2)**, up from the never-released 0.1.0 line. About and Settings
+  read the version from the installed package instead of a hardcoded string, so what they show
+  can never disagree with the APK the phone is running.
+- **A real launcher icon.** The old one was a placeholder vector, not an adaptive icon. It is
+  now a microphone with transmission waves: adaptive icon (API 26+), monochrome layer for
+  Android 13 themed icons, pre-rendered PNGs for API 23–25. Source in `app/branding/`.
+- **Debug and release coexist.** Debug builds carry the `.debug` package suffix
+  (`com.bjp.itantra.debug`), so they no longer fight the release over one package name.
+  `pull_logs.sh` pulls from whichever is installed.
+- **Signing done properly.** The first keystore was committed together with its password; a
+  key whose secrets are in git history is not a key. It is retired and replaced by a fresh
+  RSA-4096 key (CN `iTantra`, OU `Team BJP`, valid to 2054), credentials in an untracked
+  `keystore.properties`. Two files must be backed up; bumping `versionCode` on every
+  release is not optional. Both rules, plus the verification commands, are `docs/RELEASE.md`.
+- **The artifact is a signed release**: `releases/iTantra-1.0.0-release.apk`,
+  993,362,023 B, sha256 `7c0e713421388b7817cbaabf09d428e9d1076aa5b6e96347908256504fcd5e91`,
+  verified for signature, page-alignment and badging. Any older iTantra on a phone must be
+  **uninstalled before installing it** — the key rotation means the signatures differ, and the
+  installer reports the mismatch as "App not installed".
+
 ## What was deliberately NOT done
 
 - **Persisting the SPEECH queue** (received, not yet spoken) alongside the pending work: the
@@ -291,11 +315,16 @@ A deliberate audit of "what still breaks a demo" produced the changes below, all
   restart; the restore bound holds). The debug variant compiles cleanly in the same run.
 - Lint: 0 errors / 16 accepted warnings, unchanged by this pass (the SDK-gated focus and vibrator
   calls raised no new API warnings).
-- Build: `app-debug.apk` rebuilt from this tree (16 Oct 09:24, 995,422,737 B, sha256
-  `5651e834…`). **Both phones must be reinstalled with this build** — the wire format and receipt
-  envelope changed earlier in the project, and everything in this pass lives inside the APK.
+- Build: the runnable artifact is now the **signed release**
+  `releases/iTantra-1.0.0-release.apk` (16 Oct, 993,362,023 B, sha256
+  `7c0e713421388b7817cbaabf09d428e9d1076aa5b6e96347908256504fcd5e91`). The release pass above
+  replaced the debug APK as the phone build; the debug variant still compiles cleanly and now
+  installs alongside as `com.bjp.itantra.debug`. **Both phones must be reinstalled with the
+  release build** — the wire format and receipt envelope changed earlier in the project and
+  everything in these passes lives inside the APK — and any older iTantra must be uninstalled
+  first (the key rotation changed the signature; see the release pass above).
 
-## Phone checklist (two phones, debug APK)
+## Phone checklist (two phones, release APK)
 
 1. Pair once in Android Settings. Open the app on both; wait for "Ready — hold to talk".
 2. One phone: DEVICES → tap the other. Both banners show "connected to …".

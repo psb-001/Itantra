@@ -36,7 +36,6 @@ object ProjectInfo {
     const val CATEGORY = "Software"
     const val THEME = "Smart Automation"
     const val TEAM_NAME = "B.J.P — Bug Janta Party"
-    const val BUILD = "0.1.0"
 
     // ------------------------------------------------------------------ languages
 

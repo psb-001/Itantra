@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  iTantra launcher icon — foreground layer (adaptive icon, API 26+).
+
+  A microphone with transmission waves on both sides: the app's two jobs in one glyph.
+  Everything sits inside the 66dp safe zone (x,y = 21..87) so no mask crops the waves or
+  the stand.
+
+    waves  #4DD0C4  four stroked arcs; aqua reads as "signal" against the navy ground
+    mic    #EFF5F8  capsule, cradle, stem and base — the same off-white the first icon used
+
+  Rendered from app/branding/icon.svg by hand (the geometry is identical; the SVG is the
+  design source). If you redraw it, re-check at 48px — the icon must remain readable at
+  mdpi, and the PNG set in res/mipmap-*/ is rasterised from the same drawing.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- transmission waves, left then right -->
+    <path
+        android:strokeColor="#4DD0C4"
+        android:strokeWidth="4.5"
+        android:strokeLineCap="round"
+        android:pathData="M41,36 a10,10 0 0 0 0,18" />
+    <path
+        android:strokeColor="#4DD0C4"
+        android:strokeWidth="4.5"
+        android:strokeLineCap="round"
+        android:pathData="M33,31 a16,16 0 0 0 0,28" />
+    <path
+        android:strokeColor="#4DD0C4"
+        android:strokeWidth="4.5"
+        android:strokeLineCap="round"
+        android:pathData="M67,36 a10,10 0 0 1 0,18" />
+    <path
+        android:strokeColor="#4DD0C4"
+        android:strokeWidth="4.5"
+        android:strokeLineCap="round"
+        android:pathData="M75,31 a16,16 0 0 1 0,28" />
+
+    <!-- microphone capsule (rounded rectangle drawn as two arcs + two edges) -->
+    <path
+        android:fillColor="#EFF5F8"
+        android:pathData="M46,38 a8,8 0 0 1 16,0 v14 a8,8 0 0 1 -16,0 z" />
+
+    <!-- cradle, stem, base -->
+    <path
+        android:strokeColor="#EFF5F8"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:pathData="M38,50 a16,16 0 0 0 32,0" />
+    <path
+        android:strokeColor="#EFF5F8"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:pathData="M54,66 v10" />
+    <path
+        android:strokeColor="#EFF5F8"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:pathData="M45,78 h18" />
+</vector>

@@ -1,6 +1,22 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+}
+
+// ---------------------------------------------------------------------------------------
+// Release signing credentials, loaded from app/keystore.properties (untracked — see
+// docs/RELEASE.md). They are not written into this file so the password stays out of git
+// history. The first keystore's password WAS committed, and that key was rotated out on
+// 16 Oct 2026 because of it. The properties file and the .jks it names are the two things
+// that must survive this machine: lose them and an installed iTantra can never be updated
+// in place again — only uninstalled and reinstalled.
+// ---------------------------------------------------------------------------------------
+val keystoreProps = Properties()
+run {
+    val f = rootProject.file("keystore.properties")
+    if (f.exists()) f.inputStream().use { keystoreProps.load(it) }
 }
 
 android {
@@ -15,23 +31,38 @@ android {
         // that dead 0.1% of devices would be untested paths. The floor is where the app runs.
         minSdk = 23
         targetSdk = 33
-        versionCode = 1
-        versionName = "0.1.0"
+        // versionCode is what Android compares when deciding whether one APK can update
+        // another; it must rise on EVERY build you hand to a phone. 1 was the unreleased
+        // 0.1.0 development line, so the first proper release starts at 2. versionName is
+        // the human-readable one shown in About and Settings. Policy: docs/RELEASE.md.
+        versionCode = 2
+        versionName = "1.0.0"
     }
 
     signingConfigs {
         create("release") {
-            // Self-signed, generated 21 Sep 2026. Fine for sideloading and demos; if this ever
-            // goes to a store, replace it and keep the new keystore safe — losing it means you
-            // can never update the app under the same identity again.
-            storeFile = file("keystore/itantra-release.jks")
-            storePassword = "itantra2026"
-            keyAlias = "itantra"
-            keyPassword = "itantra2026"
+            if (keystoreProps.getProperty("storeFile") == null) {
+                logger.warn(
+                    "keystore.properties is missing — release builds cannot be signed. " +
+                        "See docs/RELEASE.md; restore that file and the .jks it names."
+                )
+            } else {
+                storeFile = rootProject.file(keystoreProps.getProperty("storeFile"))
+                storePassword = keystoreProps.getProperty("storePassword")
+                keyAlias = keystoreProps.getProperty("keyAlias")
+                keyPassword = keystoreProps.getProperty("keyPassword")
+            }
         }
     }
 
     buildTypes {
+        debug {
+            // A distinct package (com.bjp.itantra.debug), so a debug build and the sideloaded
+            // release sit side by side on the same phone. Without it, installing one over the
+            // other fails on the signature and the only fix is uninstalling — which wipes the
+            // log file and the pending-message state along with it.
+            applicationIdSuffix = ".debug"
+        }
         release {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false      // keep off: the sherpa-onnx JNI classes need their names

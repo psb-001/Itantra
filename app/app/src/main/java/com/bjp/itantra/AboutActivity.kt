@@ -2,6 +2,7 @@ package com.bjp.itantra
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
@@ -168,7 +169,21 @@ class AboutActivity : AppCompatActivity() {
         addRow(parent, getString(R.string.about_field_org), ProjectInfo.ORGANISATION)
         addRow(parent, getString(R.string.about_field_category), ProjectInfo.CATEGORY)
         addRow(parent, getString(R.string.about_field_theme), ProjectInfo.THEME)
-        addRow(parent, getString(R.string.about_field_build), ProjectInfo.BUILD)
+        addRow(parent, getString(R.string.about_field_build), installedVersion())
+    }
+
+    /**
+     * Version shown on the About screen, read from the installed package — never hardcoded, so
+     * this page can never disagree with the APK the phone is actually running. The suffix names
+     * the build kind: "which 1.0.0 is on the phone?" is the first question any bug report asks.
+     */
+    @Suppress("DEPRECATION")    // getPackageInfo(String, Int); minSdk is 23, the flags overload is 33+
+    private fun installedVersion(): String = try {
+        val v = packageManager.getPackageInfo(packageName, 0).versionName ?: "?"
+        val debug = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
+        "$v (${if (debug) "debug" else "release"})"
+    } catch (e: Exception) {
+        "unknown"
     }
 
     // ------------------------------------------------------------------ helpers

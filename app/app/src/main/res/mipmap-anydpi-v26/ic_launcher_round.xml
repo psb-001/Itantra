@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Round variant for API 26+. Pre-26 devices use the circular PNGs in
+  res/mipmap-*/ic_launcher_round.png. The adaptive file is identical to ic_launcher.xml
+  because the system owns the mask — a second drawing would just be a second thing to keep
+  in sync.
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background" />
+    <foreground android:drawable="@drawable/ic_launcher_foreground" />
+    <monochrome android:drawable="@drawable/ic_launcher_monochrome" />
+</adaptive-icon>

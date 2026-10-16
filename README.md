@@ -34,7 +34,7 @@ Nothing leaves the device. No network, no cloud.
 | `logs/` | Eval run logs + `device/` logcat captures. |
 | `dataset/` | FLEURS evaluation audio (7.1 GB). Re-fetchable with `eval/fetch_missing_langs.sh`. |
 | `deck/` | The 6-slide submission deck (`.pptx` / `.pdf`), the template, and `source/` — the editable slide project. |
-| `releases/` | Built APKs: `iTantra-release.apk`, `iTantra-debug.apk`. |
+| `releases/` | Built APKs, gitignored: the current `iTantra-1.0.0-release.apk` + `SHA256SUMS.txt`, and the older Sep builds kept beside it. Build instructions: `docs/RELEASE.md`. |
 | `research/` | Prior art (`comms-feasibility`), offline build facts, the model survey, 3 verified winning SIH decks, and the SIH 2026 problem-statement explorer. |
 
 ---
@@ -46,7 +46,7 @@ Nothing leaves the device. No network, no cloud.
 | Thing | Evidence |
 |---|---|
 | Model runs on Android | Loaded on device, **428 MB PSS / 535 MB RSS** with the model resident |
-| App builds, installs, runs | **744 MB release APK**, sideloadable, verified on Android 34 with a **16384-byte page size**; screenshots in `app/evidence/ui/` |
+| App builds, installs, runs | **Signed release APK v1.0.0** (993 MB, sha256 `7c0e7134…`), sideloadable; earlier build installed and ran on Android 34, this build signature/alignment/badging-verified (`docs/RELEASE.md`); screenshots in `app/evidence/ui/` |
 | ASR accuracy | Mean CER **0.0918** across 200 clips × 10 languages, 2,000 clips, 6.7 h of real speech (`eval/SUMMARY_full_v3pruned.json`) |
 | **Out-of-script output** | **Zero, and structurally impossible.** The model is shipped with its CTC vocabulary pruned 10,288 → 1,002 tokens, so it cannot emit Arabic, CJK or Hangul. Previously "hello" came back as `هello` and was transmitted as `ello`. See `docs/VOCAB_PRUNE_FINDINGS.md` |
 | **Hindi under noise** | Script retention 40% → **78%** at pink 15 dB SNR; clean 94% → **100%**. Previously the project's single largest weakness |
@@ -97,18 +97,29 @@ disaster zone. Still unmeasured.
 
 ```bash
 cd app
-./setup-project.sh     # vendors the sherpa-onnx API, native libs and models (copies only)
-./build.sh             # builds the APK
+./setup-project.sh          # vendors the sherpa-onnx API, native libs and models (copies only)
+./build.sh assembleRelease  # the sideloadable release APK, signed (see docs/RELEASE.md)
+./build.sh                  # debug APK, installs as com.bjp.itantra.debug
 ```
+
+The release build lands at `app/app/build/outputs/apk/release/app-release.apk`; built
+artifacts are copied to `releases/` with a versioned name
+(`releases/iTantra-1.0.0-release.apk`) for handing to a phone.
 
 Install on a device:
 
 ```bash
 ~/android-dev/android-sdk/platform-tools/adb install -r \
-  app/app/build/outputs/apk/debug/app-debug.apk
+  releases/iTantra-1.0.0-release.apk
 ```
 
-On-device benchmark:
+An install over an older iTantra only works if the signature matches. The release key was
+rotated on 16 Oct 2026 (see `docs/RELEASE.md`), so a phone carrying anything older needs
+the old app **uninstalled first** — Android reports the mismatch as "App not installed".
+Release and debug builds can then coexist: different packages, separate logs. The About
+and Settings screens always name the version and build kind you are looking at.
+
+On-device benchmark (release package; append `.debug` for a debug build):
 
 ```bash
 adb shell am start -n com.bjp.itantra/.MainActivity --ez benchmark true

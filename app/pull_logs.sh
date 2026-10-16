@@ -5,7 +5,7 @@
 #   ./pull_logs.sh              # the only connected device
 #   ./pull_logs.sh <serial>     # a specific one, from `adb devices`
 #
-# Produces, in output/option_a_stt/logs/:
+# Produces, in <repo>/logs/:
 #   itantra_<serial>_<timestamp>.log       the app's own event log (file logger)
 #   logcat_<serial>_<timestamp>.txt        the full system logcat, filtered to what matters
 #
@@ -39,7 +39,8 @@ if [ -z "$SERIAL" ]; then
   echo "  Check with:  $ADB devices"
   echo
   echo "If you cannot use USB, the app's own log is on the phone at:"
-  echo "  /sdcard/Android/data/$APP_ID/files/logs/itantra.log"
+  echo "  /sdcard/Android/data/$APP_ID/files/logs/itantra.log          (release)"
+  echo "  /sdcard/Android/data/$APP_ID_DEBUG/files/logs/itantra.log    (debug)"
   exit 1
 fi
 
@@ -49,12 +50,20 @@ echo
 # ---------------------------------------------------------------- 1. app log file
 APP_LOG="$OUT_DIR/itantra_${SERIAL}_${STAMP}.log"
 echo "pulling the app's own log..."
-if "$ADB" -s "$SERIAL" pull \
-     "/sdcard/Android/data/$APP_ID/files/logs/itantra.log" \
-     "$APP_LOG" 2>/dev/null; then
-  echo "  -> $APP_LOG  ($(wc -l < "$APP_LOG" | tr -d ' ') lines)"
+PULLED_FROM=""
+for id in "$APP_ID" "$APP_ID_DEBUG"; do
+  if "$ADB" -s "$SERIAL" pull \
+       "/sdcard/Android/data/$id/files/logs/itantra.log" \
+       "$APP_LOG" 2>/dev/null; then
+    PULLED_FROM="$id"
+    break
+  fi
+done
+if [ -n "$PULLED_FROM" ]; then
+  echo "  -> $APP_LOG  ($(wc -l < "$APP_LOG" | tr -d ' ') lines, from $PULLED_FROM)"
 else
-  echo "  not found. The app writes it on launch — open the app once, then retry."
+  echo "  not found on either package ($APP_ID, $APP_ID_DEBUG)."
+  echo "  The app writes it on launch — open the app once, then retry."
   echo "  (Also note: /sdcard/Android/data is not readable on Android 11+ from some file"
   echo "   managers. adb can read it; the Files app usually cannot.)"
 fi
