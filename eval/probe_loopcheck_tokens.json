@@ -1,0 +1,121 @@
+{
+  "clips_per_lang": 25,
+  "languages": {
+    "en_us": {
+      "n": 25,
+      "token_tiling_hist": {
+        "1": 4,
+        "2": 21
+      },
+      "char_tiling_hist": {
+        "1": 4,
+        "2": 21
+      },
+      "clips_with_tiling_over_3": []
+    },
+    "hi_in": {
+      "n": 25,
+      "token_tiling_hist": {
+        "1": 18,
+        "2": 6,
+        "4": 1
+      },
+      "char_tiling_hist": {
+        "1": 18,
+        "2": 6,
+        "4": 1
+      },
+      "clips_with_tiling_over_3": [
+        {
+          "clip": "5430720125226793398.wav",
+          "tiling": 4,
+          "text": "ं   ो    ख"
+        }
+      ]
+    },
+    "mr_in": {
+      "n": 25,
+      "token_tiling_hist": {
+        "1": 16,
+        "2": 9
+      },
+      "char_tiling_hist": {
+        "1": 16,
+        "2": 9
+      },
+      "clips_with_tiling_over_3": []
+    },
+    "bn_in": {
+      "n": 25,
+      "token_tiling_hist": {
+        "1": 16,
+        "2": 9
+      },
+      "char_tiling_hist": {
+        "1": 16,
+        "2": 9
+      },
+      "clips_with_tiling_over_3": []
+    },
+    "ta_in": {
+      "n": 25,
+      "token_tiling_hist": {
+        "1": 12,
+        "2": 13
+      },
+      "char_tiling_hist": {
+        "1": 12,
+        "2": 13
+      },
+      "clips_with_tiling_over_3": []
+    },
+    "te_in": {
+      "n": 25,
+      "token_tiling_hist": {
+        "1": 13,
+        "2": 12
+      },
+      "char_tiling_hist": {
+        "1": 13,
+        "2": 12
+      },
+      "clips_with_tiling_over_3": []
+    },
+    "ml_in": {
+      "n": 25,
+      "token_tiling_hist": {
+        "1": 4,
+        "2": 21
+      },
+      "char_tiling_hist": {
+        "1": 4,
+        "2": 21
+      },
+      "clips_with_tiling_over_3": []
+    },
+    "gu_in": {
+      "n": 25,
+      "token_tiling_hist": {
+        "1": 18,
+        "2": 7
+      },
+      "char_tiling_hist": {
+        "1": 18,
+        "2": 7
+      },
+      "clips_with_tiling_over_3": []
+    },
+    "kn_in": {
+      "n": 25,
+      "token_tiling_hist": {
+        "1": 19,
+        "2": 6
+      },
+      "char_tiling_hist": {
+        "1": 19,
+        "2": 6
+      },
+      "clips_with_tiling_over_3": []
+    }
+  }
+}

@@ -137,6 +137,39 @@ class QualityGateTest {
     }
 
     @Test
+    fun `a degenerate spacing decode is caught`() {
+        // A real decode from the shipped model on a Hindi FLEURS clip (probe_loopcheck_tokens):
+        // "ख             0     f 1" — thirteen adjacent repeats of the space token. This is the
+        // exact class the now-live loop check stops before it is transmitted.
+        val t = mutableListOf("ख")
+        repeat(13) { t.add(" ") }
+        t += listOf("0", "f", "1")
+        assertEquals(13, QualityGate.adjacentRepeat(t))
+        val d = QualityGate.evaluate(
+            "ख             0     f 1", t, 4f, 0.08f, null,
+        )
+        assertEquals(QualityGate.Verdict.REPEAT, d.verdict)
+        assertEquals("repetition-loop", d.reason)
+    }
+
+    @Test
+    fun `a run of zeros inside a number is not a loop`() {
+        // Measured false-positive, and the reason single digits are exempt at the 1-token level:
+        // a clean Bengali FLEURS decode, "প্রায় 100000 বছর আগে", would otherwise be rejected.
+        // Five zeros still form two two-token pairs at n=2 (value 2) — what matters is that it
+        // sits BELOW the threshold of 4, so the sentence is sent.
+        val number = tokens("1", "0", "0", "0", "0", "0")
+        assertTrue(QualityGate.adjacentRepeat(number) < QualityGate.MAX_ADJACENT_REPEAT)
+        // Two-token digit runs are still counted — "10 10 10 10" is not a number, it is a stuck
+        // decoder, and it is rejected.
+        assertEquals(4, QualityGate.adjacentRepeat(tokens("10", "10", "10", "10")))
+        // Accepted cost of that choice: a number with EIGHT consecutive zeros tiles to 4 at n=2.
+        // Vanishingly rare in speech, and the sender is merely asked to repeat — pinned here so
+        // nobody rediscovers it as a mystery.
+        assertEquals(4, QualityGate.adjacentRepeat(tokens("1", "0", "0", "0", "0", "0", "0", "0", "0")))
+    }
+
+    @Test
     fun `a bigram repeated across a long sentence is not a loop`() {
         // The bug that made an early detector report a 20-25% loop rate on clean speech: a bigram
         // occurring several times spread through a sentence is normal language, not a decoder loop.

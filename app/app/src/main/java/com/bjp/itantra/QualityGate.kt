@@ -128,6 +128,12 @@ object QualityGate {
      *
      * Four, not three: the genuine (benign) cases clustered at exactly 3, and the real failures
      * were far higher. A threshold of 3 would discard correct speech.
+     *
+     * The check only became live on 16 Oct 2026: the recogniser's tokens were dropped on the way
+     * in — an empty list was passed — so it could never fire. Measured on 90 clean FLEURS clips
+     * (eval/probe_loopcheck_tokens.py): one decode in ninety was degenerate enough that the
+     * receiving phone would have SPOKEN it as garbage ("ख      0 f 1"). Activating it is also
+     * why single digits carry an exemption in [adjacentRepeat].
      */
     const val MAX_ADJACENT_REPEAT = 4
 
@@ -219,6 +225,15 @@ object QualityGate {
             var i = 0
             while (i + n * 2 <= tokens.size) {
                 val gram = tokens.subList(i, i + n)
+                // A SINGLE DIGIT is exempt from the 1-token pass: "100000 বছর" is a number, not a
+                // loop. Measured — eval/probe_loopcheck_tokens.py: without this exemption a clean
+                // Bengali FLEURS sentence containing 100000 was rejected on the very first sweep.
+                // Two-token digit runs ("10 10 10 10") are still counted — that is not a number,
+                // it is a stuck decoder.
+                if (n == 1 && gram[0].length == 1 && gram[0][0].isDigit()) {
+                    i++
+                    continue
+                }
                 var k = 0
                 var j = i
                 while (j + n <= tokens.size && tokens.subList(j, j + n) == gram) {

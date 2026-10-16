@@ -153,6 +153,14 @@ the common case.
   whole story: the queue could already hold several unspoken sentences, and the distress message
   waited behind every one of them. The queue is a deque now; an explicit ALERT is `offerFirst`ed,
   speaks next, and the queued sentences continue in their original order afterwards.
+- **An alert that arrives while the message before it is still SYNTHESISING goes first too.**
+  Stopping playback covered an alert that lands mid-audio. Voice loading and synthesis take
+  seconds with nothing audible — and there the alert had no way in: the worker would play the
+  message it was preparing IN FULL first, then the alert. Alerts enter at the head and the worker
+  is the only consumer, so an alert found waiting ahead right after a synthesis must have arrived
+  during it; the in-flight message — nothing of it heard yet — re-queues directly behind the
+  alerts, ahead of every later normal message, and the alert speaks next. `SpeechQueueOrder`,
+  6 unit tests.
 - **Long clips can no longer fail to play.** A 30 s VAD segment at 22 kHz float is ~2.6 MB, and
   one `MODE_STATIC` AudioTrack buffer that large can fail to build on a low-RAM phone — the
   failure mode being a message shown but never heard. Clips above 240 k samples (~1 MB) are now
@@ -192,6 +200,28 @@ The 16 remaining lint warnings are all deliberate: the English-only dev-log stri
 (`SetTextI18n`), pinned dependency versions for offline builds (`GradleDependency`),
 `targetSdk 33` and the portrait PTT UI (`OldTargetApi`, `LockedOrientationActivity`).
 
+## The repetition-loop check goes live (same pass)
+
+QualityGate's "stuck decoder" rule — a 1-3 token n-gram tiled four or more times back to back —
+was implemented and unit-tested but INERT in the app: `AsrEngine.transcribe` returned only text,
+and the live call passed `tokens = emptyList()`, which by construction can never tile.
+Measurement first (`eval/probe_loopcheck_tokens.py` — sherpa-onnx 1.13.8, the exact shipped
+model, FLEURS clips, the Kotlin algorithm ported exactly):
+
+- **First sweep, 90 clean clips: two rejections.** One was a genuinely degenerate decode —
+  `"ख      0 f 1"` — which TODAY is transmitted and spoken by the receiving phone as garbage.
+  The other was a false positive: a correct Bengali sentence containing "100000" (five adjacent
+  zero tokens). The exemption below was born from that.
+- **Final sweep, 225 clean clips: one rejection, again degenerate** (`"ं   ो    ख"`, a three-glyph
+  spacing artifact). No ordinary sentence is rejected.
+
+The rule is now live (`AsrEngine.transcribeWithTokens` → `QualityGate.evaluate(tokens = …)`) with
+one measured exemption: a SINGLE digit token never counts as a loop at the 1-token level, so
+numbers pass. Two-token digit runs are still counted ("10 10 10 10" is a stuck decoder); the
+accepted cost is that a number with eight consecutive zeros reaches the threshold — vanishingly
+rare, and the sender is merely asked to repeat. `QualityGateTest` pins both halves; the probe and
+its JSON are committed under `eval/`.
+
 ## What was deliberately NOT done
 
 - **Wi-Fi Direct group re-formation** depends on the other phone re-inviting, and the vendor
@@ -199,12 +229,14 @@ The 16 remaining lint warnings are all deliberate: the English-only dev-log stri
 
 ## Evidence
 
-- Unit tests: 76 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
+- Unit tests: 84 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
   `Outbox`, 3 for the gate fix, 6 for `Heartbeat` (fake-clock cadence, timeout, liveness cases),
   3 for `Framing` (pins the wire format), 8 for `DeliveryTracker` (schedule, receipts, deadlines,
-  capacity), 2 for the ACK envelope. The debug variant compiles cleanly in the same run.
-- Build: `app-debug.apk` rebuilt from this tree (16 Oct 07:50, 995,386,914 B, sha256
-  `bbfafa03…`). **Both phones must be reinstalled with this build** — the frame format and the
+  capacity), 2 for the ACK envelope, 6 for `SpeechQueueOrder` (alert-yield order), 2 for the
+  now-live loop check (a degenerate decode is caught; a number's zero-run is not). The debug
+  variant compiles cleanly in the same run.
+- Build: `app-debug.apk` rebuilt from this tree (16 Oct 08:15, 995,460,760 B, sha256
+  `e74d590a…`). **Both phones must be reinstalled with this build** — the frame format and the
   receipt envelope changed, and a mixed old/new pair would garble each other's packets.
 
 ## Phone checklist (two phones, debug APK)
@@ -226,7 +258,8 @@ The 16 remaining lint warnings are all deliberate: the English-only dev-log stri
 8. Toggle Bluetooth off/on on one phone → the link returns without touching DEVICES.
 9. Log lines to watch: "sent N B", "✓ delivered … confirmed by the other phone", "no receipt for
    … resend N/10", "✗ no receipt for … abandoned", "link down, buffered (Outbox…)", "flushed N
-   packet(s)", "reconnect attempt N", "ALERT … preempts playback", "speech worker error",
+   packet(s)", "reconnect attempt N", "ALERT … preempts playback", "alert arrived during
+   synthesis — speaking it first", "REPEAT (repetition-loop)", "speech worker error",
    "ASR worker error", plus the heartbeat's "heartbeat pong — round trip N ms" on a healthy idle
    link, and "heartbeat: no frame from the peer for N s — the link is dead" for a silent death.
 10. **Delivery receipt:** speak a sentence → sender log shows "✓ delivered <id> confirmed by the

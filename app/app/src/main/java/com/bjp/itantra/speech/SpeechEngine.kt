@@ -150,7 +150,17 @@ class AsrEngine(assets: AssetManager, numThreads: Int = 2) {
      * correctly rejects it — so the user sees nothing at all. 0.2 s is a comfortable margin over
      * the measured 0.05 s threshold and costs roughly 25 ms of extra compute.
      */
-    fun transcribe(samples: FloatArray): String {
+    fun transcribe(samples: FloatArray): String = transcribeWithTokens(samples).first
+
+    /**
+     * [transcribe], plus the decoder's own token list.
+     *
+     * The tokens feed [com.bjp.itantra.QualityGate]'s repetition-loop check: a decode that tiles
+     * a 1-3 token n-gram four or more times in a row is a stuck decoder, not a sentence. Single
+     * digit tokens are exempted there so a number like "100000" is not mistaken for one. Both
+     * halves of that rule are measured — see eval/probe_loopcheck_tokens.py.
+     */
+    fun transcribeWithTokens(samples: FloatArray): Pair<String, List<String>> {
         val padded = FloatArray(LEAD_SILENCE_SAMPLES + samples.size)
         System.arraycopy(samples, 0, padded, LEAD_SILENCE_SAMPLES, samples.size)
 
@@ -158,7 +168,8 @@ class AsrEngine(assets: AssetManager, numThreads: Int = 2) {
         try {
             stream.acceptWaveform(padded, SAMPLE_RATE)
             recognizer.decode(stream)
-            return recognizer.getResult(stream).text.trim()
+            val result = recognizer.getResult(stream)
+            return result.text.trim() to result.tokens.toList()
         } finally {
             stream.release()
         }

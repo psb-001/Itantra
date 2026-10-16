@@ -26,6 +26,7 @@ import com.bjp.itantra.laya.LayaTriage
 import com.bjp.itantra.speech.AsrEngine
 import com.bjp.itantra.speech.Lang
 import com.bjp.itantra.speech.Speaker
+import com.bjp.itantra.speech.SpeechQueueOrder
 import com.bjp.itantra.speech.TtsEngine
 import com.bjp.itantra.speech.VadEngine
 import com.bjp.itantra.transport.Outbox
@@ -969,7 +970,12 @@ class MainActivity : AppCompatActivity() {
             return
         }
         val t0 = System.currentTimeMillis()
-        val raw = engine.transcribe(segment)
+        // Tokens as well as text. The gate's repetition-loop check runs on the decoder's own
+        // token list, and this call used to pass an empty one — the check was inert in the live
+        // path. eval/probe_loopcheck_tokens.py measured what that missed (a degenerate
+        // "ख      0 f 1" decode was transmitted as-is) and what the exemption protects
+        // (numbers like 100000 are not loops). QualityGateTest pins both halves.
+        val (raw, asrTokens) = engine.transcribeWithTokens(segment)
         val ms = System.currentTimeMillis() - t0
         val seconds = segment.size / 16000f
         val level = QualityGate.rms(segment)
@@ -989,7 +995,7 @@ class MainActivity : AppCompatActivity() {
         // the nine allowed scripts. Pinned by tests in QualityGateTest.
         val gate = QualityGate.evaluate(
             text = raw,
-            tokens = emptyList(),
+            tokens = asrTokens,
             audioSeconds = seconds,
             rms = level,
             langTag = null,
@@ -1196,10 +1202,12 @@ class MainActivity : AppCompatActivity() {
             speaker.stop()
         }
         // AN ALERT ALSO JUMPS THE QUEUE. Stopping the current track is not enough when the queue
-        // already holds sentences not yet spoken: a distress message must not wait its turn
-        // behind chatter. offerFirst puts it ahead of everything still queued; once spoken, the
-        // queued sentences continue in their original order.
-        if (msg.type == Message.Type.ALERT) speechQueue.offerFirst(msg) else speechQueue.offer(msg)
+        // already holds sentences not yet spoken, and the worker can be mid-synthesis on another
+        // message (then there is nothing to stop — seconds of work with no audio). A distress
+        // message must not wait its turn behind chatter. Head insertion, under the queue's
+        // monitor so it cannot interleave with the worker's head surgery (see SpeechQueueOrder);
+        // once spoken, the queued sentences continue in their original order.
+        SpeechQueueOrder.enqueue(speechQueue, msg)
         ensureSpeechWorker()
     }
 
@@ -1275,6 +1283,19 @@ class MainActivity : AppCompatActivity() {
             return
         }
         val (samples, sampleRate) = spoken
+
+        // AN ALERT THAT ARRIVED WHILE SYNTHESISING GOES FIRST.
+        //
+        // Voice load and synthesis take seconds, and during that window there is nothing playing
+        // for an alert to interrupt. Alerts enter at the head and this worker is the only
+        // consumer, so an alert waiting ahead NOW must have arrived while this message was being
+        // prepared — and nothing of it has been heard yet, so it can step aside. It is re-queued
+        // directly behind the alerts and ahead of every later normal message. Not played, not
+        // marked played; the worker picks it up again after the alert has spoken.
+        if (SpeechQueueOrder.yieldBehindAlerts(speechQueue, msg)) {
+            log("speech ${msg.id.take(8)}: alert arrived during synthesis — speaking it first")
+            return
+        }
 
         val mode =
             if (msg.type == Message.Type.ALERT || escalate) Speaker.Mode.ALERT else Speaker.Mode.NORMAL
