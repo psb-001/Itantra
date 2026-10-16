@@ -94,7 +94,7 @@ Still true and still unaddressed: slide 4's table is **v1**, superseded by v2.
 
 | # | Old text | New text |
 |---|---|---|
-| 3.7 | `Android / Kotlin / Android Audio & Connectivity APIs` | `Android — Kotlin 1.9.22, minSdk 21 (Android 5.0), targetSdk 33, compileSdk 34. Native APIs only: AudioRecord, AudioTrack, BluetoothSocket, WifiP2pManager.` |
+| 3.7 | `Android / Kotlin / Android Audio & Connectivity APIs` | `Android — Kotlin 1.9.22, minSdk 23 (Android 6.0), targetSdk 33, compileSdk 34. Native APIs only: AudioRecord, AudioTrack, BluetoothSocket, WifiP2pManager.` |
 | 3.8 | `Meta Omnilingual ASR / INT8 model using Sherpa-ONNX` | `Meta Omnilingual ASR 300M CTC, INT8 — **348.4 MB**, Apache 2.0, via sherpa-onnx v1.13.8` |
 | 3.9 | `Piper TTS / Hindi & English voices (≈ 60 MiB each)` | `Piper VITS, MIT — hi_IN pratham **60.6 MB**, en_US lessac **60.3 MB**` |
 | 3.10 | `Voice Activity Detection (VAD) / Detects speech / pause boundaries / Silero VAD` | `Silero VAD, MIT — **0.6 MB, RTF 0.004** (~240× faster than real time). Segments speech at pauses; only the VAD runs when idle.` |
@@ -158,7 +158,7 @@ Kannada 0.276→0.307 · Malayalam 0.334→0.361 · English 0.195→0.181 · Guj
 
 | # | Old text | New text |
 |---|---|---|
-| 5.1 | `ACCESSIBLE / Designed for existing Android phones.` | `ACCESSIBLE — minSdk 21, so Android 5.0 and up. Runs on phones people already own.` |
+| 5.1 | `ACCESSIBLE / Designed for existing Android phones.` | `ACCESSIBLE — minSdk 23, so Android 6.0 and up. Runs on phones people already own.` |
 | 5.2 | `LOW DATA / Only compact text crosses the network` | `LOW DATA — 49–111 bytes of text crosses the network, vs ~93 KB for the same sentence as audio.` |
 | 5.3 | `OFFLINE / Speech processing Happens locally` | `OFFLINE — all speech processing on-device. No cloud API, no internet.` |
 | 5.4 | `ECONOMIC / Uses existing smartphones and Avoids per-request cloud speech costs` | `ECONOMIC — no paid API, no proprietary SDK. Everything Apache 2.0 / MIT.` |
@@ -222,7 +222,7 @@ Things the deck currently implies but the folder does **not** support. Remove or
 | RAM — speaker (Android) | **428 MB PSS / 535 MB RSS** | `dumpsys meminfo` |
 | RAM — listener (Android) | ~100 MB, not measured | `TECH_STACK_AND_ARCHITECTURE.md` §4 |
 | RAM — desktop, all models | 838 – 889 MiB | `RAM_measure_all_models.json` |
-| minSdk / targetSdk | 21 (Android 5.0) / 33 | `TECH_STACK_AND_ARCHITECTURE.md` §1 |
+| minSdk / targetSdk | 23 (Android 6.0) / 33 | `TECH_STACK_AND_ARCHITECTURE.md` §1 |
 | Own Kotlin | 7 files, 2,308 lines | `TECH_STACK_AND_ARCHITECTURE.md` §8 |
 | TTS round-trip CER | English 0.030 · Hindi 0.339 | `ACCURACY_RESULTS.md` §4 |
 | Noise @ 30 dB, Hindi | 0.133 → 0.424 | `NOISE_ROBUSTNESS_FINDINGS.md` |

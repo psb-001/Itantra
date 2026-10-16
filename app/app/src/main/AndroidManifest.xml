@@ -30,6 +30,9 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
         android:maxSdkVersion="32" />
+    <!-- Android 12+ ignores a request for FINE location alone; the pair must be declared. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES"
         android:usesPermissionFlags="neverForLocation"
         tools:targetApi="tiramisu" />
@@ -60,12 +63,20 @@
     </queries>
 
 
+    <!--
+      tools:targetApi silences UnusedAttribute on dataExtractionRules, which is deliberately
+      Android 12+ only. fullBackupContent="false" makes the pre-12 story explicit: allowBackup
+      covers the cloud, this covers everything else.
+    -->
     <application
         android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.iTantra">
+        android:theme="@style/Theme.iTantra"
+        tools:targetApi="s">
 
         <activity
             android:name=".MainActivity"

@@ -15,14 +15,12 @@
 
     <string name="not_connected">Not connected — tap Devices to link up</string>
     <string name="connected_to">Connected to %1$s</string>
-    <string name="peer_dialog_title">Connect to</string>
 
     <!-- ===== About: section headings (plain words, no jargon) ===== -->
     <string name="about_title">About iTantra</string>
     <string name="about_what_header">What this app does</string>
     <string name="about_langs_header">Which languages</string>
     <string name="about_heard_header">It can LISTEN to</string>
-    <string name="about_spoken_header">It can SPEAK</string>
     <string name="about_team_header">The team</string>
     <string name="about_how_good_header">How well it works</string>
     <string name="about_event_header">Competition details</string>
@@ -52,11 +50,6 @@ And the most important test of all: on 27 September 2026 we ran this app on two 
     <string name="about_field_build">Version</string>
 
     <string name="ps_title_plain">A two-way radio that works on a bad connection, using 10 Indian languages</string>
-    <string name="ps_title_official">Indian Multilingual TTS &amp; STT Aided Neural Transceiver Radio Access for low bitrate links</string>
-    <string name="team_bjp">B.J.P — Bug Janta Party</string>
-    <string name="org_isro">ISRO, Department of Space</string>
-    <string name="category_software">Software</string>
-    <string name="theme_smart_automation">Smart Automation</string>
 
     <string name="lang_capable_badge">Speaks aloud</string>
     <string name="lang_text_only_badge">Text only</string>

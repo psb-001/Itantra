@@ -9,7 +9,11 @@ android {
 
     defaultConfig {
         applicationId = "com.bjp.itantra"
-        minSdk = 21          // matches the sherpa-onnx reference app
+        // 23, not the reference app's 21. This app's own calls — AudioTrack.Builder (playback),
+        // Context.getColor, TextView.setTextAppearance(int), getSystemService(Class) — are API 23;
+        // on 21/22 they would crash at runtime. Lint flags every one, and compatibility shims for
+        // that dead 0.1% of devices would be untested paths. The floor is where the app runs.
+        minSdk = 23
         targetSdk = 33
         versionCode = 1
         versionName = "0.1.0"

@@ -136,7 +136,7 @@ paragraph of Innovation. Never cut the wrong-script story — it is the stronges
 
 | Row | Text |
 |---|---|
-| **Android app** | Kotlin · minSdk 21 · targetSdk 34 · AudioRecord / AudioTrack / BluetoothSocket / WifiP2pManager |
+| **Android app** | Kotlin · minSdk 23 · targetSdk 34 · AudioRecord / AudioTrack / BluetoothSocket / WifiP2pManager |
 | **ASR** | Meta Omnilingual 300M CTC INT8 · **340 MB** · **CC-BY-NC-4.0** · output vocabulary pruned 10,288 → 1,002 characters |
 | **TTS** | Piper VITS · **7 voices** (hi, mr, bn, ml, te, ta, en) · 448 MB · MIT wrapper, mixed data terms |
 | **VAD** | Silero · 629 KB · MIT · RTF 0.004 |
@@ -310,7 +310,7 @@ converts a strength into a trap.
 | Voice activity detection | Silero VAD | MIT · 629 KB · RTF 0.004 |
 | Speech corpus | `google/fleurs` — real recorded human speech, all ten PS languages | CC-BY-4.0 · 200 clips/language, 2,000 clips, 6.72 h · **evaluation only, not shipped** |
 | Transport docs | `developer.android.com` — Bluetooth RFCOMM and Wi-Fi Direct | Platform documentation |
-| Audio APIs | AudioRecord 16 kHz · AudioTrack 22 050 Hz · AudioManager STREAM_ALARM | Android platform, API 21+ |
+| Audio APIs | AudioRecord 16 kHz · AudioTrack 22 050 Hz · AudioManager STREAM_ALARM | Android platform, API 23+ |
 
 Add the ASR paper, which the current deck omits:
 ```

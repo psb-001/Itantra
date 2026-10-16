@@ -595,7 +595,7 @@ Two secondary questions, settled before writing the code:
   this exact binary on a phone.
 - **Is the AAR's manifest a problem?** It is two lines: `package="ai.onnxruntime"` and
   `minSdkVersion 24`. Consuming the jar directly means no manifest merge at all; the app's
-  `minSdk` stays 21 and the triage layer itself is gated at 24.
+  `minSdk` is 23 (below the jar's 24) and the triage layer itself is gated at 24.
 
 **A method that does not work, recorded so it is not tried again:** grepping op names out of the
 binary. NUL-bounded counts were **0 for every op** in all three libraries — `Conv`, `Erf` and

@@ -19,7 +19,7 @@ Generated 21 September 2026 from the actual build files and a built APK — not 
 | **JDK** | **Temurin 17.0.20.1** | at `~/android-dev/jdk17/Contents/Home` |
 | **Android SDK** | platform **34**, build-tools **34.0.0**, platform-tools 37.0.1 | at `~/android-dev/android-sdk` |
 | **compileSdk** | 34 | |
-| **minSdk** | **21** (Android 5.0) | matches the sherpa-onnx reference app |
+| **minSdk** | **23** (Android 6.0) | the app's own calls (AudioTrack.Builder, getColor…) are API 23 |
 | **targetSdk** | 33 (Android 13) | |
 | **Java / Kotlin target** | 17 | |
 

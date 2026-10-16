@@ -120,7 +120,7 @@ Make this a **6-row table**:
 
 | Part | What | Licence |
 |---|---|---|
-| App | Kotlin, Android minSdk 21, targetSdk 34, arm64 | — |
+| App | Kotlin, Android minSdk 23, targetSdk 34, arm64 | — |
 | Recognition | Meta Omnilingual 300M CTC INT8 · 340 MB · vocab pruned to 1,002 | **CC-BY-NC-4.0** |
 | Speech out | Piper VITS · **7 voices** · 448 MB | MIT wrapper, mixed data terms |
 | Sentence cut | Silero VAD · 629 KB · RTF 0.004 | MIT |

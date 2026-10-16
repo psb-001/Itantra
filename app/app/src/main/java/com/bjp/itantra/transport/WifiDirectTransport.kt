@@ -193,39 +193,53 @@ class WifiDirectTransport(
                         Log.i(TAG, "peer list changed — evaluating")
                         if (pendingConnect) {
                             val m = manager ?: return
-                            m.requestPeers(channel) { list ->
-                                val peers = list?.deviceList.orEmpty()
-                                discovered = peers.map {
-                                    PeerInfo(
-                                        id = it.deviceAddress,
-                                        name = it.deviceName ?: it.deviceAddress,
-                                        paired = false,
-                                        connected = false,
-                                    )
-                                }
-                                Log.i(TAG, "discovered ${peers.size} peer(s)")
-                                if (peers.isEmpty()) return@requestPeers
-                                val chosen = if (wantPeerId != null) {
-                                    peers.firstOrNull { it.deviceAddress == wantPeerId }
-                                } else {
-                                    peers.firstOrNull()
-                                }
-                                if (chosen == null) {
-                                    state(Transport.State.ERROR, "peer $wantPeerId not found")
+                            // SecurityException guard: permissions can be revoked from under a
+                            // running session (the privacy dashboard does not need to kill the
+                            // app). Lint asks for this explicitly, and an uncaught throw from a
+                            // broadcast receiver is a crash, not a log line.
+                            try {
+                                m.requestPeers(channel) { list ->
+                                    val peers = list?.deviceList.orEmpty()
+                                    discovered = peers.map {
+                                        PeerInfo(
+                                            id = it.deviceAddress,
+                                            name = it.deviceName ?: it.deviceAddress,
+                                            paired = false,
+                                            connected = false,
+                                        )
+                                    }
+                                    Log.i(TAG, "discovered ${peers.size} peer(s)")
+                                    if (peers.isEmpty()) return@requestPeers
+                                    val chosen = if (wantPeerId != null) {
+                                        peers.firstOrNull { it.deviceAddress == wantPeerId }
+                                    } else {
+                                        peers.firstOrNull()
+                                    }
+                                    if (chosen == null) {
+                                        state(Transport.State.ERROR, "peer $wantPeerId not found")
+                                        pendingConnect = false
+                                        return@requestPeers
+                                    }
                                     pendingConnect = false
-                                    return@requestPeers
+                                    state(Transport.State.CONNECTING, "joining ${chosen.deviceName}")
+                                    val cfg = WifiP2pConfig().apply {
+                                        deviceAddress = chosen.deviceAddress
+                                    }
+                                    try {
+                                        m.connect(channel, cfg, object : WifiP2pManager.ActionListener {
+                                            override fun onSuccess() =
+                                                state(Transport.State.CONNECTING, "invitation sent")
+                                            override fun onFailure(reason: Int) =
+                                                state(Transport.State.ERROR, "connect failed (reason=$reason)")
+                                        })
+                                    } catch (e: SecurityException) {
+                                        pendingConnect = false
+                                        state(Transport.State.ERROR, "Wi-Fi Direct permission revoked: ${e.message}")
+                                    }
                                 }
+                            } catch (e: SecurityException) {
                                 pendingConnect = false
-                                state(Transport.State.CONNECTING, "joining ${chosen.deviceName}")
-                                val cfg = WifiP2pConfig().apply {
-                                    deviceAddress = chosen.deviceAddress
-                                }
-                                m.connect(channel, cfg, object : WifiP2pManager.ActionListener {
-                                    override fun onSuccess() =
-                                        state(Transport.State.CONNECTING, "invitation sent")
-                                    override fun onFailure(reason: Int) =
-                                        state(Transport.State.ERROR, "connect failed (reason=$reason)")
-                                })
+                                state(Transport.State.ERROR, "Wi-Fi Direct permission revoked: ${e.message}")
                             }
                         }
                     }
@@ -346,19 +360,25 @@ class WifiDirectTransport(
     /** Group owner side: host a server socket and accept one client. */
     private fun startHostSocket() {
         thread(name = "p2p-host") {
+            var ss: ServerSocket? = null
             try {
                 // Close any previous server socket first: after accept() returns, the old one is
                 // still bound to the port, and re-hosting on it fails with EADDRINUSE — which
                 // would make every reconnect attempt after a drop look impossible.
                 runCatching { serverSocket?.close() }
                 serverSocket = null
-                val ss = ServerSocket(PORT)
+                ss = ServerSocket(PORT)
                 serverSocket = ss
                 Log.i(TAG, "hosting on port $PORT")
                 val client = ss.accept()
                 attach(client)
             } catch (e: IOException) {
-                if (running) state(Transport.State.ERROR, "host socket failed: ${e.message}")
+                // Quiet when a NEWER host replaced this one — its close() is what made accept()
+                // throw. Only a socket that is still in charge failing is worth reporting; a
+                // spurious ERROR here would send the app-level reconnect chasing nothing.
+                if (running && (ss == null || serverSocket === ss)) {
+                    state(Transport.State.ERROR, "host socket failed: ${e.message}")
+                }
             }
         }
     }
@@ -381,7 +401,13 @@ class WifiDirectTransport(
                 } catch (e: IOException) {
                     attempts++
                     Log.w(TAG, "connect attempt $attempts to $host:$PORT failed: ${e.message}")
-                    Thread.sleep(500)
+                    // Explicit interrupt handling: without it an interrupted sleep escapes the
+                    // retry loop as an uncaught exception and kills the thread silently.
+                    try {
+                        Thread.sleep(500)
+                    } catch (ie: InterruptedException) {
+                        return@thread
+                    }
                 }
             }
             state(Transport.State.ERROR, "could not reach group owner at $host:$PORT")

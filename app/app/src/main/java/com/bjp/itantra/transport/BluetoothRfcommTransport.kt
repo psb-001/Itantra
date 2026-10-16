@@ -231,8 +231,14 @@ class BluetoothRfcommTransport(
     }
 
     /** The accept loop, extracted so the watchdog can restart it if it dies. */
+    @SuppressLint("MissingPermission")
     @Synchronized
     private fun startAcceptLoop() {
+        // MissingPermission is suppressed deliberately: Bluetooth permission was verified by
+        // startListening() before this loop could exist, and startListening() is the only path
+        // that sets running = true. A mid-session revocation surfaces here as a SecurityException
+        // on accept()/listen(), which the catch below already converts into a retry or a log —
+        // never a crash.
         // Idempotent on purpose: three callers can ask for this — startListening, the watchdog,
         // and the post-session restart in the reader — and two live accept loops on one UUID is
         // a mess (the second listenUsingRfcommWithServiceRecord throws immediately and kills

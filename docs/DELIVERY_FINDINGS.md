@@ -161,6 +161,37 @@ the common case.
 - **Link RTT is on screen.** The heartbeat's measured round-trip now appears in Settings
   ("Link RTT: N ms (last heartbeat)") — the same number as the log line, no logcat needed.
 
+## Lint sweep and edge cases (same "squeeze" pass)
+
+Android Lint over the whole app: **0 errors now (was 32)**. Every fix below is behavior, not style:
+
+- **API floor raised to 23.** The app's own calls — `AudioTrack.Builder` (all speech playback),
+  `Context.getColor`, `TextView.setTextAppearance(int)`, `getSystemService(Class)` — are API 23;
+  with the old `minSdk = 21` they would crash on Android 5.x. Compatibility shims for 0.1% of
+  devices would be untested paths, so the floor moved to where the code actually runs.
+- **`ACCESS_COARSE_LOCATION` added** (manifest, same `maxSdkVersion="32"` cap) and requested as a
+  pair with FINE on Android 10+. Android 12+ ignores a request for FINE location alone — the
+  Wi-Fi Direct discovery path would have silently never received it.
+- **Permission guards made explicit.** The Bluetooth accept loop and `AudioRecord` creation carry
+  `@SuppressLint("MissingPermission")` with the in-place check documented; the Wi-Fi Direct
+  broadcast receiver and connect calls now *catch* `SecurityException` — permission revoked
+  mid-session by the privacy dashboard used to be an uncaught crash from a receiver.
+- **Backup rules for Android 12+.** `dataExtractionRules` + `fullBackupContent="false"`: nothing
+  this app stores ships anywhere, cloud or device-to-device.
+- **Push-to-talk reports `performClick()`** for screen readers (lint's accessibility check), and
+  the field type now matches the layout (`MaterialButton`).
+- **Wi-Fi Direct edge cases:** the client retry loop no longer dies silently if interrupted, and
+  a host socket closed by a newer host no longer emits a phantom ERROR that set the app-level
+  reconnect chasing nothing.
+- **The banner shows the receipt**: a confirmed delivery flips the status line to "✓ Delivered"
+  (with "(after N resend(s))" when retries were needed) — the proof is on screen, not just in
+  the log.
+- Dead resources removed: one drawable, 7 strings, 2 `md_scrim` definitions, 1 style.
+
+The 16 remaining lint warnings are all deliberate: the English-only dev-log strip
+(`SetTextI18n`), pinned dependency versions for offline builds (`GradleDependency`),
+`targetSdk 33` and the portrait PTT UI (`OldTargetApi`, `LockedOrientationActivity`).
+
 ## What was deliberately NOT done
 
 - **Wi-Fi Direct group re-formation** depends on the other phone re-inviting, and the vendor
@@ -172,9 +203,9 @@ the common case.
   `Outbox`, 3 for the gate fix, 6 for `Heartbeat` (fake-clock cadence, timeout, liveness cases),
   3 for `Framing` (pins the wire format), 8 for `DeliveryTracker` (schedule, receipts, deadlines,
   capacity), 2 for the ACK envelope. The debug variant compiles cleanly in the same run.
-- Build: `app-debug.apk` rebuilt from this tree (16 Oct 07:34, sha256 `4a7277aa…`). **Both
-  phones must be reinstalled with this build** — the frame format and the receipt envelope
-  changed, and a mixed old/new pair would garble each other's packets.
+- Build: `app-debug.apk` rebuilt from this tree (16 Oct 07:50, 995,386,914 B, sha256
+  `bbfafa03…`). **Both phones must be reinstalled with this build** — the frame format and the
+  receipt envelope changed, and a mixed old/new pair would garble each other's packets.
 
 ## Phone checklist (two phones, debug APK)
 
@@ -199,7 +230,8 @@ the common case.
    "ASR worker error", plus the heartbeat's "heartbeat pong — round trip N ms" on a healthy idle
    link, and "heartbeat: no frame from the peer for N s — the link is dead" for a silent death.
 10. **Delivery receipt:** speak a sentence → sender log shows "✓ delivered <id> confirmed by the
-    other phone". Then close the app on the *other* phone: speak two short sentences → "Buffered
+    other phone", and the banner flips to "✓ Delivered". Then close the app on the *other*
+    phone: speak two short sentences → "Buffered
     … link down"; reopen the other phone's app → "link up — flushed N packet(s)" followed by one
     "✓ delivered …" per sentence. A receipt that only arrives after retries is marked "(after N
     resend(s))", and an abandoned message shows "✗ no receipt for …" — nothing is ever dropped

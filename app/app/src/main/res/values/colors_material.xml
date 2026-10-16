@@ -40,7 +40,6 @@
     <color name="md_outlineVariant">#C5C7CB</color>
     <color name="md_inverseSurface">#303032</color>
     <color name="md_inverseOnSurface">#F0F0F1</color>
-    <color name="md_scrim">#000000</color>
     <color name="md_alert">#B3262F</color>
     <color name="md_onAlert">#FFFFFF</color>
     <color name="md_alertContainer">#FFDADE</color>

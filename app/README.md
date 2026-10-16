@@ -105,7 +105,7 @@ Or just copy the APK to the phone and tap it (enable "install unknown apps" firs
 
 ```
 package        com.bjp.itantra   v0.1.0
-minSdk 21 · targetSdk 33 · compileSdk 34
+minSdk 23 · targetSdk 33 · compileSdk 34
 permissions    RECORD_AUDIO · BLUETOOTH_CONNECT · BLUETOOTH_SCAN
                ACCESS_FINE_LOCATION · NEARBY_WIFI_DEVICES · MODIFY_AUDIO_SETTINGS
 
