@@ -213,6 +213,10 @@ Short version: fine for a competition entry or research; not fine to turn into a
 
 - **Prathamesh Bhujbal** — Team Lead — [LinkedIn](https://www.linkedin.com/in/prathamesh-bhujbal-psb)
 - **Atharv Chougule** — Team Member — [LinkedIn](https://www.linkedin.com/in/atharv-chougule-626452393)
+- **Aayush Kandhare** — Team Member — [LinkedIn](https://www.linkedin.com/in/aayush-kandhare-32646538b)
+- **Harshal Karachkhed** — Team Member — [LinkedIn](https://www.linkedin.com/in/harshal-karchkhed-239543400)
+- **Aniket Kolsepatil** — Team Member — [LinkedIn](https://www.linkedin.com/in/aniket-kolsepatil-a138b0383)
+- **Tanishka Gupte** — Team Member — [LinkedIn](https://www.linkedin.com/in/tanishka-gupte-2a586b303)
 
 Built for SIH 2026 · PS SIH26173 — and, more than that, built so a message still gets through
 when the link is having a bad day.
