@@ -6,7 +6,7 @@ speech out on phone B. No network call is made at any point.
 > **Status: BUILDS AND RUNS.** The tree builds a signed 993 MB release APK (v1.0.0) and a debug
 > APK. The release APK launched on an Android 34 emulator, ran every screen and passed the three
 > on-device self-tests (16 Oct 2026). The two-phone Bluetooth loop ran on two physical phones on
-> 27 Sep 2026, on the earlier build; the v1.0.0 pass is pending (`VERIFICATION_STATUS.md`).
+> 27 Sep 2026, on the earlier build. The v1.0.0 pass is pending (`VERIFICATION_STATUS.md`).
 > Everything marked ✅ is real. Everything else is written-but-untested.
 
 ---

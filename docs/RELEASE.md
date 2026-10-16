@@ -112,7 +112,7 @@ Two deliberate choices in `build.gradle.kts`, both with their reasoning in-file:
 
 ## Verifying a build before it goes on a phone
 
-Run all four; each answers a different question.
+Run all four. Each answers a different question.
 
 ```bash
 BT=~/android-dev/android-sdk/build-tools/34.0.0
