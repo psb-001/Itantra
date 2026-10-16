@@ -150,7 +150,17 @@ class MainActivity : AppCompatActivity() {
      */
     private val asrLock = java.util.concurrent.locks.ReentrantLock()
 
-    private val speaker = Speaker(applicationContext)
+    /**
+     * Playback for received messages, and the audio focus it holds while speaking.
+     *
+     * LAZY ON PURPOSE — this is a launch crash otherwise. An Activity's property initializers run
+     * in its constructor, which runs BEFORE Android attaches the context; the eager form,
+     * `= Speaker(applicationContext)`, dereferences a null base context and kills the app with
+     * "...getApplicationContext() on a null object reference" before onCreate ever runs. Found on
+     * the first device run of this build — unit tests and lint cannot see this class of bug.
+     * Nothing touches [speaker] before onCreate, so one `by lazy` is the whole fix.
+     */
+    private val speaker by lazy { Speaker(applicationContext) }
 
     // --- optional triage (Laya) ---
     /** Built only when the Settings toggle is on. Never on the audio thread. */

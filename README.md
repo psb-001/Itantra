@@ -46,7 +46,7 @@ Nothing leaves the device. No network, no cloud.
 | Thing | Evidence |
 |---|---|
 | Model runs on Android | Loaded on device, **428 MB PSS / 535 MB RSS** with the model resident |
-| App builds, installs, runs | **Signed release APK v1.0.0** (993 MB, sha256 `7c0e7134…`), sideloadable; earlier build installed and ran on Android 34, this build signature/alignment/badging-verified (`docs/RELEASE.md`); screenshots in `app/evidence/ui/` |
+| App builds, installs, runs | **Signed release APK v1.0.0** (993 MB, sha256 `0b46aeff…`), sideloadable; this build launched and ran on Android 34 (emulator smoke test: every screen, pipeline test, loopback playback), signature/alignment/badging-verified (`docs/RELEASE.md`); screenshots in `app/evidence/ui/` |
 | ASR accuracy | Mean CER **0.0918** across 200 clips × 10 languages, 2,000 clips, 6.7 h of real speech (`eval/SUMMARY_full_v3pruned.json`) |
 | **Out-of-script output** | **Zero, and structurally impossible.** The model is shipped with its CTC vocabulary pruned 10,288 → 1,002 tokens, so it cannot emit Arabic, CJK or Hangul. Previously "hello" came back as `هello` and was transmitted as `ello`. See `docs/VOCAB_PRUNE_FINDINGS.md` |
 | **Hindi under noise** | Script retention 40% → **78%** at pink 15 dB SNR; clean 94% → **100%**. Previously the project's single largest weakness |

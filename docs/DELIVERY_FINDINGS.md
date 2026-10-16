@@ -287,10 +287,37 @@ Not about the message pipeline; about the thing you hand to a phone.
   `keystore.properties`. Two files must be backed up; bumping `versionCode` on every
   release is not optional. Both rules, plus the verification commands, are `docs/RELEASE.md`.
 - **The artifact is a signed release**: `releases/iTantra-1.0.0-release.apk`,
-  993,362,023 B, sha256 `7c0e713421388b7817cbaabf09d428e9d1076aa5b6e96347908256504fcd5e91`,
+  993,362,447 B, sha256 `0b46aeffa5a39e506340632c16d125c6787a4cc13cbfbb10d79b35f0cae26b48`,
   verified for signature, page-alignment and badging. Any older iTantra on a phone must be
   **uninstalled before installing it** — the key rotation means the signatures differ, and the
-  installer reports the mismatch as "App not installed".
+  installer reports the mismatch as "App not installed". (That hash is the launch-crash fix
+  below, not the first build of this pass.)
+
+## The first device run — a launch crash the emulator caught (16 Oct)
+
+The release APK crashed on launch the first time it met a real Android runtime:
+
+    FATAL EXCEPTION: main
+    Unable to instantiate activity com.bjp.itantra.MainActivity:
+    NullPointerException: ... Context.getApplicationContext() on a null object reference
+
+**Cause.** The audio-focus pass added `private val speaker = Speaker(applicationContext)` to
+MainActivity's property list. Property initializers run inside the activity's constructor, and
+Android attaches the context (`attachBaseContext`) *after* the constructor — so
+`applicationContext` was still null when `Speaker` asked for the AudioManager. One line.
+
+**Why nothing caught it earlier.** It is invisible to unit tests (they never construct an
+Activity) and to lint. It only fires on a device, and the two-phone test had not been run yet —
+the pass that introduced it had been compiled, never launched. It was caught on the Android 34
+emulator before either phone saw it.
+
+**Fix.** `private val speaker by lazy { Speaker(applicationContext) }` with the reason written
+next to it, so the eager form cannot come back. Nothing touches the speaker before `onCreate`.
+
+**The fixed release was then run end to end on the emulator**: launched clean and stayed up,
+every screen opened (About shows "1.0.0 (release)", Settings, Devices, credits), the pipeline
+test and the loopback test both passed (numbers in Evidence below), and the fixed APK replaced
+the first one in `releases/` under the same version number.
 
 ## What was deliberately NOT done
 
@@ -316,13 +343,29 @@ Not about the message pipeline; about the thing you hand to a phone.
 - Lint: 0 errors / 16 accepted warnings, unchanged by this pass (the SDK-gated focus and vibrator
   calls raised no new API warnings).
 - Build: the runnable artifact is now the **signed release**
-  `releases/iTantra-1.0.0-release.apk` (16 Oct, 993,362,023 B, sha256
-  `7c0e713421388b7817cbaabf09d428e9d1076aa5b6e96347908256504fcd5e91`). The release pass above
+  `releases/iTantra-1.0.0-release.apk` (16 Oct, 993,362,447 B, sha256
+  `0b46aeffa5a39e506340632c16d125c6787a4cc13cbfbb10d79b35f0cae26b48`; the 16 Oct 09:57 build
+  under the old hash crashed at launch and is superseded). The release pass above
   replaced the debug APK as the phone build; the debug variant still compiles cleanly and now
   installs alongside as `com.bjp.itantra.debug`. **Both phones must be reinstalled with the
   release build** — the wire format and receipt envelope changed earlier in the project and
   everything in these passes lives inside the APK — and any older iTantra must be uninstalled
   first (the key rotation changed the signature; see the release pass above).
+- **First run on a device runtime** (Android 34 emulator, arm64-v8a, the fixed release APK):
+  launched clean and stayed up; every screen opened with no fault — About (version line
+  "1.0.0 (release)", read from the installed package), Settings with live counters, Devices,
+  open-source credits. The app's own test modes, each a full pass:
+  - *Pipeline* (`--ez pipeline true`): English clip → 3 segments, all sent, script 1.00,
+    packets 129–211 B; Hindi clip → **0 segments before flush, 1 after** — the VAD-flush fix
+    working, the exact bug this test exists to catch. ASR compute 143–1134 ms per segment.
+  - *Loopback* (`--ez loopback true`): every segment SENT → TTS → played → COMPLETE;
+    synthesis 50–566 ms per sentence at 22050 Hz; playback exercised both NORMAL and ALERT
+    modes of the audio-focus `Speaker` — the class from the crash fix — with no fault.
+  - *Benchmark* (`--ez benchmark true`): ASR load 2215 ms, ASR RTF **0.156** over 29.9 s of
+    audio; TTS voice load 924 ms, TTS RTF **0.078**; native heap 6 → 24 MB. Emulator numbers;
+    a real phone is still what the checklist below measures.
+  - *Triage toggle*: switching Laya on copied its assets (143 MB, first use) and reported
+    "triage ready — vocab 12454, merges 30829"; switching back off was clean.
 
 ## Phone checklist (two phones, release APK)
 
