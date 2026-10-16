@@ -280,19 +280,19 @@ A deliberate audit of "what still breaks a demo" produced the changes below, all
 
 ## Evidence
 
-- Unit tests: 95 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
+- Unit tests: 96 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
   `Outbox` (+2 snapshot/restore: order preserved, capacity honoured), 3 for the gate fix, 6 for
   `Heartbeat` (fake-clock cadence, timeout, liveness cases), 3 for `Framing` (pins the wire
   format), 8 for `DeliveryTracker` (+3: schedule carry-over across a restart, expired restore
   abandoned not re-sent, counters), 2 for the ACK envelope, 6 for `SpeechQueueOrder` (alert-yield
-  order), 2 for the now-live loop check, 4 for `PendingStore` (byte-exact round trip including
-  binary-unsafe bytes, missing/torn/future-version files, no temp file left behind), 2 for
-  `MessageLedger` (a heard id cannot replay after a restart; the restore bound holds). The debug
-  variant compiles cleanly in the same run.
+  order), 2 for the now-live loop check, 5 for `PendingStore` (byte-exact round trip including
+  binary-unsafe bytes, missing/torn/future-version files, no temp file left behind, concurrent
+  saves never leave an unreadable file), 2 for `MessageLedger` (a heard id cannot replay after a
+  restart; the restore bound holds). The debug variant compiles cleanly in the same run.
 - Lint: 0 errors / 16 accepted warnings, unchanged by this pass (the SDK-gated focus and vibrator
   calls raised no new API warnings).
-- Build: `app-debug.apk` rebuilt from this tree (16 Oct 09:22, 995,524,661 B, sha256
-  `1ef4ec07…`). **Both phones must be reinstalled with this build** — the wire format and receipt
+- Build: `app-debug.apk` rebuilt from this tree (16 Oct 09:24, 995,422,737 B, sha256
+  `5651e834…`). **Both phones must be reinstalled with this build** — the wire format and receipt
   envelope changed earlier in the project, and everything in this pass lives inside the APK.
 
 ## Phone checklist (two phones, debug APK)

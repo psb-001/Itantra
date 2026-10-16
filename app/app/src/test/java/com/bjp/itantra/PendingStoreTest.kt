@@ -6,6 +6,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 import java.util.UUID
+import kotlin.concurrent.thread
 
 /**
  * Tests for [PendingStore] — the file that keeps the sender's promises alive across a process
@@ -84,5 +85,20 @@ class PendingStoreTest {
         assertEquals(listOf("x"), back.seen)
         assertEquals(2, back.delivered)
         assertTrue("temp file must be renamed away", !File(f.parentFile, f.name + ".tmp").exists())
+    }
+
+    @Test
+    fun `concurrent saves from two threads never leave an unreadable file`() {
+        val store = PendingStore(tempFile())
+        val a = PendingStore.Snapshot(listOf(byteArrayOf(1)), emptyList(), emptyList(), 1, 0)
+        val b = PendingStore.Snapshot(emptyList(), emptyList(), listOf("x"), 2, 0)
+        // The live app saves from the ASR worker, the link reader and the main-thread ticker;
+        // unsynchronized saves would share one temp-file name and could rename a torn file.
+        val threads = listOf(thread { repeat(50) { store.save(a) } }, thread { repeat(50) { store.save(b) } })
+        threads.forEach { it.join() }
+
+        val back = store.load()
+        assertTrue("a save must never leave a file the loader cannot read", back != null)
+        assertTrue(back!!.delivered == 1 || back.delivered == 2)
     }
 }

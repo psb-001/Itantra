@@ -45,7 +45,15 @@ class PendingStore(private val file: File) {
         val gaveUp: Int,
     )
 
-    /** Write [s] atomically (temp file + rename). Throws on I/O failure; callers guard. */
+    /**
+     * Write [s] atomically (temp file + rename). Throws on I/O failure; callers guard.
+     *
+     * Synchronized because saves arrive from different threads — the ASR worker after a send,
+     * the link reader after a receipt or an incoming message, the main-thread resend ticker.
+     * Two concurrent saves would share one temp file name and could rename a torn file over the
+     * good one, defeating the whole point of temp+rename.
+     */
+    @Synchronized
     fun save(s: Snapshot) {
         val json = JSONObject().apply {
             put("v", VERSION)
