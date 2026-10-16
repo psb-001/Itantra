@@ -2,6 +2,7 @@ package com.bjp.itantra
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ComponentCallbacks2
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,6 +13,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Debug
 import android.os.SystemClock
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -40,6 +44,7 @@ import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
+import kotlin.concurrent.withLock
 
 /**
  * iTantra — offline voice transceiver. SIH26173.
@@ -137,7 +142,15 @@ class MainActivity : AppCompatActivity() {
     private var loadedVoice: String? = null
     private val voiceLock = Any()
 
-    private val speaker = Speaker()
+    /**
+     * Guards the ASR recogniser's lifecycle the way [voiceLock] guards the voice: a decode holds
+     * it for its whole duration, and a memory-trim release takes it only when it is free
+     * (tryLock) — never freeing the native recogniser out from under a running decode, which is
+     * exactly the race a trim handler would otherwise introduce. See [releaseAsrUnderPressure].
+     */
+    private val asrLock = java.util.concurrent.locks.ReentrantLock()
+
+    private val speaker = Speaker(applicationContext)
 
     // --- optional triage (Laya) ---
     /** Built only when the Settings toggle is on. Never on the audio thread. */
@@ -233,6 +246,21 @@ class MainActivity : AppCompatActivity() {
     private val speechQueue = LinkedBlockingDeque<Message>()
     @Volatile
     private var speechWorker: Thread? = null
+
+    /**
+     * Audio already synthesised for the message the worker expects to speak next — built while
+     * the current message was still being heard (see [maybePrefetchNext]). One slot, touched
+     * only by the "tts" worker thread, so no lock; dropped the moment it is used, not needed,
+     * or found stale.
+     */
+    private class Prefetched(
+        val id: String,
+        val voiceName: String,
+        val samples: FloatArray,
+        val sampleRate: Int,
+    )
+
+    private var prefetched: Prefetched? = null
 
     /** Speech-in: VAD segments decoded one at a time, in the order they were spoken. */
     private val asrQueue = LinkedBlockingQueue<FloatArray>()
@@ -620,7 +648,7 @@ class MainActivity : AppCompatActivity() {
                         // The PS requires alerts at maximum volume that cannot be interrupted.
                         val isAlert = name.contains("_hi")
                         val mode = if (isAlert) Speaker.Mode.ALERT else Speaker.Mode.NORMAL
-                        val player = Speaker()
+                        val player = Speaker(applicationContext)
                         player.play(samples, sr, mode)
                         Log.i(
                             TAG,
@@ -752,7 +780,7 @@ class MainActivity : AppCompatActivity() {
         vad = VadEngine(assets)
 
         // Speech in. Always needed — either phone can be the one talking.
-        asr = AsrEngine(assets, numThreads = 2)
+        asrLock.withLock { asr = AsrEngine(assets, numThreads = 2) }
 
         // Speech out. Always needed — either phone can be the one receiving.
         val voice = TtsEngine.voiceFor(langTag)
@@ -790,12 +818,63 @@ class MainActivity : AppCompatActivity() {
 
     /** Free every native engine. Safe to call when some are already null. */
     private fun releaseModels() {
-        runCatching { asr?.release() }; asr = null
+        // tryLock, not withLock: releaseModels runs at shutdown while the ASR worker may be
+        // mid-decode, and blocking the main thread on a multi-second decode is worse than
+        // leaving that one native engine to the process teardown.
+        if (asrLock.tryLock()) {
+            try {
+                runCatching { asr?.release() }
+                asr = null
+            } finally {
+                asrLock.unlock()
+            }
+        }
         synchronized(voiceLock) {
             runCatching { tts?.release() }; tts = null; loadedVoice = null
         }
         runCatching { vad?.release() }; vad = null
         runCatching { laya?.close() }; laya = null
+    }
+
+    /**
+     * Free the TTS voice (~60 MB) when it is idle and the system reports memory pressure. The
+     * next message reloads it in about a second — cheaper than the app being the reason a low-RAM
+     * phone starts killing things. Runs on a throwaway thread because taking [voiceLock] can wait
+     * for a synthesis in flight, and onTrimMemory is a main-thread callback.
+     */
+    private fun releaseIdleVoice(reason: String) {
+        if (recording || speaker.isPlaying() || speechQueue.isNotEmpty()) return
+        thread(name = "trim") {
+            synchronized(voiceLock) {
+                if (recording || speechQueue.isNotEmpty()) return@synchronized
+                if (tts != null) {
+                    runCatching { tts?.release() }
+                    tts = null
+                    loadedVoice = null
+                    log("memory pressure ($reason): released the TTS voice — the next message reloads it")
+                }
+            }
+        }
+    }
+
+    /**
+     * Free the ASR recogniser (~340 MB) when the system says memory is critical. Only when
+     * nothing can be using it: not recording, no segment queued, no decode in flight (the
+     * tryLock). The next recording rebuilds it — a few seconds slower — which is the honest
+     * trade on the phone this app is required to survive.
+     */
+    private fun releaseAsrUnderPressure() {
+        if (recording || asrQueue.isNotEmpty()) return
+        if (!asrLock.tryLock()) return
+        try {
+            if (asr != null) {
+                runCatching { asr?.release() }
+                asr = null
+                log("memory critical: released the ASR recogniser — the next recording reloads it")
+            }
+        } finally {
+            asrLock.unlock()
+        }
     }
 
     /**
@@ -866,6 +945,11 @@ class MainActivity : AppCompatActivity() {
         log("recording started (mic OK, sampleRate=$SAMPLE_RATE)")
 
         captureThread = thread(name = "capture") {
+            // The microphone must win under load. TTS synthesis on the other worker is
+            // CPU-hungry; a starved capture thread overflows AudioRecord and the words are gone
+            // before any gate can see them. Android's own guidance for audio-capture threads is
+            // THREAD_PRIORITY_URGENT_AUDIO.
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO)
             val buf = ShortArray(BUFFER_SAMPLES)
             var peak = 0.0
             var lastUi = 0L
@@ -971,6 +1055,14 @@ class MainActivity : AppCompatActivity() {
                     }
                     runCatching { recogniseAndSend(segment) }
                         .onFailure { log("ASR worker error: ${it::class.simpleName}: ${it.message}") }
+                    // Honest queue display: a long hold makes several segments, and plain
+                    // "Finishing…" left the user guessing whether their last words were still
+                    // being worked on. Say so; the next "Sent…" clears it when the queue drains.
+                    val behind = asrQueue.size
+                    if (behind > 0) {
+                        log("$behind segment(s) still queued for recognition")
+                        runOnUiThread { setStatus("Transcribing $behind more…") }
+                    }
                 }
             }
         }
@@ -978,10 +1070,11 @@ class MainActivity : AppCompatActivity() {
 
     /** One segment, start to finish: recognise, gate, filter, hand to the outbox. */
     private fun recogniseAndSend(segment: FloatArray) {
-        val engine = asr
-        if (engine == null) {
-            log("segment (${segment.size} samples) but ASR not loaded yet — discarding")
-            return
+        if (asr == null) {
+            // The recogniser is not resident: either the models are still loading, or memory
+            // pressure released it (see onTrimMemory). Rebuilding takes seconds; discarding the
+            // words takes none and loses a sentence — the one thing this app must not do.
+            log("recogniser not resident — reloading for ${segment.size} samples")
         }
         val t0 = System.currentTimeMillis()
         // Tokens as well as text. The gate's repetition-loop check runs on the decoder's own
@@ -989,7 +1082,28 @@ class MainActivity : AppCompatActivity() {
         // path. eval/probe_loopcheck_tokens.py measured what that missed (a degenerate
         // "ख      0 f 1" decode was transmitted as-is) and what the exemption protects
         // (numbers like 100000 are not loops). QualityGateTest pins both halves.
-        val (raw, asrTokens) = engine.transcribeWithTokens(segment)
+        //
+        // The decode holds asrLock for its whole duration, so a memory-trim release cannot free
+        // the native recogniser mid-call — the same discipline voiceLock applies to TTS.
+        val (raw, asrTokens) = try {
+            asrLock.withLock {
+                val engine = asr ?: AsrEngine(assets, numThreads = 2).also {
+                    asr = it
+                    log("recogniser reloaded — decoding the held segment")
+                }
+                engine.transcribeWithTokens(segment)
+            }
+        } catch (e: Throwable) {
+            log("FAIL: recogniser unavailable (${e::class.simpleName}: ${e.message}) — segment NOT recognised")
+            runOnUiThread {
+                setStatus("Could not read that — say it again")
+                append(
+                    "⚠ ${"%.1f".format(segment.size / 16000f)} s of speech could not be read " +
+                        "(recogniser failed to load) — nothing was sent"
+                )
+            }
+            return
+        }
         val ms = System.currentTimeMillis() - t0
         val seconds = segment.size / 16000f
         val level = QualityGate.rms(segment)
@@ -1241,6 +1355,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * One buzz when an ALERT lands. Sound is the message; the buzz is so the phone is noticed
+     * even in a pocket or a loud room, and it fires at receive time — not when the alert's turn
+     * to speak comes — so holding the phone is not a prerequisite for feeling it.
+     *
+     * Best-effort by design: no vibrator, a platform refusal or a silent-mode policy must never
+     * change what the app does with the alert itself.
+     */
+    private fun vibrateAlert() {
+        try {
+            val vib = if (Build.VERSION.SDK_INT >= 31) {
+                (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager)
+                    ?.defaultVibrator
+            } else {
+                @Suppress("DEPRECATION")
+                getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+            } ?: return
+            // Two strong pulses then a long one: felt through cloth, hard to mistake for a
+            // notification tick.
+            val pattern = longArrayOf(0, 400, 250, 400, 250, 700)
+            if (Build.VERSION.SDK_INT >= 26) {
+                vib.vibrate(VibrationEffect.createWaveform(pattern, -1))
+            } else {
+                @Suppress("DEPRECATION")
+                vib.vibrate(pattern, -1)
+            }
+        } catch (e: RuntimeException) {
+            Log.w(TAG, "alert vibration failed: ${e.message} — the spoken alert still happens")
+        }
+    }
+
     /** Called by the transport when a packet arrives on the LISTENER phone. */
     private fun onPacket(bytes: ByteArray) {
         val msg = Message.fromBytes(bytes) ?: run {
@@ -1291,6 +1436,11 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        // ALERT gets its buzz here — after the duplicate and freshness gates (a resend of
+        // something already felt and spoken must not buzz again), before the speaker (a phone in
+        // a pocket feels it even while other audio is still talking).
+        if (msg.type == Message.Type.ALERT) vibrateAlert()
+
         // AN EXPLICIT ALERT TAKES THE SPEAKER IMMEDIATELY.
         //
         // Normal messages no longer interrupt one another — the worker below speaks them to
@@ -1340,6 +1490,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * USE THE PLAYBACK TIME. Synthesising the next message takes a second or two and plays no
+     * sound; done only after the current message finishes, that synthesis is dead air between
+     * two sentences — exactly what a long hold turned into on the receiving phone ("I spoke five
+     * sentences and heard them one at a time"). This is called from the playback wait loop, so
+     * the work happens under the current message's audio and the gap collapses to nothing.
+     *
+     * Safety rails, all checked here or at consumption:
+     *  - only the next queued message, never an ALERT (alerts synthesise at their turn, above
+     *    any queue position, and are never delayed for this);
+     *  - only with the voice that is already resident — prefetching across a language boundary
+     *    would force a ~60 MB voice churn for a message nobody is hearing yet;
+     *  - only into an empty slot: one piece of audio is enough to keep the queue fed;
+     *  - the slot is keyed by message id, so an alert arriving mid-prefetch simply leaves it
+     *    untouched (it is still this message's audio) and a message that is no longer next is
+     *    dropped, not spoken (see speakOne).
+     */
+    private fun maybePrefetchNext() {
+        if (prefetched != null) return
+        val next = speechQueue.peekFirst() ?: return
+        if (next.type == Message.Type.ALERT) return
+        synchronized(voiceLock) {
+            val voice =
+                TtsEngine.voiceFor(LanguageFilter.voiceTagFor(next.lang, next.text)) ?: return
+            if (loadedVoice != voice) return
+            val engine = ensureVoiceLocked(voice) ?: return
+            prefetched = Prefetched(next.id, voice, engine.synthesise(next.text), engine.sampleRate())
+        }
+        log("speech: pre-synthesised ${next.id.take(8)} while the previous message plays")
+    }
+
     /** Synthesise and play one message. Runs on the single "tts" worker thread. */
     private fun speakOne(msg: Message) {
         // WHICH VOICE SPEAKS THIS MESSAGE.
@@ -1364,12 +1545,23 @@ class MainActivity : AppCompatActivity() {
         val escalate = triage?.escalate == true
         if (triage != null) log("triage ${msg.id.take(8)}: ${triage.describe()}")
 
-        // Load (if needed) and synthesise under one lock. A language change between two quick
-        // messages must not release the engine another path is mid-synthesis on.
-        val spoken = synchronized(voiceLock) {
-            val engine = wantVoice?.let { ensureVoiceLocked(it) }
-            if (engine == null) null
-            else Pair(engine.synthesise(msg.text), engine.sampleRate())
+        // PREFETCHED AUDIO IS USED WHEN IT IS THIS MESSAGE AND THE CORRECT VOICE. The worker
+        // built it while the previous message was still being heard, so a burst of sentences
+        // now plays without a synthesis pause between them. Anything else synthesises here,
+        // exactly as before; a slot for a message that is no longer next is dropped.
+        val pf = prefetched
+        val spoken = if (pf != null && pf.id == msg.id && pf.voiceName == wantVoice) {
+            log("speech ${msg.id.take(8)}: already synthesised — playing immediately")
+            Pair(pf.samples, pf.sampleRate)
+        } else {
+            if (pf != null) prefetched = null
+            // Load (if needed) and synthesise under one lock. A language change between two quick
+            // messages must not release the engine another path is mid-synthesis on.
+            synchronized(voiceLock) {
+                val engine = wantVoice?.let { ensureVoiceLocked(it) }
+                if (engine == null) null
+                else Pair(engine.synthesise(msg.text), engine.sampleRate())
+            }
         }
         if (spoken == null) {
             // No bundled voice, or the load failed. Text is still shown, and never read by an
@@ -1394,8 +1586,16 @@ class MainActivity : AppCompatActivity() {
         // marked played; the worker picks it up again after the alert has spoken.
         if (SpeechQueueOrder.yieldBehindAlerts(speechQueue, msg)) {
             log("speech ${msg.id.take(8)}: alert arrived during synthesis — speaking it first")
+            // The prefetch (this message's own audio, most likely) stays in its slot: when the
+            // worker comes back to this message after the alert, it is still valid. That is the
+            // point of keeping it keyed by id.
             return
         }
+
+        // Past the yield check this message is definitely next to play; a prefetched copy of it
+        // (if any) has just become the audio below, and the slot is free for the following
+        // message's prefetch.
+        prefetched = null
 
         val mode =
             if (msg.type == Message.Type.ALERT || escalate) Speaker.Mode.ALERT else Speaker.Mode.NORMAL
@@ -1439,6 +1639,10 @@ class MainActivity : AppCompatActivity() {
             val maxWaitMs = piece.size * 1000L / sampleRate + 2_000L
             val started = SystemClock.elapsedRealtime()
             while (speaker.isPlaying() && SystemClock.elapsedRealtime() - started < maxWaitMs) {
+                // The wait is otherwise idle: get the next message's audio ready now, under
+                // this message's playback (see maybePrefetchNext). A no-op when there is
+                // nothing safe to build — including the very common "queue is empty" case.
+                maybePrefetchNext()
                 try {
                     Thread.sleep(40)
                 } catch (e: InterruptedException) {
@@ -1450,6 +1654,12 @@ class MainActivity : AppCompatActivity() {
             // after we had ploughed through every remaining piece.
             if (speaker.generation() != generation) return
         }
+        // The message has been heard to its end. A hard stop releases the track buffer — real
+        // memory on a low-RAM phone — and hands audio focus back to whatever ducked for us;
+        // without it the old track and the duck lingered until the next message replaced them.
+        // Alerts are skipped: their loop is the point, and it ends when the next message seizes
+        // the speaker.
+        if (mode == Speaker.Mode.NORMAL) speaker.stop()
         ledger.markPlayed(msg)
     }
 
@@ -1792,6 +2002,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun append(line: String) {
         transcriptView.append("\n$line")
+    }
+
+    /**
+     * MEMORY PRESSURE. This app is required to run on low-RAM phones, and between its two
+     * engines it is the largest resident thing on one (~400 MB). When the system says memory is
+     * short, give some back: the TTS voice first (reloads in about a second), the ASR recogniser
+     * only under RUNNING_CRITICAL (reloads in a few seconds). Never at the cost of work in
+     * flight — the release helpers check recording, playback and both queues, and the locks
+     * guard the native calls (see releaseIdleVoice / releaseAsrUnderPressure).
+     */
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW) {
+            releaseIdleVoice(
+                if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL) "critical"
+                else "low"
+            )
+        }
+        if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL) {
+            releaseAsrUnderPressure()
+        }
     }
 
     override fun onDestroy() {

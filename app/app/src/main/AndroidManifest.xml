@@ -5,6 +5,9 @@
     <!-- Speech capture. -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <!-- ALERT messages buzz the moment they land, so a phone in a pocket is still noticed. -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <!--
       Bluetooth. On Android 12 (API 31) and above the legacy BLUETOOTH / BLUETOOTH_ADMIN
       permissions are IGNORED — you must request BLUETOOTH_CONNECT and BLUETOOTH_SCAN instead.

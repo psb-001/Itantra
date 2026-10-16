@@ -3,9 +3,11 @@ package com.bjp.itantra.speech
 import android.content.Context
 import android.content.res.AssetManager
 import android.media.AudioAttributes
+import android.media.AudioFocusRequest
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import android.os.Build
 import android.util.Log
 import com.bjp.itantra.SpeechText
 import com.k2fsa.sherpa.onnx.OfflineRecognizer
@@ -416,11 +418,28 @@ class TtsEngine(
  * volume, loop until acknowledged, and not be ducked by other audio. That needs explicit
  * AudioAttributes and audio-focus handling, not a default AudioTrack.
  */
-class Speaker {
+class Speaker(context: Context) {
 
     enum class Mode { NORMAL, ALERT }
 
     private var track: AudioTrack? = null
+
+    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+    /**
+     * Focus is best-effort housekeeping, not control: this listener never stops playback. Its
+     * only job is to make OTHER apps behave — ducking or pausing while a message speaks —
+     * because this app's own promise is that a message is heard to its end.
+     */
+    private val focusListener = AudioManager.OnAudioFocusChangeListener { change ->
+        Log.i(TAG, "audio focus changed -> $change (still playing)")
+    }
+
+    /** Which mode's focus is held right now (null = none). Guarded by the play/stop monitor. */
+    private var focusedMode: Mode? = null
+
+    /** Cached per-mode focus requests, API 26+ only; the legacy path carries no object to cache. */
+    private val focusRequests = HashMap<Mode, AudioFocusRequest>()
 
     /**
      * Bumped by every external [stop] — never by [play]'s internal stop. Long clips are played as
@@ -454,6 +473,13 @@ class Speaker {
             .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
             .build()
 
+        // ASK FOR FOCUS FIRST — the audio manners this class's comment always claimed. A normal
+        // announcement requests TRANSIENT_MAY_DUCK: whatever else is playing lowers itself for
+        // the sentence and comes back after. An ALERT requests TRANSIENT without the duck: an
+        // emergency is heard over music, not mixed under it. Best effort — a refused or failed
+        // request changes nothing about whether the message plays.
+        requestFocus(attrs, mode)
+
         val format = AudioFormat.Builder()
             .setEncoding(AudioFormat.ENCODING_PCM_FLOAT)
             .setSampleRate(sampleRate)
@@ -471,8 +497,8 @@ class Speaker {
         track = t
 
         if (mode == Mode.ALERT) {
-            // Loop until explicitly stopped. AUDIOFOCUS_GAIN (not MAY_DUCK) so nothing else
-            // can talk over an emergency alert.
+            // Loop until explicitly stopped. Focus was requested without the duck
+            // (AUDIOFOCUS_GAIN_TRANSIENT) so nothing else talks over an emergency alert.
             t.setLoopPoints(0, samples.size, -1)
         }
         t.play()
@@ -488,12 +514,64 @@ class Speaker {
 
     @Synchronized
     private fun stopInternal(bumpGeneration: Boolean) {
-        if (bumpGeneration) stopGeneration.incrementAndGet()
+        if (bumpGeneration) {
+            stopGeneration.incrementAndGet()
+            // An external stop ends this speaker's turn: hand focus back so whatever ducked
+            // (music, navigation) comes up again without waiting for the next message. The
+            // internal stop inside [play] only replaces one piece with the next — focus stays
+            // held there, so the duck does not wobble between pieces of one message.
+            abandonFocusInternal()
+        }
         track?.let {
             runCatching { it.stop() }
             runCatching { it.release() }
         }
         track = null
+    }
+
+    /** Ask for (or refresh) audio focus for [mode]. Requires the play/stop monitor. */
+    private fun requestFocus(attrs: AudioAttributes, mode: Mode) {
+        if (focusedMode == mode) return
+        abandonFocusInternal()
+        val gain =
+            if (mode == Mode.ALERT) AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+            else AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
+        val result = try {
+            if (Build.VERSION.SDK_INT >= 26) {
+                val req = focusRequests.getOrPut(mode) {
+                    AudioFocusRequest.Builder(gain)
+                        .setAudioAttributes(attrs)
+                        .setWillPauseWhenDucked(false)
+                        .setOnAudioFocusChangeListener(focusListener)
+                        .build()
+                }
+                audioManager.requestAudioFocus(req)
+            } else {
+                @Suppress("DEPRECATION")
+                audioManager.requestAudioFocus(focusListener, AudioManager.STREAM_MUSIC, gain)
+            }
+        } catch (e: RuntimeException) {
+            Log.w(TAG, "audio focus request ($mode) failed: ${e.message} — playing anyway")
+            return
+        }
+        focusedMode = mode
+        if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            Log.w(TAG, "audio focus request ($mode) refused ($result) — playing anyway")
+        }
+    }
+
+    /** Hand focus back if any is held. Requires the play/stop monitor. */
+    private fun abandonFocusInternal() {
+        val m = focusedMode ?: return
+        focusedMode = null
+        runCatching {
+            if (Build.VERSION.SDK_INT >= 26) {
+                focusRequests[m]?.let { audioManager.abandonAudioFocusRequest(it) }
+            } else {
+                @Suppress("DEPRECATION")
+                audioManager.abandonAudioFocus(focusListener)
+            }
+        }
     }
 
     companion object {
