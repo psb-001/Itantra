@@ -412,13 +412,28 @@ class Speaker {
     private var track: AudioTrack? = null
 
     /**
+     * Bumped by every external [stop] — never by [play]'s internal stop. Long clips are played as
+     * back-to-back pieces (see [MainActivity]: a single MODE_STATIC buffer can be too large for a
+     * low-RAM phone); the worker captures [generation] before each piece and abandons the rest of
+     * the sequence when it changes. That is how an ALERT that seizes the speaker mid-message ends
+     * that message instead of being spoken after its remaining pieces.
+     */
+    private val stopGeneration = java.util.concurrent.atomic.AtomicLong(0L)
+
+    /** Current stop generation. Capture before [play]; compare after playback to detect preemption. */
+    fun generation(): Long = stopGeneration.get()
+
+    /**
      * @Synchronized on purpose: play, stop and isPlaying are called from different threads —
      * the receive worker plays, an incoming ALERT may stop playback to preempt — and the
      * AudioTrack field cannot tolerate two writers.
      */
     @Synchronized
     fun play(samples: FloatArray, sampleRate: Int, mode: Mode = Mode.NORMAL) {
-        stop()
+        // Replacing the current track is internal housekeeping, not an external stop: it must not
+        // bump the stop generation, or a caller that captured it before play() would mistake its
+        // own playback for a preemption.
+        stopInternal(bumpGeneration = false)
 
         val attrs = AudioAttributes.Builder()
             .setUsage(
@@ -458,7 +473,11 @@ class Speaker {
     fun isPlaying(): Boolean = track?.playState == AudioTrack.PLAYSTATE_PLAYING
 
     @Synchronized
-    fun stop() {
+    fun stop() = stopInternal(bumpGeneration = true)
+
+    @Synchronized
+    private fun stopInternal(bumpGeneration: Boolean) {
+        if (bumpGeneration) stopGeneration.incrementAndGet()
         track?.let {
             runCatching { it.stop() }
             runCatching { it.release() }

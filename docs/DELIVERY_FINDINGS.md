@@ -105,6 +105,17 @@ the only goal:
   closes its socket immediately, `stop()` during a connect no longer adopts a socket, and the
   accept loop retries a transient `accept()` failure a few times before the watchdog backstop
   restarts it.
+- **A connect round against a phone that was off wasted minutes.** When the far end is switched
+  off or out of range, each of the 17 connect methods burns the full RFCOMM page timeout
+  (~10 s), and the round is tried 5 times — minutes of radio hammering and battery per round,
+  all arriving at the same answer. **Fix.** A failed connect that took at least 4.5 s is a page
+  timeout, not a refusal (a reachable phone refuses in ~0 ms): the sweep stops immediately,
+  reports "looks off or out of range" honestly, and the 2/5/10/15 s reconnect schedule probes
+  again cheaply. The full 17-method sweep is unchanged for every reachable case.
+- **A crossed dial could still fight over the link.** If both phones dialled at once, the
+  acceptor's winner could be joined — and then replaced — by the dialer's sweep a moment later.
+  **Fix.** The sweep checks `isConnected` before every method and abandons itself the moment a
+  link exists, reporting nothing: the newest link wins and the loser stops cleanly.
 
 Wi-Fi Direct received the same framing and heartbeat, so both links now detect and recover the
 same way.
@@ -136,6 +147,20 @@ on every link to cover a case that needs loss and recovery to happen inside a 3 
 wrong trade here. The outbox still guarantees order whenever the link is known down, which is
 the common case.
 
+## Playback hardening (same night's pass)
+
+- **An ALERT now jumps the head of the speech queue.** Stopping the current track was never the
+  whole story: the queue could already hold several unspoken sentences, and the distress message
+  waited behind every one of them. The queue is a deque now; an explicit ALERT is `offerFirst`ed,
+  speaks next, and the queued sentences continue in their original order afterwards.
+- **Long clips can no longer fail to play.** A 30 s VAD segment at 22 kHz float is ~2.6 MB, and
+  one `MODE_STATIC` AudioTrack buffer that large can fail to build on a low-RAM phone — the
+  failure mode being a message shown but never heard. Clips above 240 k samples (~1 MB) are now
+  played as back-to-back pieces on the same worker. A preempting ALERT still ends the sequence
+  mid-way: `Speaker` keeps a stop-generation counter that the worker checks between pieces.
+- **Link RTT is on screen.** The heartbeat's measured round-trip now appears in Settings
+  ("Link RTT: N ms (last heartbeat)") — the same number as the log line, no logcat needed.
+
 ## What was deliberately NOT done
 
 - **Wi-Fi Direct group re-formation** depends on the other phone re-inviting, and the vendor
@@ -147,7 +172,7 @@ the common case.
   `Outbox`, 3 for the gate fix, 6 for `Heartbeat` (fake-clock cadence, timeout, liveness cases),
   3 for `Framing` (pins the wire format), 8 for `DeliveryTracker` (schedule, receipts, deadlines,
   capacity), 2 for the ACK envelope. The debug variant compiles cleanly in the same run.
-- Build: `app-debug.apk` rebuilt from this tree (16 Oct 00:05, sha256 `7d3c7c57…`). **Both
+- Build: `app-debug.apk` rebuilt from this tree (16 Oct 07:34, sha256 `4a7277aa…`). **Both
   phones must be reinstalled with this build** — the frame format and the receipt envelope
   changed, and a mixed old/new pair would garble each other's packets.
 

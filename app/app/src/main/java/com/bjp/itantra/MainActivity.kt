@@ -33,6 +33,7 @@ import com.k2fsa.sherpa.onnx.WaveReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
@@ -70,6 +71,14 @@ class MainActivity : AppCompatActivity() {
 
         /** How often the delivery ticker checks for unconfirmed messages to resend. */
         private const val DELIVERY_TICK_MS = 2_000L
+
+        /**
+         * Longest clip handed to one AudioTrack in MODE_STATIC before the speech worker splits it
+         * into back-to-back pieces. 240 k samples ≈ 1 MB of float, under 11 s at 22 kHz — safely
+         * below what even a low-RAM phone will allocate for a static track. A 30 s VAD segment at
+         * 22 kHz is ~2.6 MB, and a failed track build would mean a message shown but never heard.
+         */
+        private const val MAX_PIECE_SAMPLES = 240_000
     }
 
     // --- UI ---
@@ -209,7 +218,7 @@ class MainActivity : AppCompatActivity() {
      * and play in parallel, and Speaker.play() stops whatever is playing — so the burst of
      * segments a long hold produces cut each other off into fragments on the other phone.
      */
-    private val speechQueue = LinkedBlockingQueue<Message>()
+    private val speechQueue = LinkedBlockingDeque<Message>()
     @Volatile
     private var speechWorker: Thread? = null
 
@@ -1172,7 +1181,11 @@ class MainActivity : AppCompatActivity() {
             log("ALERT ${msg.id.take(8)} — preempts current playback")
             speaker.stop()
         }
-        speechQueue.offer(msg)
+        // AN ALERT ALSO JUMPS THE QUEUE. Stopping the current track is not enough when the queue
+        // already holds sentences not yet spoken: a distress message must not wait its turn
+        // behind chatter. offerFirst puts it ahead of everything still queued; once spoken, the
+        // queued sentences continue in their original order.
+        if (msg.type == Message.Type.ALERT) speechQueue.offerFirst(msg) else speechQueue.offer(msg)
         ensureSpeechWorker()
     }
 
@@ -1262,17 +1275,33 @@ class MainActivity : AppCompatActivity() {
         }
         // Play from here, not from the UI thread: AudioTrack's blocking write holds its thread
         // for the length of the clip, and that has no business on the main thread.
-        speaker.play(samples, sampleRate, mode)
-
-        // WAIT UNTIL THE MESSAGE HAS BEEN HEARD.
         //
-        // This is the actual fix for the cut-off: the next queued sentence starts only after
-        // this clip has finished playing. An alert loops on purpose, so it is deliberately NOT
-        // waited for — the next message may replace it (existing behaviour, kept). The cap
-        // protects the queue if the track's playState ever sticks: clip length + 2 s, then move
-        // on. A preempting alert calls speaker.stop() and this loop simply sees it.
-        if (mode == Speaker.Mode.NORMAL) {
-            val maxWaitMs = samples.size * 1000L / sampleRate + 2_000L
+        // PLAY IN PIECES WHEN THE CLIP IS LONG. MODE_STATIC allocates the whole clip as one
+        // buffer, and a 30 s VAD segment at 22 kHz float is ~2.6 MB — a track that large can
+        // fail to build on a low-RAM phone, and the failure mode is a message shown but never
+        // heard. Above [MAX_PIECE_SAMPLES] the clip is played as back-to-back pieces on this same
+        // worker. Alerts are never split: their loop points need the single track.
+        val pieces = if (mode == Speaker.Mode.ALERT || samples.size <= MAX_PIECE_SAMPLES) 1
+        else (samples.size + MAX_PIECE_SAMPLES - 1) / MAX_PIECE_SAMPLES
+        for (i in 0 until pieces) {
+            val piece = if (pieces == 1) samples else samples.copyOfRange(
+                i * MAX_PIECE_SAMPLES,
+                minOf((i + 1) * MAX_PIECE_SAMPLES, samples.size),
+            )
+            val generation = speaker.generation()
+            speaker.play(piece, sampleRate, mode)
+            // An alert loops on purpose: the next message may replace it (existing behaviour,
+            // kept), so there is nothing to wait for.
+            if (mode == Speaker.Mode.ALERT) break
+
+            // WAIT UNTIL THIS PIECE HAS BEEN HEARD.
+            //
+            // This is the actual fix for the cut-off: the next queued sentence starts only after
+            // this clip has finished playing. The cap protects the queue if the track's playState
+            // ever sticks: piece length + 2 s, then move on. A preempting alert calls
+            // speaker.stop(), which both ends this wait (isPlaying false) and bumps the stop
+            // generation checked below.
+            val maxWaitMs = piece.size * 1000L / sampleRate + 2_000L
             val started = SystemClock.elapsedRealtime()
             while (speaker.isPlaying() && SystemClock.elapsedRealtime() - started < maxWaitMs) {
                 try {
@@ -1281,6 +1310,10 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
             }
+            // An external stop — ALERT preemption, shutdown — cancels the rest of the sequence.
+            // Without this, an alert that seized the speaker mid-message would be spoken only
+            // after we had ploughed through every remaining piece.
+            if (speaker.generation() != generation) return
         }
         ledger.markPlayed(msg)
     }
@@ -1315,6 +1348,9 @@ class MainActivity : AppCompatActivity() {
                 "${delivery.waiting} awaiting receipt, ${delivery.delivered} confirmed, " +
                     "${delivery.gaveUp} abandoned"
             )
+            append("\nLink RTT:   ")
+            val rtt = t?.lastHeartbeatRttMs ?: -1L
+            append(if (rtt > 0) "$rtt ms (last heartbeat)" else "not measured yet")
         }
 
         val logView = android.widget.TextView(this).apply {

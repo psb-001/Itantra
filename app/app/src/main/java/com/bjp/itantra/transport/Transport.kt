@@ -35,6 +35,15 @@ interface Transport {
     val connectedPeerName: String?
 
     /**
+     * Round-trip time of the last heartbeat pong, in ms; -1 until the first one is measured.
+     *
+     * The heartbeat pings when the link has been quiet, and the pong is measured by the reader.
+     * This is the link's own liveness probe made visible: Settings shows it, so a two-phone test
+     * can read the number from the screen instead of a logcat.
+     */
+    val lastHeartbeatRttMs: Long get() = -1L
+
+    /**
      * Devices we could connect to. Bluetooth returns bonded devices; Wi-Fi Direct returns
      * discovered peers. Empty when the transport has nothing to offer or lacks permission.
      */

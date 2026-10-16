@@ -20,6 +20,15 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
 
 /**
+ * The connect sweep gave up early: a method burned the full RFCOMM page timeout, which means the
+ * far end is off, out of range, or asleep — not refusing. The remaining methods share the same
+ * timeout and the same answer, so the sweep stops here and the app-level reconnect schedule
+ * re-probes later (cheaply — one page timeout per round, not seventeen).
+ */
+private class PeerUnreachableException(val timedOutMs: Long) :
+    Exception("connect timed out after $timedOutMs ms — the other phone looks off or out of range")
+
+/**
  * Primary transport: Bluetooth Classic RFCOMM.
  *
  * WHY THIS IS PRIMARY (not Wi-Fi Direct):
@@ -67,6 +76,17 @@ class BluetoothRfcommTransport(
         private const val RETRY_PAUSE_MS = 300L
 
         /**
+         * A failed connect that took at least this long burned the RFCOMM page timeout — the far
+         * end is switched off, out of range, or asleep, and every remaining method in the sweep
+         * would spend the same timeout arriving at the same answer. A reachable phone refuses or
+         * accepts in well under this (SDP failures are ~0 ms; a refusal is instant).
+         *
+         * Without this cutoff a connect round against a phone that is simply off costs
+         * 17 methods × ~10 s × 5 rounds — minutes of radio hammering and battery for nothing.
+         */
+        private const val UNREACHABLE_MS = 4_500L
+
+        /**
          * How long to wait after cancelDiscovery() before connecting. cancelDiscovery() is
          * asynchronous; connecting while discovery is still winding down fails instantly.
          * BlueComm — the reference implementation of the SDP fallback — uses 300 ms here too.
@@ -86,6 +106,12 @@ class BluetoothRfcommTransport(
     @Volatile
     override var connectedPeerName: String? = null
         private set
+
+    /** Set by the reader on every heartbeat pong; -1 until the first one. Shown in Settings. */
+    @Volatile
+    private var lastRttMs = -1L
+
+    override val lastHeartbeatRttMs: Long get() = lastRttMs
 
     override var onMessage: ((ByteArray) -> Unit)? = null
     override var onStateChange: ((Transport.State, String) -> Unit)? = null
@@ -326,6 +352,13 @@ class BluetoothRfcommTransport(
                         // Try every known connect method, not just the fragile SDP one.
                         val s = openSocket(device, adapter)
                         if (s == null) {
+                            if (isConnected) {
+                                // Crossed dial: the other phone dialled us while this sweep was
+                                // mid-way and the accept loop already attached it. The newest
+                                // link wins — nothing to report, nothing to fix.
+                                Log.i(TAG, "link came up via the other phone's dial — sweep abandoned")
+                                return@thread
+                            }
                             val took = android.os.SystemClock.elapsedRealtime() - t0
                             state(
                                 Transport.State.CONNECTING,
@@ -342,6 +375,17 @@ class BluetoothRfcommTransport(
                                 "(attempt $attempt, ${android.os.SystemClock.elapsedRealtime() - started} ms total)",
                         )
                         attach(s, device.name ?: device.address)
+                        return@thread
+                    } catch (e: PeerUnreachableException) {
+                        // ONE PAGE TIMEOUT SAYS IT ALL. Every remaining method would burn the
+                        // same timeout and fail the same way, so stop the sweep — report honestly
+                        // and let the reconnect schedule (2/5/10/15 s) probe again cheaply.
+                        Log.w(TAG, "giving up this sweep: no answer after ${e.timedOutMs} ms")
+                        state(
+                            Transport.State.ERROR,
+                            "no answer from ${device.name} (timed out after ${e.timedOutMs} ms) — " +
+                                "the other phone looks off or out of range; will retry shortly",
+                        )
                         return@thread
                     } catch (e: Throwable) {
                         val took = android.os.SystemClock.elapsedRealtime() - t0
@@ -432,20 +476,26 @@ class BluetoothRfcommTransport(
             "secure-SDP" to { device.createRfcommSocketToServiceRecord(SPP_UUID) },
             "insecure-SDP" to { device.createInsecureRfcommSocketToServiceRecord(SPP_UUID) },
         )) {
+            if (isConnected) return null   // crossed dial: the accept loop already won
             val s = try {
                 factory()
             } catch (e: Throwable) {
                 Log.w(TAG, "  $label: could not build socket — ${e.message}")
                 continue
             }
+            val t0 = android.os.SystemClock.elapsedRealtime()
             try {
                 settleDiscovery(adapter)
                 s.connect()
                 Log.i(TAG, "  $label: connected")
                 return s
             } catch (e: Throwable) {
-                Log.w(TAG, "  $label: ${e::class.simpleName}: ${e.message}")
+                val took = android.os.SystemClock.elapsedRealtime() - t0
+                Log.w(TAG, "  $label: ${e::class.simpleName}: ${e.message} — after $took ms")
                 runCatching { s.close() }
+                // A page-timeout-sized failure means the far end is not there at all; the
+                // remaining methods would each spend the same timeout learning the same thing.
+                if (took >= UNREACHABLE_MS) throw PeerUnreachableException(took)
             }
         }
 
@@ -454,6 +504,7 @@ class BluetoothRfcommTransport(
         // short sweep in case the remote picked another channel.
         val triedFirst = if (lastRawChannel in 1..15) lastRawChannel else 1
         for (channel in listOf(triedFirst) + (1..15).filter { it != triedFirst }) {
+            if (isConnected) return null   // crossed dial: the accept loop already won
             val s = try {
                 device.javaClass
                     .getMethod("createRfcommSocket", Int::class.javaPrimitiveType)
@@ -464,6 +515,7 @@ class BluetoothRfcommTransport(
                 Log.w(TAG, "  raw channel: reflection unavailable — ${e.message}")
                 break
             }
+            val t0 = android.os.SystemClock.elapsedRealtime()
             try {
                 settleDiscovery(adapter)
                 s.connect()
@@ -472,7 +524,11 @@ class BluetoothRfcommTransport(
                 Log.i(TAG, "  raw channel $channel: connected (remembered for reconnects)")
                 return s
             } catch (e: Throwable) {
+                val took = android.os.SystemClock.elapsedRealtime() - t0
                 runCatching { s.close() }
+                // Same rule as the SDP loop above: a page-timeout-sized failure means the far end
+                // simply is not there, and channels 1..15 will not change that.
+                if (took >= UNREACHABLE_MS) throw PeerUnreachableException(took)
             }
         }
 
@@ -526,7 +582,10 @@ class BluetoothRfcommTransport(
                         }
                         Framing.PONG -> {
                             val rtt = heartbeat.notePong()
-                            if (rtt > 0) Log.i(TAG, "heartbeat pong — round trip ${rtt} ms")
+                            if (rtt > 0) {
+                                lastRttMs = rtt
+                                Log.i(TAG, "heartbeat pong — round trip ${rtt} ms")
+                            }
                         }
                         else -> Log.w(TAG, "unknown frame type ${buf[0]} (${buf.size} B) — ignored")
                     }

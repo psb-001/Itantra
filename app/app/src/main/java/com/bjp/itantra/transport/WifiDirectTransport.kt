@@ -67,6 +67,12 @@ class WifiDirectTransport(
     override var connectedPeerName: String? = null
         private set
 
+    /** Set by the reader on every heartbeat pong; -1 until the first one. Shown in Settings. */
+    @Volatile
+    private var lastRttMs = -1L
+
+    override val lastHeartbeatRttMs: Long get() = lastRttMs
+
     override var onMessage: ((ByteArray) -> Unit)? = null
     override var onStateChange: ((Transport.State, String) -> Unit)? = null
 
@@ -426,7 +432,10 @@ class WifiDirectTransport(
                         }
                         Framing.PONG -> {
                             val rtt = heartbeat.notePong()
-                            if (rtt > 0) Log.i(TAG, "heartbeat pong — round trip ${rtt} ms")
+                            if (rtt > 0) {
+                                lastRttMs = rtt
+                                Log.i(TAG, "heartbeat pong — round trip ${rtt} ms")
+                            }
                         }
                         else -> Log.w(TAG, "unknown frame type ${buf[0]} (${buf.size} B) — ignored")
                     }
