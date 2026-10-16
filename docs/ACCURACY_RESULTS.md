@@ -240,6 +240,10 @@ Slowest language by median latency: Malayalam (0.57 s). Fastest: Gujarati (0.36 
 
 The language gap is now **closed** — all ten required languages are measured. What remains:
 
+> **Update, 16 Oct 2026.** This list is a snapshot from the eval phase. Android is no longer
+> untouched: the app runs on device, TTS plays, and on 27 Sep 2026 the two-phone Bluetooth loop
+> ran on two physical phones (`app/VERIFICATION_STATUS.md`). Current state: `../README.md`.
+
 1. **Android, on any device.** Still the #1 risk and still untouched. Everything here is desktop.
    **This is now the only major gap in the submission.**
 2. **Noisy audio.** FLEURS is clean studio speech. A disaster zone is not.

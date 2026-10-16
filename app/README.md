@@ -162,10 +162,10 @@ transport, but it answers the one question that matters most: *does the model ru
 | Packet format, payload 49–111 B raw | ✅ measured (`end_to_end.json`) |
 | Model runs on a real Android phone | ✅ confirmed on a 6 GB device |
 | **This app compiling** | ✅ **BUILDS** — 521 MB APK produced 20 Sep |
-| **Bluetooth transport** | ⬜ written, never run on a device |
-| **Wi-Fi Direct transport** | ⬜ written, never run on a device |
-| **Two-phone demo** | ⬜ never attempted |
-| **TTS on device** | ⬜ never run |
+| **Bluetooth transport** | ✅ ran on two physical phones, 27 Sep 2026 (`VERIFICATION_STATUS.md`) |
+| **Wi-Fi Direct transport** | ⬜ still unproven on hardware |
+| **Two-phone demo** | ✅ 27 Sep 2026, two physical phones; the v1.0.0 build still needs its pass |
+| **TTS on device** | ✅ 7 of 10 languages speak on device |
 
 ---
 

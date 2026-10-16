@@ -307,7 +307,8 @@ Android attaches the context (`attachBaseContext`) *after* the constructor — s
 `applicationContext` was still null when `Speaker` asked for the AudioManager. One line.
 
 **Why nothing caught it earlier.** It is invisible to unit tests (they never construct an
-Activity) and to lint. It only fires on a device, and the two-phone test had not been run yet —
+Activity) and to lint. It only fires on a device, and this build's two-phone test had not been
+run yet —
 the pass that introduced it had been compiled, never launched. It was caught on the Android 34
 emulator before either phone saw it.
 

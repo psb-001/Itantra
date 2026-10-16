@@ -70,14 +70,16 @@ radio". Every item below began as a logged failure and has a finding entry with 
 
 ## Current status
 
-*Last full device pass: 16 Oct 2026 — release APK v1.0.0 on an Android 34 emulator (arm64).
-The two-phone pass is the next step; the checklist is in `docs/DELIVERY_FINDINGS.md`.*
+*Last device passes: 27 Sep 2026 — the two-phone loop on two physical phones, on the earlier
+build; 16 Oct 2026 — release APK v1.0.0 on an Android 34 emulator (arm64), every screen and
+self-test. Next step: re-run the two-phone checklist on v1.0.0 (`docs/DELIVERY_FINDINGS.md`).*
 
 ### Proven
 
 | Thing | Evidence |
 |---|---|
 | App builds, installs, runs | **Signed release APK v1.0.0** (993 MB, sha256 `0b46aeff…`), sideloadable. Launched and stayed up on Android 34 — every screen exercised, three on-device self-tests passed, zero crashes; signature, alignment and badging verified (`docs/RELEASE.md`; screenshots `app/evidence/ui/`) |
+| **Two-phone loop** | 27 Sep 2026: two physical phones, no internet — speech recognised on one, sent as text over Bluetooth RFCOMM, spoken aloud on the other. Recorded in `app/VERIFICATION_STATUS.md`; the About screen states it |
 | Model runs on Android | Loaded on device, **428 MB PSS / 535 MB RSS** with the model resident |
 | ASR accuracy | Mean CER **0.0918** across 200 clips × 10 languages — 2,000 clips, 6.7 h of real speech (`eval/SUMMARY_full_v3pruned.json`) |
 | **Out-of-script output** | **Zero, and structurally impossible.** CTC vocabulary pruned 10,288 → 1,002 tokens, so Arabic/CJK/Hangul cannot be emitted. Previously "hello" came back as `هello` (`docs/VOCAB_PRUNE_FINDINGS.md`) |
@@ -93,7 +95,7 @@ The two-phone pass is the next step; the checklist is in `docs/DELIVERY_FINDINGS
 
 | Gap | Why it matters |
 |---|---|
-| **No two-phone test** | The walkie-talkie demo between two physical phones has not been run end-to-end. Everything so far is unit tests + one emulator |
+| **Two-phone pass on v1.0.0** | The 27 Sep demo used the earlier build — receipts, reconnects and kill-survival landed after it, and the signing key rotated. The 12-item checklist (`docs/DELIVERY_FINDINGS.md`) must be re-run on this APK, with both phones freshly installed |
 | **Real low-end phone** | Latency and RAM are emulator numbers, not a budget handset |
 | **Human TTS panel** | Every intelligibility number is an ASR round-trip proxy. Ear files are in `docs/voice_samples/` (written comparison in its README; audio attached to the release) — a human hasn't scored them yet |
 | **3 of 10 languages are text-only** | Gujarati, Kannada, Odia display correct text and stay silent; the UI labels them ([licence audit](docs/TTS_LICENCE_AUDIT.md)) |

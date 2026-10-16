@@ -264,6 +264,10 @@ filesystem path.
 | **Battery drain** | Never measured. |
 | **Noisy-audio robustness** | FLEURS is clean studio speech. |
 
+> **Update, 16 Oct 2026.** The two-phone test now exists: on 27 Sep 2026 the release APK ran on
+> two physical phones and the loop worked (`app/VERIFICATION_STATUS.md`). The current v1.0.0
+> build still needs its own pass.
+
 ---
 
 ## Corrections made to earlier claims

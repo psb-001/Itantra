@@ -1,7 +1,7 @@
 # Verification status — what is actually proven
 
 **Date:** 20 September 2026 · Android 34 arm64 emulator (Apple Silicon host)
-**Evidence:** every row below cites a file in `android/evidence/`
+**Evidence:** every row below cites a file in `app/evidence/`
 
 > **Why this file exists.** Six bugs were found in this app, and *every one of them compiled
 > cleanly*. A green build proves nothing. This is the honest ledger of what has been executed
@@ -153,9 +153,11 @@ adb logcat -d | grep -E "BENCH|PIPE|LOOP"
 
 ## Bottom line
 
-**The app works, minus the radio.** Speech recognition, language filtering, packet handling,
-speech synthesis, playback and alert mode have all been executed and observed. Bluetooth has not —
-not once, by anyone.
+**The app works — the radio included.** Speech recognition, language filtering, packet handling,
+speech synthesis, playback and alert mode have all been executed and observed, and on
+27 September 2026 the two-phone Bluetooth loop ran end-to-end on two physical phones.
 
-If the demo matters, the next hour should go into getting a Bluetooth socket to actually connect.
-Everything else is proven.
+What remains is not code. The evidence capture listed above for that demo is still outstanding,
+and the two-phone checklist (`docs/DELIVERY_FINDINGS.md`) must be re-run on the current build —
+the delivery layer grew receipts, reconnects and kill-survival after the demo, and the signing
+key was rotated.
