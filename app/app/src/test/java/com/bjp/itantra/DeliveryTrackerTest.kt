@@ -126,4 +126,48 @@ class DeliveryTrackerTest {
         advance(3_000)
         assertEquals(listOf("b", "c"), d.collectDue().outgoing.map { it.id })
     }
+
+    @Test
+    fun `snapshot and restore carry the schedule, not a fresh one`() {
+        val d = tracker()
+        d.track("a", bytes, 10_000)
+        advance(3_000)
+        d.collectDue() // one resend happened: attempts 1, delay doubled to 6 s
+
+        val d2 = DeliveryTracker(clock = { nowMs })
+        d2.restore(d.snapshot())
+        assertEquals(1, d2.waiting)
+
+        // After a restart the first resend waits one interval — the outbox flush that runs on
+        // launch gets its chance to be the thing that arrives first.
+        assertTrue(d2.collectDue().outgoing.isEmpty())
+        advance(3_000) // t = 6 000
+        val due = d2.collectDue()
+        assertEquals(1, due.outgoing.size)
+        assertEquals(2, due.outgoing[0].attempt) // the attempt count carried over
+        assertTrue(due.outgoing[0].bytes.contentEquals(bytes))
+    }
+
+    @Test
+    fun `a restored message whose time ran out is abandoned, not re-sent`() {
+        val d = tracker()
+        d.track("a", bytes, 5_000)
+        val saved = d.snapshot()
+        advance(9_000) // the app was dead while the TTL ran out
+        val d2 = DeliveryTracker(clock = { nowMs })
+        d2.restore(saved)
+        advance(3_000) // its next attempt comes due at t = 12 000
+        val due = d2.collectDue()
+        assertTrue(due.outgoing.isEmpty())
+        assertEquals(listOf("a"), due.gaveUp)
+        assertEquals(1, d2.gaveUp)
+    }
+
+    @Test
+    fun `restoreCounters brings back the Settings totals`() {
+        val d = tracker()
+        d.restoreCounters(delivered = 5, gaveUp = 2)
+        assertEquals(5, d.delivered)
+        assertEquals(2, d.gaveUp)
+    }
 }

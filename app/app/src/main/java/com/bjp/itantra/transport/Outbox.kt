@@ -82,6 +82,28 @@ class Outbox(
         n
     }
 
+    /**
+     * Ordered copy of everything still waiting — for [com.bjp.itantra.PendingStore], which keeps
+     * these packets alive across a process kill. Without it, Android killing the app in the
+     * background lost every buffered sentence: the sender's screen said "Buffered", and then the
+     * app was gone and so were the words.
+     */
+    fun snapshot(): List<ByteArray> = synchronized(lock) { pending.toList() }
+
+    /**
+     * Put back packets read from the store on the next launch, oldest first. Same capacity rule
+     * as [enqueue]: if both are full, the oldest is dropped (and counted, never silent).
+     */
+    fun restore(packets: List<ByteArray>) = synchronized(lock) {
+        for (p in packets) {
+            if (pending.size >= capacity) {
+                pending.removeFirst()
+                droppedOldest++
+            }
+            pending.addLast(p)
+        }
+    }
+
     override fun toString(): String =
         "Outbox(depth=$depth, dropped=$dropped, sentImmediately=$sentImmediately)"
 }

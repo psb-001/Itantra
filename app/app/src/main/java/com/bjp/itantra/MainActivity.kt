@@ -180,6 +180,15 @@ class MainActivity : AppCompatActivity() {
      */
     private val delivery = DeliveryTracker(clock = { SystemClock.elapsedRealtime() })
 
+    /**
+     * The durable copy of pending work — buffered packets, unconfirmed messages, heard ids, the
+     * counters in Settings. Everything above is in RAM only, so without this an Android process
+     * kill in the background erased sentences the sender had already been told were on their way.
+     * Written on every change (the file is a few KB) and loaded once at startup; see [persistPending]
+     * and [restorePending].
+     */
+    private val pendingStore by lazy { PendingStore(java.io.File(filesDir, "pending.json")) }
+
     private val deliveryHandler = android.os.Handler(android.os.Looper.getMainLooper())
 
     /**
@@ -263,6 +272,11 @@ class MainActivity : AppCompatActivity() {
         // Receipts and resends run from app start; the ticker idles while there is nothing to
         // confirm or no link.
         deliveryHandler.postDelayed(deliveryTicker, DELIVERY_TICK_MS)
+
+        // Whatever the last session had to leave behind — buffered packets, unconfirmed
+        // messages, heard ids — comes back before any link exists. Nothing is sent from here;
+        // the packets wait in the outbox and flush, in order, when a link comes up.
+        restorePending()
 
         // The optional triage layer. prepare() only starts a background thread; it copies nothing
         // and loads nothing unless the toggle below is on.
@@ -1078,6 +1092,8 @@ class MainActivity : AppCompatActivity() {
         // inside its TTL) until a receipt comes back, and the receiving phone speaks a duplicate
         // at most once — its UUID ledger.
         delivery.track(msg.id, bytes, deliveryDeadline(msg))
+        // On disk before anything else can go wrong: from here on, a process kill is recoverable.
+        persistPending()
         log("packet ${bytes.size} B — ${if (sentNow) "sent" else "link down, buffered ($outbox)"}")
         runOnUiThread {
             append("▸ ${verdict.text}")
@@ -1125,6 +1141,84 @@ class MainActivity : AppCompatActivity() {
                     if (sent) "" else " (buffered — link dropped again)"
             )
         }
+        // Attempt counts (and abandonments) changed — the disk copy must match, or a kill would
+        // restart the schedule from stale state.
+        if (due.gaveUp.isNotEmpty() || due.outgoing.isNotEmpty()) persistPending()
+    }
+
+    /**
+     * Write the pending work to disk: buffered packets, unconfirmed messages, heard ids and the
+     * Settings counters. Called on every change — send, receipt, resend, flush, first sight of a
+     * message — rather than periodically, because the whole point is that a process kill cannot
+     * lose the change. The file is a few kilobytes; the write is measured in milliseconds.
+     *
+     * Two clocks, deliberately: in RAM the tracker runs on [SystemClock.elapsedRealtime] (which
+     * a reboot resets), on disk deadlines are wall-clock epochs (which survive reboots). The
+     * conversion happens here, once, in both directions — a restored message gets back exactly
+     * the lifetime it had left, neither a fresh TTL nor an instant death.
+     */
+    private fun persistPending() {
+        try {
+            val nowElapsed = SystemClock.elapsedRealtime()
+            val nowWall = System.currentTimeMillis()
+            pendingStore.save(
+                PendingStore.Snapshot(
+                    outbox = outbox.snapshot(),
+                    tracked = delivery.snapshot().map { e ->
+                        PendingStore.Tracked(
+                            id = e.id,
+                            bytes = e.bytes,
+                            wallDeadlineMs =
+                                if (e.deadlineMs == Long.MAX_VALUE) Long.MAX_VALUE
+                                else nowWall + (e.deadlineMs - nowElapsed),
+                            attempts = e.attempts,
+                            delayMs = e.delayMs,
+                        )
+                    },
+                    seen = ledger.snapshot(),
+                    delivered = delivery.delivered,
+                    gaveUp = delivery.gaveUp,
+                )
+            )
+        } catch (e: Throwable) {
+            // Persistence must never break sending. Worst case, the next launch forgets the
+            // pending work and the log says so.
+            log("FAIL: could not save pending work: ${e.message}")
+        }
+    }
+
+    /**
+     * Put back what the last session left behind (see [persistPending]). Called once at startup,
+     * before the transport exists; nothing is sent from here — the packets wait in the outbox
+     * and flush, in order, the moment a link comes up. Restored retries keep their attempt
+     * counts and deadlines, so a message whose time ran out while the app was dead is abandoned
+     * loudly on the first tick, exactly as if the app had stayed alive.
+     */
+    private fun restorePending() {
+        val snap = try { pendingStore.load() } catch (e: Throwable) { null } ?: return
+        if (snap.outbox.isEmpty() && snap.tracked.isEmpty() && snap.seen.isEmpty()) return
+        outbox.restore(snap.outbox)
+        val nowElapsed = SystemClock.elapsedRealtime()
+        val nowWall = System.currentTimeMillis()
+        delivery.restore(
+            snap.tracked.map { t ->
+                DeliveryTracker.EntryView(
+                    id = t.id,
+                    bytes = t.bytes,
+                    deadlineMs =
+                        if (t.wallDeadlineMs == Long.MAX_VALUE) Long.MAX_VALUE
+                        else nowElapsed + (t.wallDeadlineMs - nowWall),
+                    attempts = t.attempts,
+                    delayMs = t.delayMs,
+                )
+            }
+        )
+        delivery.restoreCounters(snap.delivered, snap.gaveUp)
+        ledger.restore(snap.seen)
+        log(
+            "restored from the last session: ${snap.outbox.size} buffered packet(s), " +
+                "${snap.tracked.size} awaiting receipt, ${snap.seen.size} id(s) remembered"
+        )
     }
 
     /**
@@ -1171,6 +1265,9 @@ class MainActivity : AppCompatActivity() {
                 // Make the proof visible, not just logged: the banner is what a judge reads.
                 val note = if (resends > 0) " (after $resends resend(s))" else ""
                 runOnUiThread { setStatus("✓ Delivered${note}") }
+                // The confirmed message is out of the tracker now; the disk copy must agree,
+                // or a restart would resend something already confirmed.
+                persistPending()
             }
             return
         }
@@ -1184,6 +1281,9 @@ class MainActivity : AppCompatActivity() {
             Log.i(TAG, "duplicate ${msg.id} — not replaying")
             return
         }
+        // The id must survive a kill too: otherwise a resend whose receipt was lost would replay
+        // a message the human already heard.
+        persistPending()
 
         // A stale message must not be announced as a live alert.
         if (!ledger.isFresh(msg)) {
@@ -1624,6 +1724,9 @@ class MainActivity : AppCompatActivity() {
                 // anything; without this the first tick after a reconnect would duplicate
                 // everything the flush has this instant put on the wire.
                 delivery.onTransportUp()
+                // The flush drained the outbox — the disk copy must match immediately, so a kill
+                // in this moment cannot resurrect packets that are already on the wire.
+                persistPending()
             }
             Transport.State.IDLE, Transport.State.ERROR -> scheduleReconnect(t, state)
             else -> Unit

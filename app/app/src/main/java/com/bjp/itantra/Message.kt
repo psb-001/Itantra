@@ -150,6 +150,28 @@ class MessageLedger(private val maxRemembered: Int = 200) {
         if (msg.seq > lastSeq) lastSeq = msg.seq
     }
 
+    /**
+     * Recently seen ids, for [com.bjp.itantra.PendingStore]. The sender keeps resending until a
+     * receipt arrives, and the receipt can be lost — so a resend racing a restart used to replay
+     * a message the human had already heard. Persisting the ledger is what stops that across a
+     * process kill, not just within a session.
+     */
+    fun snapshot(): List<String> = seen.toList()
+
+    /** Put back ids read from the store; still bounded by [maxRemembered] from here on. */
+    fun restore(ids: List<String>) {
+        for (id in ids) {
+            seen.add(id)
+            if (seen.size > maxRemembered) {
+                val it = seen.iterator()
+                if (it.hasNext()) {
+                    it.next()
+                    it.remove()
+                }
+            }
+        }
+    }
+
     fun reset() {
         seen.clear()
         lastSeq = -1

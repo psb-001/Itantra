@@ -107,4 +107,36 @@ class OutboxTest {
         val box = Outbox { true }
         assertEquals(0, box.flush())
     }
+
+    @Test
+    fun `snapshot copies the buffer without draining it and restore keeps the order`() {
+        var up = false
+        val box = Outbox { up }
+        box.enqueue(bytes(1)); box.enqueue(bytes(2)); box.enqueue(bytes(3))
+
+        val saved = box.snapshot()
+        assertEquals(3, saved.size)
+        assertEquals(3, box.depth) // a snapshot is a copy, not a flush
+
+        // A fresh outbox, as after a process restart.
+        val sent = mutableListOf<ByteArray>()
+        val box2 = Outbox { b -> sent.add(b); true }
+        box2.restore(saved)
+        assertEquals(3, box2.flush())
+        assertEquals(1, sent[0][0].toInt())
+        assertEquals(2, sent[1][0].toInt())
+        assertEquals(3, sent[2][0].toInt())
+    }
+
+    @Test
+    fun `restore respects capacity, dropping the oldest`() {
+        val sent = mutableListOf<ByteArray>()
+        val box = Outbox(capacity = 2) { b -> sent.add(b); true }
+        box.restore(listOf(bytes(1), bytes(2), bytes(3)))
+        assertEquals(2, box.depth)
+        assertEquals(1, box.dropped)
+        box.flush()
+        assertEquals(2, sent[0][0].toInt())
+        assertEquals(3, sent[1][0].toInt())
+    }
 }

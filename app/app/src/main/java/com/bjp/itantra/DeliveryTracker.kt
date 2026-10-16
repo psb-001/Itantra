@@ -120,6 +120,55 @@ class DeliveryTracker(
     }
 
     /**
+     * One tracked entry as it goes into — or comes back from — [com.bjp.itantra.PendingStore].
+     * [deadlineMs] is on this tracker's injected clock; the caller converts to a wall deadline
+     * when saving, so a restart (even across a reboot) recomputes it honestly instead of
+     * accidentally granting a fresh TTL.
+     */
+    class EntryView(
+        val id: String,
+        val bytes: ByteArray,
+        val deadlineMs: Long,
+        val attempts: Int,
+        val delayMs: Long,
+    )
+
+    /** Everything still unconfirmed, for the durable store. Oldest first, like [pending]. */
+    fun snapshot(): List<EntryView> = synchronized(lock) {
+        pending.values.map { EntryView(it.id, it.bytes, it.deadlineMs, it.attempts, it.delayMs) }
+    }
+
+    /**
+     * Put back entries read from the store after a restart. Retries wait one interval before the
+     * first resend so a launch on a live link gives the (ordered) outbox flush a chance to
+     * arrive first; from then on the schedule carries on with its original attempt and delay
+     * counts, still bounded by each message's deadline.
+     */
+    fun restore(entries: List<EntryView>) = synchronized(lock) {
+        val now = clock()
+        for (e in entries) {
+            while (pending.size >= capacity) {
+                val oldest = pending.keys.firstOrNull() ?: break
+                pending.remove(oldest)
+            }
+            pending[e.id] = Entry(
+                id = e.id,
+                bytes = e.bytes,
+                deadlineMs = e.deadlineMs,
+                attempts = e.attempts,
+                nextAttemptMs = now + firstRetryMs,
+                delayMs = e.delayMs,
+            )
+        }
+    }
+
+    /** Restore the running totals shown in Settings alongside [restore]. */
+    fun restoreCounters(delivered: Int, gaveUp: Int) = synchronized(lock) {
+        deliveredCount = delivered
+        gaveUpCount = gaveUp
+    }
+
+    /**
      * Resends that are due right now, plus messages to abandon because their deadline passed or
      * they have had [maxAttempts] tries. Records each attempt before returning, so calling this
      * twice in a tick cannot double-count.
