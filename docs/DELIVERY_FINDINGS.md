@@ -222,22 +222,78 @@ accepted cost is that a number with eight consecutive zeros reaches the threshol
 rare, and the sender is merely asked to repeat. `QualityGateTest` pins both halves; the probe and
 its JSON are committed under `eval/`.
 
+## Production pass — survive a kill, speak without gaps, mind the room, yield memory
+
+A deliberate audit of "what still breaks a demo" produced the changes below, all inside the APK:
+
+- **Pending work now survives the process being killed.** The outbox, the receipt tracker and the
+  heard-ids ledger lived only in RAM, so Android killing the app in the background (low RAM, a
+  swipe, a crash) erased sentences the sender had already been shown as "Sent" or "Buffered" —
+  the last silent-drop path. `PendingStore` writes all three to one small JSON file on every
+  change (hex packets; temp-file+rename, so a kill mid-write cannot tear it) and
+  `restorePending()` puts it back at startup. Nothing is sent from the restore — the packets wait
+  in the outbox and flush, in order, when a link comes up. Deadlines convert honestly (RAM runs
+  on the monotonic clock, disk stores wall-clock epochs), so a restart cannot grant a fresh TTL;
+  a restored message whose time ran out is abandoned LOUDLY on the first tick, exactly as if the
+  app had stayed alive. Log: "restored from the last session: N buffered packet(s), M awaiting
+  receipt, K id(s) remembered".
+- **A long hold no longer has a synthesis-shaped pause between its sentences.** While a message
+  is being heard, the worker synthesises the next queued one and plays it straight away when its
+  turn comes. One slot, keyed by message id and voice, worker-thread only; an ALERT is never
+  delayed for it, never prefetched, and a message that is no longer next is dropped, not spoken.
+  Log: "speech: pre-synthesised <id> while the previous message plays" / "speech <id>: already
+  synthesised — playing immediately".
+- **The speaker now asks for audio focus** — what the `Speaker` class comment always claimed.
+  A normal announcement requests `TRANSIENT_MAY_DUCK` (music lowers itself for the sentence and
+  comes back after); an ALERT requests `TRANSIENT` without the duck (an emergency is heard over
+  music, not mixed under it). Focus is handed back when a normal message has been heard to its
+  end, which also releases the AudioTrack buffer. A refused or failed request changes nothing
+  about whether the message plays.
+- **An ALERT buzzes when it lands** — two pulses and a long one. Wire-typed ALERTs buzz at
+  receive time, after the duplicate and freshness gates (a resend of something already felt does
+  not buzz again) and before the speaker (a phone in a pocket feels it while other audio is
+  still talking); a message that TRIAGE escalates buzzes when it starts speaking as an alert.
+  With no ALERT-send UI on the phone, the escalation path is the alert a real user produces —
+  both are covered. VIBRATE permission added; any failure is logged and changes nothing else.
+- **Low memory is given back, never at the cost of work in flight.** `onTrimMemory` at
+  RUNNING_LOW releases the idle TTS voice (~60 MB, ~1 s to reload); at RUNNING_CRITICAL it also
+  releases the ASR recogniser (~340 MB, rebuilt on demand). Recording, playback and both queues
+  are checked first, and a new `asrLock` — a decode holds it for its whole duration, trims
+  `tryLock` — closes the use-after-free that a release under a running decode would otherwise be.
+- **The last silent discard is gone.** A segment that arrived while the recogniser was not
+  resident used to be dropped with a log line; it now triggers a reload and decodes it, and if
+  the reload fails the transcript says what was lost and that nothing was sent.
+- **Smaller things:** the capture thread runs at `THREAD_PRIORITY_URGENT_AUDIO` (a starved
+  `AudioRecord` loses words before any gate can see them), and the status line shows
+  "Transcribing N more…" while segments wait, so the last words of a long hold never look
+  abandoned.
+
 ## What was deliberately NOT done
 
+- **Persisting the SPEECH queue** (received, not yet spoken) alongside the pending work: the
+  window is a process kill between "✓ Delivered" and the sentence being heard, the queue drains
+  in seconds in normal use, and replaying a stored queue on launch would announce yesterday's
+  messages. The pullable log on the listener shows every received message, so the gap is
+  reconstructable from evidence — nothing about it is invisible.
 - **Wi-Fi Direct group re-formation** depends on the other phone re-inviting, and the vendor
   quirks documented in that class header still apply. Bluetooth remains the primary transport.
 
 ## Evidence
 
-- Unit tests: 84 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
-  `Outbox`, 3 for the gate fix, 6 for `Heartbeat` (fake-clock cadence, timeout, liveness cases),
-  3 for `Framing` (pins the wire format), 8 for `DeliveryTracker` (schedule, receipts, deadlines,
-  capacity), 2 for the ACK envelope, 6 for `SpeechQueueOrder` (alert-yield order), 2 for the
-  now-live loop check (a degenerate decode is caught; a number's zero-run is not). The debug
+- Unit tests: 95 green (`cd app && ./build.sh testDebugUnitTest`) — 48 from before, 6 for
+  `Outbox` (+2 snapshot/restore: order preserved, capacity honoured), 3 for the gate fix, 6 for
+  `Heartbeat` (fake-clock cadence, timeout, liveness cases), 3 for `Framing` (pins the wire
+  format), 8 for `DeliveryTracker` (+3: schedule carry-over across a restart, expired restore
+  abandoned not re-sent, counters), 2 for the ACK envelope, 6 for `SpeechQueueOrder` (alert-yield
+  order), 2 for the now-live loop check, 4 for `PendingStore` (byte-exact round trip including
+  binary-unsafe bytes, missing/torn/future-version files, no temp file left behind), 2 for
+  `MessageLedger` (a heard id cannot replay after a restart; the restore bound holds). The debug
   variant compiles cleanly in the same run.
-- Build: `app-debug.apk` rebuilt from this tree (16 Oct 08:15, 995,460,760 B, sha256
-  `e74d590a…`). **Both phones must be reinstalled with this build** — the frame format and the
-  receipt envelope changed, and a mixed old/new pair would garble each other's packets.
+- Lint: 0 errors / 16 accepted warnings, unchanged by this pass (the SDK-gated focus and vibrator
+  calls raised no new API warnings).
+- Build: `app-debug.apk` rebuilt from this tree (16 Oct 09:22, 995,524,661 B, sha256
+  `1ef4ec07…`). **Both phones must be reinstalled with this build** — the wire format and receipt
+  envelope changed earlier in the project, and everything in this pass lives inside the APK.
 
 ## Phone checklist (two phones, debug APK)
 
@@ -246,7 +302,9 @@ its JSON are committed under `eval/`.
 3. Short burst: one sentence → the other phone speaks it fully.
 4. **Long speech (the reported bug):** hold ~20–30 s, 4–5 sentences with short pauses, release →
    the other phone must speak ALL sentences, in order, none cut off. Sender log shows one
-   "queued for recognition" per segment.
+   "queued for recognition" per segment; the listener log shows "pre-synthesised … while the
+   previous message plays" and the sentences should run on with no silence between them — that
+   is the prefetch (see the production pass above).
 5. **Link drop:** walk out of range while it plays. Sender log: "link IDLE — reconnect attempt N in
    …s", then "Buffered … B". Walk back: "link up — flushed N packet(s) buffered while down", and
    the buffered sentence arrives **in order**. With the heartbeat, a *silent* death (no FIN) shows
@@ -259,9 +317,13 @@ its JSON are committed under `eval/`.
 9. Log lines to watch: "sent N B", "✓ delivered … confirmed by the other phone", "no receipt for
    … resend N/10", "✗ no receipt for … abandoned", "link down, buffered (Outbox…)", "flushed N
    packet(s)", "reconnect attempt N", "ALERT … preempts playback", "alert arrived during
-   synthesis — speaking it first", "REPEAT (repetition-loop)", "speech worker error",
-   "ASR worker error", plus the heartbeat's "heartbeat pong — round trip N ms" on a healthy idle
-   link, and "heartbeat: no frame from the peer for N s — the link is dead" for a silent death.
+   synthesis — speaking it first", "REPEAT (repetition-loop)", "speech <id>: already
+   synthesised — playing immediately", "pre-synthesised … while the previous message plays",
+   "restored from the last session: …", "memory pressure (low): released the TTS voice",
+   "memory critical: released the ASR recogniser", "recogniser not resident — reloading",
+   "N segment(s) still queued for recognition", "speech worker error", "ASR worker error", plus
+   the heartbeat's "heartbeat pong — round trip N ms" on a healthy idle link, and "heartbeat: no
+   frame from the peer for N s — the link is dead" for a silent death.
 10. **Delivery receipt:** speak a sentence → sender log shows "✓ delivered <id> confirmed by the
     other phone", and the banner flips to "✓ Delivered". Then close the app on the *other*
     phone: speak two short sentences → "Buffered
@@ -269,3 +331,17 @@ its JSON are committed under `eval/`.
     "✓ delivered …" per sentence. A receipt that only arrives after retries is marked "(after N
     resend(s))", and an abandoned message shows "✗ no receipt for …" — nothing is ever dropped
     silently.
+11. **Process-kill survival (new):** close the app on the receiving phone. On the sender, speak a
+    sentence → "link down, buffered". Swipe the sender's app away from recents; reopen it →
+    "restored from the last session: 1 buffered packet(s), N awaiting receipt…". Reopen the other
+    phone's app → "link up — flushed 1 packet(s) buffered while down", the sentence is spoken,
+    and "✓ delivered … confirmed by the other phone" appears. Nobody killed the sentence. Same
+    test after speaking TWO sentences while down: both arrive in order.
+12. **Manners (new):** play music on the receiving phone, then send a normal sentence → the music
+    should dip while the sentence speaks and come back after it (and should not un-dip between
+    the sentences of one long message). For an ALERT: turn on "Laya triage" in Settings on the
+    receiving phone and speak a destructive sentence from the other phone ("the bridge has
+    collapsed, please send help to the school") → the listener shows 🔴, buzzes twice and then
+    long, is heard at emergency volume over the music, and loops until the next message replaces
+    it. (No phone UI SENDS a wire-typed ALERT — the triage escalation is a real user's alert
+    path; the receive-time buzz covers a wire ALERT if a test harness ever sends one.)

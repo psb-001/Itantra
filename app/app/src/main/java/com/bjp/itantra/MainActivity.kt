@@ -1599,6 +1599,12 @@ class MainActivity : AppCompatActivity() {
 
         val mode =
             if (msg.type == Message.Type.ALERT || escalate) Speaker.Mode.ALERT else Speaker.Mode.NORMAL
+        // A TRIAGE-ESCALATED message is spoken as an alert (loops, full volume — see LayaTriage),
+        // so it must be FELT like one too. The receive-time buzz in onPacket covers wire-typed
+        // ALERTs; this covers the escalations, which — with no ALERT-send UI on the phone — are
+        // the alerts a real user actually produces. No double buzz: the wire ALERT case is
+        // already covered at receive time.
+        if (escalate && msg.type != Message.Type.ALERT) vibrateAlert()
         runOnUiThread {
             val note = if (triage == null) "" else
                 "   [${triage.label} ${(triage.confidence * 100).toInt()}%]"
