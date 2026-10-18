@@ -367,7 +367,8 @@ reference stack.
    scan page QR in the reference band, real references, Team YOLO in the header, a
    simple-English rewrite of every poster text, and zero em dashes. Rebuilt `poster/out/`
    PDFs and PNGs, and rendered a flex print master (`itantra-poster-1x1m-print.png` and
-   `.jpg`, 8000 px, 203 dpi at 1 m).
+   `.jpg`, 8000 px, 203 dpi at 1 m). The DBATU university logo replaces the header
+   placeholder, and every output is re-rendered.
 5. Published GitHub Release `v1.0.1` with the signed APK as its asset.
 
 **Open items.**

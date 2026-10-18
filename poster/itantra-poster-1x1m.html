@@ -27,10 +27,10 @@
   }
   .logo {
     width: 104px; height: 104px; flex: 0 0 104px;
-    border: 2px dashed rgba(255,255,255,.75); border-radius: 8px;
-    display: flex; align-items: center; justify-content: center; text-align: center;
-    font-size: 12.5px; line-height: 1.25; letter-spacing: .5px; opacity: .95;
+    background: #fff; border-radius: 10px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
   }
+  .logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .headmid { flex: 1 1 auto; text-align: center; padding: 0 12px; }
   .event1 { font-size: 40px; font-weight: 800; letter-spacing: 1.2px; }
   .event2 { font-size: 21px; font-weight: 700; margin-top: 1px; }
@@ -108,7 +108,7 @@
 <div class="page">
 
   <header>
-    <div class="logo">UNIVERSITY<br>LOGO</div>
+    <div class="logo"><img src="assets/dbatu-logo.png" alt="Dr. Babasaheb Ambedkar Technological University logo"></div>
     <div class="headmid">
       <div class="event1">AVISHKAR 2026</div>
       <div class="event2">Maharashtra State Inter-University Research Convention</div>
