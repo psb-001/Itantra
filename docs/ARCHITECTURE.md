@@ -199,7 +199,7 @@ Screenshots in `android/evidence/`. The PTT capture path runs and stops cleanly.
 | **Compiling** | ✅ **[BUILT]** — 521 MB APK, 20 Sep |
 | **Running on an Android runtime** | ✅ **[RUNS]** — 428 MB PSS measured |
 | **Phone-class CPU latency** | **[MISSING]** |
-| **Two-phone test** | ✅ **[RAN 27 Sep 2026]** — two physical phones, RFCOMM loop (`app/VERIFICATION_STATUS.md`); the v1.0.0 pass is still pending |
+| **Two-phone test** | ✅ **[RAN 27 Sep 2026]** — two physical phones, RFCOMM loop (`app/VERIFICATION_STATUS.md`); the v1.0.1 pass is still pending |
 
 > **Prebuilt reference APK available.** `android/sherpa-onnx-1.13.8-arm64-v8a-vad_asr-1600-omnilingual_asr_300M_ctc_int8.apk`
 > (297,969,404 bytes, verified) already bundles Silero VAD + our exact ASR model + the native arm64
