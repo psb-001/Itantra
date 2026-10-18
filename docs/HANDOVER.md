@@ -350,8 +350,9 @@ reference stack.
 3. Release identity: `versionName 1.0.1`, `versionCode 3`. Same key as v1.0.0, so an
    update-install over v1.0.0 works.
 4. Poster references list the *actual* stack (Omnilingual ASR, Silero VAD, Piper voices,
-   sherpa-onnx, ONNX Runtime, espeak-ng, FLEURS), and the QR panel points at the repo,
-   release `v1.0.1`, and `DELIVERY_FINDINGS.md`. The poster keeps the exact 1 m × 1 m square.
+   sherpa-onnx, ONNX Runtime, espeak-ng, FLEURS), and the QR codes point at the repo, release
+   `v1.0.1`, `DELIVERY_FINDINGS.md`, and a scan page with everything on it
+   (`psb-001.github.io/Itantra/`). The poster keeps the exact 1 m × 1 m square.
 
 **Completed work.**
 
@@ -362,8 +363,10 @@ reference stack.
    (`D9:C0:B3:…:58:B9`), badging `versionCode 3` / `versionName 1.0.1`, zip-aligned.
 3. Recaptured release screenshots 06–11 from the v1.0.1 build on the Android 34 emulator;
    README, `app/evidence/ui/`, and the posters all use the same frames.
-4. Poster upgrades: signal-path strip, QR evidence panel (repo / release / findings), real
-   references, Team YOLO in the header. Rebuilt `poster/out/` PDFs and PNGs.
+4. Poster upgrades: signal-path strip, QR evidence panel (repo / release / findings), a
+   scan page QR in the reference band, real references, Team YOLO in the header, a
+   simple-English rewrite of every poster text, and zero em dashes. Rebuilt `poster/out/`
+   PDFs and PNGs.
 5. Published GitHub Release `v1.0.1` with the signed APK as its asset.
 
 **Open items.**
@@ -372,6 +375,7 @@ reference stack.
    `~/itantra-signing-backup/` off the Mac.
 2. Re-run the 12-item two-phone checklist on v1.0.1 (`docs/DELIVERY_FINDINGS.md`). Uninstall
    pre-16-Oct builds first; v1.0.0 updates in place.
-3. The repository is private — the poster QR codes only resolve once it is made public.
+3. The repository is public now (18 Oct), and GitHub Pages serves the scan page that the
+   poster QR codes open.
 4. Decisions pending: foreground service for long holds, Laya voice assets, APK size trimming,
    and the English voice verdict.

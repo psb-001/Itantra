@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>iTantra — research convention poster (1 m × 1 m)</title>
+<title>iTantra: research convention poster (1 m × 1 m)</title>
 <style>
   @page { size: 1600px 1600px; margin: 0; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -12,14 +12,18 @@
   .page {
     width: 1600px; height: 1600px; overflow: hidden;
     display: flex; flex-direction: column;
-    padding: 0 12px 10px 12px; background: #fff;
+    padding: 0 12px 10px 12px;
+    background-color: #fff;
+    background-image: radial-gradient(#dbe6ee 1.1px, transparent 1.1px);
+    background-size: 26px 26px;
   }
 
   /* ---------- header ---------- */
   header {
-    background: #167D8D; color: #fff;
+    background: linear-gradient(180deg, #17889a 0%, #136576 100%); color: #fff;
     display: flex; align-items: flex-start; justify-content: space-between;
     padding: 10px 16px 10px 16px; margin: 0 -12px;
+    border-bottom: 5px solid #FFE14D;
   }
   .logo {
     width: 104px; height: 104px; flex: 0 0 104px;
@@ -28,13 +32,14 @@
     font-size: 12.5px; line-height: 1.25; letter-spacing: .5px; opacity: .95;
   }
   .headmid { flex: 1 1 auto; text-align: center; padding: 0 12px; }
-  .event1 { font-size: 40px; font-weight: 800; letter-spacing: .5px; }
+  .event1 { font-size: 40px; font-weight: 800; letter-spacing: 1.2px; }
   .event2 { font-size: 21px; font-weight: 700; margin-top: 1px; }
   .topic  { font-size: 23px; font-weight: 800; color: #FFE14D; margin-top: 8px; }
   .meta   { font-size: 19px; font-weight: 700; margin-top: 6px; }
   .meta span { margin: 0 13px; }
   .meta .team { color: #FFE14D; }
-  .round  { flex: 0 0 126px; text-align: right; font-size: 19px; font-weight: 700; padding-top: 3px; }
+  .round  { flex: 0 0 126px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; font-size: 19px; font-weight: 700; padding-top: 3px; }
+  .round img { width: 84px; height: 84px; display: block; border-radius: 14px; }
 
   /* ---------- signal path strip ---------- */
   .signal { margin-top: 10px; }
@@ -44,11 +49,11 @@
   main.main3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1 1 auto; padding-top: 10px; min-height: 0; }
   .col { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
 
-  .box { border: 3px solid #2E75B6; background: #fff; display: flex; flex-direction: column; }
+  .box { border: 3px solid #2E75B6; border-radius: 7px; overflow: hidden; background: #fff; display: flex; flex-direction: column; }
   .box.grow { flex: 1 1 auto; }
   .col > .box { flex: 1 1 auto; }
   .sechead {
-    background: #7B2E8C; color: #fff; text-align: center;
+    background: linear-gradient(180deg, #8a3a9e 0%, #7B2E8C 100%); color: #fff; text-align: center;
     font-size: 18.5px; font-weight: 800; letter-spacing: 1px; padding: 6px 4px;
   }
   .secbody {
@@ -58,13 +63,14 @@
   .secbody p + p { margin-top: 6px; }
   .secbody ul, .secbody ol { margin: 0 0 0 18px; font-size: 14.5px; line-height: 1.24; }
   .secbody li { margin-bottom: 5px; text-align: left; }
+  .secbody li::marker { color: #7B2E8C; font-weight: 800; }
   b.q { font-weight: 800; }
 
   /* ---------- tables ---------- */
   table { width: 100%; border-collapse: collapse; font-size: 12.2px; line-height: 1.16; table-layout: fixed; }
   th, td { border: 1px solid #4a4a4a; padding: 3px 5px; vertical-align: top; text-align: left; overflow-wrap: break-word; }
-  th { text-align: center; background: #ECECEC; font-weight: 800; }
-  tr:nth-child(even) td { background: #F5F5F5; }
+  th { text-align: center; background: #F1E7F5; color: #3f1a49; font-weight: 800; }
+  tr:nth-child(even) td { background: #FAF7FC; }
   .caption { font-size: 12px; font-style: italic; color: #333; margin-top: 6px; text-align: left; }
 
   /* ---------- images ---------- */
@@ -77,11 +83,16 @@
   .band { padding-top: 10px; }
   .band ol { margin-left: 18px; font-size: 12.8px; line-height: 1.28; }
   .band li { margin-bottom: 3px; }
+  .refbody { display: flex; gap: 14px; align-items: flex-start; }
+  .refbody ol { flex: 1 1 auto; min-width: 0; }
+  .refqr { flex: 0 0 244px; display: flex; gap: 8px; align-items: center; justify-content: flex-end; padding-top: 1px; }
+  .refqr img { width: 136px; display: block; border: 3px solid #FFE14D; flex: 0 0 auto; }
+  .refqrlabel { font-size: 12px; font-weight: 700; color: #0E3B60; line-height: 1.25; width: 100px; text-align: left; }
 
   /* ---------- QR panel ---------- */
   .qrrow { display: flex; gap: 10px; justify-content: center; }
   .qritem { width: 142px; }
-  .qritem img { width: 142px; display: block; border: 1px solid #8a8a8a; }
+  .qritem img { width: 142px; display: block; border: 3px solid #FFE14D; }
   .qrlabel { font-size: 12px; font-weight: 700; color: #0E3B60; margin-top: 5px; line-height: 1.15; }
 
   /* ---------- exact 1 m × 1 m print ---------- */
@@ -101,10 +112,13 @@
     <div class="headmid">
       <div class="event1">AVISHKAR 2026</div>
       <div class="event2">Maharashtra State Inter-University Research Convention</div>
-      <div class="topic">Topic: iTantra — Offline Neural Speech Transceiver for Low-Bitrate Radio Links</div>
+      <div class="topic">Topic: iTantra, an Offline Neural Speech Transceiver for Low-Bitrate Radio Links</div>
       <div class="meta"><span class="team">Team: YOLO</span><span>Category: Engineering &amp; Technology</span><span>Code: SIH26173</span><span>Level: UG</span></div>
     </div>
-    <div class="round">Zonal Round</div>
+    <div class="round">
+      <img src="assets/appicon.png" alt="iTantra app icon">
+      <div>Zonal Round</div>
+    </div>
   </header>
 
   <!-- ===== signal path ===== -->
@@ -135,7 +149,7 @@
       <g>
         <rect x="544" y="8" width="214" height="60" rx="10" fill="#EAF6F8" stroke="#167D8D" stroke-width="2"/>
         <text x="651" y="33" text-anchor="middle" font-size="15" font-weight="800" fill="#123138">Text packet</text>
-        <text x="651" y="52" text-anchor="middle" font-size="11" fill="#444">49–315 bytes per message</text>
+        <text x="651" y="52" text-anchor="middle" font-size="11" fill="#444">49 to 315 bytes per message</text>
       </g>
       <g>
         <rect x="812" y="8" width="214" height="60" rx="10" fill="#F7EFF9" stroke="#7B2E8C" stroke-width="2"/>
@@ -162,13 +176,14 @@
       <section class="box">
         <div class="sechead">ABSTRACT</div>
         <div class="secbody">
-          <p>Voice is too data-heavy for a low-bitrate link, but in a distress scenario voice reaches
-          everyone — literate or not. iTantra recognises speech on the phone, sends only the recognised
-          text, and speaks it out on the other phone. On-device ASR runs offline in 10 Indian languages;
-          a message travels as a 49–315-byte packet over Bluetooth or Wi-Fi Direct — around 65× smaller
-          than the same speech as audio. A delivery layer — ACKed outbox, receipts, heartbeats, alert
-          escalation, kill survival — keeps every message whole when the link drops. Mean character
-          error rate <b>0.0918</b> over 2,000 clips; the two-phone loop has run on physical phones.</p>
+          <p>Voice carries too much data for a weak radio link. But in a disaster, voice reaches
+          everyone, even people who cannot read. iTantra turns speech into text on the phone. Only
+          the text crosses the link. The other phone speaks it aloud. Recognition runs offline and
+          covers 10 Indian languages. One message is a packet of 49 to 315 bytes over Bluetooth or
+          Wi-Fi Direct. That is about 65 times smaller than the same speech as audio. A delivery
+          layer keeps every message whole when the link drops. It adds an acknowledged outbox,
+          receipts, heartbeats, alert escalation, and survival of an app kill. Mean character error
+          rate is <b>0.0918</b> over 2,000 clips. The two-phone loop has run on real phones.</p>
         </div>
       </section>
 
@@ -176,25 +191,25 @@
         <div class="sechead">HYPOTHESIS</div>
         <div class="secbody">
           <ol>
-            <li>On-device speech recognition is accurate enough to replace the cloud in an emergency workflow.</li>
-            <li>Text is a viable wire format: a few hundred bytes per sentence survive a low-bitrate link that audio cannot.</li>
-            <li>Pruning the model’s output vocabulary to the ten required scripts eliminates cross-script noise — the model cannot emit off-script characters.</li>
-            <li>Deterministic delivery — ACKed outbox, receipts, ordered resends — makes a lossy link behave predictably; alerts must preempt normal speech.</li>
-            <li>A killed app can resume pending messages from disk with no silent loss.</li>
-            <li>Low-RAM phones can host a 349 MB model if idle memory is returned under pressure.</li>
+            <li>Speech recognition on the phone is accurate enough to replace the cloud in an emergency.</li>
+            <li>Text works as the wire format. A few hundred bytes per sentence survive a weak link that audio cannot.</li>
+            <li>Pruning the model output to the ten required scripts removes cross-script noise. The model cannot write characters outside those scripts.</li>
+            <li>Deterministic delivery makes a lossy link behave the same way each time. An acknowledged outbox, receipts, and ordered resends give this result. Alerts preempt normal speech.</li>
+            <li>A killed app resumes pending messages from disk. Nothing is lost in silence.</li>
+            <li>Low-RAM phones can run a 349 MB model if the app returns idle memory under pressure.</li>
           </ol>
         </div>
       </section>
 
       <section class="box">
-        <div class="sechead">EVIDENCE — THE REAL APP</div>
+        <div class="sechead">EVIDENCE: THE REAL APP</div>
         <div class="secbody" style="text-align:center;">
           <div class="shotrow">
-            <img class="shot" src="assets/06_release_home_ready.png" alt="Home — ready to talk">
-            <img class="shot" src="assets/09_release_settings.png" alt="Settings — live counters">
-            <img class="shot" src="assets/08_release_about_version_limits.png" alt="About — the project's own limits">
+            <img class="shot" src="assets/06_release_home_ready.png" alt="Home screen, ready to talk">
+            <img class="shot" src="assets/09_release_settings.png" alt="Settings screen with live counters">
+            <img class="shot" src="assets/08_release_about_version_limits.png" alt="About screen with the project limits">
           </div>
-          <div class="caption" style="text-align:center;">Release build v1.0.1 on Android 34 — home, settings, and About. Two-phone loop demonstrated on physical phones, 27 Sep 2026.</div>
+          <div class="caption" style="text-align:center;">Screens from release v1.0.1 on Android 34: home, settings, and About. The two-phone loop ran on real phones on 27 Sep 2026.</div>
         </div>
       </section>
     </div>
@@ -204,53 +219,56 @@
       <section class="box">
         <div class="sechead">INTRODUCTION</div>
         <div class="secbody">
-          <img class="shot r" src="assets/07_release_about_languages.png" alt="About screen — 10 languages">
-          <p>Problem statement SIH26173 asks for a TTS &amp; STT aided neural transceiver radio for
-          low-bitrate links (ISRO, Department of Space). In floods, disasters and remote posts, the
-          radio link is weak and intermittent — exactly when a message must get through. Voice is the
-          natural interface, but raw or even compressed voice overwhelms a damaged link and dies on
-          packet loss; cloud speech services need internet, which is absent by definition.</p>
-          <p>Our approach inverts the stack: speech is recognised offline on the sender phone, and only
-          text crosses the radio. Text is compact, orderable and acknowledgeable, so the link can drop
-          and recover without losing the message; the receiver synthesises it aloud. No cloud, no
-          accounts — the app never requests the INTERNET permission.</p>
+          <img class="shot r" src="assets/07_release_about_languages.png" alt="About screen, 10 languages">
+          <p>Problem statement SIH26173 asks for a voice radio for weak links. It comes from ISRO,
+          Department of Space. In floods, disasters, and remote posts, the radio link is weak and
+          intermittent. That is exactly when a message must get through. Voice is the natural
+          interface. But raw voice, and even compressed voice, overloads a damaged link and dies on
+          packet loss. Cloud speech services need internet. There is no internet there.</p>
+          <p>Our approach turns the stack around. The sender phone recognises the speech offline.
+          Only text crosses the radio. Text is small, and the link can order it and acknowledge it.
+          So the link can drop and recover without losing the message. The receiver phone speaks the
+          text aloud. There is no cloud and no account. The app never asks for the INTERNET
+          permission.</p>
         </div>
       </section>
 
       <section class="box grow">
         <div class="sechead">FIXED FOR ALL BUILDS</div>
         <div class="secbody">
-          <p><b class="q">Rationale (high level):</b> only text crosses the link — ~7 s of speech ≈ 200 B,
-          about 65× smaller than a voice call. Reliability is treated as a delivery problem, not a radio
-          problem: every segment is ACKed or resent (3/6/12 s → 15 s backoff, max 10 tries); 4 s
-          heartbeats; a peer is declared gone at 12 s. One shipped configuration for every run:
-          arm64-v8a, minSdk 23, a 1,002-token pruned vocabulary, and 96 unit tests on every build.</p>
+          <p><b class="q">Rationale:</b> only text crosses the link. About 7 seconds of speech become
+          about 200 bytes. That is roughly 65 times smaller than a voice call. We treat reliability
+          as a delivery problem, not a radio problem. Every segment is acknowledged or resent, with
+          a backoff of 3, 6, 12, and 15 seconds and up to 10 tries. Heartbeats go out every 4
+          seconds. A peer is declared gone after 12 seconds. One configuration ships for every run:
+          arm64-v8a, minSdk 23, a pruned vocabulary of 1,002 tokens, and 96 unit tests on every
+          build.</p>
           <table style="margin-top:9px;">
-            <tr><th style="width:19%;">Run</th><th style="width:47%;">Configuration — test set</th><th>Result</th></tr>
-            <tr><td>A — baseline</td><td>ASR v1, 10,288-token vocabulary — FLEURS clean, 2,000 clips</td><td>Mean CER 0.0992</td></tr>
-            <tr><td>B</td><td>ASR v2 — FLEURS clean, 2,000 clips</td><td>Mean CER 0.0934</td></tr>
-            <tr><td>C — shipped</td><td>ASR v3, pruned 10,288 → 1,002 tokens — FLEURS clean, 2,000 clips</td><td>Mean CER <b>0.0918</b>; zero out-of-script characters</td></tr>
-            <tr><td>D</td><td>C, pink noise @ 15 dB SNR — Hindi clips</td><td>Script retention 40% → <b>78%</b></td></tr>
-            <tr><td>E</td><td>C, noise @ 0 dB SNR — Tamil clips</td><td>44% retention — weakest case, declared</td></tr>
-            <tr><td>F — device</td><td>Shipped build, on-device self-tests — Android 34, arm64</td><td>3 self-tests green; ASR RTF 0.156; TTS RTF 0.078</td></tr>
+            <tr><th style="width:19%;">Run</th><th style="width:47%;">Configuration and test set</th><th>Result</th></tr>
+            <tr><td>A: baseline</td><td>ASR v1, 10,288-token vocabulary, FLEURS clean, 2,000 clips</td><td>Mean CER 0.0992</td></tr>
+            <tr><td>B</td><td>ASR v2, FLEURS clean, 2,000 clips</td><td>Mean CER 0.0934</td></tr>
+            <tr><td>C: shipped</td><td>ASR v3, pruned 10,288 to 1,002 tokens, FLEURS clean, 2,000 clips</td><td>Mean CER <b>0.0918</b>. Zero out-of-script characters.</td></tr>
+            <tr><td>D</td><td>C, pink noise at 15 dB SNR, Hindi clips</td><td>Script retention 40% to <b>78%</b></td></tr>
+            <tr><td>E</td><td>C, noise at 0 dB SNR, Tamil clips</td><td>44% retention. Weakest case, declared.</td></tr>
+            <tr><td>F: device</td><td>Shipped build, on-device self-tests, Android 34, arm64</td><td>3 self-tests green. ASR RTF 0.156. TTS RTF 0.078.</td></tr>
           </table>
         </div>
       </section>
 
       <section class="box">
-        <div class="sechead">SCAN — EVIDENCE</div>
+        <div class="sechead">SCAN: EVIDENCE</div>
         <div class="secbody" style="text-align:center;">
           <div class="qrrow">
             <div class="qritem">
-              <img src="assets/qr_repo.png" alt="QR — GitHub repository">
+              <img src="assets/qr_repo.png" alt="QR code: GitHub repository">
               <div class="qrlabel">GitHub repo</div>
             </div>
             <div class="qritem">
-              <img src="assets/qr_release.png" alt="QR — release v1.0.1 with the signed APK">
-              <div class="qrlabel">Release v1.0.1 — APK</div>
+              <img src="assets/qr_release.png" alt="QR code: release v1.0.1 with the signed APK">
+              <div class="qrlabel">Release v1.0.1 APK</div>
             </div>
             <div class="qritem">
-              <img src="assets/qr_evidence.png" alt="QR — findings and the 12-item checklist">
+              <img src="assets/qr_evidence.png" alt="QR code: findings and the 12-item checklist">
               <div class="qrlabel">Findings &amp; checklist</div>
             </div>
           </div>
@@ -265,31 +283,33 @@
         <div class="secbody">
           <table>
             <tr><th style="width:50%;">Component</th><th style="width:16%;">Size / spec</th><th>Role</th></tr>
-            <tr><td>Offline ASR — Omnilingual CTC, int8, pruned vocabulary</td><td>349 MB</td><td>speech → text, 10 languages</td></tr>
-            <tr><td>VAD — Silero</td><td>0.63 MB</td><td>segmentation; end-of-speech flush</td></tr>
-            <tr><td>Neural TTS — Piper voices (hi, mr, bn, ta, te, ml, en)</td><td>≈60 MB per voice</td><td>text → speech, 7 of 10 languages</td></tr>
-            <tr><td>Wire format — JSON envelope (id, lang, ttl, type)</td><td>49–315 B</td><td>the radio payload</td></tr>
-            <tr><td>Transport — Bluetooth RFCOMM; Wi-Fi Direct fallback</td><td>2 Mbit/s class</td><td>link layer</td></tr>
-            <tr><td>Delivery layer — ACKed outbox, receipts, ledger, PendingStore</td><td>temp-file + rename</td><td>order, dedupe, kill survival</td></tr>
-            <tr><td>Optional triage — Laya int8, off by default</td><td>143 MB</td><td>destructive-language → priority alert</td></tr>
+            <tr><td>Offline ASR: Omnilingual CTC (int8, pruned vocabulary)</td><td>349 MB</td><td>speech to text, 10 languages</td></tr>
+            <tr><td>VAD: Silero</td><td>0.63 MB</td><td>splits speech into segments, end-of-speech flush</td></tr>
+            <tr><td>Neural TTS: Piper voices (hi, mr, bn, ta, te, ml, en)</td><td>≈60 MB per voice</td><td>text to speech, 7 of 10 languages</td></tr>
+            <tr><td>Wire format: JSON envelope (id, lang, ttl, type)</td><td>49 to 315 B</td><td>the radio payload</td></tr>
+            <tr><td>Transport: Bluetooth RFCOMM, Wi-Fi Direct fallback</td><td>2 Mbit/s class</td><td>link layer</td></tr>
+            <tr><td>Delivery layer: acknowledged outbox, receipts, ledger, PendingStore</td><td>temp-file + rename</td><td>order, dedupe, kill survival</td></tr>
+            <tr><td>Optional triage: Laya int8, off by default</td><td>143 MB</td><td>flags destructive language as a priority alert</td></tr>
           </table>
-          <div class="caption">App: Kotlin, arm64-v8a, minSdk 23 — signed release APK v1.0.1, 993 MB, zero network permissions.</div>
+          <div class="caption">App: Kotlin, arm64-v8a, minSdk 23. Signed release APK v1.0.1, 993 MB, zero network permissions.</div>
         </div>
       </section>
 
       <section class="box grow">
         <div class="sechead">RESULTS AND CONCLUSION</div>
         <div class="secbody">
-          <img class="shot r" src="assets/06_release_home_ready.png" alt="Release home screen — ready to talk">
-          <p>Shipped v1.0.1: a 993 MB signed APK, Android 6+, arm64, zero network permissions.
-          Measured: mean CER <b>0.0918</b> across 2,000 FLEURS clips (10 languages, 6.7 h);
-          <b>zero</b> out-of-script characters; Hindi script retention under pink noise
-          40% → <b>78%</b>; the script filter drops foreign-script segments whole, 25/25 cases; Hindi
-          TTS round-trip CER 0.339 → <b>0.102</b>. On-device: ASR RTF 0.12–0.16, TTS RTF 0.055–0.08
-          → <b>≈1 s mouth-to-ear</b>; 428 MB PSS with the model resident.</p>
-          <p>96 unit tests and three on-device self-tests pass; the two-phone loop ran end-to-end on
-          physical phones (27 Sep 2026). <b>Conclusion:</b> a text-first neural transceiver makes voice
-          serviceable over low-bitrate, unreliable links — fully offline, on commodity phones.</p>
+          <img class="shot r" src="assets/06_release_home_ready.png" alt="Release home screen, ready to talk">
+          <p>Shipped v1.0.1: a 993 MB signed APK for Android 6+ on arm64, with zero network
+          permissions. Measured over 2,000 FLEURS clips in 10 languages (6.7 hours): mean character
+          error rate <b>0.0918</b>. The model wrote zero characters outside the ten scripts. Under
+          pink noise, Hindi script retention rose from 40% to <b>78%</b>. The script filter dropped
+          foreign-script segments whole in 25 of 25 cases. Hindi speech round-trip error fell from
+          0.339 to <b>0.102</b>. On the phone, recognition runs at a real-time factor of 0.12 to
+          0.16. Speech synthesis runs at 0.055 to 0.08. Mouth to ear takes about 1 second. The app
+          uses 428 MB of memory with the model loaded.</p>
+          <p>96 unit tests and three on-device self-tests pass. The two-phone loop ran end to end on
+          real phones on 27 Sep 2026. <b>Conclusion:</b> a text-first transceiver makes voice usable
+          over weak, unreliable links. It runs fully offline, on ordinary phones.</p>
         </div>
       </section>
 
@@ -297,11 +317,11 @@
         <div class="sechead">FUTURE SCOPE</div>
         <div class="secbody">
           <ol>
-            <li>Human listening panel and field trials — the noise sets are synthetic; real field audio is the next measurement.</li>
-            <li>Real low-end phone numbers: latency, RAM and battery on a budget handset.</li>
-            <li>Neural voices for the remaining three languages (Gujarati, Kannada, Odia — text-only today); Tamil robustness at 0 dB.</li>
-            <li>Language identification, to separate Hindi/Marathi and Bengali/Assamese.</li>
-            <li>Foreground service for very long holds; smaller APK.</li>
+            <li>Human listening tests and field trials. The noise sets are synthetic. Real field audio is the next measurement.</li>
+            <li>Latency, RAM, and battery numbers on a real budget handset.</li>
+            <li>Neural voices for the remaining three languages: Gujarati, Kannada, and Odia. They are text-only today.</li>
+            <li>Language identification, to separate Hindi and Marathi, and Bengali and Assamese.</li>
+            <li>A foreground service for very long holds. A smaller APK.</li>
           </ol>
         </div>
       </section>
@@ -313,17 +333,21 @@
   <div class="band">
     <section class="box">
       <div class="sechead">REFERENCE</div>
-      <div class="secbody">
+      <div class="secbody refbody">
         <ol>
-          <li>Meta AI Research. Omnilingual ASR — multilingual speech recognition (arXiv:2511.09690). On-device build: k2-fsa/sherpa-onnx model releases.</li>
-          <li>Silero Team. Silero VAD — voice activity detection, MIT. github.com/snakers4/silero-vad</li>
-          <li>Piper voices (VITS — Kim et al., ICML 2021). huggingface.co/rhasspy/piper-voices</li>
-          <li>k2-fsa. sherpa-onnx — on-device speech runtime. github.com/k2-fsa/sherpa-onnx</li>
+          <li>Meta AI Research. Omnilingual ASR, multilingual speech recognition (arXiv:2511.09690). On-device build: k2-fsa/sherpa-onnx model releases.</li>
+          <li>Silero Team. Silero VAD, voice activity detection, MIT licence. github.com/snakers4/silero-vad</li>
+          <li>Piper voices (VITS, Kim et al., ICML 2021). huggingface.co/rhasspy/piper-voices</li>
+          <li>k2-fsa. sherpa-onnx, the on-device speech runtime. github.com/k2-fsa/sherpa-onnx</li>
           <li>Microsoft. ONNX Runtime. github.com/microsoft/onnxruntime</li>
           <li>espeak-ng pronunciation rules. github.com/espeak-ng/espeak-ng</li>
           <li>Google Research. FLEURS speech dataset, CC-BY-4.0. huggingface.co/datasets/google/fleurs</li>
-          <li>Team YOLO. iTantra — release v1.0.1, DELIVERY_FINDINGS, VERIFICATION_STATUS. github.com/psb-001/Itantra (2026)</li>
+          <li>Team YOLO. iTantra, release v1.0.1. DELIVERY_FINDINGS and VERIFICATION_STATUS are in the repository. github.com/psb-001/Itantra (2026)</li>
         </ol>
+        <div class="refqr">
+          <img src="assets/qr_links.png" alt="QR code: a page with every reference, the team, and the app download">
+          <div class="refqrlabel">Scan for everything: all references, the team, and the app download.</div>
+        </div>
       </div>
     </section>
   </div>
