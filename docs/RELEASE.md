@@ -15,7 +15,7 @@ out of scope by design and marked as such where it comes up.
 | App name (launcher, Settings) | `iTantra` | `res/values/strings.xml` → `app_name` |
 | Release package | `com.bjp.itantra` | `applicationId` in `app/app/build.gradle.kts` |
 | Debug package | `com.bjp.itantra.debug` | `applicationIdSuffix = ".debug"` |
-| Version | `1.0.0`, versionCode `2` | `defaultConfig` in `app/app/build.gradle.kts` |
+| Version | `1.0.1`, versionCode `3` | `defaultConfig` in `app/app/build.gradle.kts` |
 | Launcher icon | navy + mic + waves, adaptive with monochrome layer and PNG fallbacks | `res/mipmap-*`, source in `app/branding/` |
 | About-screen version | read from the installed package at runtime | `AboutActivity.installedVersion()` |
 
@@ -138,7 +138,7 @@ Then copy the artifact to the releases folder with a versioned name, and keep th
 checksums beside it:
 
 ```bash
-cp "$APK" releases/iTantra-1.0.0-release.apk
+cp "$APK" releases/iTantra-1.0.1-release.apk
 shasum -a 256 releases/*.apk > releases/SHA256SUMS.txt
 ```
 
@@ -152,7 +152,7 @@ project record.
 ## Installing on a phone (sideload)
 
 ```bash
-~/android-dev/android-sdk/platform-tools/adb install -r releases/iTantra-1.0.0-release.apk
+~/android-dev/android-sdk/platform-tools/adb install -r releases/iTantra-1.0.1-release.apk
 ```
 
 or copy the file to the phone and open it with the Files app (allow "install unknown
@@ -168,7 +168,7 @@ Android's installer can only phrase this as the famously unhelpful *"App not ins
 so: when in doubt, uninstall, then install.
 
 After install, open the app once and check the **About** screen (version reads
-`1.0.0 (release)`) and **Settings** (same string, plus the log-file path). If Settings
+`1.0.1 (release)`) and **Settings** (same string, plus the log-file path). If Settings
 displays a version you did not build, you are looking at an old install.
 
 ---

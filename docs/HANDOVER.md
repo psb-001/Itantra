@@ -327,3 +327,51 @@ was wrongly written off).
    new APK fresh on both phones first.
 3. Decisions pending: foreground service for long holds, Laya voice assets, APK size trimming,
    and the English voice verdict.
+
+---
+
+## Session record — 18 October 2026 (Team YOLO rename — release v1.0.1)
+
+**Purpose.** The team's registered name changed to **Team YOLO**. Rename it in every
+current-state surface — the app, the README, the current docs — rebuild and republish the APK,
+and upgrade the AVISHKAR convention poster (1 m × 1 m) with QR evidence codes and the real
+reference stack.
+
+**Decisions.**
+
+1. Rename *current-state* surfaces only: app source (`ProjectInfo.kt`), README,
+   `docs/ARCHITECTURE.md`, `docs/TECHNICAL_APPROACH.md`,
+   `app/TECH_STACK_AND_ARCHITECTURE.md`, both posters. Dated records (deck sources,
+   presentation scripts, decision log, dossier, `technical_approach.html`) keep the old name
+   as history.
+2. The signing certificate's `OU=Team BJP` stays — it is the literal certificate identity;
+   changing it would need a new key and a forced uninstall on every phone. The package name
+   `com.bjp.itantra` stays too.
+3. Release identity: `versionName 1.0.1`, `versionCode 3`. Same key as v1.0.0, so an
+   update-install over v1.0.0 works.
+4. Poster references list the *actual* stack (Omnilingual ASR, Silero VAD, Piper voices,
+   sherpa-onnx, ONNX Runtime, espeak-ng, FLEURS), and the QR panel points at the repo,
+   release `v1.0.1`, and `DELIVERY_FINDINGS.md`. The poster keeps the exact 1 m × 1 m square.
+
+**Completed work.**
+
+1. Renamed the team in the app (About), README, and the three current docs. Also corrected the
+   Piper credit line from "six" to **seven** voices — Tamil ships and was missing.
+2. Built, verified, and installed v1.0.1: 993,362,519 bytes, sha256
+   `00b16eb216f1985a859bde2c8fe751785523429b2ef09937c693d813dd0db40e`, same certificate
+   (`D9:C0:B3:…:58:B9`), badging `versionCode 3` / `versionName 1.0.1`, zip-aligned.
+3. Recaptured release screenshots 06–11 from the v1.0.1 build on the Android 34 emulator;
+   README, `app/evidence/ui/`, and the posters all use the same frames.
+4. Poster upgrades: signal-path strip, QR evidence panel (repo / release / findings), real
+   references, Team YOLO in the header. Rebuilt `poster/out/` PDFs and PNGs.
+5. Published GitHub Release `v1.0.1` with the signed APK as its asset.
+
+**Open items.**
+
+1. **WARNING: the signing backup still sits on one machine only.** Copy
+   `~/itantra-signing-backup/` off the Mac.
+2. Re-run the 12-item two-phone checklist on v1.0.1 (`docs/DELIVERY_FINDINGS.md`). Uninstall
+   pre-16-Oct builds first; v1.0.0 updates in place.
+3. The repository is private — the poster QR codes only resolve once it is made public.
+4. Decisions pending: foreground service for long holds, Laya voice assets, APK size trimming,
+   and the English voice verdict.

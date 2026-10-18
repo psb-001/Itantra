@@ -368,6 +368,28 @@ the first one in `releases/` under the same version number.
   - *Triage toggle*: switching Laya on copied its assets (143 MB, first use) and reported
     "triage ready — vocab 12454, merges 30829". Switching back off was clean.
 
+## Team rename — v1.0.1 replaces v1.0.0 on the phones (18 Oct)
+
+The team's registered name changed to **Team YOLO**, and the app must not disagree with the
+poster, the repository or the team. This is a display-and-truth change only: recognition,
+synthesis, delivery and transport are untouched.
+
+- **Version 1.0.1 (versionCode 3)**, signed with the same RSA-4096 key as v1.0.0, so an
+  update-install over v1.0.0 works. A build from before the 16 Oct key rotation still needs
+  an uninstall first.
+- **What changed:** About now shows `Team name: Team YOLO`; the Piper-voices credit line was
+  corrected from "six" to **seven** voices — Tamil ships and was missing from that list.
+- **The artifact**: `releases/iTantra-1.0.1-release.apk`, 993,362,519 B, sha256
+  `00b16eb216f1985a859bde2c8fe751785523429b2ef09937c693d813dd0db40e`, verified for
+  signature (same certificate SHA-256 `D9:C0:B3:…:58:B9`), page alignment, and badging
+  (`versionCode 3`, `versionName 1.0.1`, label `iTantra`). Published as GitHub release
+  `v1.0.1` with this file as the downloadable asset.
+- **Emulator pass (18 Oct)**: installed over v1.0.0 on the Android 34 emulator; launched
+  clean and stayed up. About shows `Version 1.0.1 (release)` and `Team name: Team YOLO`;
+  Settings shows `App: 1.0.1 (release)`. The release screenshots were recaptured from this
+  build into `app/evidence/ui/` (06–09) and the poster uses the same frames.
+- The two-phone checklist below now measures **v1.0.1**.
+
 ## Phone checklist (two phones, release APK)
 
 1. Pair once in Android Settings. Open the app on both. Wait for "Ready — hold to talk".

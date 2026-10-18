@@ -4,7 +4,7 @@
 SIH 2026 · Organisation **ISRO, Department of Space** · Category **Software** · Theme **Smart Automation** · Team **YOLO**
 
 ![Android 6.0+](https://img.shields.io/badge/android-6.0%2B-3DDC84?logo=android&logoColor=white)
-![Release 1.0.0](https://img.shields.io/badge/release-1.0.0-2F6FEB)
+![Release 1.0.1](https://img.shields.io/badge/release-1.0.1-2F6FEB)
 ![No network required](https://img.shields.io/badge/network-not%20required-2EA043)
 ![10 listening · 7 speaking](https://img.shields.io/badge/languages-10%20listening%20%C2%B7%207%20speaking-8957E5)
 
@@ -38,7 +38,7 @@ push-to-talk walkie-talkie — one that never needs a network.
   <img src="app/evidence/ui/09_release_settings.png" width="235" alt="Settings — connection state and live counters" />
 </p>
 
-<p align="center"><em>Release build v1.0.0 on Android 34. More screenshots in <a href="app/evidence/ui/">app/evidence/ui/</a>.</em></p>
+<p align="center"><em>Release build v1.0.1 on Android 34. More screenshots in <a href="app/evidence/ui/">app/evidence/ui/</a>.</em></p>
 
 ## The link will drop. The message must not.
 
@@ -73,13 +73,14 @@ evidence in [`docs/DELIVERY_FINDINGS.md`](docs/DELIVERY_FINDINGS.md):
 
 *Last device passes: 27 Sep 2026 — the two-phone loop on two physical phones (earlier build).
 16 Oct 2026 — release APK v1.0.0 on an Android 34 emulator (arm64), every screen and
-self-test. Next step: re-run the two-phone checklist on v1.0.0 (`docs/DELIVERY_FINDINGS.md`).*
+self-test. 18 Oct 2026 — v1.0.1 (Team YOLO rename) verified and installed on the emulator.
+Next step: re-run the two-phone checklist on v1.0.1 (`docs/DELIVERY_FINDINGS.md`).*
 
 ### Proven
 
 | Thing | Evidence |
 |---|---|
-| App builds, installs, runs | **Signed release APK v1.0.0** (993 MB, sha256 `0b46aeff…`), sideloadable. It launched on Android 34 and stayed up. We exercised every screen, three on-device self-tests passed, and there were zero crashes. Signature, alignment and badging are verified (`docs/RELEASE.md`; screenshots `app/evidence/ui/`) |
+| App builds, installs, runs | **Signed release APK v1.0.1** (993 MB, sha256 `00b16eb2…`), sideloadable. It launched on Android 34 and stayed up. We exercised every screen, three on-device self-tests passed, and there were zero crashes. Signature, alignment and badging are verified (`docs/RELEASE.md`; screenshots `app/evidence/ui/`) |
 | **Two-phone loop** | 27 Sep 2026: two physical phones, no internet — speech recognised on one, sent as text over Bluetooth RFCOMM, spoken aloud on the other. Recorded in `app/VERIFICATION_STATUS.md`; the About screen states it |
 | Model runs on Android | Loaded on device, **428 MB PSS / 535 MB RSS** with the model resident |
 | ASR accuracy | Mean CER **0.0918** across 200 clips × 10 languages — 2,000 clips, 6.7 h of real speech (`eval/SUMMARY_full_v3pruned.json`) |
@@ -96,7 +97,7 @@ self-test. Next step: re-run the two-phone checklist on v1.0.0 (`docs/DELIVERY_F
 
 | Gap | Why it matters |
 |---|---|
-| **Two-phone pass on v1.0.0** | The 27 Sep demo used the earlier build — receipts, reconnects and kill-survival landed after it, and the signing key rotated. The 12-item checklist (`docs/DELIVERY_FINDINGS.md`) must be re-run on this APK, with both phones freshly installed |
+| **Two-phone pass on v1.0.1** | The 27 Sep demo used the earlier build — receipts, reconnects and kill-survival landed after it, and the signing key rotated. The 12-item checklist (`docs/DELIVERY_FINDINGS.md`) must be re-run on this APK, with both phones freshly installed |
 | **Real low-end phone** | Latency and RAM are emulator numbers, not a budget handset |
 | **Human TTS panel** | Every intelligibility number is an ASR round-trip proxy. Ear files are in `docs/voice_samples/` (written comparison in its README, audio attached to the release). A human has not scored them yet |
 | **3 of 10 languages are text-only** | Gujarati, Kannada, Odia display correct text and stay silent. The UI labels them ([licence audit](docs/TTS_LICENCE_AUDIT.md)) |
@@ -130,12 +131,12 @@ See [Licences](#licences) for exactly what is allowed.
 
 ## Install (sideload)
 
-Get `iTantra-1.0.0-release.apk` from the [Releases page](https://github.com/psb-001/Itantra/releases)
+Get `iTantra-1.0.1-release.apk` from the [Releases page](https://github.com/psb-001/Itantra/releases)
 (~1 GB — download over Wi-Fi). Then copy it to the phone and open it ("install unknown apps"
 must be allowed), or run:
 
 ```bash
-adb install -r iTantra-1.0.0-release.apk
+adb install -r iTantra-1.0.1-release.apk
 ```
 
 - **Requires:** Android 6.0+ (API 23), an **arm64-v8a** phone, and ~2 GB free space.

@@ -35,8 +35,8 @@ android {
         // another; it must rise on EVERY build you hand to a phone. 1 was the unreleased
         // 0.1.0 development line, so the first proper release starts at 2. versionName is
         // the human-readable one shown in About and Settings. Policy: docs/RELEASE.md.
-        versionCode = 2
-        versionName = "1.0.0"
+        versionCode = 3
+        versionName = "1.0.1"
     }
 
     signingConfigs {
