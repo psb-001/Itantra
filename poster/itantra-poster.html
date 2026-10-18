@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>iTantra — research convention poster</title>
+<style>
+  @page { size: 1600px 2260px; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #111; }
+
+  .page {
+    width: 1600px; height: 2260px; overflow: hidden;
+    display: flex; flex-direction: column;
+    padding: 0 12px 12px 12px; background: #fff;
+  }
+
+  /* ---------- header ---------- */
+  header {
+    background: #167D8D; color: #fff;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 16px 18px 14px 18px; margin: 0 -12px;  /* bleed to page edge */
+  }
+  .logo {
+    width: 140px; height: 140px; flex: 0 0 140px;
+    border: 2px dashed rgba(255,255,255,.75); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    font-size: 15px; line-height: 1.25; letter-spacing: .5px; opacity: .95;
+  }
+  .headmid { flex: 1 1 auto; text-align: center; padding: 0 14px; }
+  .event1 { font-size: 46px; font-weight: 800; letter-spacing: .5px; }
+  .event2 { font-size: 25px; font-weight: 700; margin-top: 2px; }
+  .topic  { font-size: 27px; font-weight: 800; color: #FFE14D; margin-top: 12px; }
+  .meta   { font-size: 22px; font-weight: 700; margin-top: 10px; }
+  .meta span { margin: 0 18px; }
+  .round  { flex: 0 0 150px; text-align: right; font-size: 22px; font-weight: 700; padding-top: 4px; }
+
+  /* ---------- columns ---------- */
+  main { display: flex; gap: 12px; flex: 1 1 auto; padding-top: 12px; min-height: 0; }
+  .col { flex: 1 1 0; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+
+  .box { border: 3px solid #2E75B6; background: #fff; display: flex; flex-direction: column; }
+  .box.grow { flex: 1 1 auto; }
+  .sechead {
+    background: #7B2E8C; color: #fff; text-align: center;
+    font-size: 24px; font-weight: 800; letter-spacing: 1.5px; padding: 7px 4px;
+  }
+  .secbody {
+    border: 1.5px solid #7B2E8C; margin: 8px; padding: 12px 16px; flex: 1 1 auto;
+  }
+  .secbody p { font-size: 17.5px; line-height: 1.30; text-align: justify; }
+  .secbody p + p { margin-top: 8px; }
+  .secbody ul, .secbody ol { margin: 0 0 0 20px; font-size: 17.5px; line-height: 1.28; }
+  .secbody li { margin-bottom: 6px; text-align: left; }
+  b.q { font-weight: 800; }
+
+  /* ---------- tables ---------- */
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.18; }
+  th, td { border: 1px solid #4a4a4a; padding: 4px 6px; vertical-align: top; text-align: left; }
+  th { text-align: center; background: #ECECEC; font-weight: 800; }
+  tr:nth-child(even) td { background: #F5F5F5; }
+  .caption { font-size: 14px; font-style: italic; color: #333; margin-top: 6px; text-align: left; }
+
+  /* ---------- images ---------- */
+  .shot { border: 1px solid #8a8a8a; display: block; }
+  .shot.r { float: right; width: 132px; margin: 2px 0 8px 12px; }
+  .shotrow { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
+  .shotrow .shot { width: 118px; }
+
+  /* ---------- references ---------- */
+  footer { padding-top: 12px; }
+  footer .box .secbody { padding: 10px 16px; }
+  footer ol { margin-left: 22px; font-size: 15.5px; line-height: 1.3; }
+  footer li { margin-bottom: 4px; }
+  .refnote { font-size: 14px; color: #444; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="logo">UNIVERSITY<br>LOGO<br>&nbsp;</div>
+    <div class="headmid">
+      <div class="event1">AVISHKAR 2026</div>
+      <div class="event2">Maharashtra State Inter-University Research Convention</div>
+      <div class="topic">Topic: iTantra — Offline Neural Speech Transceiver for Low-Bitrate Radio Links</div>
+      <div class="meta"><span style="color:#FFE14D;">Team: YOLO</span><span>Category: Engineering &amp; Technology</span><span>Code: SIH26173</span><span>Level: UG</span></div>
+    </div>
+    <div class="round">Zonal Round</div>
+  </header>
+
+  <main>
+
+    <!-- ================= LEFT COLUMN ================= -->
+    <div class="col">
+
+      <section class="box">
+        <div class="sechead">ABSTRACT</div>
+        <div class="secbody">
+          <p>Voice is too data-heavy for a low-bitrate link, but in a distress scenario voice reaches
+          everyone — literate or not. iTantra recognises speech on the phone, sends only the recognised
+          text, and speaks it out on the other phone. On-device ASR runs offline in 10 Indian languages;
+          a message travels as a 49–315-byte packet over Bluetooth or Wi-Fi Direct — around 65× smaller
+          than the same speech as audio. A delivery layer — ACKed outbox, receipts, heartbeats, alert
+          escalation, kill survival — keeps every message whole when the link drops. Mean character
+          error rate <b>0.0918</b> over 2,000 clips across 10 languages; the two-phone loop has run on
+          physical phones.</p>
+        </div>
+      </section>
+
+      <section class="box grow">
+        <div class="sechead">HYPOTHESIS</div>
+        <div class="secbody">
+          <ol>
+            <li>On-device speech recognition is accurate enough to replace the cloud in an emergency workflow.</li>
+            <li>Text is a viable wire format: a few hundred bytes per sentence survive a low-bitrate link that audio cannot.</li>
+            <li>Pruning the model’s output vocabulary to the ten required scripts eliminates cross-script noise — the model cannot emit off-script characters.</li>
+            <li>Deterministic delivery — ACKed outbox, receipts, ordered resends — makes a lossy link behave predictably; alerts must preempt normal speech.</li>
+            <li>A killed app can resume pending messages from disk with no silent loss.</li>
+            <li>Low-RAM phones can host a 349 MB model if idle memory is returned under pressure.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="box grow">
+        <div class="sechead">FIXED FOR ALL BUILDS</div>
+        <div class="secbody">
+          <p><b class="q">Rationale (high level):</b> only text crosses the link — ~7 s of speech ≈ 200 B,
+          about 65× smaller than a voice call carrying the same speech. Reliability is treated as a
+          delivery problem, not a radio problem: every segment is ACKed or resent (3/6/12 s → 15 s
+          backoff, max 10 tries), 4 s heartbeats run both ways, a peer is declared gone at 12 s. One
+          shipped configuration for every run: arm64-v8a, minSdk 23, a 1,002-token pruned vocabulary,
+          and 96 unit tests on every build.</p>
+          <table style="margin-top:10px;">
+            <tr><th style="width:20%;">Run</th><th style="width:34%;">Configuration</th><th style="width:24%;">Test set</th><th>Result</th></tr>
+            <tr><td>A — baseline</td><td>ASR v1, 10,288-token vocabulary</td><td>FLEURS, clean, 2,000 clips</td><td>Mean CER 0.0992</td></tr>
+            <tr><td>B</td><td>ASR v2</td><td>FLEURS, clean, 2,000 clips</td><td>Mean CER 0.0934</td></tr>
+            <tr><td>C — shipped</td><td>ASR v3, pruned 10,288 → 1,002 tokens</td><td>FLEURS, clean, 2,000 clips</td><td>Mean CER <b>0.0918</b>; zero out-of-script characters</td></tr>
+            <tr><td>D</td><td>C, pink noise @ 15 dB SNR</td><td>Hindi clips</td><td>Script retention 40% → <b>78%</b></td></tr>
+            <tr><td>E</td><td>C, noise @ 0 dB SNR</td><td>Tamil clips</td><td>44% retention — weakest case, declared</td></tr>
+            <tr><td>F — device</td><td>Shipped build, on-device self-tests</td><td>Android 34 emulator, arm64</td><td>3 self-tests green; ASR RTF 0.156; TTS RTF 0.078</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="box">
+        <div class="sechead">EVIDENCE — THE REAL APP</div>
+        <div class="secbody" style="text-align:center;">
+          <div class="shotrow" style="margin-top:0;">
+            <img class="shot" src="assets/06_release_home_ready.png" style="width:150px;" alt="Home — ready to talk">
+            <img class="shot" src="assets/09_release_settings.png" style="width:150px;" alt="Settings — live counters">
+            <img class="shot" src="assets/08_release_about_version_limits.png" style="width:150px;" alt="About — the project's own limits">
+          </div>
+          <div class="caption" style="text-align:center;">Release build v1.0.0 on Android 34 — home, settings, and the About screen that states the project’s own limits. Two-phone loop demonstrated on physical phones, 27 Sep 2026.</div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ================= RIGHT COLUMN ================= -->
+    <div class="col">
+
+      <section class="box">
+        <div class="sechead">INTRODUCTION</div>
+        <div class="secbody">
+          <img class="shot r" src="assets/07_release_about_languages.png" alt="About screen — 10 languages">
+          <p>Problem statement SIH26173 asks for a TTS &amp; STT aided neural transceiver radio for
+          low-bitrate links (ISRO, Department of Space). In floods, disasters and remote posts, the
+          radio link is weak and intermittent — exactly when a message must get through. Voice is the
+          natural interface, but raw or even compressed voice overwhelms a damaged link and dies on
+          packet loss; cloud speech services need internet, which is absent by definition.</p>
+          <p>Our approach inverts the stack: speech is recognised offline on the sender phone, and only
+          text crosses the radio. Text is compact, orderable and acknowledgeable, so the link can drop
+          and recover without losing the message; the receiver synthesises it aloud. No cloud, no
+          accounts — the app does not even request the INTERNET permission.</p>
+        </div>
+      </section>
+
+      <section class="box grow">
+        <div class="sechead">SYSTEM COMPONENTS</div>
+        <div class="secbody">
+          <table>
+            <tr><th style="width:46%;">Component</th><th style="width:24%;">Size / spec</th><th>Role</th></tr>
+            <tr><td>Offline ASR — Omnilingual character-level CTC, int8, vocabulary pruned to the ten scripts</td><td>349 MB</td><td>speech → text, 10 languages</td></tr>
+            <tr><td>VAD — Silero</td><td>0.63 MB</td><td>segmentation; end-of-speech flush</td></tr>
+            <tr><td>Neural TTS — Piper voices (hi, mr, bn, ta, te, ml, en)</td><td>≈60 MB per voice (one resident)</td><td>text → speech, 7 of 10 languages</td></tr>
+            <tr><td>Wire format — JSON envelope: id, lang, ttl, type</td><td>49–315 B per message</td><td>the radio payload</td></tr>
+            <tr><td>Transport — Bluetooth RFCOMM (primary), Wi-Fi Direct (fallback)</td><td>2 Mbit/s class</td><td>link layer</td></tr>
+            <tr><td>Delivery layer — ACKed outbox, receipts, heard-ids ledger, PendingStore</td><td>temp-file + rename JSON</td><td>order, dedupe, kill survival</td></tr>
+            <tr><td>Optional triage — Laya int8, off by default</td><td>143 MB</td><td>destructive-language messages → priority alert</td></tr>
+          </table>
+          <div class="caption">App: Kotlin, arm64-v8a, minSdk 23 — signed release APK v1.0.0, 993 MB, zero network permissions.</div>
+        </div>
+      </section>
+
+      <section class="box grow">
+        <div class="sechead">RESULTS AND CONCLUSION</div>
+        <div class="secbody">
+          <img class="shot r" src="assets/06_release_home_ready.png" alt="Release home screen — ready to talk">
+          <p>Shipped v1.0.0: a 993 MB signed APK, Android 6+, arm64, zero network permissions.
+          Measured: mean CER <b>0.0918</b> across 2,000 FLEURS clips (10 languages, 6.7 h of real
+          speech); <b>zero</b> out-of-script characters; Hindi script retention under pink noise
+          40% → <b>78%</b>; the script filter drops foreign-script segments whole, 25/25 cases; Hindi
+          TTS round-trip CER 0.339 → <b>0.102</b>. On-device: ASR RTF 0.12–0.16, TTS RTF 0.055–0.08
+          → <b>≈1 s mouth-to-ear</b>; 428 MB PSS with the model resident. 96 unit tests and three
+          on-device self-tests pass; the two-phone walkie-talkie loop ran end-to-end on two physical
+          phones (27 Sep 2026). <b>Conclusion:</b> a text-first neural transceiver makes voice
+          serviceable over low-bitrate, unreliable links — fully offline, on commodity phones.</p>
+        </div>
+      </section>
+
+      <section class="box grow">
+        <div class="sechead">FUTURE SCOPE</div>
+        <div class="secbody">
+          <ol>
+            <li>Human listening panel and field trials — the noise sets are synthetic; real field audio is the next measurement.</li>
+            <li>Real low-end phone numbers: latency, RAM and battery on a budget handset.</li>
+            <li>Neural voices for the remaining three languages (Gujarati, Kannada, Odia — text-only today); Tamil robustness at 0 dB.</li>
+            <li>Language identification, to separate Hindi/Marathi and Bengali/Assamese.</li>
+            <li>Foreground service for very long holds; smaller APK.</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <section class="box">
+      <div class="sechead">REFERENCE</div>
+      <div class="secbody">
+        <ol>
+          <li>Meta AI Research. Omnilingual ASR — multilingual speech recognition (arXiv:2511.09690). On-device build: k2-fsa/sherpa-onnx model releases.</li>
+          <li>Silero Team. Silero VAD — voice activity detection, MIT. github.com/snakers4/silero-vad</li>
+          <li>Piper voices (VITS — Kim et al., ICML 2021). huggingface.co/rhasspy/piper-voices</li>
+          <li>k2-fsa. sherpa-onnx — on-device speech runtime. github.com/k2-fsa/sherpa-onnx</li>
+          <li>Microsoft. ONNX Runtime. github.com/microsoft/onnxruntime</li>
+          <li>espeak-ng pronunciation rules. github.com/espeak-ng/espeak-ng</li>
+          <li>Google Research. FLEURS speech dataset, CC-BY-4.0. huggingface.co/datasets/google/fleurs</li>
+          <li>Team YOLO. iTantra — release v1.0.0, DELIVERY_FINDINGS, VERIFICATION_STATUS. github.com/psb-001/Itantra (2026)</li>
+        </ol>
+        <div class="refnote">Verify reference formatting against the convention’s template before printing.</div>
+      </div>
+    </section>
+  </footer>
+
+</div>
+</body>
+</html>

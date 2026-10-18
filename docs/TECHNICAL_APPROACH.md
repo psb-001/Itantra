@@ -1,5 +1,5 @@
 # SIH26173 — iTantra: Technical Approach (EXECUTED EVIDENCE)
-**Team B.J.P (Bug Janta Party)** | Problem: ISRO *iTantra — Indian Multilingual TTS & STT Aided Neural Transceiver*
+**Team YOLO** | Problem: ISRO *iTantra — Indian Multilingual TTS & STT Aided Neural Transceiver*
 All numbers below are MEASURED on this machine (macOS arm64, Apple Silicon, 17 GB RAM), 18 Sep 2026.
 **This is not a phone.** Phone numbers will be worse. Every figure labelled MEASURED vs TARGET.
 

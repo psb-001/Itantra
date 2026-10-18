@@ -1,7 +1,7 @@
 # iTantra — an offline speech radio for 10 Indian languages
 
 **SIH26173 — Indian Multilingual TTS & STT Aided Neural Transceiver Radio Access for low bitrate links.**
-SIH 2026 · Organisation **ISRO, Department of Space** · Category **Software** · Theme **Smart Automation** · Team **B.J.P — Bug Janta Party**
+SIH 2026 · Organisation **ISRO, Department of Space** · Category **Software** · Theme **Smart Automation** · Team **YOLO**
 
 ![Android 6.0+](https://img.shields.io/badge/android-6.0%2B-3DDC84?logo=android&logoColor=white)
 ![Release 1.0.0](https://img.shields.io/badge/release-1.0.0-2F6FEB)
@@ -210,7 +210,7 @@ Short version: fine for a competition entry or research. Not fine to turn into a
 
 ## Team
 
-**B.J.P — Bug Janta Party**
+**Team YOLO**
 
 - **Prathamesh Bhujbal** — Team Lead — [LinkedIn](https://www.linkedin.com/in/prathamesh-bhujbal-psb)
 - **Atharv Chougule** — Team Member — [LinkedIn](https://www.linkedin.com/in/atharv-chougule-626452393)

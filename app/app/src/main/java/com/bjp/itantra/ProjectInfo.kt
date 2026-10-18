@@ -35,7 +35,7 @@ object ProjectInfo {
     const val ORGANISATION = "ISRO, Department of Space"
     const val CATEGORY = "Software"
     const val THEME = "Smart Automation"
-    const val TEAM_NAME = "B.J.P — Bug Janta Party"
+    const val TEAM_NAME = "Team YOLO"
 
     // ------------------------------------------------------------------ languages
 
@@ -135,10 +135,10 @@ object ProjectInfo {
             name = "Piper voice models",
             author = "Piper contributors and the original voice recorders",
             licence = "Mixed — see each voice",
-            does = "These are the voices that read messages out loud. We ship six: Hindi, " +
-                "English, Marathi, Bengali, Malayalam and Telugu. The voices are not all " +
+            does = "These are the voices that read messages out loud. We ship seven: Hindi, " +
+                "English, Marathi, Bengali, Malayalam, Telugu and Tamil. The voices are not all " +
                 "under the same terms, which is why this entry says \"mixed\". The Hindi " +
-                "voice in particular is the most restricted of the six.",
+                "voice in particular is the most restricted of the seven.",
             action = Action.SHARE_ALIKE,
             url = "https://huggingface.co/rhasspy/piper-voices",
         ),

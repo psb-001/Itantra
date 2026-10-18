@@ -1,6 +1,6 @@
 # iTantra — Tech stack, device architecture and system design
 
-**SIH26173 · Team B.J.P (Bug Janta Party) · Android app `com.bjp.itantra` v0.1.0**
+**SIH26173 · Team YOLO · Android app `com.bjp.itantra` v0.1.0**
 Generated 21 September 2026 from the actual build files and a built APK — not from memory.
 
 > **Status of every claim below.** Everything in §1–§5 is taken from `app/build.gradle.kts`,

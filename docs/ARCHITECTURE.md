@@ -1,6 +1,6 @@
 # SIH26173 — iTantra: Architecture and System Design
 
-**Team B.J.P (Bug Janta Party)** · Prepared 19 September 2026
+**Team YOLO** · Prepared 19 September 2026
 Status labels: **[BUILT]** = exists and tested · **[DESIGNED]** = specified, not written · **[MISSING]** = not started
 
 ---
