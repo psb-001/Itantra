@@ -37,7 +37,6 @@
   .topic  { font-size: 23px; font-weight: 800; color: #FFE14D; margin-top: 8px; }
   .meta   { font-size: 19px; font-weight: 700; margin-top: 6px; }
   .meta span { margin: 0 13px; }
-  .meta .team { color: #FFE14D; }
   .round  { flex: 0 0 126px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; font-size: 19px; font-weight: 700; padding-top: 3px; }
   .round img { width: 84px; height: 84px; display: block; border-radius: 14px; }
 
@@ -85,15 +84,21 @@
   .band li { margin-bottom: 3px; }
   .refbody { display: flex; gap: 14px; align-items: flex-start; }
   .refbody ol { flex: 1 1 auto; min-width: 0; }
-  .refqr { flex: 0 0 244px; display: flex; gap: 8px; align-items: center; justify-content: flex-end; padding-top: 1px; }
-  .refqr img { width: 136px; display: block; border: 3px solid #FFE14D; flex: 0 0 auto; }
-  .refqrlabel { font-size: 12px; font-weight: 700; color: #0E3B60; line-height: 1.25; width: 100px; text-align: left; }
+  .bandqr { flex: 0 0 auto; display: grid; grid-template-columns: repeat(4, 104px); gap: 9px; }
+  .bandqr .item { width: 104px; }
+  .bandqr img { width: 104px; display: block; border: 3px solid #FFE14D; }
+  .bandqr .lbl { font-size: 11px; font-weight: 700; color: #0E3B60; margin-top: 4px; line-height: 1.1; text-align: center; }
 
-  /* ---------- QR panel ---------- */
-  .qrrow { display: flex; gap: 10px; justify-content: center; }
-  .qritem { width: 142px; }
-  .qritem img { width: 142px; display: block; border: 3px solid #FFE14D; }
-  .qrlabel { font-size: 12px; font-weight: 700; color: #0E3B60; margin-top: 5px; line-height: 1.15; }
+  /* ---------- real code panel ---------- */
+  .box.codebox { flex: 0 0 auto; }
+  .code { background: #0F2430; border-radius: 6px; overflow: hidden; }
+  .codetop { display: flex; align-items: center; gap: 6px; background: #17323F; padding: 4px 8px; }
+  .codetop .dot { width: 8px; height: 8px; border-radius: 50%; display: block; }
+  .codetop .d1 { background: #FF5F57; } .codetop .d2 { background: #FEBC2E; } .codetop .d3 { background: #28C840; }
+  .codetop .file { margin-left: 6px; font: 700 10.5px/1 "SFMono-Regular", Menlo, Consolas, monospace; color: #9FB6C3; }
+  .codetop .tag { margin-left: auto; font: 800 9.5px/1 "Helvetica Neue", Arial, sans-serif; color: #0F2430; background: #7FE3D4; padding: 2.5px 6px; border-radius: 8px; letter-spacing: .4px; }
+  .codebody { padding: 7px 9px 8px; font: 11.4px/1.34 "SFMono-Regular", Menlo, Consolas, monospace; color: #D7E6EE; white-space: pre; }
+  .kw { color: #FF9EC4; } .ty { color: #8FD6FF; } .nm { color: #FFD479; } .fn { color: #7FE3D4; }
 
   /* ---------- exact 1 m × 1 m print ---------- */
   @media print {
@@ -113,7 +118,7 @@
       <div class="event1">AVISHKAR 2026</div>
       <div class="event2">Maharashtra State Inter-University Research Convention</div>
       <div class="topic">Topic: iTantra, an Offline Neural Speech Transceiver for Low-Bitrate Radio Links</div>
-      <div class="meta"><span class="team">Team: YOLO</span><span>Category: Engineering &amp; Technology</span><span>Code: SIH26173</span><span>Level: UG</span></div>
+      <div class="meta"><span>Category: Engineering &amp; Technology</span><span>Code: SIH26173</span><span>Level: UG</span></div>
     </div>
     <div class="round">
       <img src="assets/appicon.png" alt="iTantra app icon">
@@ -255,22 +260,24 @@
         </div>
       </section>
 
-      <section class="box">
-        <div class="sechead">SCAN: EVIDENCE</div>
-        <div class="secbody" style="text-align:center;">
-          <div class="qrrow">
-            <div class="qritem">
-              <img src="assets/qr_repo.png" alt="QR code: GitHub repository">
-              <div class="qrlabel">GitHub repo</div>
+      <section class="box codebox">
+        <div class="sechead">REAL CODE: DEAD-LINK DETECTION</div>
+        <div class="secbody">
+          <div class="code">
+            <div class="codetop">
+              <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+              <span class="file">transport/Heartbeat.kt</span>
+              <span class="tag">SHIPPED</span>
             </div>
-            <div class="qritem">
-              <img src="assets/qr_release.png" alt="QR code: release v1.0.1 with the signed APK">
-              <div class="qrlabel">Release v1.0.1 APK</div>
-            </div>
-            <div class="qritem">
-              <img src="assets/qr_evidence.png" alt="QR code: findings and the 12-item checklist">
-              <div class="qrlabel">Findings &amp; checklist</div>
-            </div>
+<pre class="codebody"><span class="kw">class</span> <span class="ty">Heartbeat</span>(
+    <span class="kw">private val</span> intervalMs: <span class="ty">Long</span> = <span class="nm">PING_INTERVAL_MS</span>,
+    <span class="kw">private val</span> timeoutMs: <span class="ty">Long</span> = <span class="nm">DEAD_AFTER_MS</span>,
+) {
+    <span class="kw">companion object</span> {
+        <span class="kw">const val</span> <span class="nm">PING_INTERVAL_MS</span> = <span class="fn">4_000L</span>
+        <span class="kw">const val</span> <span class="nm">DEAD_AFTER_MS</span> = <span class="fn">12_000L</span>
+    }
+}</pre>
           </div>
         </div>
       </section>
@@ -342,11 +349,25 @@
           <li>Microsoft. ONNX Runtime. github.com/microsoft/onnxruntime</li>
           <li>espeak-ng pronunciation rules. github.com/espeak-ng/espeak-ng</li>
           <li>Google Research. FLEURS speech dataset, CC-BY-4.0. huggingface.co/datasets/google/fleurs</li>
-          <li>Team YOLO. iTantra, release v1.0.1. DELIVERY_FINDINGS and VERIFICATION_STATUS are in the repository. github.com/psb-001/Itantra (2026)</li>
+          <li>iTantra. Release v1.0.1. DELIVERY_FINDINGS and VERIFICATION_STATUS are in the repository. github.com/psb-001/Itantra (2026)</li>
         </ol>
-        <div class="refqr">
-          <img src="assets/qr_links.png" alt="QR code: a page with every reference, the team, and the app download">
-          <div class="refqrlabel">Scan for everything: all references, the team, and the app download.</div>
+        <div class="bandqr">
+          <div class="item">
+            <img src="assets/qr_repo.png" alt="QR code: GitHub repository">
+            <div class="lbl">GitHub repo</div>
+          </div>
+          <div class="item">
+            <img src="assets/qr_release.png" alt="QR code: release v1.0.1 with the signed APK">
+            <div class="lbl">Release v1.0.1</div>
+          </div>
+          <div class="item">
+            <img src="assets/qr_evidence.png" alt="QR code: findings and the 12-item checklist">
+            <div class="lbl">Findings</div>
+          </div>
+          <div class="item">
+            <img src="assets/qr_links.png" alt="QR code: every reference, the team, and the app download">
+            <div class="lbl">Everything</div>
+          </div>
         </div>
       </div>
     </section>

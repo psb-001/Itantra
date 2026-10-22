@@ -363,12 +363,12 @@ reference stack.
    (`D9:C0:B3:…:58:B9`), badging `versionCode 3` / `versionName 1.0.1`, zip-aligned.
 3. Recaptured release screenshots 06–11 from the v1.0.1 build on the Android 34 emulator;
    README, `app/evidence/ui/`, and the posters all use the same frames.
-4. Poster upgrades: signal-path strip, QR evidence panel (repo / release / findings), a
-   scan page QR in the reference band, real references, Team YOLO in the header, a
-   simple-English rewrite of every poster text, and zero em dashes. Rebuilt `poster/out/`
-   PDFs and PNGs, and rendered a flex print master (`itantra-poster-1x1m-print.png` and
-   `.jpg`, 8000 px, 203 dpi at 1 m). The DBATU university logo replaces the header
-   placeholder, and every output is re-rendered.
+4. Poster upgrades: signal-path strip, real references, a simple-English rewrite of every poster
+   text, zero em dashes, and the DBATU logo in the header. The three evidence QR codes and the
+   scan-page QR now sit together in the reference band. A real `Heartbeat.kt` code panel shows the
+   4 s / 12 s dead-link policy, and the team name is no longer on the poster. Rebuilt `poster/out/`
+   PDFs and PNGs, plus the flex print master (`itantra-poster-1x1m-print.png` and `.jpg`,
+   8000 px, 203 dpi at 1 m).
 5. Published GitHub Release `v1.0.1` with the signed APK as its asset.
 
 **Open items.**
