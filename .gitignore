@@ -84,3 +84,6 @@ research/tts/logs/
 # The written comparison lives in docs/voice_samples/README.md; the audio itself is attached to
 # the GitHub release instead of bloating every clone.
 docs/voice_samples/*.wav
+
+# ---------- Trained text models (regenerable: training/train_languages.py) ----------
+training/out/

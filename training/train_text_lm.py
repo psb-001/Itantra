@@ -28,13 +28,12 @@ import argparse
 import json
 import math
 import random
-import re
 import sys
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
 
-WORD = re.compile(r"[\w']+", re.UNICODE)
+TRIM = ".,;:!?\"'()[]{}<>|/\\…।॥“”‘’"
 BOS = "<s>"
 EOS = "</s>"
 UNK = "<unk>"
@@ -48,11 +47,25 @@ def read_lines(paths: list[Path]) -> list[str]:
     return lines
 
 
+def words_in(line: str) -> list[str]:
+    """Split on spaces, trim edge punctuation. Keeps Indic words whole.
+
+    A regex like \\w+ splits Devanagari at every vowel sign, because those are
+    combining marks and not letters. Whitespace is the reliable boundary.
+    """
+    flat = line.replace("\u2019", "'").replace("\u2018", "'")
+    words = []
+    for raw in flat.split():
+        word = raw.strip(TRIM).lower()
+        if word:
+            words.append(word)
+    return words
+
+
 def tokenize(lines: list[str]) -> list[list[str]]:
     sentences: list[list[str]] = []
     for line in lines:
-        flat = line.replace("\u2019", "'").replace("\u2018", "'")
-        words = [w.lower() for w in WORD.findall(flat)]
+        words = words_in(line)
         if words:
             sentences.append([BOS, *words, EOS])
     return sentences
@@ -118,19 +131,24 @@ class Model:
                 count += 1
         return 2 ** (total / count) if count else float("nan")
 
+    def _weighted(self, rng: random.Random, options, temperature: float) -> str | None:
+        if not options:
+            return None
+        items = [(w, c) for w, c in options.items() if w != UNK]
+        if not items:
+            return None
+        weights = [c ** (1.0 / temperature) for _, c in items]
+        return rng.choices([w for w, _ in items], weights=weights, k=1)[0]
+
     def sample(self, rng: random.Random, temperature: float = 0.8, limit: int = 24) -> str:
-        a, b = BOS, BOS
-        words: list[str] = []
-        for _ in range(limit):
-            options = self.next2.get((a, b)) or self.next1.get(b)
-            if not options:
-                break
-            items = [(w, c) for w, c in options.items() if w != UNK]
-            if not items:
-                break
-            weights = [c ** (1.0 / temperature) for _, c in items]
-            word = rng.choices([w for w, _ in items], weights=weights, k=1)[0]
-            if word == EOS:
+        first = self._weighted(rng, self.next1.get(BOS), temperature)
+        if not first:
+            return ""
+        words = [first]
+        a, b = BOS, first
+        for _ in range(limit - 1):
+            word = self._weighted(rng, self.next2.get((a, b)) or self.next1.get(b), temperature)
+            if not word or word == EOS:
                 break
             words.append(word)
             a, b = b, word
@@ -211,7 +229,7 @@ def main(argv: list[str]) -> int:
         print(f"sample        {model.sample(rng)}")
 
     if args.seed:
-        words = [w.lower() for w in WORD.findall(args.seed)]
+        words = words_in(args.seed)
         a = words[-2] if len(words) >= 2 else BOS
         b = words[-1] if words else BOS
         options = model.next2.get((a, b)) or model.next1.get(b) or {}
