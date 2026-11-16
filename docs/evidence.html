@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>iTantra SIH26173 — Evaluation Evidence</title>
+<style>
+  @page { size: A4; margin: 12mm 13mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-size: 8.4pt;
+    line-height: 1.38;
+    color: #14181f;
+    background: #fff;
+  }
+  h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
+  p { margin: 0 0 5px; }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+
+  /* header */
+  .masthead {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: end;
+    border-bottom: 2.5px solid #14181f;
+    padding-bottom: 7px;
+    margin-bottom: 7px;
+  }
+  .kicker {
+    font-size: 6.6pt;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 3px;
+  }
+  h1 { font-size: 17pt; line-height: 1.05; }
+  h1 span { color: #b45309; }
+  .stamp {
+    text-align: right;
+    font-size: 6.8pt;
+    color: #4b5563;
+    line-height: 1.5;
+  }
+  .stamp b { color: #14181f; }
+
+  /* layouts */
+  .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 11px; }
+  .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+
+  h2 {
+    font-size: 9.6pt;
+    margin: 8px 0 4px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #d6dae0;
+  }
+  h2 .n {
+    display: inline-block;
+    min-width: 15px;
+    color: #b45309;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* callout */
+  .claim {
+    background: #f6f7f9;
+    border-left: 3px solid #14181f;
+    padding: 7px 9px;
+    margin: 0 0 7px;
+  }
+  .claim strong { color: #14181f; }
+  .honest {
+    border-left: 3px solid #b45309;
+    background: #fdf7ee;
+    padding: 6px 8px;
+  }
+  .honest .lead {
+    font-size: 7pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #b45309;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  /* tables */
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { padding: 2.6px 4px; text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  thead th {
+    font-size: 6.6pt;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #6b7280;
+    border-bottom: 1.4px solid #14181f;
+    font-weight: 600;
+  }
+  tbody tr { border-bottom: 0.6px solid #e5e7eb; }
+  tbody tr:nth-child(even) { background: #fafbfc; }
+  tbody tr.total { background: #14181f; color: #fff; border: none; font-weight: 700; }
+  tbody tr.total td { color: #fff; }
+  td.best { color: #15803d; font-weight: 700; }
+  td.bad { color: #b91c1c; font-weight: 700; }
+
+  /* fact grid */
+  .facts { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0; border: 1px solid #d6dae0; }
+  .facts div { padding: 4px 7px; border-bottom: 1px solid #e5e7eb; display: grid; grid-template-columns: 78px minmax(0,1fr); gap: 5px; }
+  .facts div:nth-child(odd) { border-right: 1px solid #e5e7eb; }
+  .facts dt { color: #6b7280; font-size: 7pt; margin: 0; }
+  .facts dd { margin: 0; font-weight: 600; }
+  .facts .wide { grid-column: 1 / -1; grid-template-columns: 78px minmax(0,1fr); }
+
+  /* big numbers */
+  .nums { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 7px; margin: 7px 0 9px; }
+  .num { border: 1px solid #d6dae0; border-top: 3px solid #b45309; padding: 6px 7px; }
+  .num b { display: block; font-size: 15pt; line-height: 1.05; letter-spacing: -0.03em; }
+  .num span { display: block; font-size: 6.6pt; color: #6b7280; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+  code, .mono {
+    font-family: "SF Mono", "Menlo", monospace;
+    font-size: 6.9pt;
+  }
+  pre {
+    margin: 0;
+    background: #f6f7f9;
+    border: 1px solid #e5e7eb;
+    padding: 6px 8px;
+    font-family: "SF Mono", "Menlo", monospace;
+    font-size: 6.8pt;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .hash { font-family: "SF Mono", "Menlo", monospace; font-size: 6.5pt; color: #374151; }
+
+  /* transcript samples */
+  .sample { border: 1px solid #d6dae0; padding: 5px 8px; margin-bottom: 5px; }
+  .sample .tag {
+    display: inline-block;
+    font-size: 6.4pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #14181f;
+    color: #fff;
+    padding: 1px 5px;
+    margin-bottom: 3px;
+  }
+  .sample .tag.warn { background: #b45309; }
+  .sample .tag.fail { background: #b91c1c; }
+  .sample .ref { color: #6b7280; }
+  .sample .hyp { color: #14181f; }
+  .sample .cer { float: right; font-size: 7pt; color: #6b7280; }
+  .sample p { margin: 0 0 2px; font-size: 8pt; }
+
+  ul { margin: 3px 0 0; padding-left: 14px; }
+  li { margin-bottom: 2.5px; }
+  footer {
+    margin-top: 7px;
+    border-top: 1px solid #d6dae0;
+    padding-top: 4px;
+    font-size: 6.8pt;
+    color: #6b7280;
+    display: grid;
+    grid-template-columns: minmax(0,1fr) auto;
+    gap: 10px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================= PAGE 1 ============================= -->
+<section class="page">
+
+  <div class="masthead">
+    <div>
+      <div class="kicker">SIH26173 &middot; Evidence sheet &middot; for judges</div>
+      <h1>We did not train the speech model.<br>We <span>verified</span> it on 2,000 real clips.</h1>
+    </div>
+    <div class="stamp">
+      <b>Measured</b> 27 Sep 2026<br>
+      <b>Shipped in</b> release v1.0.1<br>
+      <b>Audio</b> 6.72 hours
+    </div>
+  </div>
+
+  <div class="claim">
+    <strong>One line, said plainly.</strong> The speech model in iTantra is Meta's Omnilingual
+    ASR 300M, redistributed through sherpa-onnx. The team pruned its output vocabulary from
+    10,288 to 1,002 tokens. No weights were trained. What the team did measure is whether it
+    works, clip by clip, in all ten languages the app claims.
+  </div>
+
+  <div class="nums">
+    <div class="num"><b>2,000</b><span>real clips scored</span></div>
+    <div class="num"><b>10</b><span>languages, 200 each</span></div>
+    <div class="num"><b>9.2%</b><span>mean character error</span></div>
+    <div class="num"><b>0</b><span>clips missing audio</span></div>
+  </div>
+
+  <h2><span class="n">1</span> Who made what</h2>
+  <div class="facts">
+    <div><dt>Trained model</dt><dd>No. Meta trained it.</dd></div>
+    <div><dt>Our change</dt><dd>Output vocabulary pruned 10,288 &rarr; 1,002</dd></div>
+    <div><dt>Weights</dt><dd>Untouched. No fine-tuning, no gradient steps.</dd></div>
+    <div><dt>Source</dt><dd>sherpa-onnx, <span class="mono">csukuangfj/&hellip;300M-ctc-v2-int8-2026-02-05</span></dd></div>
+    <div><dt>Licence</dt><dd>CC-BY-NC-4.0, non-commercial. Said openly.</dd></div>
+    <div><dt>Why prune</dt><dd>Stopped "hello" decoding as "&#1607;ello" (Arabic heh)</dd></div>
+    <div class="wide"><dt>Ours</dt><dd>Android app, two-phone Bluetooth transport, VAD, dead-link detection, TTS layer, language filter, the whole eval harness, every number here</dd></div>
+  </div>
+
+  <h2><span class="n">2</span> How it was verified</h2>
+  <div class="two">
+    <div>
+      <p><strong>Dataset.</strong> FLEURS test split (Google), CC-BY-4.0, real human speakers in
+      a studio. 200 clips per language, 10 languages, <strong>2,000 clips, 24,189.8 s
+      (6.72 h)</strong>. Zero clips had missing audio.</p>
+      <p><strong>Method.</strong> Each clip decoded independently. The result file keeps, per
+      clip, the file name, duration, decode time, reference transcript, produced transcript,
+      and that clip's own WER and CER. Nothing is averaged away.</p>
+      <p><strong>Scoring.</strong> Corpus-level: total edits &divide; total reference units.
+      Both raw and normalised are reported, because the model emits no punctuation or capitals
+      and scoring that raw against punctuated references charges it for a format habit, not a
+      mishearing.</p>
+    </div>
+    <div>
+      <p><strong>Check it without trusting this sheet.</strong></p>
+      <pre style="margin:2px 0 0">python3 docs/verify_evidence.py</pre>
+      <p style="margin-top:5px">It reads the raw per-clip JSON, recomputes every figure with
+      its own edit distance, re-hashes the model and the result files, and prints PASS or FAIL
+      per claim. <strong>All 11 checks pass.</strong> If a number in this sheet were edited by
+      hand, that script would disagree with it.</p>
+    </div>
+  </div>
+  <p style="margin:6px 0 2px"><strong>Reproduce the whole table from raw audio</strong> (needs
+  the FLEURS test split at <span class="mono">dataset/fleurs</span> and the model folder):</p>
+  <pre style="font-size:6.1pt;white-space:pre-wrap;word-break:normal">cd eval
+OMNI_DIR=../models/asr-v3-10lang/sherpa-onnx-omnilingual-asr-10lang-300M-ctc-int8 \
+  OMNI_TAG=v3pruned ../.venv/bin/python fleurs_eval_full.py 200</pre>
+
+  <h2><span class="n">3</span> Results &mdash; all ten languages, 200 clips each</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Language</th><th>n</th><th>WER raw</th><th>WER norm</th><th>CER raw</th>
+        <th>CER norm</th><th>median latency</th><th>RTF</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Kannada</td><td>200</td><td>0.431</td><td class="best">0.307</td><td>0.079</td><td class="best">0.053</td><td>0.40 s</td><td>0.033</td></tr>
+      <tr><td>Malayalam</td><td>200</td><td>0.504</td><td>0.361</td><td>0.084</td><td>0.059</td><td>0.48 s</td><td>0.036</td></tr>
+      <tr><td>English</td><td>200</td><td>0.348</td><td class="best">0.181</td><td>0.119</td><td>0.067</td><td>0.29 s</td><td>0.032</td></tr>
+      <tr><td>Gujarati</td><td>200</td><td>0.399</td><td>0.300</td><td>0.099</td><td>0.071</td><td>0.32 s</td><td>0.032</td></tr>
+      <tr><td>Hindi</td><td>200</td><td>0.355</td><td>0.269</td><td>0.118</td><td>0.096</td><td>0.40 s</td><td>0.037</td></tr>
+      <tr><td>Bengali</td><td>200</td><td>0.472</td><td>0.359</td><td>0.136</td><td>0.100</td><td>0.50 s</td><td>0.038</td></tr>
+      <tr><td>Telugu</td><td>200</td><td>0.543</td><td>0.431</td><td>0.125</td><td>0.100</td><td>0.38 s</td><td>0.036</td></tr>
+      <tr><td>Marathi</td><td>200</td><td>0.510</td><td>0.416</td><td>0.129</td><td>0.108</td><td>0.42 s</td><td>0.035</td></tr>
+      <tr><td>Tamil</td><td>200</td><td>0.589</td><td class="bad">0.501</td><td>0.150</td><td class="bad">0.129</td><td>0.40 s</td><td>0.035</td></tr>
+      <tr><td>Odia</td><td>200</td><td>0.585</td><td class="bad">0.510</td><td>0.160</td><td class="bad">0.134</td><td>0.50 s</td><td>0.039</td></tr>
+      <tr class="total"><td>Mean</td><td>2,000</td><td>&mdash;</td><td>0.363</td><td>&mdash;</td><td>0.0918</td><td>&mdash;</td><td>0.0377</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:4px;font-size:7pt;color:#6b7280">RTF = processing time &divide; audio
+  duration. 0.0377 means one minute of speech is transcribed in about 2.3 seconds. Measured on
+  desktop; on-device figures are reported separately in <span class="mono">docs/DELIVERY_FINDINGS.md</span>.</p>
+
+  <footer>
+    <span>iTantra &middot; offline speech over radio &middot; repository <span class="mono">github.com/psb-001/Itantra</span></span>
+    <span>Page 1 of 2</span>
+  </footer>
+</section>
+
+<!-- ============================= PAGE 2 ============================= -->
+<section class="page">
+
+  <div class="masthead">
+    <div>
+      <div class="kicker">iTantra &middot; SIH26173 &middot; evidence continued</div>
+      <h1 style="font-size:14pt">The failures are printed too.</h1>
+    </div>
+    <div class="stamp">
+      <b>Source</b> eval/SUMMARY_full_v3pruned.json<br>
+      <b>Model</b> sha256 8363e2d6&hellip;
+    </div>
+  </div>
+
+  <h2><span class="n">4</span> Real clips, exactly as they came out</h2>
+  <div class="two">
+    <div>
+      <div class="sample">
+        <span class="tag">English &middot; good</span><span class="cer">CER 0.16</span>
+        <p class="ref">REF&nbsp; Unfortunately, studying traffic flow is difficult because driver behavior cannot be predicted with one-hundred</p>
+        <p class="hyp">HYP&nbsp; unfortunately studying traffic flow is difficult because driver behaviour cannot be predicted with 100 certain</p>
+      </div>
+      <div class="sample">
+        <span class="tag">Hindi &middot; good</span><span class="cer">CER 0.09</span>
+        <p class="ref">REF&nbsp; मनोविज्ञान सहित विज्ञान के सभी मामलों पर अरस्तू के विचारों को स्वीकार किया जाता है।</p>
+        <p class="hyp">HYP&nbsp; मनो विज्ञान सहित विज्ञान के सभी मांलों पर अर्स्टूस्त के विचारों को स्वीकार किया जाता है</p>
+      </div>
+    </div>
+    <div>
+      <div class="sample" style="border-color:#b91c1c">
+        <span class="tag fail">Hindi &middot; failure, published on purpose</span><span class="cer">CER 0.55</span>
+        <p class="ref">REF&nbsp; स्कीइंग मार्ग को एक हाईकिंग (लंबी पैदल यात्रा) मार्ग जैसा ही सोचें।</p>
+        <p class="hyp">HYP&nbsp; સકીં માર્‍કો એક હાઈકિંગ મતલબ લંબી પૈદલ यात्रा માર્‍ગ જેઝાही સોચે</p>
+      </div>
+      <p style="font-size:7.4pt">This is the real remaining risk, and it survived pruning: on a
+      minority of clips the model mixes scripts. A judge who finds it after the demo is worse
+      than one who hears it from us first.</p>
+    </div>
+  </div>
+
+  <div class="two" style="margin-top:2px">
+    <div>
+      <h2 style="margin-top:6px"><span class="n">5</span> How often, measured</h2>
+      <table>
+        <thead><tr><th>Language</th><th>clips fully in correct script</th><th>mean purity</th></tr></thead>
+        <tbody>
+          <tr><td>English</td><td>200 / 200</td><td>1.000</td></tr>
+          <tr><td>Malayalam</td><td>199 / 200</td><td>0.9999</td></tr>
+          <tr><td>Bengali</td><td>197 / 200</td><td>0.9995</td></tr>
+          <tr><td>Tamil</td><td>184 / 200</td><td>0.9957</td></tr>
+          <tr><td>Gujarati</td><td>186 / 200</td><td>0.9953</td></tr>
+          <tr><td>Kannada</td><td>184 / 200</td><td>0.9937</td></tr>
+          <tr><td>Marathi</td><td>192 / 200</td><td>0.9933</td></tr>
+          <tr><td>Telugu</td><td>186 / 200</td><td>0.9877</td></tr>
+          <tr><td>Odia</td><td>185 / 200</td><td>0.9855</td></tr>
+          <tr><td>Hindi</td><td>191 / 200</td><td>0.9802</td></tr>
+          <tr class="total"><td>All ten</td><td>1,904 / 2,000</td><td>95.2%</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:7pt;color:#6b7280;margin-top:3px">The app's own LanguageFilter drops or
+      repairs the remaining 4.8% before anything reaches the radio. That filter is ours, not the
+      model's.</p>
+    </div>
+    <div>
+      <h2 style="margin-top:6px"><span class="n">6</span> Noise, because a disaster is loud</h2>
+      <table>
+        <thead><tr><th>Language</th><th>clean</th><th>30 dB</th><th>10 dB</th><th>0 dB</th></tr></thead>
+        <tbody>
+          <tr><td>English</td><td>0.087</td><td>0.095</td><td>0.151</td><td>0.399</td></tr>
+          <tr><td>Bengali</td><td>0.090</td><td>0.091</td><td>0.162</td><td>0.321</td></tr>
+          <tr><td>Hindi</td><td>0.133</td><td class="bad">0.424</td><td class="bad">0.550</td><td class="bad">0.588</td></tr>
+          <tr><td>Tamil</td><td>0.139</td><td>0.184</td><td>0.280</td><td>0.733</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:7pt;color:#6b7280;margin-top:3px">CER, 50 clips per condition,
+      synthetic white/pink noise. Not a field recording, so this measures sensitivity, not
+      disaster-zone accuracy. Hindi collapses early &mdash; that is why the app ships
+      push-to-talk, not always-on listening.</p>
+
+      <h2><span class="n">7</span> Voice output, checked by round trip</h2>
+      <table>
+        <thead><tr><th>Voice</th><th>sentences</th><th>WER norm</th><th>CER norm</th><th>exact</th></tr></thead>
+        <tbody>
+          <tr><td>English</td><td>20</td><td>0.113</td><td>0.030</td><td>45%</td></tr>
+          <tr><td>Hindi</td><td>20</td><td class="bad">0.490</td><td class="bad">0.339</td><td>0%</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:7pt;color:#6b7280;margin-top:3px">Synthesise, feed back into ASR,
+      compare. A proxy, <strong>not</strong> a human listening panel. A panel is still owed.</p>
+    </div>
+  </div>
+
+  <h2><span class="n">8</span> Identity &mdash; nothing here can be swapped quietly</h2>
+  <div class="two">
+    <div>
+      <p class="mono" style="font-size:6.1pt;line-height:1.55">
+        model.int8.onnx&nbsp; 356,295,439 B<br>
+        sha256&nbsp; 8363e2d64925b92e6736239877e7193a4e83259abad18cf6ee7ffb2796d6b934
+      </p>
+      <p class="mono" style="font-size:6.1pt;line-height:1.55;margin-top:5px">
+        eval/SUMMARY_full_v3pruned.json&nbsp; 3,320,399 B<br>
+        sha256&nbsp; 8a6e1ec3e917844d0a99f107085d567de9202a8b0a8fb988f7d612be69b9b4d1
+      </p>
+    </div>
+    <div>
+      <p class="mono" style="font-size:6.1pt;line-height:1.55">
+        APK v1.0.1&nbsp; 993,362,519 B<br>
+        sha256&nbsp; 00b16eb216f1985a859bde2c8fe751785523429b2ef09937c693d813dd0db40e
+      </p>
+      <p class="mono" style="font-size:6.1pt;line-height:1.55;margin-top:5px">
+        signing cert sha256<br>
+        d9c0b31cf8689061f3b6f142809be085fe6c4c676b2f796b77080cd5ca9c58b9
+      </p>
+    </div>
+  </div>
+
+  <h2><span class="n">9</span> Five questions, answered before they are asked</h2>
+  <div class="two">
+    <div class="honest" style="margin-bottom:6px">
+      <div class="lead">"Did you train this model?"</div>
+      No. Meta trained it. We pruned its output vocabulary and shipped it.
+    </div>
+    <div class="honest" style="margin-bottom:6px">
+      <div class="lead">"Then what did you verify?"</div>
+      That it works on real speakers in all ten languages we claim, on 2,000 clips we did not
+      record and did not choose.
+    </div>
+  </div>
+  <div class="two">
+    <div class="honest" style="margin-bottom:6px">
+      <div class="lead">"How do I know you did not type these numbers?"</div>
+      <span class="mono">python3 docs/verify_evidence.py</span> recomputes them from the raw
+      per-clip JSON. All 11 checks pass.
+    </div>
+    <div class="honest" style="margin-bottom:6px">
+      <div class="lead">"What is weakest? What is unmeasured?"</div>
+      Hindi under noise, Tamil and Odia overall, Hindi TTS round trip. Unmeasured: on-device
+      WER on a real phone, and a human listening panel. Stated, not claimed.
+    </div>
+  </div>
+
+  <div style="border:2px solid #14181f;padding:7px 9px;margin-top:4px;display:grid;grid-template-columns:minmax(0,1fr) 52px;gap:9px;align-items:center">
+    <div>
+    <strong style="font-size:8.6pt">For the record.</strong> The speech model in iTantra is
+    Meta's Omnilingual ASR 300M, redistributed through sherpa-onnx, with its output vocabulary
+    pruned from 10,288 to 1,002 tokens by the team. It was verified on 2,000 FLEURS clips
+    across ten languages, 6.72 hours of real recorded speech, mean normalised CER 0.0918, with
+    every per-clip transcript retained in this repository.
+    </div>
+    <div style="text-align:center">
+      <img src="qr_repo.png" alt="QR code to the iTantra repository" style="width:50px;height:50px;display:block">
+      <div style="font-size:5.4pt;color:#6b7280;line-height:1.25;margin-top:2px">code, model,<br>raw JSON</div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Full write-up: <span class="mono">docs/EVALUATION_EVIDENCE.md</span> &middot; verifier: <span class="mono">docs/verify_evidence.py</span></span>
+    <span>Page 2 of 2</span>
+  </footer>
+</section>
+
+</body>
+</html>
